@@ -153,8 +153,7 @@ indicator_metadata_form:
   exclude_fields: []
   translated: false
 languages:
-  - en
-  - es
+  - de
 languages_public: []
 logos: []
 map_layers: []
