@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="de" class="no-js">
     <head>
         <meta charset="utf-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
@@ -11,7 +11,7 @@
 var opensdg = {
 
   // A base URL for asynchronous calls to SDG data.
-  remoteDataBaseUrl: 'https://christoph-lsn.github.io/MT_Data/en',
+  remoteDataBaseUrl: 'https://wohnungNDS.github.io/IM_Data/de',
 
   chartConfigAlterations: [],
   // A hook which can be used to modify the configuration for Chart.js.
@@ -38,7 +38,7 @@ var opensdg = {
     this.dataDisplayAlterations.push(callback);
   },
 
-  language: 'en',
+  language: 'de',
 };
 
 // For backwards compatibility, some of these might need to be global.
@@ -103,7 +103,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>Goal 1 - No poverty - Indicators For The Sustainable Development Goals</title>
+    <title>Themenbereich 1 - Demographie &amp; Bevölkerung - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -133,7 +133,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116115430">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116121507">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -147,21 +147,21 @@ var translations = {
         
 
     </head>
-<body class="language-en
+<body class="language-de
 layout-goal-by-target
 ">
 <!-- <div class="container"> -->
 
 
-<script>translations['header'] = {"alpha":"Alpha","default_contrast":"Default contrast","disable_high_contrast":"Disable high contrast","disclaimer":"This is a development website. We welcome your <a href=\"mailto:%email_address\">feedback</a>.","enable_high_contrast":"Enable high contrast","high_contrast":"High contrast","skip_link":"Skip to main content","tag_line":"17 Goals to Transform our World","toggle_menu":"Menu toggle. Click to expand or collapse the menu.","toggle_search":"Search toggle. Click to expand or collapse the search bar."};</script>
+<script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0">Skip to main content</a>
+<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
   <div class="container">
   <div class="disclaimer-alert">
-    <strong class="phase-tag">Alpha</strong>
+    <strong class="phase-tag">Alpha-Version</strong>
     
-    This is a development website. We welcome your <a href="mailto:test@example.com">feedback</a>.
+    Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.
   </div>
 </div>
 
@@ -172,15 +172,15 @@ layout-goal-by-target
 
     <div class="logo-and-mobile-widgets">
       <a class="navbar-brand" href="/MT_Site/" id="home">
-    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Sustainable Development Goals - 17 Goals to Transform our World" />
+    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
       <div class="mobile-widgets">
     <ul id='accessibility-nav' class='contrast-switcher'>
         
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -191,8 +191,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -204,62 +204,24 @@ data-event-label="high"
     </li>
 
 
-    </ul><div class="language-toggle-mobile">
-        <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/1/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-    </div></div>
+    </ul></div>
     </div>
 
     <div class="search-and-desktop-widgets">
       <div id="search" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search">Search</label>
-    <input type="text" name="q" id="indicator_search" title="Search" /><!--
-    --><button aria-label="Search" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search">Suche</label>
+    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
       <div class="navbar navbar-default widgets-without-menu">
-        <ul class="nav navbar-nav contrast-switcher"><li class="language-toggle-menu-header">
-            
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/1/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
-        </li>
+        <ul class="nav navbar-nav contrast-switcher">
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -270,8 +232,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -290,49 +252,26 @@ data-event-label="high"
     <div class="navbar navbar-default menu-without-widgets" id="main-nav">
       <ul class="top-level">
     <li id="menuToggle"
-        aria-label="Menu toggle. Click to expand or collapse the menu."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="menu-mobile" aria-expanded="false">Menu</button>
+        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
         <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
-</li><li class="language-toggle-menu-header">
-    
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/1/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
+    <a href="/MT_Site/news"></a>
 </li>
 
 
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -343,8 +282,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -361,29 +300,29 @@ data-event-label="high"
 
     </li>
     <li id="searchToggle"
-        aria-label="Search toggle. Click to expand or collapse the search bar."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="search-mobile" aria-expanded="false">Search</button>
+        <button data-target="search-mobile" aria-expanded="false">Suche</button>
         <div id="search-mobile" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search-mobile">Search</label>
-    <input type="text" name="q" id="indicator_search-mobile" title="Search" /><!--
-    --><button aria-label="Search" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search-mobile">Suche</label>
+    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
     </li>
 </ul>
       <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
+    <a href="/MT_Site/news"></a>
 </li>
 
 </ul>
@@ -402,7 +341,7 @@ data-event-label="high"
   <ol class="breadcrumb">
   
   <li><a href="/MT_Site/">Home</a></li>
-  <li><a href="/MT_Site/goals">Goals</a></li>
+  <li><a href="/MT_Site/goals">Themenbereiche</a></li>
   
   
 </ol>
@@ -414,11 +353,11 @@ data-event-label="high"
   <div class="container">
     <div class="row">
       <div class="col-xs-4 col-md-3 col-lg-2 goal-tiles">
-        <img src="https://open-sdg.org/sdg-translations/assets/img/goals/en/1.png" alt="No poverty - Goal 1" id="goal-1" class="goal-icon-image goal-icon-image-" />
+        <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/1.png" alt="Demographie &amp; Bevölkerung - Themenbereich 1" id="goal-1" class="goal-icon-image goal-icon-image-" />
       </div>
       <div class="col-xs-8 col-md-9 col-lg-10">
         <h1>
-          <span class="hidden-sm hidden-md hidden-lg">Goal 1: </span>End poverty in all its forms everywhere
+          <span class="hidden-sm hidden-md hidden-lg">Themenbereich 1: </span>Demographie & Bevölkerung
         </h1>
       </div>
     </div>
@@ -434,10 +373,10 @@ data-event-label="high"
 
   <div class="visible-md-block visible-lg-block">
     <div class="col-md-6">
-      <h2>Targets</h2>
+      <h2>Indikator Beschreibung</h2>
     </div>
     <div class="col-md-6">
-      <h2>Indicators</h2>
+      <h2>Indikatoren</h2>
     </div>
   </div>
 
@@ -446,10 +385,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         1.1
       </span>
-      By 2030, eradicate extreme poverty for all people everywhere, currently measured as people living on less than $1.25 a day
+      <b>Bevölkerung in  Niedersachsen</b> <br> Zur Bevölkerung zählen alle Menschen, die in einem definierten Gebiet dauerhaft wohnen. Diese werden der Gemeinde zugerechnet, in der sie ihre alleinige Wohnung oder bei mehreren Wohnungen in verschiedenen Gemeinden ihren Erstwohnsitz haben („Bevölkerung am Ort der Hauptwohnung“). Nicht zur Bevölkerung gehören hingegen die Angehörigen der Stationierungsstreitkräfte sowie Angehörigen der ausländischen diplomatischen und konsularischen Vertretungen mit ihren Familienmitgliedern.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -466,14 +405,76 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/1-1-1">
-          Proportion of the population living below the international poverty line by sex, age, employment status and geographic location (urban/rural)
+          Bevölkerung in Niedersachsen
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.1.2
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-1-2">
+          Bevölkerungsentwicklung in Niedersachsen (Veränderung in Prozent)
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.1.3
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-1-3">
+          Bevölkerungsentwicklung in Niedersachsen (Veränderung in Prozent gegenüber dem Vorjahr)
         </a>
         
 
@@ -489,10 +490,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         1.2
       </span>
-      By 2030, reduce at least by half the proportion of men, women and children of all ages living in poverty in all its dimensions according to national definitions
+      <b>Ausländerinnen und Ausländer in Niedersachsen</b> <br> Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung.<br>Die Ausländerstatistik ermöglicht jährlich zum 31.12. einen umfassenden statistischen Überblick zur ausländischen Bevölkerung. Die Auszählung des beim Bundesverwaltungsamt geführten Ausländerzentralregisters (AZR) gibt Aufschluss über Staatsangehörigkeit, Aufenthaltsstatus, Aufenthaltsdauer, Alter und Familienstand der Ausländerinnen und Ausländer. Die Mitglieder der Stationierungsstreitkräfte, sowie der diplomatischen und konsularischen Vertretungen in der Bundesrepublik Deutschland mit ihren Familien werden nicht aufgeführt, da sie nicht den Bestimmungen des Aufenthaltsgesetzes unterliegen.<br>Zur Sicherstellung der Geheimhaltung wird ab 2016 im Ausländerzentralregister ein Rundungsverfahren angewendet. Fallzahlen werden hierzu auf ein Vielfaches von Fünf gerundet. Dadurch können Rundungsdifferenzen auftreten, so dass das Insgesamt-Ergebnis von der Summe der Einzelwerte abweichen kann.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -509,14 +510,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/1-2-1">
-          Proportion of population living below the national poverty line, by sex and age
+          Ausländerinnen und Ausländer in Niedersachsen
         </a>
         
 
@@ -540,14 +541,200 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/1-2-2">
-          Proportion of men, women and children of all ages living in poverty in all its dimensions according to national definitions
+          Anteil der Ausländerinnen und Ausländer in Niedersachsen in Prozent
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.2.3
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-2-3">
+          Ausländerinnen und Ausländer in Niedersachsen nach Aufenthaltsdauer und Geschlecht
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.2.4
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-2-4">
+          Ausländerinnen und Ausländer in Niedersachsen nach ausgewählten Staatsangehörigkeiten¹⁾
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.2.5
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-2-5">
+          Ausländerinnen und Ausländer in Niedersachsen nach ausgewählten Staatsangehörigkeiten und Geschlecht
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.2.6
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-2-6">
+          Ausländerinnen und Ausländer in Niedersachsen nach Altersgruppen (im Alter von … bis unter … Jahren)
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.2.7
+          
+
+
+
+<span class="status inprogress">
+    <span class="status-inner">in Bearbeitung</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-2-7">
+          Ausländerinnen und Ausländer in Niedersachsen nach Durchschnittsalter (A7x)
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.2.8
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-2-8">
+          Lebendgeborene nach Nationalität
         </a>
         
 
@@ -563,10 +750,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         1.3
       </span>
-      Implement nationally appropriate social protection systems and measures for all, including floors, and by 2030 achieve substantial coverage of the poor and the vulnerable
+      <b>Menschen mit Migrationshintergrund</b> <br> In der amtlichen Statistik wurde ein umfassendes Konzept zur Erfassung des Migrationshintergrundes erstmals mit dem Mikrozensus 2005 eingeführt. Dazu wurde zusätzlich eine Reihe von Fragen zur Migration aufgenommen, aus denen der Migrationshintergrund abgeleitet wird.<br>Eine vollständige Übertragung auf andere Statistiken außerhalb des Mikrozensus ist aufgrund der Komplexität der Definition nicht möglich. Zur Bestimmung des Migrationshintergrundes wird (1.) nur die Zuwanderung auf das Gebiet der heutigen Bundesrepublik ab 1950 berücksichtigt, um den Großteil der Zuwanderung durch kriegsbedingte Vertreibung nicht einzubeziehen. Zudem werden (2.) auch die Nachkommen der Zugewanderten berücksichtigt, die bereits in der Bundesrepublik geboren wurden und (3.) wird für alle Ausländerinnen und Ausländer sowie für alle Eingebürgerten ein Migrationshintergrund unterstellt. Im Integrationsmonitoring Niedersachsen wird für die dargestellten Jahre vor 2017 der Migrationshintergrund im engeren Sinne verwendet: Von den Deutschen mit Migrationshintergrund, die seit Geburt Deutsche sind, werden nur jene hinzugezählt, die mit ihren Eltern oder einem Elternteil im selben Haushalt leben. Nur dann liegt die für die Zuordnung entscheidende Elterninformation vor. Für alle Jahre nach 2016 wird der Migrationshintergrund im weiteren Sinne dargestellt: Der Migrationshintergrund im weiteren Sinne kann anhand der Zusatzfragen zum Migrationsstatus der nicht im Haushalt lebenden Eltern ab 2005 in vierjährigem Rhythmus und ab dem Jahr 2017 jährlich dargestellt werden
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -583,14 +770,107 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/1-3-1">
-          Proportion of population covered by social protection floors/systems, by sex, distinguishing children, unemployed persons, older persons, persons with disabilities, pregnant women, newborns, work-injury victims and the poor and the vulnerable
+          Menschen mit Migrationshintergrund
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.3.2
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-3-2">
+          Menschen mit Migrationshintergrund in den regionalen Anpassungsschichten
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.3.3
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-3-3">
+          Menschen mit Migrationshintergrund nach Altersgruppen und Geschlecht
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          1.3.4
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/1-3-4">
+          Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000)
         </a>
         
 
@@ -606,10 +886,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         1.4
       </span>
-      By 2030, ensure that all men and women, in particular the poor and the vulnerable, have equal rights to economic resources, as well as access to basic services, ownership and control over land and other forms of property, inheritance, natural resources, appropriate new technology and financial services, including microfinance
+      <b>Das Wanderungsgeschehen in Niedersachsen</b> <br> Die Zuzüge aus dem Ausland und die Fortzüge in das Ausland sind aussagekräftige Indikatoren des Wanderungsgeschehens in Niedersachsen.  Der Wanderungssaldo ist die Differenz aus den Zuzügen aus dem Ausland Nach Niedersachsen und den Fortzügen aus den Niedersachsen in das Ausland.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -626,14 +906,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/1-4-1">
-          Proportion of population living in households with access to basic services
+          Zuzüge über die Bundesgrenze nach Niedersachsen
         </a>
         
 
@@ -657,57 +937,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/1-4-2">
-          Proportion of total adult population with secure tenure rights to land, (a) with legally recognized documentation, and (b) who perceive their rights to land as secure, by sex and type of tenure
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        1.5
-      </span>
-      By 2030, build the resilience of the poor and those in vulnerable situations and reduce their exposure and vulnerability to climate-related extreme events and other economic, social and environmental shocks and disasters
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          1.5.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/1-5-1">
-          Number of deaths, missing persons and directly affected persons attributed to disasters per 100,000 population
+          Fortzüge über die Bundesgrenze aus Niedersachsen
         </a>
         
 
@@ -726,19 +963,19 @@ data-event-label="high"
       <div class="col-md-12  goal-indicator">
         
         <span class="indicator-card-number">
-          1.5.2
+          1.4.3
           
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
-        <a href="/MT_Site/1-5-2">
-          Direct economic loss attributed to disasters in relation to global gross domestic product (GDP)
+        <a href="/MT_Site/1-4-3">
+          Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach ausgewählten Staatsangehörigkeiten
         </a>
         
 
@@ -757,19 +994,19 @@ data-event-label="high"
       <div class="col-md-12  goal-indicator">
         
         <span class="indicator-card-number">
-          1.5.3
+          1.4.4
           
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
-        <a href="/MT_Site/1-5-3">
-          Number of countries that adopt and implement national disaster risk reduction strategies in line with the Sendai Framework for Disaster Risk Reduction 2015–2030
+        <a href="/MT_Site/1-4-4">
+          Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Altersgruppen
         </a>
         
 
@@ -788,136 +1025,19 @@ data-event-label="high"
       <div class="col-md-12  goal-indicator">
         
         <span class="indicator-card-number">
-          1.5.4
+          1.4.5
           
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
-        <a href="/MT_Site/1-5-4">
-          Proportion of local governments that adopt and implement local disaster risk reduction strategies in line with national disaster risk reduction strategies
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        1.a
-      </span>
-      Ensure significant mobilization of resources from a variety of sources, including through enhanced development cooperation, in order to provide adequate and predictable means for developing countries, in particular least developed countries, to implement programmes and policies to end poverty in all its dimensions
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          1.a.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/1-a-1">
-          Total official development assistance grants from all donors that focus on poverty reduction as a share of the recipient country’s gross national income
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          1.a.2
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/1-a-2">
-          Proportion of total government spending on essential services (education, health and social protection)
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        1.b
-      </span>
-      Create sound policy frameworks at the national, regional and international levels, based on pro-poor and gender-sensitive development strategies, to support accelerated investment in poverty eradication actions
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          1.b.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/1-b-1">
-          Pro-poor public social spending
+        <a href="/MT_Site/1-4-5">
+          Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Nationalität und Gesclecht
         </a>
         
 
@@ -938,10 +1058,10 @@ data-event-label="high"
       <div class="col-xs-12">
         <div id="footerLinks">
           <ul>
-            <li><a href="https://open-sdg.org">Built using Open SDG</a></li>
+            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
             
               <li>
-                <a href="/MT_Site/contact-us">Contact us</a>
+                <a href="/MT_Site/contact-us">Kontakt</a>
                 
                 </li>
               <li>
@@ -990,17 +1110,17 @@ data-event-label="high"
 
 
 <script>translations['general'] = translations['general'] || {};
-    translations['general']['hide'] = 'hide';</script>
+    translations['general']['hide'] = 'ausblenden';</script>
 
 <script>translations['search'] = translations['search'] || {};
-    translations['search']['search'] = 'Search';</script>
+    translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211116115430'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211116121507'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211116115430"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211116121507"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();

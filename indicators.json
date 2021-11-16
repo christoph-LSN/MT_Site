@@ -2,2112 +2,616 @@
   {
     "goal": {
       "id": "1",
-      "title": "End poverty in all its forms everywhere",
+      "title": "Demographie & Bevölkerung",
       "indicators": [
         
         {
           "id": "1-1-1",
-          "title": "Proportion of the population living below the international poverty line by sex, age, employment status and geographic location (urban/rural)",
-          "description": "",
+          "title": "Bevölkerung in Niedersachsen",
+          "description": "Zur Bevölkerung zählen alle Menschen, die in einem definierten Gebiet dauerhaft wohnen. Diese werden der Gemeinde zugerechnet, in der sie ihre alleinige Wohnung oder bei mehreren Wohnungen in verschiedenen Gemeinden ihren Erstwohnsitz haben („Bevölkerung am Ort der Hauptwohnung“). Zur Bevölkerung zählen auch die im Bundesgebiet gemeldeten Ausländerinnen und Ausländer (einschließlich Staatenlose). Nicht zur Bevölkerung gehören hingegen die Angehörigen der Stationierungsstreitkräfte sowie Angehörigen der ausländischen diplomatischen und konsularischen Vertretungen mit ihren Familienmitgliedern.",
           "keywords": "",
           "href": "/MT_Site/1-1-1",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "1-1-2",
+          "title": "Bevölkerungsentwicklung in Niedersachsen (Veränderung in Prozent)",
+          "description": "Zur Bevölkerung zählen alle Menschen, die in einem definierten Gebiet dauerhaft wohnen. Diese werden der Gemeinde zugerechnet, in der sie ihre alleinige Wohnung oder bei mehreren Wohnungen in verschiedenen Gemeinden ihren Erstwohnsitz haben („Bevölkerung am Ort der Hauptwohnung“). Zur Bevölkerung zählen auch die im Bundesgebiet gemeldeten Ausländerinnen und Ausländer (einschließlich Staatenlose). Nicht zur Bevölkerung gehören hingegen die Angehörigen der Stationierungsstreitkräfte sowie Angehörigen der ausländischen diplomatischen und konsularischen Vertretungen mit ihren Familienmitgliedern.",
+          "keywords": "",
+          "href": "/MT_Site/1-1-2",
+          "status": "complete"
+        },
+        {
+          "id": "1-1-3",
+          "title": "Bevölkerungsentwicklung in Niedersachsen (Veränderung in Prozent gegenüber dem Vorjahr)",
+          "description": "Zur Bevölkerung zählen alle Menschen, die in einem definierten Gebiet dauerhaft wohnen. Diese werden der Gemeinde zugerechnet, in der sie ihre alleinige Wohnung oder bei mehreren Wohnungen in verschiedenen Gemeinden ihren Erstwohnsitz haben („Bevölkerung am Ort der Hauptwohnung“). Zur Bevölkerung zählen auch die im Bundesgebiet gemeldeten Ausländerinnen und Ausländer (einschließlich Staatenlose). Nicht zur Bevölkerung gehören hingegen die Angehörigen der Stationierungsstreitkräfte sowie Angehörigen der ausländischen diplomatischen und konsularischen Vertretungen mit ihren Familienmitgliedern.",
+          "keywords": "",
+          "href": "/MT_Site/1-1-3",
+          "status": "complete"
         },
         {
           "id": "1-2-1",
-          "title": "Proportion of population living below the national poverty line, by sex and age",
-          "description": "",
+          "title": "Ausländerinnen und Ausländer in Niedersachsen",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Der Ausländeranteil stellt den Anteil der Ausländerinnen und Ausländer (Quelle: Ausländerzentralregister) je 100 Einwohnerinnen und Einwohner (Quelle: Bevölkerungsfortschreibung) jeweils zum 31.12. eines Jahres dar. Prozesse der gesellschaftlichen Teilhabe gestalten sich insbesondere auch vor dem Hintergrund des Ausländeranteils an der Bevölkerung regional sehr unterschiedlich. Zum Anteil der Menschen mit Zuwanderungsgeschichte vgl. Indikator 1.3.1.",
           "keywords": "",
           "href": "/MT_Site/1-2-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "1-2-2",
-          "title": "Proportion of men, women and children of all ages living in poverty in all its dimensions according to national definitions",
-          "description": "",
+          "title": "Anteil der Ausländerinnen und Ausländer in Niedersachsen in Prozent",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Der Ausländeranteil stellt den Anteil der Ausländerinnen und Ausländer (Quelle: Ausländerzentralregister) je 100 Einwohnerinnen und Einwohner (Quelle: Bevölkerungsfortschreibung) jeweils zum 31.12. eines Jahres dar. Prozesse der gesellschaftlichen Teilhabe gestalten sich insbesondere auch vor dem Hintergrund des Ausländeranteils an der Bevölkerung regional sehr unterschiedlich. Zum Anteil der Menschen mit Zuwanderungsgeschichte vgl. Indikator 1.3.1.",
           "keywords": "",
           "href": "/MT_Site/1-2-2",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "1-2-3",
+          "title": "Ausländerinnen und Ausländer in Niedersachsen nach Aufenthaltsdauer und Geschlecht",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Der Ausländeranteil stellt den Anteil der Ausländerinnen und Ausländer (Quelle: Ausländerzentralregister) je 100 Einwohnerinnen und Einwohner (Quelle: Bevölkerungsfortschreibung) jeweils zum 31.12. eines Jahres dar. Prozesse der gesellschaftlichen Teilhabe gestalten sich insbesondere auch vor dem Hintergrund des Ausländeranteils an der Bevölkerung regional sehr unterschiedlich. Zum Anteil der Menschen mit Zuwanderungsgeschichte vgl. Indikator 1.3.1.",
+          "keywords": "",
+          "href": "/MT_Site/1-2-3",
+          "status": "complete"
+        },
+        {
+          "id": "1-2-4",
+          "title": "Ausländerinnen und Ausländer in Niedersachsen nach ausgewählten Staatsangehörigkeiten¹⁾",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Die Staatsangehörigkeit ist eine besondere Rechtsbeziehung, die eine Person einem bestimmten Staat zuordnet. In allen anderen Staaten außer ihrem Heimatstaat ist eine Person Ausländerin bzw. Ausländer. Personen, die keine Staatsangehörigkeit besitzen, sind staatenlos. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Abgebildet werden die fünf häufigsten Staatsangehörigkeiten der Ausländerinnen und Ausländer im aktuellen Berichtsjahr.",
+          "keywords": "",
+          "href": "/MT_Site/1-2-4",
+          "status": "complete"
+        },
+        {
+          "id": "1-2-5",
+          "title": "Ausländerinnen und Ausländer in Niedersachsen nach ausgewählten Staatsangehörigkeiten und Geschlecht",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Die Staatsangehörigkeit ist eine besondere Rechtsbeziehung, die eine Person einem bestimmten Staat zuordnet. In allen anderen Staaten ist diese Person Ausländerin bzw. Ausländer. Personen, die keine Staatsangehörigkeit besitzen, sind staatenlos. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung.",
+          "keywords": "",
+          "href": "/MT_Site/1-2-5",
+          "status": "complete"
+        },
+        {
+          "id": "1-2-6",
+          "title": "Ausländerinnen und Ausländer in Niedersachsen nach Altersgruppen (im Alter von … bis unter … Jahren)",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Informationen zur Altersverteilung der ausländischen Bevölkerung können vor dem Hintergrund der Altersstruktur der Gesamtbevölkerung eingeordnet werden. Diese wichtige demographische Kennzahl ermöglicht eine Identifikation unterschiedlicher regionaler Anteile der jüngeren und der älteren ausländischen Bevölkerung.",
+          "keywords": "",
+          "href": "/MT_Site/1-2-6",
+          "status": "complete"
+        },
+        {
+          "id": "1-2-7",
+          "title": "Ausländerinnen und Ausländer in Niedersachsen nach Durchschnittsalter (A7x)",
+          "description": "Der Indikator gibt ...",
+          "keywords": "",
+          "href": "/MT_Site/1-2-7",
+          "status": "inprogress"
+        },
+        {
+          "id": "1-2-8",
+          "title": "Lebendgeborene nach Nationalität",
+          "description": "Die Anzahl der Lebendgeborenen liefert eine demographische Basisinformation über das Geburtenverhalten der Bevölkerung. Eine Lebendgeburt liegt vor, wenn bei einem Kind nach der Scheidung vom Mutterleib entweder das Herz geschlagen oder die Nabelschnur pulsiert oder die natürliche Lungenatmung eingesetzt hat. Der Indikator gibt an, wie viele Kinder mit deutscher und wie viele mit ausländischer Staatsangehörigkeit im jeweiligen Berichtsjahr geboren wurden.",
+          "keywords": "",
+          "href": "/MT_Site/1-2-8",
+          "status": "complete"
         },
         {
           "id": "1-3-1",
-          "title": "Proportion of population covered by social protection floors/systems, by sex, distinguishing children, unemployed persons, older persons, persons with disabilities, pregnant women, newborns, work-injury victims and the poor and the vulnerable",
-          "description": "",
+          "title": "Menschen mit Migrationshintergrund",
+          "description": "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der 'Bevölkerung mit Migrationshintergrund' umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert. Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen : 1. zugewanderte und nicht zugewanderte Ausländer; 2. zugewanderte und nicht zugewanderte Eingebürgerte; 3. (Spät-)Aussiedler; 4. mit deutscher Staatsangehörigkeit geborene Nachkommen. Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten.",
           "keywords": "",
           "href": "/MT_Site/1-3-1",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "1-3-2",
+          "title": "Menschen mit Migrationshintergrund in den regionalen Anpassungsschichten",
+          "description": "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br> 1. zugewanderte und nicht zugewanderte Ausländer;<br>2. zugewanderte und nicht zugewanderte Eingebürgerte;<br> 3. (Spät-)Aussiedler;<br> 4. mit deutscher Staatsangehörigkeit geborene Nachkommen<br> Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. Der Indikator untergliedert die Personen zusätzlich in Ausländerinnen und Ausländer, Spätaussiedlerinnen und Spätaussiedler und weitere Deutsche mit Migrationshintergrund.",
+          "keywords": "",
+          "href": "/MT_Site/1-3-2",
+          "status": "complete"
+        },
+        {
+          "id": "1-3-3",
+          "title": "Menschen mit Migrationshintergrund nach Altersgruppen und Geschlecht",
+          "description": "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br>1. zugewanderte und nicht zugewanderte Ausländer;<br>2. zugewanderte und nicht zugewanderte Eingebürgerte;<br>3. (Spät-)Aussiedler;<br>4. mit deutscher Staatsangehörigkeit geborene Nachkommen.<br>Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. Dargestellt wird der Anteil der Männer und Frauen an verschiedenen Altersgruppen der Gesamtbevölkerung.",
+          "keywords": "",
+          "href": "/MT_Site/1-3-3",
+          "status": "complete"
+        },
+        {
+          "id": "1-3-4",
+          "title": "Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000)",
+          "description": "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br>  1. zugewanderte und nicht zugewanderte Ausländer;<br>  2. zugewanderte und nicht zugewanderte Eingebürgerte;<br>  3. (Spät-)Aussiedler;<br>  4. mit deutscher Staatsangehörigkeit geborene Nachkommen<br>  Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. Dargestellt wird die Zahl der Menschen mit Zuwanderungsgeschichte nach ausgewählten Herkunftsländern und Geschlecht.",
+          "keywords": "",
+          "href": "/MT_Site/1-3-4",
+          "status": "complete"
         },
         {
           "id": "1-4-1",
-          "title": "Proportion of population living in households with access to basic services",
-          "description": "",
+          "title": "Zuzüge über die Bundesgrenze nach Niedersachsen",
+          "description": "Der Indikator stellt die Anzahl der jährlichen Zuzüge nach Niedersachsen aus dem Ausland (=über die Bundesgrenzen) nach dem Land der Wanderungsherkunft dar.",
           "keywords": "",
           "href": "/MT_Site/1-4-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "1-4-2",
-          "title": "Proportion of total adult population with secure tenure rights to land, (a) with legally recognized documentation, and (b) who perceive their rights to land as secure, by sex and type of tenure",
-          "description": "",
+          "title": "Fortzüge über die Bundesgrenze aus Niedersachsen",
+          "description": "Der Indikator stellt die Anzahl der jährlichen Fortzüge aus Niedersachsen in das Ausland (=über die Bundesgrenzen) nach dem Land des Wanderungsziels dar.",
           "keywords": "",
           "href": "/MT_Site/1-4-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
-          "id": "1-5-1",
-          "title": "Number of deaths, missing persons and directly affected persons attributed to disasters per 100,000 population",
-          "description": "",
+          "id": "1-4-3",
+          "title": "Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach ausgewählten Staatsangehörigkeiten",
+          "description": "Der Indikator bildet den Saldo der jährlichen Zu- und Fortzüge nach Niedersachsen aus dem Ausland bzw. von Niedersachsen in das Ausland (=über die Bundesgrenzen) nach Land der Land bzw. Land des Wanderungsziels ab.",
           "keywords": "",
-          "href": "/MT_Site/1-5-1",
-          "status": "notstarted"
+          "href": "/MT_Site/1-4-3",
+          "status": "complete"
         },
         {
-          "id": "1-5-2",
-          "title": "Direct economic loss attributed to disasters in relation to global gross domestic product (GDP)",
-          "description": "",
+          "id": "1-4-4",
+          "title": "Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Altersgruppen",
+          "description": "Der Indikator bildet den Saldo der jährlichen Zu- und Fortzüge nach Niedersachsen aus dem Ausland bzw. von Niedersachsen in das Ausland (=über die Bundesgrenzen) sowie den Wanderungssaldo nach Altersgruppen ab.",
           "keywords": "",
-          "href": "/MT_Site/1-5-2",
-          "status": "notstarted"
+          "href": "/MT_Site/1-4-4",
+          "status": "complete"
         },
         {
-          "id": "1-5-3",
-          "title": "Number of countries that adopt and implement national disaster risk reduction strategies in line with the Sendai Framework for Disaster Risk Reduction 2015–2030",
-          "description": "",
+          "id": "1-4-5",
+          "title": "Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Nationalität und Gesclecht",
+          "description": "Der Indikator bildet die Anzahl der jährlichen Zu- und Fortzüge nach bzw. aus Niedersachsen aus dem bzw. in das Ausland (=über die Bundesgrenzen) sowie den Wanderungssaldo nach Landkreisen und kreisfreien Städten ab.",
           "keywords": "",
-          "href": "/MT_Site/1-5-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "1-5-4",
-          "title": "Proportion of local governments that adopt and implement local disaster risk reduction strategies in line with national disaster risk reduction strategies",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/1-5-4",
-          "status": "notstarted"
-        },
-        {
-          "id": "1-a-1",
-          "title": "Total official development assistance grants from all donors that focus on poverty reduction as a share of the recipient country’s gross national income",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/1-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "1-a-2",
-          "title": "Proportion of total government spending on essential services (education, health and social protection)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/1-a-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "1-b-1",
-          "title": "Pro-poor public social spending",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/1-b-1",
-          "status": "notstarted"
+          "href": "/MT_Site/1-4-5",
+          "status": "complete"
         }]
     }
   },
   {
     "goal": {
       "id": "2",
-      "title": "End hunger, achieve food security and improved nutrition and promote sustainable agriculture",
+      "title": "Rechtliche Integration & Asyl",
       "indicators": [
         
         {
           "id": "2-1-1",
-          "title": "Prevalence of undernourishment",
-          "description": "",
+          "title": "Aufenthaltstitel in Niedersachsen (A5)",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit.<br> Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
           "keywords": "",
           "href": "/MT_Site/2-1-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "2-1-2",
-          "title": "Prevalence of moderate or severe food insecurity in the population, based on the Food Insecurity Experience Scale (FIES)",
-          "description": "",
+          "title": "Zeitlich befristete und zeitlich unbefristete Aufenthalstitel",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit.<br> Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
           "keywords": "",
           "href": "/MT_Site/2-1-2",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "2-1-3",
+          "title": "Zeitlich befristete Aufenthaltstitel nach Grund der Befristung",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-3",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-4",
+          "title": "Menschen ohne Aufenthaltstitel Duldung Aufenthaltsgestattung Ohne Duldung oder Gestattung",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-4",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-5",
+          "title": "Bleiberecht (Aufenthaltsgewährung) und Opfer von Menschenhandel sowie organisierter Schwarzarbeit",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-5",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-6",
+          "title": "Dringende persönliche oder humanintäre Gründe und Härtefälle",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-6",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-7",
+          "title": "Duldung",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-7",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-8",
+          "title": "Familiennachzug",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-8",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-9",
+          "title": "Niederlassungserlaubnis",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-9",
+          "status": "complete"
+        },
+        {
+          "id": "2-1-10",
+          "title": "global_indicators.11-2-9-title",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt.",
+          "keywords": "",
+          "href": "/MT_Site/2-1-10",
+          "status": "complete"
         },
         {
           "id": "2-2-1",
-          "title": "Prevalence of stunting (height for age <-2 standard deviation from the median of the World Health Organization (WHO) Child Growth Standards) among children under 5 years of age",
-          "description": "",
+          "title": "EASY-Zugänge in Niedersachsen",
+          "description": "Der Indikator zeigt die nach dem Königsteiner Schlüssel nach Niedersachsen zugewiesenen Geflüchteten",
           "keywords": "",
           "href": "/MT_Site/2-2-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "2-2-2",
-          "title": "Prevalence of malnutrition (weight for height >+2 or <-2 standard deviation from the median of the WHO Child Growth Standards) among children under 5 years of age, by type (wasting and overweight)",
-          "description": "",
+          "title": "Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)",
+          "description": "Der Indikator zeigt, die durchschnittliche Anzahl der Bewohnerinnen und Bewohner in den von der Landesaufnahmebehörde zu verfügung gestellten Wohnunungen / Wohnheimen, sowie die vorhandenen Kapazitäten.",
           "keywords": "",
           "href": "/MT_Site/2-2-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "2-2-3",
-          "title": "Prevalence of anaemia in women aged 15 to 49 years, by pregnancy status (percentage)",
-          "description": "",
+          "title": "Abschiebungen und Überstellungen nach der Dublin III VO",
+          "description": "Der Indikator zeigt, die Anzahl Abschiebungen und Überstellungen nach der Dublin II VO.",
           "keywords": "",
           "href": "/MT_Site/2-2-3",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "2-2-4",
+          "title": "In Niedersachsen gestellte Ansylanträge",
+          "description": "Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge.",
+          "keywords": "",
+          "href": "/MT_Site/2-2-4",
+          "status": "complete"
         },
         {
           "id": "2-3-1",
-          "title": "Volume of production per labour unit by classes of farming/pastoral/forestry enterprise size",
-          "description": "",
+          "title": "Einbürgerungen nach Niedersachsen (Anzahl)",
+          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet",
           "keywords": "",
           "href": "/MT_Site/2-3-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "2-3-2",
-          "title": "Average income of small-scale food producers, by sex and indigenous status",
-          "description": "",
+          "title": "Veränderungen der Anzahl der Einbürgerungen",
+          "description": "Der Indikator gibt die Veränderung der Anzahl der eingebürgerten Personen in Niedersachsen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet",
           "keywords": "",
           "href": "/MT_Site/2-3-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
-          "id": "2-4-1",
-          "title": "Proportion of agricultural area under productive and sustainable agriculture",
-          "description": "",
+          "id": "2-3-3",
+          "title": "Anteil der Einbürgerungen an allen Ausländerinnen und Ausländern und an allen Einwohnerinnen und Einwohnern",
+          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen wieder und stellt diese ins Verhältnis zur Anzahl der Ausländerinnen und Ausländer sowie zu der Gesamtbevölkerung. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
           "keywords": "",
-          "href": "/MT_Site/2-4-1",
-          "status": "notstarted"
+          "href": "/MT_Site/2-3-3",
+          "status": "complete"
         },
         {
-          "id": "2-5-1",
-          "title": "Number of plant and animal genetic resources for food and agriculture secured in either medium- or long-term conservation facilities",
-          "description": "",
+          "id": "2-3-4",
+          "title": "Einbürgerungen nach Niedersachsen nach ausgewählten Staatsangehörigkeiten",
+          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen nach den 20 häufigsten Staatsangehörigkeiten der 2020 in Niedersachsen lebenden Ausländerinnen und Ausländer wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
           "keywords": "",
-          "href": "/MT_Site/2-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "2-5-2",
-          "title": "Proportion of local breeds classified as being at risk of extinction",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/2-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "2-a-1",
-          "title": "The agriculture orientation index for government expenditures",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/2-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "2-a-2",
-          "title": "Total official flows (official development assistance plus other official flows) to the agriculture sector",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/2-a-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "2-b-1",
-          "title": "Agricultural export subsidies",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/2-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "2-c-1",
-          "title": "Indicator of food price anomalies",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/2-c-1",
-          "status": "notstarted"
+          "href": "/MT_Site/2-3-4",
+          "status": "complete"
         }]
     }
   },
   {
     "goal": {
       "id": "3",
-      "title": "Ensure healthy lives and promote well-being for all at all ages",
+      "title": "Kinderbetreuung",
       "indicators": [
         
         {
           "id": "3-1-1",
-          "title": "Maternal mortality ratio",
-          "description": "",
+          "title": "Betreuungsquote von Kindern bis unter 6 Jahren mit und ohne Zuwanderungsgeschichte in Kindertagesbetreuung",
+          "description": "Der Indikator gibt die Betreuungsquote der Kinder mit und ohne Zuwanderungsgeschichte an, die in öffentlich geförderter Kindertagespflege (z.B. Tagesmütter/-väter) oder Kindertagesbetreuung (z. B. Kindertagesstätten, Hort) betreut werden und nicht zusätzlich eine Einrichtung oder eine Ganztagsschule besuchen. Dargestellt wird der Anteil der Kinder in Kindertageseinrichtungen und Kindertagespflege an allen Kindern in der gleichen Altersgruppe. Die frühkindliche Förderung ist insbesondere für Kinder mit Zuwanderungsgeschichte für den gesamten Bildungserfolg von zentraler Bedeutung. Insbesondere wird der Entwicklung der sprachlichen Fähigkeiten eine Schlüsselrolle bei der gesellschaftlichen Teilhabe zuerkannt, da unter anderem von den Sprachkenntnissen der Zugang zu Bildung, Ausbildung und Arbeitsmarkt abhängen.",
           "keywords": "",
           "href": "/MT_Site/3-1-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "3-1-2",
-          "title": "Proportion of births attended by skilled health personnel",
-          "description": "",
+          "title": "Anteil der betreuten Kinder bis unter 6 Jahren mit Zuwanderungsgeschichte in Tageseinrichtungen",
+          "description": "Der Indikator gibt den Anteil von betreuten Kindern bis unter 6 Jahren mit Zuwanderungsgeschichte in Tageseinrichtungen wieder. Dabei werden zwei unterschiedliche Definitionen über den Migrationshintergrund zu Grunde gelegt. Zum einen bezieht sich dieser auf die Herkunft der Eltern bzw. eines Elternteils, zum anderen auf die vorrangige Familiensprache. Beide Merkmale werden parallel erfasst und können isoliert betrachtet werden. Die frühkindliche Förderung ist insbesondere für Kinder mit Zuwanderungsgeschichte für den gesamten Bildungserfolg von zentraler Bedeutung. Insbesondere wird der Entwicklung der sprachlichen Fähigkeiten eine Schlüsselrolle bei der gesellschaftlichen Teilhabe zuerkannt, da unter anderem von den Sprachkenntnissen der Zugang zu Bildung, Ausbildung und Arbeitsmarkt abhängen.",
           "keywords": "",
           "href": "/MT_Site/3-1-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
-          "id": "3-2-1",
-          "title": "Under‐5 mortality rate",
-          "description": "",
+          "id": "3-1-3",
+          "title": "Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung",
+          "description": "Der Indikator gibt den Anteil von betreuten Kindern bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte (mindestens ein Elternteil ausländischer Herkunft) in Tageseinrichtungen sowie in öffentlich geförderter Tagespflege an, die nicht zusätzlich eine Einrichtung der Tagesbetreuung besuchen. Die frühkindliche Förderung von Kindern mit Zuwanderungsgeschichte ist für den gesamten Bildungserfolg von zentraler Bedeutung. Insbesondere wird der Entwicklung der sprachlichen Fähigkeiten eine Schlüsselrolle bei der gesellschaftlichen Teilhabe zuerkannt, da unter anderem von den Sprachkenntnissen der Zugang zu Bildung, Ausbildung und Arbeitsmarkt abhängt.",
           "keywords": "",
-          "href": "/MT_Site/3-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-2-2",
-          "title": "Neonatal mortality rate",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-2-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-3-1",
-          "title": "Number of new HIV infections per 1,000 uninfected population, by sex, age and key populations",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-3-2",
-          "title": "Tuberculosis incidence per 100,000 population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-3-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-3-3",
-          "title": "Malaria incidence per 1,000 population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-3-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-3-4",
-          "title": "Hepatitis B incidence per 100,000 population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-3-4",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-3-5",
-          "title": "Number of people requiring interventions against neglected tropical diseases",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-3-5",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-4-1",
-          "title": "Mortality rate attributed to cardiovascular disease, cancer, diabetes or chronic respiratory disease",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-4-2",
-          "title": "Suicide mortality rate",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-5-1",
-          "title": "Coverage of treatment interventions (pharmacological, psychosocial and rehabilitation and aftercare services) for substance use disorders",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-5-2",
-          "title": "Alcohol per capita consumption (aged 15 years and older) within a calendar year in litres of pure alcohol",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-6-1",
-          "title": "Death rate due to road traffic injuries",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-7-1",
-          "title": "Proportion of women of reproductive age (aged 15–49 years) who have their need for family planning satisfied with modern methods",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-7-2",
-          "title": "Adolescent birth rate (aged 10–14 years; aged 15–19 years) per 1,000 women in that age group",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-7-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-8-1",
-          "title": "Coverage of essential health services",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-8-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-8-2",
-          "title": "Proportion of population with large household expenditures on health as a share of total household expenditure or income",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-8-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-9-1",
-          "title": "Mortality rate attributed to household and ambient air pollution",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-9-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-9-2",
-          "title": "Mortality rate attributed to unsafe water, unsafe sanitation and lack of hygiene (exposure to unsafe Water, Sanitation and Hygiene for All (WASH) services)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-9-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-9-3",
-          "title": "Mortality rate attributed to unintentional poisoning",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-9-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-a-1",
-          "title": "Age-standardized prevalence of current tobacco use among persons aged 15 years and older",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-b-1",
-          "title": "Proportion of the target population covered by all vaccines included in their national programme",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-b-2",
-          "title": "Total net official development assistance to medical research and basic health sectors",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-b-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-b-3",
-          "title": "Proportion of health facilities that have a core set of relevant essential medicines available and affordable on a sustainable basis",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-b-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-c-1",
-          "title": "Health worker density and distribution",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-c-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-d-1",
-          "title": "International Health Regulations (IHR) capacity and health emergency preparedness",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-d-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "3-d-2",
-          "title": "Percentage of bloodstream infections due to selected antimicrobial-resistant organisms",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/3-d-2",
-          "status": "notstarted"
+          "href": "/MT_Site/3-1-3",
+          "status": "complete"
         }]
     }
   },
   {
     "goal": {
       "id": "4",
-      "title": "Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all",
+      "title": "Bildung & Qualifikation",
       "indicators": [
         
         {
           "id": "4-1-1",
-          "title": "Proportion of children and young people (a) in grades 2/3; (b) at the end of primary; and (c) at the end of lower secondary achieving at least a minimum proficiency level in (i) reading and (ii) mathematics, by sex",
-          "description": "",
+          "title": "Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)",
+          "description": "Der Indikator gibt die Anzahl sowie den Anteil ausländischer und deutscher Berufsschulabgängerinnen und Berufsschulabgänger nach der Schulart und dem erreichten Schulabschluss wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schulabgängerinnen und Schulabgängern bei den verschiedenen Kombinationen aus Schulart und Abschlussart zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schulabgängerinnen und-abgänger haben. Je höher der erreichte Schulabschluss ist, desto besser auch die weiteren Chancen für eine gleichberechtigte, strukturelle Teilhabe.",
           "keywords": "",
           "href": "/MT_Site/4-1-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "4-1-2",
-          "title": "Completion rate (primary education, lower secondary education, upper secondary education)",
-          "description": "",
+          "title": "Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang",
+          "description": "Der Indikator gibt den Anteil von Schülerinnen und Schülern im 8. Schuljahrgang nach Nationalität und Schulform an. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schülerinnen und Schülern in den verschiedenen Schulformen zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schülerinnen und Schüler haben. Der 8. Schuljahrgang bietet sich für den strukturellen Vergleich an, weil in diesem Jahrgang die Verteilung der Schülerinnen und Schüler auf die verschiedenen Schulformen im Wesentlichen abgeschlossen ist und auch in früheren Jahren, als es z.B. noch die Orientierungsstufe gab, abgeschlossen war.",
           "keywords": "",
           "href": "/MT_Site/4-1-2",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "4-1-3",
+          "title": "Schulabgängerinnen und Schulabgänger ohne Hauptschulabschluss nach Nationalität",
+          "description": "Der Indikator gibt den Anteil ausländischer und deutscher Schulabgängerinnen und Schulabgänger ohne Hauptschulabschluss an allen Schulabgängerinnen und Schulabgängern eines Jahrgangs der betreffenden Bevölkerungsgruppe an allgemein bildenden Schulen wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schulabgängerinnen und Schulabgängern zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schulabgängerinnen und Schulabgänger haben. Potenziell haben Schülerinnen und Schüler, die ohne Hauptschulabschluss eine Schule verlassen, die schlechtesten Chancen sowohl für eine gleichberechtigte gesellschaftliche Teilhabe als auch für Erfolge auf dem Arbeitsmarkt.",
+          "keywords": "",
+          "href": "/MT_Site/4-1-3",
+          "status": "complete"
+        },
+        {
+          "id": "4-1-4",
+          "title": "Schulabgängerinnen und Schulabgänger nach Nationalität und Abschlussart (in Prozet)",
+          "description": "Der Indikator gibt den Anteil ausländischer und deutscher Schulabgängerinnen und Schulabgänger nach Schulabschluss an allen Schulabgängerinnen und Schulabgängern eines Jahrgangs an allgemein bildenden Schulen wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schulabgängerinnen und Schulabgängern bei den verschiedenen Abschlussarten zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schulabgängerinnen und Schulabgänger haben. Je höher der erreichte Schulabschluss, desto besser sind auch die weiteren Chancen für eine gleichberechtigte, strukturelle Teilhabe.",
+          "keywords": "",
+          "href": "/MT_Site/4-1-4",
+          "status": "complete"
+        },
+        {
+          "id": "4-1-5",
+          "title": "Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen",
+          "description": "Der Indikator gibt den Anteil von Menschen mit und ohne Zuwanderungsgeschichte nach höchstem Schulabschluss wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation der Bevölkerung mit Zuwanderungsgeschichte bei den verschiedenen Schulabschlüssen zeigt an, ob diese vergleichbare Bildungschancen wie Menschen ohne Zuwanderungsgeschichte haben. Je höher der erreichte Schulabschluss ist, desto besser sind auch die weiteren Chancen für eine gleichberechtigte, strukturelle Teilhabe. Die Betrachtung der jüngeren Altersgruppe gibt Hinweise darauf, wie sich die Bildungsstruktur künftig entwickeln wird. Die Angleichung der Bildungsstruktur der Bevölkerung mit Zuwanderungsgeschichte an die, ohne Zuwanderungsgeschichte, kann als Voraussetzung für die Angleichung der Beschäftigungsstruktur beider Gruppen angesehen werden.",
+          "keywords": "",
+          "href": "/MT_Site/4-1-5",
+          "status": "complete"
+        },
+        {
+          "id": "4-1-6",
+          "title": "Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent)",
+          "description": "Der Indikator gibt den Anteil der 18- bis unter 25-Jährigen ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) wieder, die sich weder in schulischer oder beruflicher Ausbildung befinden noch an einer Weiterbildung teilnehmen, an der Bevölkerung der entsprechenden Altersgruppe an. Grundwehr- und Zivildienstleistende werden aus der Berechnung ausgeschlossen. Der Indikator fasst Personen zusammen, die maximal die Sekundarstufe I abgeschlossen haben, also maximal über einen Haupt- oder Realschulabschluss verfügen beziehungsweise maximal die 10. Klasse des Gymnasiums oder ein Berufsvorbereitungsjahr abgeschlossen haben.",
+          "keywords": "",
+          "href": "/MT_Site/4-1-6",
+          "status": "complete"
         },
         {
           "id": "4-2-1",
-          "title": "Proportion of children aged 24-59 months who are developmentally on track in health, learning and psychosocial well-being, by sex",
-          "description": "",
+          "title": "Ausbildungsbeteiligungsquote im dualen System nach Geschlecht und Nationalität",
+          "description": "Der Indikator gibt die Ausbildungsbeteiligungsquote im dualen System nach Geschlecht und Nationalität an. Er ermöglicht einen Einblick in die Partizipation an der beruflichen Ausbildung von deutschen und ausländischen Staatsangehörigen.",
           "keywords": "",
           "href": "/MT_Site/4-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "4-2-2",
-          "title": "Participation rate in organized learning (one year before the official primary entry age), by sex",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/4-2-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "4-3-1",
-          "title": "Participation rate of youth and adults in formal and non-formal education and training in the previous 12 months, by sex",
-          "description": "",
+          "title": "Ausländische Studentinnen und Studenten nach Land des Erwerbs der Studienberechtigung",
+          "description": "Der Indikator gibt den Anteil von ausländischen Studierenden nach Geschlecht und Staatsangehörigkeit wieder. Darüber hinaus unterscheidet er zwischen Bildungsinländerinnen und Bildungsinländern einerseits und Bildungsausländerinnen und Bildungsausländern andererseits. Unter Bildungsinländerinnen und Bildungsinländer fallen alle in Niedersachsen Studierenden mit ausländischer Staatsangehörigkeit, die in Deutschland oder an einer deutschen Auslandschule die Hochschulzugangsberechtigung erhalten haben. Bildungsausländerinnen und Bildungsausländer sind Studierende mit ausländischer Staatsangehörigkeit, die im Ausland die Hochschulzugangsberechtigung erlangt haben. Studierende sind in einem Fachstudium ordentlich immatrikulierte (eingeschriebene) Personen, die einen berufsqualifizierenden Hochschulabschluss anstreben (ohne Beurlaubte, Studienkollegiate und Gasthörerinnen und Gasthörer).",
           "keywords": "",
           "href": "/MT_Site/4-3-1",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "4-3-2",
+          "title": "Hochschulabschlüsse im Prüfungsjahr nach Fächergruppe, Nationalität und Geschlecht der Absolventinnen und Absolventen",
+          "description": "Der Indikator gibt die Anzahl sowie den Anteil der bestandenen Abschlussprüfungen an niedersächsischen Hochschulen nach Fächergruppen für deutsche und ausländische Studierende wieder. Es erfolgt keine Unterscheidung nach dem Land des Erwerbs der Studienberechtigung (siehe hierfür Indikator 4.3.1). Studierende sind in einem Fachstudium ordentlich immatrikulierte (eingeschriebene) Personen, die einen berufsqualifizierenden Hochschulabschluss anstreben (ohne Beurlaubte, Studienkollegiate und Gasthörerinnen und Gasthörer).",
+          "keywords": "",
+          "href": "/MT_Site/4-3-2",
+          "status": "complete"
         },
         {
           "id": "4-4-1",
-          "title": "Proportion of youth and adults with information and communications technology (ICT) skills, by type of skill",
-          "description": "",
+          "title": "Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)",
+          "description": "Der Indikator gibt die Gesamtzahl der in Niedersachsen durchgeführten Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) und dem niedersächsischen Berufsqualifikationsgesetz (NBQFG) sowie die Zahl der davon abgeschlossenen Verfahren nach der getroffenen Entscheidung an. Separat ausgewiesen werden Verfahren in der Berufshauptgruppe der medizinischen Gesundheitsberufe, da diese den überwiegenden Teil der Verfahren darstellten.",
           "keywords": "",
           "href": "/MT_Site/4-4-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
-          "id": "4-5-1",
-          "title": "Parity indices (female/male, rural/urban, bottom/top wealth quintile and others such as disability status, indigenous peoples and conflict-affected, as data become available) for all education indicators on this list that can be disaggregated",
-          "description": "",
+          "id": "4-4-2",
+          "title": "Höchster beruflicher Abschluss der 25- bis unter 35-Jährigen nach Zuwanderungsgeschichte und Geschlecht (in Prozent)",
+          "description": "Der Indikator gibt den Anteil von Menschen mit und ohne Zuwanderungsgeschichte im Alter von 25 bis unter 35 Jahren nach höchstem beruflichen Abschluss wieder. Berufliche Qualifikationen sind ein zentrales Merkmal der strukturellen Teilhabe und beeinflussen die Position am Arbeitsmarkt sowie die gesellschaftliche Teilhabe.",
           "keywords": "",
-          "href": "/MT_Site/4-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "4-6-1",
-          "title": "Proportion of population in a given age group achieving at least a fixed level of proficiency in functional (a) literacy and (b) numeracy skills, by sex",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/4-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "4-7-1",
-          "title": "Extent to which (i) global citizenship education and (ii) education for sustainable development are mainstreamed in (a) national education policies; (b) curricula; (c) teacher education; and (d) student assessment",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/4-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "4-a-1",
-          "title": "Proportion of schools offering basic services, by type of service",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/4-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "4-b-1",
-          "title": "Volume of official development assistance flows for scholarships by sector and type of study",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/4-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "4-c-1",
-          "title": "Proportion of teachers with the minimum required qualifications, by education level",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/4-c-1",
-          "status": "notstarted"
+          "href": "/MT_Site/4-4-2",
+          "status": "complete"
         }]
     }
   },
   {
     "goal": {
       "id": "5",
-      "title": "Achieve gender equality and empower all women and girls",
+      "title": "Erwerbstätigkeit & Arbeitsmarkt",
       "indicators": [
         
         {
           "id": "5-1-1",
-          "title": "Whether or not legal frameworks are in place to promote, enforce and monitor equality and non‐discrimination on the basis of sex",
-          "description": "",
+          "title": "Erwerbstätige Menschen mit Zuwanderungsgeschichte in Niedersachsen nach Wirtschaftsabschnitten und Geschlecht",
+          "description": "Zu den Erwerbstätigen zählen alle Personen im Alter von 15 und mehr Jahren, die eine auf Erwerb gerichtete Tätigkeit ausüben, unabhängig von der geleisteten Arbeitszeit und der Bedeutung dieser Tätigkeit für den Lebensunterhalt. Maßgeblich ist, dass sie in der Berichtswoche wenigstens eine Stunde einer beruflichen Tätigkeit nachgegangen sind.",
           "keywords": "",
           "href": "/MT_Site/5-1-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "5-2-1",
-          "title": "Proportion of ever-partnered women and girls aged 15 years and older subjected to physical, sexual or psychological violence by a current or former intimate partner in the previous 12 months, by form of violence and by age",
-          "description": "",
+          "title": "Erwerbsquote, Erwerbstätigenquote und Erwerbslosenanteil nach Zuwanderungsgeschichte",
+          "description": "„Erwerbspersonen“ ist der Oberbegriff für Erwerbstätige und Erwerbslose. Die Zahl der Erwerbspersonen stellt somit das gesamte zur Verfügung stehende Potenzial an Arbeitskräften dar. Der Gegenbegriff sind die Nichterwerbspersonen: Dies sind alle Menschen, die z.B. aus Alters- oder Gesundheitsgründen oder weil sie andere Verdienstquellen haben nicht erwerbstätig sind und auch keine Erwerbstätigkeit anstreben. Erwerbstätige sind alle Personen im Alter von 15 und mehr Jahren, die eine auf Erwerb gerichtete Tätigkeit ausüben, unabhängig von der geleisteten Arbeitszeit und Bedeutung dieser Tätigkeit für den Lebensunterhalt. Maßgeblich ist, dass sie in der Berichtswoche wenigstens eine Stunde einer beruflichen Tätigkeit nachgegangen sind. Als erwerbslos gelten nur solche Personen, die normalerweise erwerbstätig sind und zurzeit nur vorübergehend, da sie noch keinen neuen Arbeitsplatz gefunden haben, aus dem Erwerbsleben ausgeschieden sind, sowie Schulabgängerinnen und Schulabgänger, die sich um eine Lehr-/Arbeitsstelle bemühen. Die Bezeichnung „erwerbslos“ ist unabhängig davon, ob jemand bei der Arbeitsagentur als Arbeitsloser oder als Arbeitssuchender gemeldet ist bzw. Arbeitslosengeld oder -hilfe bezieht. Personen, die normalerweise keinem Erwerb nachgehen, z.B. nicht berufstätige Ehefrauen oder Ehemänner, gelten nicht als erwerbslos. Die Erwerbsquote bezieht die Zahl der Erwerbspersonen auf die Bevölkerung im Erwerbsalter (15 bis unter 65 Jahre). Die Erwerbstätigenquote bezieht die Zahl der 15- bis unter 65-jährigen Erwerbstätigen auf die Bevölkerung im Erwerbsalter. Der Erwerbslosenanteil bezieht die Zahl der Erwerbslosen auf die aller Personen im Erwerbsalter.",
           "keywords": "",
           "href": "/MT_Site/5-2-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "5-2-2",
-          "title": "Proportion of women and girls aged 15 years and older subjected to sexual violence by persons other than an intimate partner in the previous 12 months, by age and place of occurrence",
-          "description": "",
+          "title": "Sozialversicherungspflichtig beschäftigte Ausländerinnen und Ausländer",
+          "description": "Sozialversicherungspflichtig Beschäftigte umfassen alle Arbeitnehmerinnen und Arbeitnehmer, die krankenversicherungspflichtig, rentenversicherungspflichtig oder beitragspflichtig nach dem SGB III sind oder für die Beitragsanteile zu den gesetzlichen Rentenversicherungen zu leisten sind. Dazu gehören unter anderem auch Auszubildende.",
           "keywords": "",
           "href": "/MT_Site/5-2-2",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "5-2-3",
+          "title": "Sozialversicherungspflichtig beschäftigte Ausländerinnen und Ausländer nach Art der Ausbildung",
+          "description": "Sozialversicherungspflichtig Beschäftigte umfassen alle Arbeitnehmerinnen und Arbeitnehmer, die krankenversicherungspflichtig, rentenversicherungspflichtig oder beitragspflichtig nach dem SGB III sind oder für die Beitragsanteile zu den gesetzlichen Rentenversicherungen zu leisten sind. Dazu gehören unter anderem auch Auszubildende. Die Beschäftigten werden nach Art ihrer beruflichen Qualifikation in drei Gruppen aufgegliedert: Als hohe Qualifikation gelten Fachhochschul- und Hochschulabschlüsse. Als mittlere Qualifikation gilt der Abschluss einer anerkannten Berufsausbildung sowie ein Meister-/Techniker- oder gleichwertiger Fachschulabschluss. Als niedrige Qualifikation gelten alle Fälle, in denen keine abgeschlossene Berufsausbildung vorliegt. Die statistischen Ergebnisse können differenziert nach Deutschen und Ausländerinnen und Ausländern ausgewiesen werden.",
+          "keywords": "",
+          "href": "/MT_Site/5-2-3",
+          "status": "complete"
         },
         {
           "id": "5-3-1",
-          "title": "Proportion of women aged 20–24 years who were married or in a union before age 15 and before age 18",
-          "description": "",
+          "title": "Erwerbslosenanteil nach Zuwanderungsgeschichte",
+          "description": "Als erwerbslos gelten solche Personen, die normalerweise erwerbstätig sind und zurzeit nur vorübergehend, da sie noch keinen neuen Arbeitsplatz gefunden haben, aus dem Erwerbsleben ausgeschieden sind, sowie Schulabgängerinnen und Schulabgänger, die sich um eine Lehr- bzw. Arbeitsstelle bemühen. Die Bezeichnung „erwerbslos“ ist unabhängig davon, ob jemand bei der Agentur für Arbeit als Arbeitsloser oder als Arbeitssuchender gemeldet ist bzw. Arbeitslosengeld oder -hilfe bezieht. Personen, die normalerweise keinem Erwerb nachgehen, z.B. nicht berufstätige Ehefrauen, gelten nicht als erwerbslos. Der Erwerbslosenanteil bezieht, gegliedert nach Altersgruppen, die Zahl der Erwerbslosen auf die aller Personen im Erwerbsalter (15 bis unter 65 Jahre).",
           "keywords": "",
           "href": "/MT_Site/5-3-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "5-3-2",
-          "title": "Proportion of girls and women aged 15–49 years who have undergone female genital mutilation/cutting, by age",
-          "description": "",
+          "title": "Entwicklung der Arbeitslosenquote",
+          "description": "Arbeitslose sind Arbeitsuchende bis zur Vollendung des 65. Lebensjahres, die nicht oder weniger als 15 Stunden wöchentlich in einem Beschäftigungsverhältnis stehen, die nicht Schülerin oder Schüler, Studierende oder Teilnehmende an Maßnahmen der beruflichen Weiterbildung, nicht arbeitsunfähig erkrankt, nicht Empfängerin oder Empfänger von Altersrente sind und für eine Arbeitsaufnahme als Arbeitnehmerin oder Arbeitnehmer sofort zur Verfügung stehen. Arbeitslose müssen sich persönlich bei ihrer zuständigen Arbeitsagentur oder dem nach SGB II zuständigen Träger gemeldet haben. Ausländerinnen und Ausländer können nur dann als arbeitslos erfasst werden, wenn sie eine Arbeitnehmertätigkeit in Deutschland ausüben dürfen.",
           "keywords": "",
           "href": "/MT_Site/5-3-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
-          "id": "5-4-1",
-          "title": "Proportion of time spent on unpaid domestic and care work, by sex, age and location",
-          "description": "",
+          "id": "5-3-3",
+          "title": "Entwicklung der Abstände der Arbeitslosenquoten nach Nationalität",
+          "description": "Arbeitslose sind Arbeitsuchende bis zur Vollendung des 65. Lebensjahres, die nicht oder weniger als 15 Stunden wöchentlich in einem Beschäftigungsverhältnis stehen, die nicht Schülerin oder Schüler, Studierende oder Teilnehmende an Maßnahmen der beruflichen Weiterbildung, nicht arbeitsunfähig erkrankt, nicht Empfängerin oder Empfänger von Altersrente sind und für eine Arbeitsaufnahme als Arbeitnehmerin oder Arbeitnehmer sofort zur Verfügung stehen. Arbeitslose müssen sich persönlich bei ihrer zuständigen Arbeitsagentur oder dem nach SGB II zuständigen Träger gemeldet haben. Ausländerinnen und Ausländer können nur dann als arbeitslos erfasst werden, wenn sie eine Arbeitnehmertätigkeit in Deutschland ausüben dürfen.",
           "keywords": "",
-          "href": "/MT_Site/5-4-1",
-          "status": "notstarted"
+          "href": "/MT_Site/5-3-3",
+          "status": "complete"
         },
         {
-          "id": "5-5-1",
-          "title": "Proportion of seats held by women in (a) national parliaments and (b) local governments",
-          "description": "",
+          "id": "5-3-4",
+          "title": "Arbeitslose nach Zuwanderungsgeschichte, Rechtskreis und Geschlecht (C7)",
+          "description": "Der Indikator gibt die Anzahl sowie den Anteil....",
           "keywords": "",
-          "href": "/MT_Site/5-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-5-2",
-          "title": "Proportion of women in managerial positions",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-6-1",
-          "title": "Proportion of women aged 15–49 years who make their own informed decisions regarding sexual relations, contraceptive use and reproductive health care",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-6-2",
-          "title": "Number of countries with laws and regulations that guarantee full and equal access to women and men aged 15 years and older to sexual and reproductive health care, information and education",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-6-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-a-1",
-          "title": "(a) Proportion of total agricultural population with ownership or secure rights over agricultural land, by sex; and (b) share of women among owners or rights-bearers of agricultural land, by type of tenure",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-a-2",
-          "title": "Proportion of countries where the legal framework (including customary law) guarantees women’s equal rights to land ownership and/or control",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-a-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-b-1",
-          "title": "Proportion of individuals who own a mobile telephone, by sex",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "5-c-1",
-          "title": "Proportion of countries with systems to track and make public allocations for gender equality and women’s empowerment",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/5-c-1",
-          "status": "notstarted"
+          "href": "/MT_Site/5-3-4",
+          "status": "inprogress"
         }]
     }
   },
   {
     "goal": {
       "id": "6",
-      "title": "Ensure availability and sustainable management of water and sanitation for all",
+      "title": "Lebensunterhalt & Soziale Sicherung",
       "indicators": [
         
         {
           "id": "6-1-1",
-          "title": "Proportion of population using safely managed drinking water services",
-          "description": "",
+          "title": "Armutsgefährdungsquoten in Niedersachsen und Deutschland",
+          "description": "Die Armutsrisikoquote (oder auch Armutsgefährdungsquote) ist ein Indikator zur Messung relativer Einkommensarmut und wird definiert als der Prozentanteil der Personen, deren Äquivalenzeinkommen weniger als 60 Prozent des Durchschnitts der Äquivalenzeinkommen der Bevölkerung (in Privathaushalten am Ort der Hauptwohnung) beträgt. Das Äquivalenzeinkommen, ein auf der Basis des Haushaltsnettoeinkommens berechnetes bedarfsgewichtetes Pro-Kopf-Einkommen je Haushaltsmitglied, wird auf Basis der neuen OECD-Skala berechnet. Für die Bevölkerungsgruppen der Deutschen und Nichtdeutschen sowie der Menschen mit und ohne Migrationshintergrund (vgl. Indikator 1.3.1) wird das Risiko materieller Armut abgebildet. Tendenzen zur Exklusion und mangelnder Teilhabechancen gesellschaftlicher Gruppen entwickeln sich insbesondere vor dem Hintergrund der Einkommensarmut. Ausgeklammert bleiben jedoch weitere Ressourcen wie Bildung und soziale Bindungen.",
           "keywords": "",
           "href": "/MT_Site/6-1-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "6-2-1",
-          "title": "Proportion of population using (a) safely managed sanitation services and (b) a hand-washing facility with soap and water",
-          "description": "",
+          "title": "Empfängerinnen und Empfänger von Mindestsicherungsleistungen",
+          "description": "Staatliche Transferleistungen der sozialen Mindestsicherungssysteme werden zur Sicherung des Lebensunterhaltes gezahlt. Die Empfängerquote bzw. Mindestsicherungsquote beschreibt die Anzahl der Empfängerinnen und Empfänger von Leistungen je 1 000 Einwohnerinnen und Einwohner (Promille) nach  Nationalität und Kreisen. Sie ist ein Indikator für die „bekämpfte Armut“ in der Gesellschaft.",
           "keywords": "",
           "href": "/MT_Site/6-2-1",
-          "status": "notstarted"
+          "status": "complete"
+        },
+        {
+          "id": "6-2-2",
+          "title": "Empfängerinnen und Empfänger von Mindestsicherungsleistungen nach Altersgruppen (Anzahl je 1 000 Einwohnerinnen und Einwohner der betreffenden Bevölkerungsgruppe)",
+          "description": "Staatliche Transferleistungen der sozialen Mindestsicherungssysteme werden zur Sicherung des Lebensunterhaltes gezahlt. Die Empfängerquote bzw. Mindestsicherungsquote beschreibt die Anzahl der Empfängerinnen und Empfänger von Leistungen je 1 000 Einwohnerinnen und Einwohner (Promille) nach Nationalität, Altersgruppen und Kreisen. Sie ist ein Indikator für die „bekämpfte Armut“ in der Gesellschaft.",
+          "keywords": "",
+          "href": "/MT_Site/6-2-2",
+          "status": "complete"
+        },
+        {
+          "id": "6-2-10",
+          "title": "global_indicators.6-2-10-title",
+          "description": "",
+          "keywords": "",
+          "href": "/MT_Site/6-2-10",
+          "status": "complete"
         },
         {
           "id": "6-3-1",
-          "title": "Proportion of domestic and industrial wastewater flows safely treated",
-          "description": "",
+          "title": "Bevölkerung am Ort der Hauptwohnung nach Zuwanderungsgeschichte und überwiegendem Lebensunterhalt (D6)",
+          "description": "Der überwiegende Lebensunterhalt kennzeichnet die Unterhaltsquelle, aus welcher hauptsächlich die Mittel für den Lebensunterhalt bezogen werden. Bei mehreren Unterhaltsquellen wird auf die wesentliche abgestellt. Im Mikrozensus werden diese Angaben durch eine Selbsteinstufung der Befragten ermittelt. Der Indikator zeigt an, aus welchen Quellen der Lebensunterhalt überwiegend bestritten wird. Von besonderer Bedeutung sind hier Erwerbstätigkeit und öffentliche Transferzahlungen. Ein Rückgang des Anteils der Personen mit Migrationshintergrund, die von öffentlichen Transferzahlungen abhängig sind, und ein Ansteigen des Anteils derer, die ihren Lebensunterhalt selbst zu finanzieren in der Lage sind, zeigen einen Fortschritt beim Integrationsprozess an.",
           "keywords": "",
           "href": "/MT_Site/6-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-3-2",
-          "title": "Proportion of bodies of water with good ambient water quality",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-3-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-4-1",
-          "title": "Change in water-use efficiency over time",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-4-2",
-          "title": "Level of water stress: freshwater withdrawal as a proportion of available freshwater resources",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-5-1",
-          "title": "Degree of integrated water resources management",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-5-2",
-          "title": "Proportion of transboundary basin area with an operational arrangement for water cooperation",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-6-1",
-          "title": "Change in the extent of water-related ecosystems over time",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-a-1",
-          "title": "Amount of water- and sanitation-related official development assistance that is part of a government-coordinated spending plan",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "6-b-1",
-          "title": "Proportion of local administrative units with established and operational policies and procedures for participation of local communities in water and sanitation management",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/6-b-1",
-          "status": "notstarted"
+          "status": "complete"
         }]
     }
   },
   {
     "goal": {
       "id": "7",
-      "title": "Ensure access to affordable, reliable, sustainable and modern energy for all",
+      "title": "Familie & Wohnen",
       "indicators": [
         
         {
           "id": "7-1-1",
-          "title": "Proportion of population with access to electricity",
-          "description": "",
+          "title": "Mittlere Wohnfläche in m² und mittlere Bruttokaltmiete in Niedersachsen nach Zuwanderungsgeschichte",
+          "description": "Der Indikator stellt Kennzahlen zur Wohnsituation der Bevölkerung mit und ohne Zuwanderungsgeschichte dar. Die Wohnfläche wird als mittlere Wohnungsgröße je Person in Quadratmetern (m²) angegeben. Die mittlere Bruttokaltmiete pro Quadratmeter in Euro gibt Aufschluss über die Mietbelastung der jeweiligen Bevölkerungsgruppe. Die Menschen mit Zuwanderungsgeschichte werden zusätzlich unterschieden in Personen mit eigener Migrationserfahrung (Zugewanderte) und ohne eigene Migrationserfahrung (in Deutschland Geborene). Die Miete als monatliche Fixkosten und die zur Verfügung stehende Wohnfläche beschreiben grundlegende Bedingungen des täglichen Lebens.",
           "keywords": "",
           "href": "/MT_Site/7-1-1",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "7-1-2",
-          "title": "Proportion of population with primary reliance on clean fuels and technology",
-          "description": "",
+          "title": "Wohneigentum",
+          "description": "Der Indikator gibt die Anzahl sowie den Anteil....",
           "keywords": "",
           "href": "/MT_Site/7-1-2",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "7-2-1",
-          "title": "Renewable energy share in the total final energy consumption",
-          "description": "",
+          "title": "Paare ohne Kinder und Familien nach Paar-Familientyp und Zuwanderungsgeschichte sowie Familien nach Zahl der Kinder (in 1000)",
+          "description": "Der Indikator stellt die Lebensformen der Menschen mit Zuwanderungsgeschichte sowie die Anzahl der in der jeweiligen Lebensform lebenden Kinder dar. Damit bildet der Indikator die Verteilung der erwachsenen Bevölkerung mit Zuwanderungsgeschichte über die verschiedenen Lebensformen mit und ohne Kinder ab. Die Daten zeigen die Vielfalt der Lebensformen in der Bevölkerung und weisen dabei auf Unterschiede zwischen der Bevölkerung mit und ohne Zuwanderungsgeschichte hin.",
           "keywords": "",
           "href": "/MT_Site/7-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "7-3-1",
-          "title": "Energy intensity measured in terms of primary energy and GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/7-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "7-a-1",
-          "title": "International financial flows to developing countries in support of clean energy research and development and renewable energy production, including in hybrid systems",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/7-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "7-b-1",
-          "title": "Installed renewable energy-generating capacity in developing countries (in watts per capita)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/7-b-1",
-          "status": "notstarted"
+          "status": "complete"
         }]
     }
   },
   {
     "goal": {
       "id": "8",
-      "title": "Promote sustained, inclusive and sustainable economic growth, full and productive employment and decent work for all",
+      "title": "Politische & Gesellscahftliche Teilhabe",
       "indicators": [
         
         {
           "id": "8-1-1",
-          "title": "Annual growth rate of real GDP per capita",
-          "description": "",
+          "title": "Bei Bundes- und Landtagswahlen wahlberechtigte Bevölkerung mit Zuwanderungsgeschichte",
+          "description": "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unter-scheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br>1. zugewanderte und nicht zugewanderte Ausländer;<br>2. zugewanderte und nicht zugewanderte Eingebürgerte;<br>3. (Spät-)Aussiedler;<br>4. mit deutscher Staatsangehörigkeit geborene Nachkommen.<br>Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten.",
           "keywords": "",
           "href": "/MT_Site/8-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-2-1",
-          "title": "Annual growth rate of real GDP per employed person",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-3-1",
-          "title": "Proportion of informal employment in total employment, by sector and sex",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-4-1",
-          "title": "Material footprint, material footprint per capita, and material footprint per GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-4-2",
-          "title": "Domestic material consumption, domestic material consumption per capita, and domestic material consumption per GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-5-1",
-          "title": "Average hourly earnings of employees, by sex, age, occupation and persons with disabilities",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-5-2",
-          "title": "Unemployment rate, by sex, age and persons with disabilities",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-6-1",
-          "title": "Proportion of youth (aged 15–24 years) not in education, employment or training",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-7-1",
-          "title": "Proportion and number of children aged 5–17 years engaged in child labour, by sex and age",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-8-1",
-          "title": "Fatal and non-fatal occupational injuries per 100,000 workers, by sex and migrant status",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-8-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-8-2",
-          "title": "Level of national compliance with labour rights (freedom of association and collective bargaining) based on International Labour Organization (ILO) textual sources and national legislation, by sex and migrant status",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-8-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-9-1",
-          "title": "Tourism direct GDP as a proportion of total GDP and in growth rate",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-9-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-10-1",
-          "title": "(a) Number of commercial bank branches per 100,000 adults and (b) number of automated teller machines (ATMs) per 100,000 adults",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-10-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-10-2",
-          "title": "Proportion of adults (15 years and older) with an account at a bank or other financial institution or with a mobile-money-service provider",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-10-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-a-1",
-          "title": "Aid for Trade commitments and disbursements",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "8-b-1",
-          "title": "Existence of a developed and operationalized national strategy for youth employment, as a distinct strategy or as part of a national employment strategy",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/8-b-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "9",
-      "title": "Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation",
-      "indicators": [
-        
-        {
-          "id": "9-1-1",
-          "title": "Proportion of the rural population who live within 2 km of an all-season road",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-1-2",
-          "title": "Passenger and freight volumes, by mode of transport",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-1-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-2-1",
-          "title": "Manufacturing value added as a proportion of GDP and per capita",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-2-2",
-          "title": "Manufacturing employment as a proportion of total employment",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-2-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-3-1",
-          "title": "Proportion of small-scale industries in total industry value added",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-3-2",
-          "title": "Proportion of small-scale industries with a loan or line of credit",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-3-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-4-1",
-          "title": "CO2 emission per unit of value added",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-5-1",
-          "title": "Research and development expenditure as a proportion of GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-5-2",
-          "title": "Researchers (in full-time equivalent) per million inhabitants",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-a-1",
-          "title": "Total official international support (official development assistance plus other official flows) to infrastructure",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-b-1",
-          "title": "Proportion of medium and high-tech industry value added in total value added",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "9-c-1",
-          "title": "Proportion of population covered by a mobile network, by technology",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/9-c-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "10",
-      "title": "Reduce inequality within and among countries",
-      "indicators": [
-        
-        {
-          "id": "10-1-1",
-          "title": "Growth rates of household expenditure or income per capita among the bottom 40 per cent of the population and the total population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-2-1",
-          "title": "Proportion of people living below 50 per cent of median income, by sex, age and persons with disabilities",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-3-1",
-          "title": "Proportion of population reporting having personally felt discriminated against or harassed in the previous 12 months on the basis of a ground of discrimination prohibited under international human rights law",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-4-1",
-          "title": "Labour share of GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-4-2",
-          "title": "Redistributive impact of fiscal policy",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-5-1",
-          "title": "Financial Soundness Indicators",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-6-1",
-          "title": "Proportion of members and voting rights of developing countries in international organizations",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-7-1",
-          "title": "Recruitment cost borne by employee as a proportion of monthly income earned in country of destination",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-7-2",
-          "title": "Number of countries with migration policies that facilitate orderly, safe, regular and responsible migration and mobility of people",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-7-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-7-3",
-          "title": "Number of people who died or disappeared in the process of migration towards an international destination",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-7-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-7-4",
-          "title": "Proportion of the population who are refugees, by country of origin",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-7-4",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-a-1",
-          "title": "Proportion of tariff lines applied to imports from least developed countries and developing countries with zero-tariff",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-b-1",
-          "title": "Total resource flows for development, by recipient and donor countries and type of flow (e.g. official development assistance, foreign direct investment and other flows)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "10-c-1",
-          "title": "Remittance costs as a proportion of the amount remitted",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/10-c-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "11",
-      "title": "Make cities and human settlements inclusive, safe, resilient and sustainable",
-      "indicators": [
-        
-        {
-          "id": "11-1-1",
-          "title": "Proportion of urban population living in slums, informal settlements or inadequate housing",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-2-1",
-          "title": "Proportion of population that has convenient access to public transport, by sex, age and persons with disabilities",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-3-1",
-          "title": "Ratio of land consumption rate to population growth rate",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-3-2",
-          "title": "Proportion of cities with a direct participation structure of civil society in urban planning and management that operate regularly and democratically",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-3-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-4-1",
-          "title": "Total per capita expenditure on the preservation, protection and conservation of all cultural and natural heritage, by source of funding (public, private), type of heritage (cultural, natural) and level of government (national, regional, and local/municipal)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-5-1",
-          "title": "Number of deaths, missing persons and directly affected persons attributed to disasters per 100,000 population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-5-2",
-          "title": "Direct economic loss in relation to global GDP, damage to critical infrastructure and number of disruptions to basic services, attributed to disasters",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-6-1",
-          "title": "Proportion of municipal solid waste collected and managed in controlled facilities out of total municipal waste generated, by cities",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-6-2",
-          "title": "Annual mean levels of fine particulate matter (e.g. PM2.5 and PM10) in cities (population weighted)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-6-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-7-1",
-          "title": "Average share of the built-up area of cities that is open space for public use for all, by sex, age and persons with disabilities",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-7-2",
-          "title": "Proportion of persons victim of physical or sexual harassment, by sex, age, disability status and place of occurrence, in the previous 12 months",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-7-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-a-1",
-          "title": "Number of countries that have national urban policies or regional development plans that (a) respond to population dynamics; (b) ensure balanced territorial development; and (c) increase local fiscal space",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-b-1",
-          "title": "Number of countries that adopt and implement national disaster risk reduction strategies in line with the Sendai Framework for Disaster Risk Reduction 2015–2030",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "11-b-2",
-          "title": "Proportion of local governments that adopt and implement local disaster risk reduction strategies in line with national disaster risk reduction strategies",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/11-b-2",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "12",
-      "title": "Ensure sustainable consumption and production patterns",
-      "indicators": [
-        
-        {
-          "id": "12-1-1",
-          "title": "Number of countries developing, adopting or implementing policy instruments aimed at supporting the shift to sustainable consumption and production",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-2-1",
-          "title": "Material footprint, material footprint per capita, and material footprint per GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-2-2",
-          "title": "Domestic material consumption, domestic material consumption per capita, and domestic material consumption per GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-2-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-3-1",
-          "title": "(a) Food loss index and (b) food waste index",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-4-1",
-          "title": "Number of parties to international multilateral environmental agreements on hazardous waste, and other chemicals that meet their commitments and obligations in transmitting information as required by each relevant agreement",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-4-2",
-          "title": "(a) Hazardous waste generated per capita; and (b) proportion of hazardous waste treated, by type of treatment",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-5-1",
-          "title": "National recycling rate, tons of material recycled",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-6-1",
-          "title": "Number of companies publishing sustainability reports",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-7-1",
-          "title": "Degree of sustainable public procurement policies and action plan implementation",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-8-1",
-          "title": "Extent to which (i) global citizenship education and (ii) education for sustainable development are mainstreamed in (a) national education policies; (b) curricula; (c) teacher education; and (d) student assessment",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-8-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-a-1",
-          "title": "Installed renewable energy-generating capacity in developing countries (in watts per capita)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-b-1",
-          "title": "Implementation of standard accounting tools to monitor the economic and environmental aspects of tourism sustainability",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "12-c-1",
-          "title": "Amount of fossil-fuel subsidies per unit of GDP (production and consumption)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/12-c-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "13",
-      "title": "Take urgent action to combat climate change and its impacts",
-      "indicators": [
-        
-        {
-          "id": "13-1-1",
-          "title": "Number of deaths, missing persons and directly affected persons attributed to disasters per 100,000 population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-1-2",
-          "title": "Number of countries that adopt and implement national disaster risk reduction strategies in line with the Sendai Framework for Disaster Risk Reduction 2015–2030",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-1-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-1-3",
-          "title": "Proportion of local governments that adopt and implement local disaster risk reduction strategies in line with national disaster risk reduction strategies",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-1-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-2-1",
-          "title": "Number of countries with nationally determined contributions, long-term strategies, national adaptation plans, strategies as reported in adaptation communications and national communications",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-2-2",
-          "title": "Total greenhouse gas emissions per year",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-2-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-3-1",
-          "title": "Extent to which (i) global citizenship education and (ii) education for sustainable development are mainstreamed in (a) national education policies; (b) curricula; (c) teacher education; and (d) student assessment",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-a-1",
-          "title": "Amounts provided and mobilized in United States dollars per year in relation to the continued existing collective mobilization goal of the $100 billion commitment through to 2025",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "13-b-1",
-          "title": "Number of least developed countries and small island developing States with nationally determined contributions, long-term strategies, national adaptation plans, strategies as reported in adaptation communications and national communications",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/13-b-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "14",
-      "title": "Conserve and sustainably use the oceans, seas and marine resources for sustainable development",
-      "indicators": [
-        
-        {
-          "id": "14-1-1",
-          "title": "(a) Index of coastal eutrophication; and (b) plastic debris density",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-2-1",
-          "title": "Number of countries using ecosystem-based approaches to managing marine areas",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-3-1",
-          "title": "Average marine acidity (pH) measured at agreed suite of representative sampling stations",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-4-1",
-          "title": "Proportion of fish stocks within biologically sustainable levels",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-5-1",
-          "title": "Coverage of protected areas in relation to marine areas",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-6-1",
-          "title": "Degree of implementation of international instruments aiming to combat illegal, unreported and unregulated fishing",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-7-1",
-          "title": "Sustainable fisheries as a proportion of GDP in small island developing States, least developed countries and all countries",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-a-1",
-          "title": "Proportion of total research budget allocated to research in the field of marine technology",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-b-1",
-          "title": "Degree of application of a legal/regulatory/ policy/institutional framework which recognizes and protects access rights for small-scale fisheries",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "14-c-1",
-          "title": "Number of countries making progress in ratifying, accepting and implementing through legal, policy and institutional frameworks, ocean-related instruments that implement international law, as reflected in the United Nations Convention on the Law of the Sea, for the conservation and sustainable use of the oceans and their resources",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/14-c-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "15",
-      "title": "Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss",
-      "indicators": [
-        
-        {
-          "id": "15-1-1",
-          "title": "Forest area as a proportion of total land area",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-1-2",
-          "title": "Proportion of important sites for terrestrial and freshwater biodiversity that are covered by protected areas, by ecosystem type",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-1-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-2-1",
-          "title": "Progress towards sustainable forest management",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-3-1",
-          "title": "Proportion of land that is degraded over total land area",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-4-1",
-          "title": "Coverage by protected areas of important sites for mountain biodiversity",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-4-2",
-          "title": "Mountain Green Cover Index",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-5-1",
-          "title": "Red List Index",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-6-1",
-          "title": "Number of countries that have adopted legislative, administrative and policy frameworks to ensure fair and equitable sharing of benefits",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-7-1",
-          "title": "Proportion of traded wildlife that was poached or illicitly trafficked",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-8-1",
-          "title": "Proportion of countries adopting relevant national legislation and adequately resourcing the prevention or control of invasive alien species",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-8-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-9-1",
-          "title": "(a) Number of countries that have established national targets in accordance with or similar to Aichi Biodiversity Target 2 of the Strategic Plan for Biodiversity 2011–2020 in their national biodiversity strategy and action plans and the progress reported towards these targets; and (b) integration of biodiversity into national accounting and reporting systems, defined as implementation of the System of Environmental-Economic Accounting",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-9-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-a-1",
-          "title": "(a) Official development assistance on conservation and sustainable use of biodiversity; and (b) revenue generated and finance mobilized from biodiversity-relevant economic instruments",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-b-1",
-          "title": "(a) Official development assistance on conservation and sustainable use of biodiversity; and (b) revenue generated and finance mobilized from biodiversity-relevant economic instruments",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-b-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "15-c-1",
-          "title": "Proportion of traded wildlife that was poached or illicitly trafficked",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/15-c-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "16",
-      "title": "Promote peaceful and inclusive societies for sustainable development, provide access to justice for all and build effective, accountable and inclusive institutions at all levels",
-      "indicators": [
-        
-        {
-          "id": "16-1-1",
-          "title": "Number of victims of intentional homicide per 100,000 population, by sex and age",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-1-2",
-          "title": "Conflict-related deaths per 100,000 population, by sex, age and cause",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-1-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-1-3",
-          "title": "Proportion of population subjected to (a) physical violence, (b) psychological violence and (c) sexual violence in the previous 12 months",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-1-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-1-4",
-          "title": "Proportion of population that feel safe walking alone around the area they live",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-1-4",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-2-1",
-          "title": "Proportion of children aged 1–17 years who experienced any physical punishment and/or psychological aggression by caregivers in the past month",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-2-2",
-          "title": "Number of victims of human trafficking per 100,000 population, by sex, age and form of exploitation",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-2-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-2-3",
-          "title": "Proportion of young women and men aged 18–29 years who experienced sexual violence by age 18",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-2-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-3-1",
-          "title": "Proportion of victims of violence in the previous 12 months who reported their victimization to competent authorities or other officially recognized conflict resolution mechanisms",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-3-2",
-          "title": "Unsentenced detainees as a proportion of overall prison population",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-3-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-3-3",
-          "title": "Proportion of the population who have experienced a dispute in the past two years and who accessed a formal or informal dispute resolution mechanism, by type of mechanism",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-3-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-4-1",
-          "title": "Total value of inward and outward illicit financial flows (in current United States dollars)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-4-2",
-          "title": "Proportion of seized, found or surrendered arms whose illicit origin or context has been traced or established by a competent authority in line with international instruments",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-4-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-5-1",
-          "title": "Proportion of persons who had at least one contact with a public official and who paid a bribe to a public official, or were asked for a bribe by those public officials, during the previous 12 months",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-5-2",
-          "title": "Proportion of businesses that had at least one contact with a public official and that paid a bribe to a public official, or were asked for a bribe by those public officials during the previous 12 months",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-5-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-6-1",
-          "title": "Primary government expenditures as a proportion of original approved budget, by sector (or by budget codes or similar)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-6-2",
-          "title": "Proportion of population satisfied with their last experience of public services",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-6-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-7-1",
-          "title": "Proportions of positions in national and local institutions, including (a) the legislatures; (b) the public service; and (c) the judiciary, compared to national distributions, by sex, age, persons with disabilities and population groups",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-7-2",
-          "title": "Proportion of population who believe decision-making is inclusive and responsive, by sex, age, disability and population group",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-7-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-8-1",
-          "title": "Proportion of members and voting rights of developing countries in international organizations",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-8-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-9-1",
-          "title": "Proportion of children under 5 years of age whose births have been registered with a civil authority, by age",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-9-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-10-1",
-          "title": "Number of verified cases of killing, kidnapping, enforced disappearance, arbitrary detention and torture of journalists, associated media personnel, trade unionists and human rights advocates in the previous 12 months",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-10-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-10-2",
-          "title": "Number of countries that adopt and implement constitutional, statutory and/or policy guarantees for public access to information",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-10-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-a-1",
-          "title": "Existence of independent national human rights institutions in compliance with the Paris Principles",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-a-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "16-b-1",
-          "title": "Proportion of population reporting having personally felt discriminated against or harassed in the previous 12 months on the basis of a ground of discrimination prohibited under international human rights law",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/16-b-1",
-          "status": "notstarted"
-        }]
-    }
-  },
-  {
-    "goal": {
-      "id": "17",
-      "title": "Strengthen the means of implementation and revitalize the Global Partnership for Sustainable Development",
-      "indicators": [
-        
-        {
-          "id": "17-1-1",
-          "title": "Total government revenue as a proportion of GDP, by source",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-1-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-1-2",
-          "title": "Proportion of domestic budget funded by domestic taxes",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-1-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-2-1",
-          "title": "Net official development assistance, total and to least developed countries, as a proportion of the Organization for Economic Cooperation and Development (OECD) Development Assistance Committee donors’ gross national income (GNI)",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-2-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-3-1",
-          "title": "Foreign direct investment, official development assistance and South-South cooperation as a proportion of gross national income",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-3-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-3-2",
-          "title": "Volume of remittances (in United States dollars) as a proportion of total GDP",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-3-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-4-1",
-          "title": "Debt service as a proportion of exports of goods and services",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-4-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-5-1",
-          "title": "Number of countries that adopt and implement investment promotion regimes for developing countries, including the least developed countries",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-5-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-6-1",
-          "title": "Fixed Internet broadband subscriptions per 100 inhabitants, by speed",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-6-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-7-1",
-          "title": "Total amount of funding for developing countries to promote the development, transfer, dissemination and diffusion of environmentally sound technologies",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-7-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-8-1",
-          "title": "Proportion of individuals using the Internet",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-8-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-9-1",
-          "title": "Dollar value of financial and technical assistance (including through North-South, South‐South and triangular cooperation) committed to developing countries",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-9-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-10-1",
-          "title": "Worldwide weighted tariff-average",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-10-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-11-1",
-          "title": "Developing countries’ and least developed countries’ share of global exports",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-11-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-12-1",
-          "title": "Weighted average tariffs faced by developing countries, least developed countries and small island developing States",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-12-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-13-1",
-          "title": "Macroeconomic Dashboard",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-13-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-14-1",
-          "title": "Number of countries with mechanisms in place to enhance policy coherence of sustainable development",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-14-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-15-1",
-          "title": "Extent of use of country-owned results frameworks and planning tools by providers of development cooperation",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-15-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-16-1",
-          "title": "Number of countries reporting progress in multi-stakeholder development effectiveness monitoring frameworks that support the achievement of the sustainable development goals",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-16-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-17-1",
-          "title": "Amount in United States dollars committed to public-private partnerships for infrastructure",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-17-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-18-1",
-          "title": "Statistical capacity indicator for Sustainable Development Goal monitoring",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-18-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-18-2",
-          "title": "Number of countries that have national statistical legislation that complies with the Fundamental Principles of Official Statistics",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-18-2",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-18-3",
-          "title": "Number of countries with a national statistical plan that is fully funded and under implementation, by source of funding",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-18-3",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-19-1",
-          "title": "Dollar value of all resources made available to strengthen statistical capacity in developing countries",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-19-1",
-          "status": "notstarted"
-        },
-        {
-          "id": "17-19-2",
-          "title": "Proportion of countries that (a) have conducted at least one population and housing census in the last 10 years; and (b) have achieved 100 per cent birth registration and 80 per cent death registration",
-          "description": "",
-          "keywords": "",
-          "href": "/MT_Site/17-19-2",
-          "status": "notstarted"
+          "status": "complete"
         }]
     }
   }]

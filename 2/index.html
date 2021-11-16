@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="de" class="no-js">
     <head>
         <meta charset="utf-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
@@ -11,7 +11,7 @@
 var opensdg = {
 
   // A base URL for asynchronous calls to SDG data.
-  remoteDataBaseUrl: 'https://christoph-lsn.github.io/MT_Data/en',
+  remoteDataBaseUrl: 'https://wohnungNDS.github.io/IM_Data/de',
 
   chartConfigAlterations: [],
   // A hook which can be used to modify the configuration for Chart.js.
@@ -38,7 +38,7 @@ var opensdg = {
     this.dataDisplayAlterations.push(callback);
   },
 
-  language: 'en',
+  language: 'de',
 };
 
 // For backwards compatibility, some of these might need to be global.
@@ -103,7 +103,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>Goal 2 - Zero hunger - Indicators For The Sustainable Development Goals</title>
+    <title>Themenbereich 2 - Rechtliche Integration &amp; Asyl - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -133,7 +133,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116115430">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116121507">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -147,21 +147,21 @@ var translations = {
         
 
     </head>
-<body class="language-en
+<body class="language-de
 layout-goal-by-target
 ">
 <!-- <div class="container"> -->
 
 
-<script>translations['header'] = {"alpha":"Alpha","default_contrast":"Default contrast","disable_high_contrast":"Disable high contrast","disclaimer":"This is a development website. We welcome your <a href=\"mailto:%email_address\">feedback</a>.","enable_high_contrast":"Enable high contrast","high_contrast":"High contrast","skip_link":"Skip to main content","tag_line":"17 Goals to Transform our World","toggle_menu":"Menu toggle. Click to expand or collapse the menu.","toggle_search":"Search toggle. Click to expand or collapse the search bar."};</script>
+<script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0">Skip to main content</a>
+<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
   <div class="container">
   <div class="disclaimer-alert">
-    <strong class="phase-tag">Alpha</strong>
+    <strong class="phase-tag">Alpha-Version</strong>
     
-    This is a development website. We welcome your <a href="mailto:test@example.com">feedback</a>.
+    Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.
   </div>
 </div>
 
@@ -172,15 +172,15 @@ layout-goal-by-target
 
     <div class="logo-and-mobile-widgets">
       <a class="navbar-brand" href="/MT_Site/" id="home">
-    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Sustainable Development Goals - 17 Goals to Transform our World" />
+    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
       <div class="mobile-widgets">
     <ul id='accessibility-nav' class='contrast-switcher'>
         
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -191,8 +191,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -204,62 +204,24 @@ data-event-label="high"
     </li>
 
 
-    </ul><div class="language-toggle-mobile">
-        <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/2/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-    </div></div>
+    </ul></div>
     </div>
 
     <div class="search-and-desktop-widgets">
       <div id="search" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search">Search</label>
-    <input type="text" name="q" id="indicator_search" title="Search" /><!--
-    --><button aria-label="Search" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search">Suche</label>
+    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
       <div class="navbar navbar-default widgets-without-menu">
-        <ul class="nav navbar-nav contrast-switcher"><li class="language-toggle-menu-header">
-            
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/2/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
-        </li>
+        <ul class="nav navbar-nav contrast-switcher">
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -270,8 +232,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -290,49 +252,26 @@ data-event-label="high"
     <div class="navbar navbar-default menu-without-widgets" id="main-nav">
       <ul class="top-level">
     <li id="menuToggle"
-        aria-label="Menu toggle. Click to expand or collapse the menu."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="menu-mobile" aria-expanded="false">Menu</button>
+        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
         <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
-</li><li class="language-toggle-menu-header">
-    
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/2/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
+    <a href="/MT_Site/news"></a>
 </li>
 
 
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -343,8 +282,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -361,29 +300,29 @@ data-event-label="high"
 
     </li>
     <li id="searchToggle"
-        aria-label="Search toggle. Click to expand or collapse the search bar."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="search-mobile" aria-expanded="false">Search</button>
+        <button data-target="search-mobile" aria-expanded="false">Suche</button>
         <div id="search-mobile" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search-mobile">Search</label>
-    <input type="text" name="q" id="indicator_search-mobile" title="Search" /><!--
-    --><button aria-label="Search" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search-mobile">Suche</label>
+    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
     </li>
 </ul>
       <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
+    <a href="/MT_Site/news"></a>
 </li>
 
 </ul>
@@ -402,7 +341,7 @@ data-event-label="high"
   <ol class="breadcrumb">
   
   <li><a href="/MT_Site/">Home</a></li>
-  <li><a href="/MT_Site/goals">Goals</a></li>
+  <li><a href="/MT_Site/goals">Themenbereiche</a></li>
   
   
 </ol>
@@ -414,11 +353,11 @@ data-event-label="high"
   <div class="container">
     <div class="row">
       <div class="col-xs-4 col-md-3 col-lg-2 goal-tiles">
-        <img src="https://open-sdg.org/sdg-translations/assets/img/goals/en/2.png" alt="Zero hunger - Goal 2" id="goal-2" class="goal-icon-image goal-icon-image-" />
+        <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/2.png" alt="Rechtliche Integration &amp; Asyl - Themenbereich 2" id="goal-2" class="goal-icon-image goal-icon-image-" />
       </div>
       <div class="col-xs-8 col-md-9 col-lg-10">
         <h1>
-          <span class="hidden-sm hidden-md hidden-lg">Goal 2: </span>End hunger, achieve food security and improved nutrition and promote sustainable agriculture
+          <span class="hidden-sm hidden-md hidden-lg">Themenbereich 2: </span>Rechtliche Integration & Asyl
         </h1>
       </div>
     </div>
@@ -434,10 +373,10 @@ data-event-label="high"
 
   <div class="visible-md-block visible-lg-block">
     <div class="col-md-6">
-      <h2>Targets</h2>
+      <h2>Indikator Beschreibung</h2>
     </div>
     <div class="col-md-6">
-      <h2>Indicators</h2>
+      <h2>Indikatoren</h2>
     </div>
   </div>
 
@@ -446,10 +385,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         2.1
       </span>
-      By 2030, end hunger and ensure access by all people, in particular the poor and people in vulnerable situations, including infants, to safe, nutritious and sufficient food all year round
+      <b>Geflüchtete und Geduldete in Niedersachsen</b> <br>Ein längerer Text zum <b>Aufenthaltsgesetz</b> der erklärt was es mit welchen <b>Aufenthaltstiteln</b> auf sich hat.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -466,14 +405,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-1-1">
-          Prevalence of undernourishment
+          Aufenthaltstitel in Niedersachsen (A5)
         </a>
         
 
@@ -497,14 +436,262 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-1-2">
-          Prevalence of moderate or severe food insecurity in the population, based on the Food Insecurity Experience Scale (FIES)
+          Zeitlich befristete und zeitlich unbefristete Aufenthalstitel
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.3
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-3">
+          Zeitlich befristete Aufenthaltstitel nach Grund der Befristung
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.4
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-4">
+          Menschen ohne Aufenthaltstitel Duldung Aufenthaltsgestattung Ohne Duldung oder Gestattung
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.5
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-5">
+          Bleiberecht (Aufenthaltsgewährung) und Opfer von Menschenhandel sowie organisierter Schwarzarbeit
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.6
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-6">
+          Dringende persönliche oder humanintäre Gründe und Härtefälle
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.7
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-7">
+          Duldung
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.8
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-8">
+          Familiennachzug
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.9
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-9">
+          Niederlassungserlaubnis
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.1.10
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-1-10">
+          global_indicators.11-2-9-title
         </a>
         
 
@@ -520,10 +707,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         2.2
       </span>
-      By 2030, end all forms of malnutrition, including achieving, by 2025, the internationally agreed targets on stunting and wasting in children under 5 years of age, and address the nutritional needs of adolescent girls, pregnant and lactating women and older persons
+      <b>Flucht & Asyl</b> <br>Menschen verlassen ihr Heimatland aus verschiedenen Gründen. Menschen fliehen, weil in iherer Heimat Krieg ist, weil sie in ihrer Heimat wegen ihrer Hautfarbe, ihrer politischen Ansichten, ihres Geschlechts oder ihrer Religion verfolgt werden. Menschen fliehen auch vor Hunger, Naturkatastrophen oder Armut. <br> <br> Ende 2019 waren 79,5 Millionen Menschen weltweit auf der Flucht. 26 Mio. davon waren Flüchtlinge, 45,7 Mio. sind Binnenvertriebene und 4,2 Mio. Menschen suchen Asyl. <br>Quelle:<a href="https://www.unhcr.org/dach/de/services/statistiken">UNHCR</a> <br> <br> Ein kleiner Teil dieser Menschen auf der Flucht kommen auch in Niedersachsen an. Sie werden hier durch die Landesaufnahmebehörde aufgenommen und untergebracht, stellen einen Antrag auf Asyl, erhalten eine Aufenthaltsgenehmigung, besuchen Integrationskurse, werden eingebürgert und werden ggf auch wieder abgeschoben oder im Rahmen des Dublin III Verfahrens in andere Länder überstellt. Eninge wenige Tabellen zur Thematik Flucht und Asyl finden sich in diesem Themenbereich.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -540,14 +727,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-2-1">
-          Prevalence of stunting (height for age <-2 standard deviation from the median of the World Health Organization (WHO) Child Growth Standards) among children under 5 years of age
+          EASY-Zugänge in Niedersachsen
         </a>
         
 
@@ -571,14 +758,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-2-2">
-          Prevalence of malnutrition (weight for height >+2 or <-2 standard deviation from the median of the WHO Child Growth Standards) among children under 5 years of age, by type (wasting and overweight)
+          Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)
         </a>
         
 
@@ -602,14 +789,45 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-2-3">
-          Prevalence of anaemia in women aged 15 to 49 years, by pregnancy status (percentage)
+          Abschiebungen und Überstellungen nach der Dublin III VO
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          2.2.4
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/2-2-4">
+          In Niedersachsen gestellte Ansylanträge
         </a>
         
 
@@ -625,10 +843,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         2.3
       </span>
-      By 2030, double the agricultural productivity and incomes of small-scale food producers, in particular women, indigenous peoples, family farmers, pastoralists and fishers, including through secure and equal access to land, other productive resources and inputs, knowledge, financial services, markets and opportunities for value addition and non-farm employment
+      <b>Einbürgerungen  nach Niedersachsen</b> <br> Mit Erwerb der deutschen Staatsangehörigkeit verfügen Personen über alle staatsbürgerlichen Rechte und Partizipationsmöglichkeiten. Mit der Einbürgerung werden ausländische Personen zu deutschen Staatsbürgerinnen und Staatsbürgern. Sie werden in Statistiken auch dann nicht mehr als Ausländerin oder Ausländer nachgewiesen, wenn ihre bisherige Staatsangehörigkeit fortbesteht.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -645,14 +863,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-3-1">
-          Volume of production per labour unit by classes of farming/pastoral/forestry enterprise size
+          Einbürgerungen nach Niedersachsen (Anzahl)
         </a>
         
 
@@ -676,100 +894,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/2-3-2">
-          Average income of small-scale food producers, by sex and indigenous status
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        2.4
-      </span>
-      By 2030, ensure sustainable food production systems and implement resilient agricultural practices that increase productivity and production, that help maintain ecosystems, that strengthen capacity for adaptation to climate change, extreme weather, drought, flooding and other disasters and that progressively improve land and soil quality
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          2.4.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/2-4-1">
-          Proportion of agricultural area under productive and sustainable agriculture
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        2.5
-      </span>
-      By 2020, maintain the genetic diversity of seeds, cultivated plants and farmed and domesticated animals and their related wild species, including through soundly managed and diversified seed and plant banks at the national, regional and international levels, and promote access to and fair and equitable sharing of benefits arising from the utilization of genetic resources and associated traditional knowledge, as internationally agreed
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          2.5.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/2-5-1">
-          Number of plant and animal genetic resources for food and agriculture secured in either medium- or long-term conservation facilities
+          Veränderungen der Anzahl der Einbürgerungen
         </a>
         
 
@@ -788,62 +920,19 @@ data-event-label="high"
       <div class="col-md-12  goal-indicator">
         
         <span class="indicator-card-number">
-          2.5.2
+          2.3.3
           
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
-        <a href="/MT_Site/2-5-2">
-          Proportion of local breeds classified as being at risk of extinction
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        2.a
-      </span>
-      Increase investment, including through enhanced international cooperation, in rural infrastructure, agricultural research and extension services, technology development and plant and livestock gene banks in order to enhance agricultural productive capacity in developing countries, in particular least developed countries
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          2.a.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/2-a-1">
-          The agriculture orientation index for government expenditures
+        <a href="/MT_Site/2-3-3">
+          Anteil der Einbürgerungen an allen Ausländerinnen und Ausländern und an allen Einwohnerinnen und Einwohnern
         </a>
         
 
@@ -862,105 +951,19 @@ data-event-label="high"
       <div class="col-md-12  goal-indicator">
         
         <span class="indicator-card-number">
-          2.a.2
+          2.3.4
           
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
-        <a href="/MT_Site/2-a-2">
-          Total official flows (official development assistance plus other official flows) to the agriculture sector
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        2.b
-      </span>
-      Correct and prevent trade restrictions and distortions in world agricultural markets, including through the parallel elimination of all forms of agricultural export subsidies and all export measures with equivalent effect, in accordance with the mandate of the Doha Development Round
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          2.b.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/2-b-1">
-          Agricultural export subsidies
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        2.c
-      </span>
-      Adopt measures to ensure the proper functioning of food commodity markets and their derivatives and facilitate timely access to market information, including on food reserves, in order to help limit extreme food price volatility
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          2.c.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/2-c-1">
-          Indicator of food price anomalies
+        <a href="/MT_Site/2-3-4">
+          Einbürgerungen nach Niedersachsen nach ausgewählten Staatsangehörigkeiten
         </a>
         
 
@@ -981,10 +984,10 @@ data-event-label="high"
       <div class="col-xs-12">
         <div id="footerLinks">
           <ul>
-            <li><a href="https://open-sdg.org">Built using Open SDG</a></li>
+            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
             
               <li>
-                <a href="/MT_Site/contact-us">Contact us</a>
+                <a href="/MT_Site/contact-us">Kontakt</a>
                 
                 </li>
               <li>
@@ -1033,17 +1036,17 @@ data-event-label="high"
 
 
 <script>translations['general'] = translations['general'] || {};
-    translations['general']['hide'] = 'hide';</script>
+    translations['general']['hide'] = 'ausblenden';</script>
 
 <script>translations['search'] = translations['search'] || {};
-    translations['search']['search'] = 'Search';</script>
+    translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211116115430'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211116121507'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211116115430"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211116121507"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();

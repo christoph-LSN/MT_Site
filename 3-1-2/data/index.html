@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="de" class="no-js">
     <head>
         <meta charset="utf-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
@@ -11,7 +11,7 @@
 var opensdg = {
 
   // A base URL for asynchronous calls to SDG data.
-  remoteDataBaseUrl: 'https://christoph-lsn.github.io/MT_Data/en',
+  remoteDataBaseUrl: 'https://wohnungNDS.github.io/IM_Data/de',
 
   chartConfigAlterations: [],
   // A hook which can be used to modify the configuration for Chart.js.
@@ -38,7 +38,7 @@ var opensdg = {
     this.dataDisplayAlterations.push(callback);
   },
 
-  language: 'en',
+  language: 'de',
 };
 
 // For backwards compatibility, some of these might need to be global.
@@ -103,7 +103,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>Edit Data: 3.1.2 - Indicators For The Sustainable Development Goals</title>
+    <title>Daten bearbeiten: 3.1.2 - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -133,7 +133,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116115430">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116121507">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -147,21 +147,21 @@ var translations = {
         
 
     </head>
-<body class="language-en
+<body class="language-de
 layout-data-editor
 ">
 <!-- <div class="container"> -->
 
 
-<script>translations['header'] = {"alpha":"Alpha","default_contrast":"Default contrast","disable_high_contrast":"Disable high contrast","disclaimer":"This is a development website. We welcome your <a href=\"mailto:%email_address\">feedback</a>.","enable_high_contrast":"Enable high contrast","high_contrast":"High contrast","skip_link":"Skip to main content","tag_line":"17 Goals to Transform our World","toggle_menu":"Menu toggle. Click to expand or collapse the menu.","toggle_search":"Search toggle. Click to expand or collapse the search bar."};</script>
+<script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0">Skip to main content</a>
+<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
   <div class="container">
   <div class="disclaimer-alert">
-    <strong class="phase-tag">Alpha</strong>
+    <strong class="phase-tag">Alpha-Version</strong>
     
-    This is a development website. We welcome your <a href="mailto:test@example.com">feedback</a>.
+    Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.
   </div>
 </div>
 
@@ -172,15 +172,15 @@ layout-data-editor
 
     <div class="logo-and-mobile-widgets">
       <a class="navbar-brand" href="/MT_Site/" id="home">
-    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Sustainable Development Goals - 17 Goals to Transform our World" />
+    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
       <div class="mobile-widgets">
     <ul id='accessibility-nav' class='contrast-switcher'>
         
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -191,8 +191,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -204,62 +204,24 @@ data-event-label="high"
     </li>
 
 
-    </ul><div class="language-toggle-mobile">
-        <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/3-1-2/data/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-    </div></div>
+    </ul></div>
     </div>
 
     <div class="search-and-desktop-widgets">
       <div id="search" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search">Search</label>
-    <input type="text" name="q" id="indicator_search" title="Search" /><!--
-    --><button aria-label="Search" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search">Suche</label>
+    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
       <div class="navbar navbar-default widgets-without-menu">
-        <ul class="nav navbar-nav contrast-switcher"><li class="language-toggle-menu-header">
-            
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/3-1-2/data/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
-        </li>
+        <ul class="nav navbar-nav contrast-switcher">
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -270,8 +232,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -290,49 +252,26 @@ data-event-label="high"
     <div class="navbar navbar-default menu-without-widgets" id="main-nav">
       <ul class="top-level">
     <li id="menuToggle"
-        aria-label="Menu toggle. Click to expand or collapse the menu."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="menu-mobile" aria-expanded="false">Menu</button>
+        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
         <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
-</li><li class="language-toggle-menu-header">
-    
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/3-1-2/data/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
+    <a href="/MT_Site/news"></a>
 </li>
 
 
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -343,8 +282,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -361,29 +300,29 @@ data-event-label="high"
 
     </li>
     <li id="searchToggle"
-        aria-label="Search toggle. Click to expand or collapse the search bar."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="search-mobile" aria-expanded="false">Search</button>
+        <button data-target="search-mobile" aria-expanded="false">Suche</button>
         <div id="search-mobile" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search-mobile">Search</label>
-    <input type="text" name="q" id="indicator_search-mobile" title="Search" /><!--
-    --><button aria-label="Search" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search-mobile">Suche</label>
+    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
     </li>
 </ul>
       <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
+    <a href="/MT_Site/news"></a>
 </li>
 
 </ul>
@@ -399,7 +338,7 @@ data-event-label="high"
 
 <div id="main-content" class="container" role="main">
   <div class="row no-gutters">
-    <div class="col-md-12"><h1>Edit Data: 3.1.2</h1></div>
+    <div class="col-md-12"><h1>Daten bearbeiten: 3.1.2</h1></div>
   </div>
   <div class="col-md-12 config-widgets">
     <div class="col-md-6 data-grid-buttons">
@@ -416,7 +355,7 @@ data-event-label="high"
       
       
       <div>
-        <a class="btn btn-primary btn-download" target="_blank" href="https://github.com/christoph-LSN/MT_Data/tree/develop/data">
+        <a class="btn btn-primary btn-download" target="_blank" href="https://github.com/WohnungNDS/IM_Data/tree/develop/data">
           Go to repository
         </a>
       </div>
@@ -445,7 +384,7 @@ data-event-label="high"
       return false;
     }
     httpRequest.onreadystatechange = displaySpreadsheet;
-    httpRequest.open('GET', 'https://christoph-lsn.github.io/MT_Data/untranslated/data/3-1-2.csv');
+    httpRequest.open('GET', 'https://wohnungNDS.github.io/IM_Data/untranslated/data/3-1-2.csv');
     httpRequest.send();
   }
 
@@ -532,10 +471,10 @@ data-event-label="high"
       <div class="col-xs-12">
         <div id="footerLinks">
           <ul>
-            <li><a href="https://open-sdg.org">Built using Open SDG</a></li>
+            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
             
               <li>
-                <a href="/MT_Site/contact-us">Contact us</a>
+                <a href="/MT_Site/contact-us">Kontakt</a>
                 
                 </li>
               <li>
@@ -584,17 +523,17 @@ data-event-label="high"
 
 
 <script>translations['general'] = translations['general'] || {};
-    translations['general']['hide'] = 'hide';</script>
+    translations['general']['hide'] = 'ausblenden';</script>
 
 <script>translations['search'] = translations['search'] || {};
-    translations['search']['search'] = 'Search';</script>
+    translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211116115430'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211116121507'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211116115430"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211116121507"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();

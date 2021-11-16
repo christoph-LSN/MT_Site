@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="de" class="no-js">
     <head>
         <meta charset="utf-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
@@ -11,7 +11,7 @@
 var opensdg = {
 
   // A base URL for asynchronous calls to SDG data.
-  remoteDataBaseUrl: 'https://christoph-lsn.github.io/MT_Data/en',
+  remoteDataBaseUrl: 'https://wohnungNDS.github.io/IM_Data/de',
 
   chartConfigAlterations: [],
   // A hook which can be used to modify the configuration for Chart.js.
@@ -38,7 +38,7 @@ var opensdg = {
     this.dataDisplayAlterations.push(callback);
   },
 
-  language: 'en',
+  language: 'de',
 };
 
 // For backwards compatibility, some of these might need to be global.
@@ -103,7 +103,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>Goal 4 - Quality education - Indicators For The Sustainable Development Goals</title>
+    <title>Themenbereich 4 - Bildung &amp; Qualifikation - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -133,7 +133,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116115430">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116121507">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -147,21 +147,21 @@ var translations = {
         
 
     </head>
-<body class="language-en
+<body class="language-de
 layout-goal-by-target
 ">
 <!-- <div class="container"> -->
 
 
-<script>translations['header'] = {"alpha":"Alpha","default_contrast":"Default contrast","disable_high_contrast":"Disable high contrast","disclaimer":"This is a development website. We welcome your <a href=\"mailto:%email_address\">feedback</a>.","enable_high_contrast":"Enable high contrast","high_contrast":"High contrast","skip_link":"Skip to main content","tag_line":"17 Goals to Transform our World","toggle_menu":"Menu toggle. Click to expand or collapse the menu.","toggle_search":"Search toggle. Click to expand or collapse the search bar."};</script>
+<script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0">Skip to main content</a>
+<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
   <div class="container">
   <div class="disclaimer-alert">
-    <strong class="phase-tag">Alpha</strong>
+    <strong class="phase-tag">Alpha-Version</strong>
     
-    This is a development website. We welcome your <a href="mailto:test@example.com">feedback</a>.
+    Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.
   </div>
 </div>
 
@@ -172,15 +172,15 @@ layout-goal-by-target
 
     <div class="logo-and-mobile-widgets">
       <a class="navbar-brand" href="/MT_Site/" id="home">
-    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Sustainable Development Goals - 17 Goals to Transform our World" />
+    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
       <div class="mobile-widgets">
     <ul id='accessibility-nav' class='contrast-switcher'>
         
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -191,8 +191,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -204,62 +204,24 @@ data-event-label="high"
     </li>
 
 
-    </ul><div class="language-toggle-mobile">
-        <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/4/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-    </div></div>
+    </ul></div>
     </div>
 
     <div class="search-and-desktop-widgets">
       <div id="search" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search">Search</label>
-    <input type="text" name="q" id="indicator_search" title="Search" /><!--
-    --><button aria-label="Search" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search">Suche</label>
+    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
       <div class="navbar navbar-default widgets-without-menu">
-        <ul class="nav navbar-nav contrast-switcher"><li class="language-toggle-menu-header">
-            
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/4/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
-        </li>
+        <ul class="nav navbar-nav contrast-switcher">
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -270,8 +232,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -290,49 +252,26 @@ data-event-label="high"
     <div class="navbar navbar-default menu-without-widgets" id="main-nav">
       <ul class="top-level">
     <li id="menuToggle"
-        aria-label="Menu toggle. Click to expand or collapse the menu."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="menu-mobile" aria-expanded="false">Menu</button>
+        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
         <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
-</li><li class="language-toggle-menu-header">
-    
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/4/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
+    <a href="/MT_Site/news"></a>
 </li>
 
 
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -343,8 +282,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -361,29 +300,29 @@ data-event-label="high"
 
     </li>
     <li id="searchToggle"
-        aria-label="Search toggle. Click to expand or collapse the search bar."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="search-mobile" aria-expanded="false">Search</button>
+        <button data-target="search-mobile" aria-expanded="false">Suche</button>
         <div id="search-mobile" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search-mobile">Search</label>
-    <input type="text" name="q" id="indicator_search-mobile" title="Search" /><!--
-    --><button aria-label="Search" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search-mobile">Suche</label>
+    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
     </li>
 </ul>
       <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
+    <a href="/MT_Site/news"></a>
 </li>
 
 </ul>
@@ -402,7 +341,7 @@ data-event-label="high"
   <ol class="breadcrumb">
   
   <li><a href="/MT_Site/">Home</a></li>
-  <li><a href="/MT_Site/goals">Goals</a></li>
+  <li><a href="/MT_Site/goals">Themenbereiche</a></li>
   
   
 </ol>
@@ -414,11 +353,11 @@ data-event-label="high"
   <div class="container">
     <div class="row">
       <div class="col-xs-4 col-md-3 col-lg-2 goal-tiles">
-        <img src="https://open-sdg.org/sdg-translations/assets/img/goals/en/4.png" alt="Quality education - Goal 4" id="goal-4" class="goal-icon-image goal-icon-image-" />
+        <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/4.png" alt="Bildung &amp; Qualifikation - Themenbereich 4" id="goal-4" class="goal-icon-image goal-icon-image-" />
       </div>
       <div class="col-xs-8 col-md-9 col-lg-10">
         <h1>
-          <span class="hidden-sm hidden-md hidden-lg">Goal 4: </span>Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all
+          <span class="hidden-sm hidden-md hidden-lg">Themenbereich 4: </span>Bildung & Qualifikation
         </h1>
       </div>
     </div>
@@ -434,10 +373,10 @@ data-event-label="high"
 
   <div class="visible-md-block visible-lg-block">
     <div class="col-md-6">
-      <h2>Targets</h2>
+      <h2>Indikator Beschreibung</h2>
     </div>
     <div class="col-md-6">
-      <h2>Indicators</h2>
+      <h2>Indikatoren</h2>
     </div>
   </div>
 
@@ -446,10 +385,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         4.1
       </span>
-      By 2030, ensure that all girls and boys complete free, equitable and quality primary and secondary education leading to relevant and effective learning outcomes
+      <b>Schulische Bildung</b> <br> Bildung ist von zentraler Bedeutung für den Integrationsprozess. Bildung bestimmt nicht nur die Chancen auf dem Arbeitsmarkt, sondern ermöglicht Teilhabe in vielen gesellschaftlichen Lebensbereichen. Die erreichten Schulabschlüsse zeigen die Bildungsstruktur der Menschen mit Migrationshintergrundund. Sie sind ein Indikator für das Potenzial der Menschen mit MIgraitonshintergrund für den Arbeitsmarkt.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -466,14 +405,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/4-1-1">
-          Proportion of children and young people (a) in grades 2/3; (b) at the end of primary; and (c) at the end of lower secondary achieving at least a minimum proficiency level in (i) reading and (ii) mathematics, by sex
+          Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)
         </a>
         
 
@@ -497,14 +436,138 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/4-1-2">
-          Completion rate (primary education, lower secondary education, upper secondary education)
+          Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          4.1.3
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/4-1-3">
+          Schulabgängerinnen und Schulabgänger ohne Hauptschulabschluss nach Nationalität
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          4.1.4
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/4-1-4">
+          Schulabgängerinnen und Schulabgänger nach Nationalität und Abschlussart (in Prozet)
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          4.1.5
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/4-1-5">
+          Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          4.1.6
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/4-1-6">
+          Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent)
         </a>
         
 
@@ -520,10 +583,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         4.2
       </span>
-      By 2030, ensure that all girls and boys have access to quality early childhood development, care and pre‐primary education so that they are ready for primary education
+      <b>Ausbildung im Dualen System</b> <br> Die Ausbildung im Dualen System ist in Deutschland die dominierende Form der beruflichen Ausbildung. Die parallele Ausbildung in einem Betrieb und in einer Berufsschule hat hohes integratives Potenzial, da sie Menschen mit Migrationshintergrund in zwei relevante gesellschaftliche Systeme integriert. Die Ausbildungsbeteiligungsquote gibt einen Einblick in die Partizipation an der beruflichen Ausbildung von deutschen und ausländischen Staatsangehörigen
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -540,45 +603,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/4-2-1">
-          Proportion of children aged 24-59 months who are developmentally on track in health, learning and psychosocial well-being, by sex
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          4.2.2
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/4-2-2">
-          Participation rate in organized learning (one year before the official primary entry age), by sex
+          Ausbildungsbeteiligungsquote im dualen System nach Geschlecht und Nationalität
         </a>
         
 
@@ -594,10 +626,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         4.3
       </span>
-      By 2030, ensure equal access for all women and men to affordable and quality technical, vocational and tertiary education, including university
+      <b>Hochschulen und Hoschschulabschlüsse</b> <br>Ein Hochschulabschluss ist die höchste Form der Berufsqualifizierung. Der Anteil der Studierenden nach Staatsangehörigkeit gibt Auskunft über die Beteiligung von Bildungsin- und BIldungsausländer/innen an deutschen Hochschulen. Darüber hinaus werden die in dem jeweiligen Wintersemester erreichen Hochschulabschlüsse nach Nationalität ausgewiesen. Ein Hochschulabschluss ist von zentraler Bedeutung für die Integration auf dem Arbeitsmarkt.
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -614,14 +646,45 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/4-3-1">
-          Participation rate of youth and adults in formal and non-formal education and training in the previous 12 months, by sex
+          Ausländische Studentinnen und Studenten nach Land des Erwerbs der Studienberechtigung
+        </a>
+        
+
+
+
+
+
+        
+      </div>
+    
+
+      
+      
+      
+
+      <div class="col-md-12  goal-indicator">
+        
+        <span class="indicator-card-number">
+          4.3.2
+          
+
+
+
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
+</span>
+
+
+        </span>
+        <a href="/MT_Site/4-3-2">
+          Hochschulabschlüsse im Prüfungsjahr nach Fächergruppe, Nationalität und Geschlecht der Absolventinnen und Absolventen
         </a>
         
 
@@ -637,10 +700,10 @@ data-event-label="high"
     
     <div class="indicator-cards target goal-target col-md-6">
       <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
+        <label class="hidden-md hidden-lg">Indikator Beschreibung</label>
         4.4
       </span>
-      By 2030, substantially increase the number of youth and adults who have relevant skills, including technical and vocational skills, for employment, decent jobs and entrepreneurship
+      <b>Berufliche Abschlüsse  & Anerkannte berufliche Abschlüsse</b>
     </div>
     <div class="indicator-cards col-md-6 row no-gutters">
     
@@ -657,14 +720,14 @@ data-event-label="high"
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
         <a href="/MT_Site/4-4-1">
-          Proportion of youth and adults with information and communications technology (ICT) skills, by type of skill
+          Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)
         </a>
         
 
@@ -675,18 +738,6 @@ data-event-label="high"
         
       </div>
     
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        4.5
-      </span>
-      By 2030, eliminate gender disparities in education and ensure equal access to all levels of education and vocational training for the vulnerable, including persons with disabilities, indigenous peoples and children in vulnerable situations
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
 
       
       
@@ -695,234 +746,19 @@ data-event-label="high"
       <div class="col-md-12  goal-indicator">
         
         <span class="indicator-card-number">
-          4.5.1
+          4.4.2
           
 
 
 
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
+<span class="status complete">
+    <span class="status-inner">Daten verfügbar</span>
 </span>
 
 
         </span>
-        <a href="/MT_Site/4-5-1">
-          Parity indices (female/male, rural/urban, bottom/top wealth quintile and others such as disability status, indigenous peoples and conflict-affected, as data become available) for all education indicators on this list that can be disaggregated
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        4.6
-      </span>
-      By 2030, ensure that all youth and a substantial proportion of adults, both men and women, achieve literacy and numeracy
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          4.6.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/4-6-1">
-          Proportion of population in a given age group achieving at least a fixed level of proficiency in functional (a) literacy and (b) numeracy skills, by sex
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        4.7
-      </span>
-      By 2030, ensure that all learners acquire the knowledge and skills needed to promote sustainable development, including, among others, through education for sustainable development and sustainable lifestyles, human rights, gender equality, promotion of a culture of peace and non-violence, global citizenship and appreciation of cultural diversity and of culture’s contribution to sustainable development
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          4.7.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/4-7-1">
-          Extent to which (i) global citizenship education and (ii) education for sustainable development are mainstreamed in (a) national education policies; (b) curricula; (c) teacher education; and (d) student assessment
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        4.a
-      </span>
-      Build and upgrade education facilities that are child, disability and gender sensitive and provide safe, non-violent, inclusive and effective learning environments for all
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          4.a.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/4-a-1">
-          Proportion of schools offering basic services, by type of service
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        4.b
-      </span>
-      By 2020, substantially expand globally the number of scholarships available to developing countries, in particular least developed countries, small island developing States and African countries, for enrolment in higher education, including vocational training and information and communications technology, technical, engineering and scientific programmes, in developed countries and other developing countries
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          4.b.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/4-b-1">
-          Volume of official development assistance flows for scholarships by sector and type of study
-        </a>
-        
-
-
-
-
-
-        
-      </div>
-    
-    </div>
-  
-    
-    <div class="indicator-cards target goal-target col-md-6">
-      <span class="indicator-card-number">
-        <label class="hidden-md hidden-lg">Target</label>
-        4.c
-      </span>
-      By 2030, substantially increase the supply of qualified teachers, including through international cooperation for teacher training in developing countries, especially least developed countries and small island developing States
-    </div>
-    <div class="indicator-cards col-md-6 row no-gutters">
-    
-
-      
-      
-      
-
-      <div class="col-md-12  goal-indicator">
-        
-        <span class="indicator-card-number">
-          4.c.1
-          
-
-
-
-<span class="status notstarted">
-    <span class="status-inner">Exploring data sources</span>
-</span>
-
-
-        </span>
-        <a href="/MT_Site/4-c-1">
-          Proportion of teachers with the minimum required qualifications, by education level
+        <a href="/MT_Site/4-4-2">
+          Höchster beruflicher Abschluss der 25- bis unter 35-Jährigen nach Zuwanderungsgeschichte und Geschlecht (in Prozent)
         </a>
         
 
@@ -943,10 +779,10 @@ data-event-label="high"
       <div class="col-xs-12">
         <div id="footerLinks">
           <ul>
-            <li><a href="https://open-sdg.org">Built using Open SDG</a></li>
+            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
             
               <li>
-                <a href="/MT_Site/contact-us">Contact us</a>
+                <a href="/MT_Site/contact-us">Kontakt</a>
                 
                 </li>
               <li>
@@ -995,17 +831,17 @@ data-event-label="high"
 
 
 <script>translations['general'] = translations['general'] || {};
-    translations['general']['hide'] = 'hide';</script>
+    translations['general']['hide'] = 'ausblenden';</script>
 
 <script>translations['search'] = translations['search'] || {};
-    translations['search']['search'] = 'Search';</script>
+    translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211116115430'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211116121507'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211116115430"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211116121507"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();

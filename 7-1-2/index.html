@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="de" class="no-js">
     <head>
         <meta charset="utf-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
@@ -11,7 +11,7 @@
 var opensdg = {
 
   // A base URL for asynchronous calls to SDG data.
-  remoteDataBaseUrl: 'https://christoph-lsn.github.io/MT_Data/en',
+  remoteDataBaseUrl: 'https://wohnungNDS.github.io/IM_Data/de',
 
   chartConfigAlterations: [],
   // A hook which can be used to modify the configuration for Chart.js.
@@ -38,7 +38,7 @@ var opensdg = {
     this.dataDisplayAlterations.push(callback);
   },
 
-  language: 'en',
+  language: 'de',
 };
 
 // For backwards compatibility, some of these might need to be global.
@@ -105,9 +105,9 @@ var translations = {
         
     <title>
         
-        Indicator 7.1.2 -
+        Indikator 7.1.2 -
         
-        Proportion of population with primary reliance on clean fuels and technology - Indicators For The Sustainable Development Goals
+        Wohneigentum - Migration und Teilhabe in Niedersachsen
     </title>
 
 
@@ -138,7 +138,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116115430">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211116121507">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -152,21 +152,21 @@ var translations = {
         
 
     </head>
-<body class="language-en
+<body class="language-de
 layout-indicator
 ">
 <!-- <div class="container"> -->
 
 
-<script>translations['header'] = {"alpha":"Alpha","default_contrast":"Default contrast","disable_high_contrast":"Disable high contrast","disclaimer":"This is a development website. We welcome your <a href=\"mailto:%email_address\">feedback</a>.","enable_high_contrast":"Enable high contrast","high_contrast":"High contrast","skip_link":"Skip to main content","tag_line":"17 Goals to Transform our World","toggle_menu":"Menu toggle. Click to expand or collapse the menu.","toggle_search":"Search toggle. Click to expand or collapse the search bar."};</script>
+<script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0">Skip to main content</a>
+<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
   <div class="container">
   <div class="disclaimer-alert">
-    <strong class="phase-tag">Alpha</strong>
+    <strong class="phase-tag">Alpha-Version</strong>
     
-    This is a development website. We welcome your <a href="mailto:test@example.com">feedback</a>.
+    Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.
   </div>
 </div>
 
@@ -177,15 +177,15 @@ layout-indicator
 
     <div class="logo-and-mobile-widgets">
       <a class="navbar-brand" href="/MT_Site/" id="home">
-    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Sustainable Development Goals - 17 Goals to Transform our World" />
+    <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
       <div class="mobile-widgets">
     <ul id='accessibility-nav' class='contrast-switcher'>
         
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -196,8 +196,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -209,62 +209,24 @@ data-event-label="high"
     </li>
 
 
-    </ul><div class="language-toggle-mobile">
-        <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/7-1-2/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-    </div></div>
+    </ul></div>
     </div>
 
     <div class="search-and-desktop-widgets">
       <div id="search" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search">Search</label>
-    <input type="text" name="q" id="indicator_search" title="Search" /><!--
-    --><button aria-label="Search" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search">Suche</label>
+    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
       <div class="navbar navbar-default widgets-without-menu">
-        <ul class="nav navbar-nav contrast-switcher"><li class="language-toggle-menu-header">
-            
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/7-1-2/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
-        </li>
+        <ul class="nav navbar-nav contrast-switcher">
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -275,8 +237,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -295,49 +257,26 @@ data-event-label="high"
     <div class="navbar navbar-default menu-without-widgets" id="main-nav">
       <ul class="top-level">
     <li id="menuToggle"
-        aria-label="Menu toggle. Click to expand or collapse the menu."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="menu-mobile" aria-expanded="false">Menu</button>
+        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
         <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
-</li><li class="language-toggle-menu-header">
-    
-
-
-
-
-
-  <div class="language-toggle-container">
-  
-  <div class="btn-group language-toggle-dropdown ">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span class="language-globe-in-dropdown"><i class="fa fa-globe language-toggle-globe-dropdown"></i></span><span class="language-name">English</span>
-      <span class="language-abbreviation">en</span><i class="language-toggle-caret fa fa-chevron-down"></i></button>
-    <ul class="dropdown-menu"><li class="language-option-es">
-            <a href="/MT_Site/es/7-1-2/">
-              Español
-            </a>
-          </li></ul>
-  </div>
-</div>
-
-
-
+    <a href="/MT_Site/news"></a>
 </li>
 
 
 
     <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Disable high contrast"
-           aria-label="Disable high contrast"
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
            data-contrast-switch-to="default"
            href="javascript:void(0)"
            data-on="click"
@@ -348,8 +287,8 @@ data-event-label="default"
         >A</a>
     </li>
     <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Enable high contrast"
-           aria-label="Enable high contrast"
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
            data-contrast-switch-to="high"
            href="javascript:void(0)"
            data-on="click"
@@ -366,29 +305,29 @@ data-event-label="high"
 
     </li>
     <li id="searchToggle"
-        aria-label="Search toggle. Click to expand or collapse the search bar."
+        aria-label=""
         aria-haspopup="true">
-        <button data-target="search-mobile" aria-expanded="false">Search</button>
+        <button data-target="search-mobile" aria-expanded="false">Suche</button>
         <div id="search-mobile" class="menu-target">
   <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search-mobile">Search</label>
-    <input type="text" name="q" id="indicator_search-mobile" title="Search" /><!--
-    --><button aria-label="Search" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+    <label class="sr-only" for="indicator_search-mobile">Suche</label>
+    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
   </form>
 </div>
 
     </li>
 </ul>
       <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
-    <a href="/MT_Site/goals">Goals</a>
+    <a href="/MT_Site/goals">Themenbereiche</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Reporting Status</a>
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/about">About</a>
+    <a href="/MT_Site/about">Über uns</a>
 </li><li class="nav-link ">
     <a href="/MT_Site/faq">FAQ</a>
 </li><li class="nav-link ">
-    <a href="/MT_Site/news">Updates</a>
+    <a href="/MT_Site/news"></a>
 </li>
 
 </ul>
@@ -421,15 +360,15 @@ data-event-label="high"
       >
         <% if(allowedFields.indexOf(fieldItem.field) == -1) { %><h6><% } else { %><h5><% } %>
           <span aria-hidden="true"><%=translations.t(fieldItem.label)%><i class="fa fa-chevron-down"></i></span>
-          <span class="sr-only">Show sub-categories: <%=translations.t(fieldItem.label)%></span>
+          <span class="sr-only"> <%=translations.t(fieldItem.label)%></span>
         <% if(allowedFields.indexOf(fieldItem.field) == -1) { %></h6><% } else { %></h5><% } %>
       </button>
       <div class="variable-options">
         <fieldset>
-          <legend class="sr-only">Sub-categories - <%=translations.t(fieldItem.field)%></legend>
+          <legend class="sr-only">Kategorien - <%=translations.t(fieldItem.field)%></legend>
           <div>
-            <button data-type="select">Select all</button>
-            <button data-type="clear">Clear all</button>
+            <button data-type="select">Alle auswählen</button>
+            <button data-type="clear">Auswahl aufheben</button>
           </div>
           <% _.each(fieldItem.values, function(item) { %>
             <label>
@@ -440,10 +379,10 @@ data-event-label="high"
       </div>
 
       <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
-        <div class="variable-hint" id="variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>">Available when '<%= translations.t(_.find(edges, { To: fieldItem.field }).From) %>' is selected
+        <div class="variable-hint" id="variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>">Verfügbar
         </div>
         <div class="no-data-hint" id="no-data-hint-<%=fieldItem.field.replace(/ /g, '-')%>">
-          No options available because of filters above
+          Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.
         </div>
       <% }%>
 
@@ -455,9 +394,9 @@ data-event-label="high"
   
   <% if(units.length > 1) { %>
   
-    <h4>Unit of Measurement</h4>
+    <h4>Einheit</h4>
     <fieldset>
-      <legend class="sr-only">Unit of Measurement</legend>
+      <legend class="sr-only">Einheit</legend>
       <% _.each(units, function(unitsItem, index) { %>
         <% var checked = (selectedUnit) ? (selectedUnit==unitsItem) : (index==0); %>
         <label><input type="radio" name="unit" value="<%=unitsItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(unitsItem)%></label>
@@ -472,9 +411,9 @@ data-event-label="high"
   
   <% if(serieses.length > 1) { %>
   
-    <h4>Series</h4>
+    <h4>Reihe</h4>
     <fieldset>
-      <legend class="sr-only">Series</legend>
+      <legend class="sr-only">Reihe</legend>
       <% _.each(serieses, function(seriesItem, index) { %>
         <% var checked = (selectedSeries) ? (selectedSeries==seriesItem) : (index==0); %>
         <label><input type="radio" name="series" value="<%=seriesItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(seriesItem)%></label>
@@ -485,9 +424,9 @@ data-event-label="high"
   
 </script>
 
-<script>translations['indicator'] = {"annotation_2030_target":"2030 Target","annotation_series_break":"Series break","announce_data_added":"Chart and table updated to include data.","announce_data_not_available":"Chart and table shows no data.","announce_data_removed":"Chart and table updated to exclude data.","chart":"Chart","chart_annotation":"Chart annotation","clear_all":"Clear all","clear_selections":"Clear selections","data_keyboard_navigation":"Press enter to browse data points with left and right arrow keys.","data_not_available":"This data is not available. Please choose alternative data to display.","data_tabular_alternative":"For tabular data alternative see Table tab.","dataset_size_warning":"There are too many datasets to show on the chart. Not all will be shown until you remove some selections.","download_chart":"Download Chart CSV","download_chart_image":"Download Chart Image","download_chart_image_title":"Download chart as image","download_csv":"Download CSV","download_csv_title":"Download as CSV","download_geojson":"Download GeoJSON","download_geojson_title":"Download as GeoJSON","download_headline":"Download Headline CSV","download_headline_title":"Download headline data as CSV","download_source":"Download Source CSV","download_source_sdmx":"Download Source SDMX","download_source_sdmx_title":"Download source data as SDMX","download_source_title":"Download source data as CSV","download_table":"Download Table CSV","edit":"Edit","edit_configuration":"Edit Configuration","edit_data":"Edit Data","edit_metadata":"Edit Metadata","footnote":"Footnote","geographical_area":"Geographical Area","global_metadata":"Global Metadata","global_metadata_blurb":"This table provides information on metadata for SDG indicators as defined by the UN Statistical Commission. <a href=\"https://unstats.un.org/sdgs/metadata/\">Complete global metadata</a> is provided by the UN Statistics Division.","legend_help":"Click on the legend to remove individual lines from the chart.","loading":"Loading","loading_map":"Loading map","map":"Map","map_search":"Search","map_search_hide":"Hide search","map_search_show":"Show search","map_year_slider":"Year slider","national_metadata":"National Metadata","national_metadata_blurb":"This table provides metadata for the actual indicator available from %country_name statistics closest to the corresponding global SDG indicator. Please note that even when the global SDG indicator is fully available from %country_adjective statistics, this table should be consulted for information on national methodology and other %country_adjective-specific metadata information.","next":"Next indicator","no_data_hint":"No options available because of filters above","plot_legend_description":"Plot legend: list of lines included in chart","previous":"Previous indicator","select_all":"Select all","series":"Series","series_help":"Choose categories from the dropdowns below to see different breakdowns of the data. Some will not be available until a higher level is chosen.","source":"Source","sources":"Sources","status":"Indicator status","sub_categories":"Sub-categories","sub_categories_show":"Show sub-categories:","table":"Table","table_column_sort":"Click to sort by this column","tags":"Tags","unit":"Unit","unit_of_measurement":"Unit of Measurement","units_type":"Units type","variable_hint":"Available when '%field' is selected","view_indicator_list":"View this goal's indicator list"};</script>
+<script>translations['indicator'] = {"chart":"Grafik","clear_all":"Auswahl aufheben","clear_selections":"Auswahl aufheben","data_footnotes":"Fußnoten","data_not_available":"Diese Daten sind nicht verfügbar. Bitte wählen Sie alternative Daten aus, die angezeigt werden sollen.","dataset_size_warning":"Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden","download_chart":"Grafik im CSV-Format speichern","download_chart_image":"Grafik herunterladen","download_chart_image_title":"Grafik als Bild herunterladen","download_csv":"im CSV-Format speichern","download_csv_title":"im CSV-Format speichern","download_geojson":"im GeoJSON-Format speichern","download_geojson_title":"im GeoJSON-Format speichern","download_headline":"Speichern der Headline im CSV-Format","download_headline_title":"Speichern der Headline im CSV-Format","download_source":"Daten im CSV-Format speichern","download_source_title":"Daten im CSV-Format speichern","download_table":"Tabelle im CSV-Format speichern","edit":"Bearbeiten","edit_data":"Daten bearbeiten","edit_metadata":"Metadaten bearbeite","footnote":"Fußnote","geographical_area":"Geographische Abdeckung","global_metadata":"Tabellen zum Download","global_metadata_blurb":"Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.","legend_help":"Klicken Sie auf die Legende um Zeitreihen aus der Grafik zu entfernen.","loading":"Laden","loading_map":"Karte wird geladen","map":"Karte","national_metadata":"Indikator Beschreibung","national_metadata_blurb":null,"no_data_hint":"Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.","select_all":"Alle auswählen","series":"Reihe","series_help":"Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.","source":"Datenquelle","sources":"Datenquellen","sub_categories":"Kategorien","table":"Tabelle","unit":"Einheit","unit_of_measurement":"Einheit","units_type":"Einheit","variable_hint":"Verfügbar","view_indicator_list":"Zeigt die Indikatorenliste zum SDG-Ziel an."};</script>
 
-<script>translations['data'] = null;</script>
+<script>translations['data'] = {"Year":"Jahr","year":"Jahr"};</script>
 
 
 <div class="container">
@@ -495,9 +434,9 @@ data-event-label="high"
 <ol class="breadcrumb">
   
   <li><a href="/MT_Site/">Home</a></li>
-  <li><a href="/MT_Site/goals">Goals</a></li>
+  <li><a href="/MT_Site/goals">Themenbereiche</a></li>
   
-  <li><a href="/MT_Site/7" title="Ensure access to affordable, reliable, sustainable and modern energy for all">Goal 7</a></li>
+  <li><a href="/MT_Site/7" title="Familie &amp; Wohnen">Themenbereich 7</a></li>
   
 </ol>
 
@@ -509,8 +448,8 @@ data-event-label="high"
     <div class="row">
       
       <div class="col-xs-4 col-md-3 col-lg-2 goal-icon goal-tiles">
-        <a href="/MT_Site/7" title="View this goal's indicator list">
-          <img src="https://open-sdg.org/sdg-translations/assets/img/goals/en/7.png" alt="Affordable and clean energy - Goal 7" id="goal-7" class="goal-icon-image goal-icon-image-"/>
+        <a href="/MT_Site/7" title="Zeigt die Indikatorenliste zum SDG-Ziel an.">
+          <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/7.png" alt="Familie &amp; Wohnen - Themenbereich 7" id="goal-7" class="goal-icon-image goal-icon-image-"/>
         </a>
       </div>
       <div class="col-xs-8 col-md-9 col-lg-10 indicator-details">
@@ -518,9 +457,9 @@ data-event-label="high"
         <div>
           <h1>
             
-            Indicator 7.1.2
+            Indikator 7.1.2
             
-            <span class="lead-copy">Proportion of population with primary reliance on clean fuels and technology</span>
+            <span class="lead-copy">Wohneigentum</span>
           </h1>
         </div>
       </div>
@@ -547,27 +486,467 @@ data-event-label="high"
   data-indicatorid='indicator_7-1-2'
   data-id="7-1-2"
   data-country="Australia"
-  data-charttitle="Proportion of population with primary reliance on clean fuels and technology"
-  data-charttitles="[]"
+  data-charttitle="Wohneigentum"
+  data-charttitles="null"
   data-measurementunit=""
   data-xaxislabel=""
-  data-showdata="false"
-  data-graphtype="line"
+  data-showdata="true"
+  data-graphtype="bar"
   data-geocoderegex=""
-  data-showmap="false"
-  data-startvalues="[]"
-  data-graphlimits="[]"
+  data-showmap="true"
+  data-startvalues="null"
+  data-graphlimits="null"
   data-stackeddisaggregation=""
-  data-graphannotations="[]"
+  data-graphannotations="null"
   data-graphtargetlines="null"
   data-graphseriesbreaks="null"
   data-indicatordownloads="null"
-  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;},{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Year&quot;}]}"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Group&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;G&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Group&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
-  data-precision="[]"
+  data-precision="null"
 >
   
-  <div id="indicator-main" class="indicator-main col-md-12">
+  <span role="status" class="sr-only" id="indicator-data-view-status"></span>
+  <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
+    <div id="serieses"></div>
+<div id="units"></div>
+<div id="toolbar">
+  <span id="series-help">
+    <h4>Kategorien</h4>
+    <p>Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.</p>
+  </span>
+  <div id="fields">
+    <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
+  </div>
+</div>
+
+  </div>
+  <div id="indicator-main" class="indicator-main col-md-9">
+    
+
+
+<div id="headlineTable">
+
+  <div id="datatables">
+
+    <a href="https://wohnungNDS.github.io/IM_Data/de/headline/7-1-2.csv" class="btn btn-primary btn-download" download="indicator_7-1-2.csv" tabindex="0" role="button">Speichern der Headline im CSV-Format</a>
+
+    <a href="https://wohnungNDS.github.io/IM_Data/de/data/7-1-2.csv" class="btn btn-primary btn-download" style='float:left;margin-right:1em' download='indicator_7-1-2.csv' tabindex='0' role='button'>Daten im CSV-Format speichern</a>
+
+    <h3>Headline data</h3>
+    <table class="table-responsive table table-hover dataTable no-footer" role="grid">
+      <caption>Wohneigentum</caption>
+      <thead>
+        
+        
+        <th scope="col">Year</th>
+        
+        
+        
+        <th scope="col" class="table-value">Value</th>
+        
+        
+      </thead>
+      <tbody>
+        
+        <tr>
+          
+          
+          <td>2015</td>
+          
+          
+          
+          <td class="table-value">2</td>
+          
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <div id="datatableFooter">
+    
+    
+    
+    
+  </div>
+
+</div>
+
+
+<section>
+
+  <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
+
+  <div class="async-loaded spacer medium" style="display:none;">
+
+    <div style="display: none;">
+  <span id="table-alternative"></span>
+</div>
+<ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
+  <li role="presentation" class="nav-item active">
+    <a class="nav-link" data-toggle="tab" id="tab-chartview" href="#chartview" aria-controls="chartview" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Chart tab"
+ aria-describedby="table-alternative">Grafik</a>
+  </li>
+  <li role="presentation" class="nav-item">
+    <a class="nav-link" data-toggle="tab" id="tab-tableview" href="#tableview" aria-controls="tableview" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Table tab"
+>Tabelle</a>
+  </li><li role="presentation" class="nav-item map" style="display:none">
+    <a data-no-disagg="true" class="nav-link" data-toggle="tab" id="tab-mapview" href="#mapview" aria-controls="mapview" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Map tab"
+ aria-describedby="table-alternative">Karte</a>
+  </li></ul>
+
+    <div class="tab-content data-view">
+  <div role="tabpanel" class="tab-pane active" id="chartview">
+    
+
+    <div id="dataset-size-warning" style="display:none" role="alert">
+      <i class="fa fa-bolt"><span class="sr-only"></span></i>
+      Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden
+    </div>
+
+    
+    
+    <div id="selectionsChart">
+      <figure role="group">
+        <div id="chart-canvas">
+          <h4 id="chart-heading" class="chart-title">Wohneigentum</h4>
+          <div id="chart" class="plot-container">
+            
+<canvas
+    role="img"
+    aria-labelledby="chart-heading"
+    aria-describedby="table-alternative chart-annotations"
+    tabindex="0"
+ ></canvas>
+
+<script>
+// Add a chart alteration to support the chart_graph_limits metadata field.
+opensdg.chartConfigAlter(function(config, info) {
+  if (info.graphLimits && Object.keys(info.graphLimits).length > 0) {
+    var overrides = {
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: info.graphLimits.minimum,
+              max: info.graphLimits.maximum,
+            }
+          }]
+        }
+      }
+    }
+    // Add these overrides onto the normal config.
+    $.extend(true, config, overrides);
+  }
+});
+</script>
+
+<span style="display: none;" id="chart-annotations" role="status"></span>
+<script>
+opensdg.annotationPresets = {
+    common: {
+        // This "common" preset is applied to all annotations automatically.
+        borderColor: '#949494',
+        type: 'line',
+        borderDash: [10, 5],
+        borderWidth: 1,
+        label: {
+            backgroundColor: 'white',
+            fontColor: 'black',
+        },
+        // This "highContrast" overrides colors when in high-contrast mode.
+        highContrast: {
+            label: {
+                backgroundColor: 'black',
+                fontColor: 'white'
+            }
+        },
+        // This callback is used to generate a generic description for screenreaders.
+        // This can be overridden to be a more specific string, eg:
+        //
+        //     description: 'Chart annotation showing a 2030 target of 15%'
+        //
+        description: function() {
+            var descriptionParts = [translations.indicator.chart_annotation];
+            if (this.label && this.label.content) {
+                descriptionParts.push(translations.t(this.label.content));
+            }
+            else {
+                // If there is no label, just specify whether it is a box or line.
+                if (this.type == 'line') {
+                    descriptionParts.push(this.mode + ' line');
+                }
+                if (this.type == 'box') {
+                    descriptionParts.push('box');
+                }
+            }
+            if (typeof this.value !== 'undefined') {
+                descriptionParts.push(this.value);
+            }
+            return descriptionParts.join(': ');
+        },
+    },
+    target_line: {
+        mode: 'horizontal',
+        borderWidth: 2,
+        borderDash: [15, 10],
+        borderColor: '#757575',
+        label: {
+            position: 'right',
+            content: translations.indicator.annotation_2030_target,
+        },
+    },
+    series_break: {
+        mode: 'vertical',
+        borderDash: [2, 2],
+        label: {
+            position: 'top',
+            content: translations.indicator.annotation_series_break,
+        },
+    },
+};
+
+// Add a chart alteration to support the chart_annotations metadata field.
+opensdg.chartConfigAlter(function(config, info) {
+    if (info.graphAnnotations && info.graphAnnotations.length > 0) {
+        // Apply some helpers/fixes to the annotations.
+        var annotations = info.graphAnnotations.map(function(annotationOverrides) {
+            var annotation = {};
+            // Apply the "common" preset.
+            if (opensdg.annotationPresets.common) {
+                $.extend(true, annotation, opensdg.annotationPresets.common);
+            }
+            // Apply any specified presets.
+            if (annotationOverrides.preset) {
+                var preset = annotationOverrides.preset;
+                if (opensdg.annotationPresets[preset]) {
+                    $.extend(true, annotation, opensdg.annotationPresets[preset]);
+                }
+            }
+            // Now add any more annotation config.
+            $.extend(true, annotation, annotationOverrides);
+            // Default to horizontal lines.
+            if (!annotation.mode && annotation.type === 'line') {
+                annotation.mode = 'horizontal';
+            }
+            // Provide the obscure scaleID properties on user's behalf.
+            if (!annotation.scaleID && annotation.type === 'line') {
+                if (annotation.mode === 'horizontal') {
+                    annotation.scaleID = 'y-axis-0';
+                }
+                if (annotation.mode === 'vertical') {
+                    annotation.scaleID = 'x-axis-0';
+                }
+            }
+            if (!annotation.xScaleID && annotation.type === 'box') {
+                annotation.xScaleID = 'x-axis-0';
+            }
+            if (!annotation.yScaleID && annotation.type === 'box') {
+                annotation.yScaleID = 'y-axis-0';
+            }
+            // Provide the "enabled" label property on the user's behalf.
+            if (annotation.label && annotation.label.content) {
+                annotation.label.enabled = true;
+            }
+            // Translate any label content.
+            if (annotation.label && annotation.label.content) {
+                annotation.label.content = translations.t(annotation.label.content);
+            }
+            // Save some original values for later used when contrast mode is switched.
+            if (typeof annotation.defaultContrast === 'undefined') {
+                annotation.defaultContrast = {};
+                if (annotation.borderColor) {
+                    annotation.defaultContrast.borderColor = annotation.borderColor;
+                }
+                if (annotation.backgroundColor) {
+                    annotation.defaultContrast.backgroundColor = annotation.backgroundColor;
+                }
+                if (annotation.label) {
+                    annotation.defaultContrast.label = {};
+                    if (annotation.label.fontColor) {
+                        annotation.defaultContrast.label.fontColor = annotation.label.fontColor;
+                    }
+                    if (annotation.label.backgroundColor) {
+                        annotation.defaultContrast.label.backgroundColor = annotation.label.backgroundColor;
+                    }
+                }
+            }
+            return annotation;
+        });
+        if (annotations.length > 0) {
+            var overrides = {
+                options: {
+                    annotation: {
+                        drawTime: 'beforeDatasetsDraw',
+                        annotations: annotations
+                    }
+                }
+            };
+            // Add these overrides onto the normal config.
+            $.extend(true, config, overrides);
+
+            // Update the chart annotations element.
+            var descriptions = annotations.map(function(annotation) {
+                var description = '';
+                if (annotation.description) {
+                    if (typeof annotation.description === 'function') {
+                        description = annotation.description.call(annotation);
+                    }
+                    else {
+                        description = translations.t(annotation.description);
+                    }
+                }
+                return description;
+            }).filter(function(description) { return description != ''; });
+
+            var currentDescription = $('#chart-annotations').text();
+            var newDescription = descriptions.join('. ');
+            if (currentDescription != newDescription) {
+                $('#chart-annotations').text(newDescription);
+            }
+        }
+    }
+    else if (config.options && config.options.annotation) {
+        delete config.options.annotation;
+    }
+});
+</script>
+
+<script>
+opensdg.chartConfigAlter(function(config, info) {
+  if (info.stackedDisaggregation) {
+    var overrides = {
+      options: {
+        scales: {
+          xAxes: [{ stacked: true }],
+          yAxes: [{ stacked: true }],
+        }
+      }
+    };
+    // If we have stackedDisaggregation, we need to group datasets into stacks.
+    config.data.datasets.forEach(function(dataset) {
+      var disaggregation = $.extend({}, dataset.disaggregation);
+      // We're going to "stringify" each combination of disaggregations in order
+      // to place them in their own "stacks". To place "stacked" disaggregations
+      // into the same stack, we set them as "samestack" before stringifying.
+      // Note that the string "samestack" is completely arbitrary.
+      if (typeof disaggregation[info.stackedDisaggregation] !== 'undefined') {
+        disaggregation[info.stackedDisaggregation] = 'samestack';
+      }
+      // Use the disaggregation as a unique id for each stack.
+      dataset.stack = JSON.stringify(disaggregation);
+    });
+    // Add these overrides onto the normal config, and return it.
+    $.extend(true, config, overrides);
+  }
+});
+</script>
+
+          </div>
+          <div id="plotLegend"></div>
+          
+
+
+
+<div id="selectionChartFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+    <dl>
+</div>
+
+        </div>
+      </figure>
+      <div id="chartSelectionDownload" class="clearfix">
+        <button id="btnSave" title="Grafik als Bild herunterladen" class='btn btn-primary btn-download'>
+          Grafik herunterladen
+        </button>
+      </div>
+    </div>
+
+
+
+  </div>
+  <div role="tabpanel" class="tab-pane" id="tableview">
+    <div style="display: none;">
+      <span id="column-sort-info"></span>
+    </div>
+    <div id="selectionsTable"></div>
+<dl id="tableTargetLines" class="clearfix"></dl>
+
+
+
+
+<div id="selectionTableFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+    <dl>
+</div>
+
+<div id="tableSelectionDownload" class="clearfix"></div>
+
+  </div><div role="tabpanel" class="tab-pane" id="mapview" class="map">
+    
+<h4 id="map-heading" class="chart-title">Wohneigentum</h4>
+<div id="map" aria-describedby="table-alternative">
+  <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
+</div>
+
+
+
+
+<div id="mapFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+    <dl>
+</div>
+
+
+  </div>
+</div>
+
+
+  </div>
+
+</section>
+
   
   <ul class="nav nav-tabs spacer medium" role="tablist">
 
@@ -576,7 +955,7 @@ data-event-label="high"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to National Metadata tab"
->National Metadata</a>
+>Indikator Beschreibung</a>
 </li>
 
 <li role="presentation" class="nav-item">
@@ -584,7 +963,7 @@ data-event-label="Change to National Metadata tab"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to Global Metadata tab"
->Global Metadata</a>
+>Tabellen zum Download</a>
 </li>
 
 <li role="presentation" class="nav-item">
@@ -592,13 +971,13 @@ data-event-label="Change to Global Metadata tab"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to Sources tab"
->Sources</a>
+>Datenquellen</a>
 </li>
 
 
   
   <li role="presentation" class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#edit" aria-controls="edit" role="tab">Edit</a>
+    <a class="nav-link" data-toggle="tab" href="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
   </li>
   
 </ul>
@@ -612,7 +991,7 @@ data-event-label="Change to Sources tab"
       <p>
         
         
-        This table provides metadata for the actual indicator available from Australia statistics closest to the corresponding global SDG indicator. Please note that even when the global SDG indicator is fully available from Australian statistics, this table should be consulted for information on national methodology and other Australian-specific metadata information.
+        
       </p>
       <table class="table">
   
@@ -620,222 +999,41 @@ data-event-label="Change to Sources tab"
   
   
   
+      
+        
+      
+      
+      <tr>
+        <th scope="row">Definition des Indikators </th>
+        <td>
+          
+            <p>Der Indikator gibt die Anzahl sowie den Anteil….</p>
+
+          
+        </td>
+        </tr>
+        
+      
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+      
+        
+      
+      
+      <tr>
+        <th scope="row">Methodische Hinweise </th>
+        <td>
+          
+            <p>Der Indikator ist ….</p>
+
+          
+        </td>
+        </tr>
+        
+      
   
       
         
           
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   
@@ -870,242 +1068,58 @@ data-event-label="Change to Sources tab"
   <!-- Global Metadata -->
   <div>
     <article>
-      <p>This table provides information on metadata for SDG indicators as defined by the UN Statistical Commission. <a href="https://unstats.un.org/sdgs/metadata/">Complete global metadata</a> is provided by the UN Statistics Division.</p>
+      <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
       <table class="table">
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
       
         
+      
+      
+      <tr>
+        <th scope="row">Tabelle zum Download </th>
+        <td>
           
+            
+            
+            
+            
+
+            
+              <a href="https://wohnungnds.github.io/IM_Site/assets/excel/B8.xlsx" target="_blank">
+                Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss <span class="visuallyhidden">in neuem Fenster öffnen</span>
+              </a>
+            
+
+          
+        </td>
+        </tr>
+        
+      
+  
       
         
-          
       
-        
-          
       
-        
-          
       
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
-        
-          
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   
@@ -1129,6 +1143,74 @@ data-event-label="Change to Sources tab"
 
 
 
+  <div class="row">
+  
+    
+    
+    <div class="col-md-6">
+      
+      <table class="table">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      
+        
+          
+  
+  
+      
+        
+          
+      
+        
+          
+      
+        
+          
+      
+        
+          
+      
+        
+          
+      
+        
+          
+      
+        
+          
+      
+        
+          
+  
+      
+        
+          
+      
+        
+          
+</table>
+
+    </div>
+    
+  </div>
+
 
 </div>
 
@@ -1143,15 +1225,15 @@ data-event-label="Change to Sources tab"
   
 
 
-  <a class="btn btn-primary" href="data">Edit Data</a>
+  <a class="btn btn-primary" href="data">Daten bearbeiten</a>
   
 
   
-  <a class="btn btn-primary" href="metadata">Edit Metadata</a>
+  <a class="btn btn-primary" href="metadata">Metadaten bearbeite</a>
   
 
   
-  <a class="btn btn-primary" href="config">Edit Configuration</a>
+  <a class="btn btn-primary" href="config"></a>
   
 
 </div>
@@ -1172,10 +1254,10 @@ data-event-label="Change to Sources tab"
       <div class="col-xs-12">
         <div id="footerLinks">
           <ul>
-            <li><a href="https://open-sdg.org">Built using Open SDG</a></li>
+            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
             
               <li>
-                <a href="/MT_Site/contact-us">Contact us</a>
+                <a href="/MT_Site/contact-us">Kontakt</a>
                 
                 </li>
               <li>
@@ -1212,8 +1294,15 @@ data-event-label="Change to Sources tab"
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.2/dist/patternomaly.js"></script>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" integrity="sha512-9hzM/Gfa9KP1hSBlq3/zyNF/dfbcjAYwUTBWYX+xi8fzfAPHL3ILwS1ci0CTVeuXTGkRAWgRMZZwtSNV7P+nfw==" crossorigin="anonymous"></script>
 
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.zoomshowhide@0.1.0/dist/leaflet-zoom-show-hide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.4.0/chroma.min.js"></script>
+<script src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+<script src="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.min.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<script src="https://bowercdn.net/c/leaflet.zoomhome-latest/dist/leaflet.zoomhome.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.3/dist/html2canvas.js"></script>
@@ -1226,17 +1315,17 @@ data-event-label="Change to Sources tab"
 
 
 <script>translations['general'] = translations['general'] || {};
-    translations['general']['hide'] = 'hide';</script>
+    translations['general']['hide'] = 'ausblenden';</script>
 
 <script>translations['search'] = translations['search'] || {};
-    translations['search']['search'] = 'Search';</script>
+    translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211116115430'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211116121507'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211116115430"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211116121507"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();
