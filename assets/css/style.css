@@ -3275,3 +3275,7 @@ body.contrast-high.layout-search form input, body.contrast-high.layout-search fo
     .layout-post.contrast-high .post-categories li:last-child:after {
       content: '';
       padding-right: 0; }
+
+body {
+  background: white;
+  padding-top: 0; }
