@@ -156,7 +156,23 @@ languages:
   - de
 languages_public: []
 logos: []
-map_layers: []
+#map_layers: []
+map_layers:
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: map
+  label: indicator.map
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: Mikrozensus
+  label: Mikrozensus
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: Statistische Region
+  label: Statistische Region
 map_options:
   minZoom: 5
   maxZoom: 10
