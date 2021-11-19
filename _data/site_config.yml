@@ -114,10 +114,9 @@ frontpage_cards:
     button_link: 'https://example.com'
     rule_color: ''
 frontpage_goals_grid:
-  title: Migration und Teilhabe: Das Integrationsmonitoring Niedersachsen
+  title: Das Integrationsmonitoring Niedersachsen
   description: >-
-    Click on each goal for our Sustainable Development Goal global indicator
-    data.
+     Einfach einen Indikator anklicken...
 frontpage_heading: ''
 frontpage_instructions: ''
 frontpage_introduction_banner:
