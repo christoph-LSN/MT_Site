@@ -103,8 +103,7 @@ frontpage_cards:
     rule_color: ''
   - title: Nam vestibulum
     content: |
-      Nam vestibulum, purus quis porttitor imperdiet, nisl sem mollis nisl, a
-      interdum risus enim vitae tortor. Donec feugiat accumsan rutrum.
+      Der Bericht Migration und teilhabe in Niedersachsen erscheint seit dem Jahr 2016. Laden Sie frühere Berichte hier herunter
     include: ''
     button_label: Frühere Berichte
     button_link: /previous_reports/
