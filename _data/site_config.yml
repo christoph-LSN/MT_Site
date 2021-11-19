@@ -71,9 +71,9 @@ disclaimer:
   phase: ''
   message: ''
 email_contacts:
-  questions: test@example.com
-  suggestions: test@example.com
-  functional: test@example.com
+  questions: christoph.biester@statistik.niedersachsen.de
+  suggestions: christoph.biester@statistik.niedersachsen.de
+  functional: christoph.biester@statistik.niedersachsen.de
 environment: staging
 favicons: favicon.io
 footer_language_toggle: none
@@ -101,7 +101,7 @@ frontpage_cards:
     button_label: Read more
     button_link: 'https://example.com'
     rule_color: ''
-  - title: Nam vestibulum
+  - title: Frühere Berichte
     content: |
       Der Bericht Migration und teilhabe in Niedersachsen erscheint seit dem Jahr 2016. Laden Sie frühere Berichte hier herunter
     include: ''
