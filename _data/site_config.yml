@@ -33,7 +33,7 @@ country:
   adjective: Australian
 create_goals:
   layout: goal-by-target
-  previous_next_links: true
+  previous_next_links: false
   goals: []
 create_indicators:
   layout: indicator
@@ -84,10 +84,6 @@ footer_menu:
     translation_key: menu.notes
   - path: /contact-us
     translation_key: menu.contact_us
-  - path: 'https://twitter.com/MyTwitterAccount'
-    translation_key: general.twitter
-  - path: 'https://facebook.com/MyFacebookAccount'
-    translation_key: general.facebook
   - path: /about/cookies-and-privacy/
     translation_key: menu.cookies
 frontpage_cards:
@@ -110,8 +106,8 @@ frontpage_cards:
       Nam vestibulum, purus quis porttitor imperdiet, nisl sem mollis nisl, a
       interdum risus enim vitae tortor. Donec feugiat accumsan rutrum.
     include: ''
-    button_label: Read more
-    button_link: 'https://example.com'
+    button_label: Frühere Berichte
+    button_link: /previous_reports/
     rule_color: ''
 frontpage_goals_grid:
   title: Das Integrationsmonitoring Niedersachsen
