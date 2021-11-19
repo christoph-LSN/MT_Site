@@ -33,11 +33,11 @@ country:
   adjective: Australian
 create_goals:
   layout: goal-by-target
-  previous_next_links: false
+  previous_next_links: true
   goals: []
 create_indicators:
   layout: indicator
-  previous_next_links: false
+  previous_next_links: true
 create_pages:
   - filename: ''
     folder: /
@@ -78,6 +78,10 @@ environment: staging
 favicons: favicon.io
 footer_language_toggle: none
 footer_menu:
+  - path: /imprint/
+    translation_key: menu.imprint
+  - path: /notes/
+    translation_key: menu.notes
   - path: /contact-us
     translation_key: menu.contact_us
   - path: 'https://twitter.com/MyTwitterAccount'
