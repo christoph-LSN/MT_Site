@@ -1,30 +1,16 @@
 ---
-title: About
-language: en
+title: Über uns
+language: de
 permalink: /about/
 layout: page
 ---
 
-The [Sustainable Development Goals](http://www.un.org/sustainabledevelopment/sustainable-development-goals/) (SDGs) are a universal call to action to:
+Das Monitoring zu Migration und Teilhabe in Niedersachsen wird vom Niedersächsischen Ministerium für Soziales, Gesundheit und Gleichstellung (MS) in Kooperation mit dem Landesamt für Statistik Niedersachsen (LSN) erstellt.
 
-  * end poverty
-  
-  * protect the planet
-  
-  * improve the lives and prospects of everyone, everywhere
+Ziel des Monitorings ist es, die Entwicklung anhand von validen und nachvollziehbaren Indikatoren messbar zu machen. Es soll Aufschluss darüber geben, in welchen Bereichen Migrations- und Teilhabeprozesse erfolgreich verlaufen und wo es Handlungsbedarf gibt.
 
-The 17 Goals were adopted by all UN Member States in 2015, as part of the [2030 Agenda for Sustainable Development](https://sustainabledevelopment.un.org/post2015/transformingourworld).
+Betrachtet wird insbesondere die sogenannte strukturelle Teilhabe, zu der zahlreiche Daten aus der amtlichen Statistik vorliegen. Diese betrifft in erster Linie die Einbindung in das Bildungssystem und in den Arbeitsmarkt. Wichtig sind zudem die soziale, kulturelle und identifikative Teilhabe. Hinzu kommen die sozialräumliche Teilhabe, die interkulturelle Öffnung und die gleichberechtigte Partizipation von Menschen mit und ohne Zuwanderungsgeschichte in der Gesellschaft.
 
-## About this site
-This site is based on the open source [Open SDG](https://open-sdg.org/) platform.
-    
-Other countries or organisations wishing to reuse the Open SDG reporting platform are welcome to do so for free. The [Open SDG Quick Start Guide](https://open-sdg.readthedocs.io/en/latest/quick-start/) gives technical instructions on the quickest way to get a copy of the Open SDG platform up and running.
+Danach erkennbare Unterschiede in den Ergebnissen zwischen den Bevölkerungsgruppen können allerdings nicht vereinfachend allein auf die Zuwanderungsgeschichte zurückgeführt werden. Sie bedürfen insoweit einer weitergehenden Analyse der jeweils maßgebenden Lebenssituationen, die durch vielfältige soziale Merkmale bestimmt werden, unabhängig von einer eigenen oder familiären Migrationserfahrung.
 
-If you have comments, feedback, or want to get involved with the Open SDG community please email <opensdg@googlegroups.com> or contact the [Open SDG GitHub](https://github.com/open-sdg/open-sdg).
-
-## Need more info?
-Answers to some specific questions about this website are included on our [frequently asked questions]({{ site.baseurl }}{% link _pages/faq.md %}) page.
-
-## Feedback
-To provide feedback on our SDG data please [contact us]({{ site.baseurl }}/contact-us)
-
+Grundlage des Monitorings zu Migration und Teilhabe in Niedersachsen sind die Daten öffentlicher Statistiken. Diese beschreiben sehr umfassend die Lebensumstände von Menschen mit und ohne Zuwanderungsgeschichte in Niedersachsen. Je nach Datenverfügbarkeit stehen die Indikatoren auf unterschiedlichen regionalen Ebenen zur Verfügung, zumeist auf Ebene der Landkreise und kreisfreien Städte, zum Teil jedoch nur auf Landesebene
