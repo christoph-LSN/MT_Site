@@ -575,8 +575,8 @@
         
         {
           "id": "7-1-1",
-          "title": "Mittlere Wohnfläche in m² und mittlere Bruttokaltmiete in Niedersachsen nach Zuwanderungsgeschichte",
-          "description": "Der Indikator stellt Kennzahlen zur Wohnsituation der Bevölkerung mit und ohne Zuwanderungsgeschichte dar. Die Wohnfläche wird als mittlere Wohnungsgröße je Person in Quadratmetern (m²) angegeben. Die mittlere Bruttokaltmiete pro Quadratmeter in Euro gibt Aufschluss über die Mietbelastung der jeweiligen Bevölkerungsgruppe. Die Menschen mit Zuwanderungsgeschichte werden zusätzlich unterschieden in Personen mit eigener Migrationserfahrung (Zugewanderte) und ohne eigene Migrationserfahrung (in Deutschland Geborene). Die Miete als monatliche Fixkosten und die zur Verfügung stehende Wohnfläche beschreiben grundlegende Bedingungen des täglichen Lebens.",
+          "title": "Paare ohne Kinder und Familien nach Paar-Familientyp und Zuwanderungsgeschichte sowie Familien nach Zahl der Kinder (in 1000)",
+          "description": "Der Indikator stellt die Lebensformen der Menschen mit Zuwanderungsgeschichte sowie die Anzahl der in der jeweiligen Lebensform lebenden Kinder dar. Damit bildet der Indikator die Verteilung der erwachsenen Bevölkerung mit Zuwanderungsgeschichte über die verschiedenen Lebensformen mit und ohne Kinder ab. Die Daten zeigen die Vielfalt der Lebensformen in der Bevölkerung und weisen dabei auf Unterschiede zwischen der Bevölkerung mit und ohne Zuwanderungsgeschichte hin.",
           "keywords": "",
           "href": "/MT_Site/7-1-1",
           "status": "complete"
@@ -590,9 +590,17 @@
           "status": "complete"
         },
         {
-          "id": "7-2-1",
+          "id": "7-1-20",
           "title": "Paare ohne Kinder und Familien nach Paar-Familientyp und Zuwanderungsgeschichte sowie Familien nach Zahl der Kinder (in 1000)",
-          "description": "Der Indikator stellt die Lebensformen der Menschen mit Zuwanderungsgeschichte sowie die Anzahl der in der jeweiligen Lebensform lebenden Kinder dar. Damit bildet der Indikator die Verteilung der erwachsenen Bevölkerung mit Zuwanderungsgeschichte über die verschiedenen Lebensformen mit und ohne Kinder ab. Die Daten zeigen die Vielfalt der Lebensformen in der Bevölkerung und weisen dabei auf Unterschiede zwischen der Bevölkerung mit und ohne Zuwanderungsgeschichte hin.",
+          "description": "Der Indikator gibt die Anzahl sowie den Anteil....",
+          "keywords": "",
+          "href": "/MT_Site/7-1-20",
+          "status": "complete"
+        },
+        {
+          "id": "7-2-1",
+          "title": "Mittlere Wohnfläche in m² und mittlere Bruttokaltmiete in Niedersachsen nach Zuwanderungsgeschichte",
+          "description": "Der Indikator stellt Kennzahlen zur Wohnsituation der Bevölkerung mit und ohne Zuwanderungsgeschichte dar. Die Wohnfläche wird als mittlere Wohnungsgröße je Person in Quadratmetern (m²) angegeben. Die mittlere Bruttokaltmiete pro Quadratmeter in Euro gibt Aufschluss über die Mietbelastung der jeweiligen Bevölkerungsgruppe. Die Menschen mit Zuwanderungsgeschichte werden zusätzlich unterschieden in Personen mit eigener Migrationserfahrung (Zugewanderte) und ohne eigene Migrationserfahrung (in Deutschland Geborene). Die Miete als monatliche Fixkosten und die zur Verfügung stehende Wohnfläche beschreiben grundlegende Bedingungen des täglichen Lebens.",
           "keywords": "",
           "href": "/MT_Site/7-2-1",
           "status": "complete"
