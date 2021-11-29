@@ -430,19 +430,19 @@
           "status": "complete"
         },
         {
-          "id": "4-4-1",
-          "title": "Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)",
-          "description": "Der Indikator gibt die Gesamtzahl der in Niedersachsen durchgeführten Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) und dem niedersächsischen Berufsqualifikationsgesetz (NBQFG) sowie die Zahl der davon abgeschlossenen Verfahren nach der getroffenen Entscheidung an. Separat ausgewiesen werden Verfahren in der Berufshauptgruppe der medizinischen Gesundheitsberufe, da diese den überwiegenden Teil der Verfahren darstellten.",
-          "keywords": "",
-          "href": "/MT_Site/4-4-1",
-          "status": "complete"
-        },
-        {
           "id": "4-4-2",
           "title": "Höchster beruflicher Abschluss der 25- bis unter 35-Jährigen nach Zuwanderungsgeschichte und Geschlecht (in Prozent)",
           "description": "Der Indikator gibt den Anteil von Menschen mit und ohne Zuwanderungsgeschichte im Alter von 25 bis unter 35 Jahren nach höchstem beruflichen Abschluss wieder. Berufliche Qualifikationen sind ein zentrales Merkmal der strukturellen Teilhabe und beeinflussen die Position am Arbeitsmarkt sowie die gesellschaftliche Teilhabe.",
           "keywords": "",
           "href": "/MT_Site/4-4-2",
+          "status": "complete"
+        },
+        {
+          "id": "4-5-1",
+          "title": "Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)",
+          "description": "Der Indikator gibt die Gesamtzahl der in Niedersachsen durchgeführten Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) und dem niedersächsischen Berufsqualifikationsgesetz (NBQFG) sowie die Zahl der davon abgeschlossenen Verfahren nach der getroffenen Entscheidung an. Separat ausgewiesen werden Verfahren in der Berufshauptgruppe der medizinischen Gesundheitsberufe, da diese den überwiegenden Teil der Verfahren darstellten.",
+          "keywords": "",
+          "href": "/MT_Site/4-5-1",
           "status": "complete"
         }]
     }
