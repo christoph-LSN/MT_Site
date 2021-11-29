@@ -107,7 +107,7 @@ var translations = {
         
         Indikator 4.1.1 -
         
-        Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8) - Migration und Teilhabe in Niedersachsen
+        Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang - Migration und Teilhabe in Niedersachsen
     </title>
 
 
@@ -138,7 +138,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211129162609">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211129164144">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -443,7 +443,7 @@ data-event-label="high"
         </a>
     </div>
     <div class="col-xs-3 col-md-3 col-lg-4 pull-right text-right">
-        <a class="btn btn-primary" href="/MT_Site/4-1-2" aria-labelledby="next-link">
+        <a class="btn btn-primary" href="/MT_Site/4-1-3" aria-labelledby="next-link">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span id="next-link" class="hidden-sm hidden-xs"></span>
         </a>
@@ -469,7 +469,7 @@ data-event-label="high"
             
             Indikator 4.1.1
             
-            <span class="lead-copy">Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)</span>
+            <span class="lead-copy">Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang</span>
           </h1>
         </div>
       </div>
@@ -496,24 +496,24 @@ data-event-label="high"
   data-indicatorid='indicator_4-1-1'
   data-id="4-1-1"
   data-country="Australia"
-  data-charttitle="Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)"
-  data-charttitles="null"
+  data-charttitle="Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang"
+  data-charttitles="[{&quot;unit&quot;:&quot;Prozent&quot;,&quot;title&quot;:&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent&quot;},{&quot;unit&quot;:&quot;Anzahl&quot;,&quot;title&quot;:&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang (Anzahl)&quot;}]"
   data-measurementunit=""
   data-xaxislabel=""
   data-showdata="true"
   data-graphtype="bar"
   data-geocoderegex=""
   data-showmap="true"
-  data-startvalues="[{&quot;field&quot;:&quot;Staatsangehörigkeit&quot;,&quot;value&quot;:&quot;Ausländerinnen und Ausländer&quot;},{&quot;field&quot;:&quot;Erreichter Abschluss&quot;,&quot;value&quot;:&quot;Insgesamt&quot;},{&quot;field&quot;:&quot;Schulart&quot;,&quot;value&quot;:&quot;Insgesamt&quot;}]"
+  data-startvalues="[{&quot;field&quot;:&quot;Gebietseinheit&quot;,&quot;value&quot;:&quot;Niedersachsen&quot;},{&quot;field&quot;:&quot;Nationalität&quot;,&quot;value&quot;:&quot;Deutsche&quot;},{&quot;field&quot;:&quot;Nationalität&quot;,&quot;value&quot;:&quot;Ausländerinnen und Ausländer&quot;},{&quot;field&quot;:&quot;Schulform&quot;,&quot;value&quot;:&quot;Insgesamt&quot;},{&quot;field&quot;:&quot;units&quot;,&quot;value&quot;:&quot;Prozent&quot;}]"
   data-graphlimits="null"
-  data-stackeddisaggregation=""
+  data-stackeddisaggregation="Nationalität"
   data-graphannotations="null"
   data-graphtargetlines="null"
   data-graphseriesbreaks="null"
   data-indicatordownloads="null"
-  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Gebietseinheit&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Statistische Region Braunschweig&quot;,&quot;Statistische Region Hannover&quot;,&quot;Statistische Region Lüneburg&quot;,&quot;Statistische Region Weser-Ems&quot;,&quot;Niedersachsen&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Gebietseinheit&quot;},{&quot;name&quot;:&quot;Unnamed: 2&quot;,&quot;type&quot;:&quot;number&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;&quot;]},&quot;title&quot;:&quot;Unnamed: 2&quot;},{&quot;name&quot;:&quot;Nationalität&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Deutsche&quot;,&quot;Ausländerinnen und Ausländer&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Nationalität&quot;},{&quot;name&quot;:&quot;Schulform&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Hauptschule&quot;,&quot;Realschule&quot;,&quot;Oberschule&quot;,&quot;Gymnasium&quot;,&quot;Integrierte Gesamtschule&quot;,&quot;Förderschule&quot;,&quot;Insgesamt&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Schulform&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Prozent&quot;,&quot;Anzahl&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;GeoCode&quot;,&quot;type&quot;:&quot;string&quot;,&quot;title&quot;:&quot;GeoCode&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;string&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
-  data-precision="null"
+  data-precision="[{&quot;unit&quot;:&quot;Prozent&quot;,&quot;decimals&quot;:1},{&quot;unit&quot;:&quot;Anzahl&quot;,&quot;decimals&quot;:0}]"
 >
   
   <span role="status" class="sr-only" id="indicator-data-view-status"></span>
@@ -545,7 +545,7 @@ data-event-label="high"
 
     <h3>Headline data</h3>
     <table class="table-responsive table table-hover dataTable no-footer" role="grid">
-      <caption>Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)</caption>
+      <caption>Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang</caption>
       <thead>
         
       </thead>
@@ -610,7 +610,7 @@ data-event-label="Change to Map tab"
     <div id="selectionsChart">
       <figure role="group">
         <div id="chart-canvas">
-          <h4 id="chart-heading" class="chart-title">Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)</h4>
+          <h4 id="chart-heading" class="chart-title">Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent</h4>
           <div id="chart" class="plot-container">
             
 <canvas
@@ -905,7 +905,7 @@ opensdg.chartConfigAlter(function(config, info) {
 
   </div><div role="tabpanel" class="tab-pane" id="mapview" class="map">
     
-<h4 id="map-heading" class="chart-title">Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss (B8)</h4>
+<h4 id="map-heading" class="chart-title">Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent</h4>
 <div id="map" aria-describedby="table-alternative">
   <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
 </div>
@@ -997,7 +997,7 @@ data-event-label="Change to Sources tab"
         <th scope="row">Definition des Indikators </th>
         <td>
           
-            <p>Der Indikator gibt die Anzahl sowie den Anteil ausländischer und deutscher Berufsschulabgängerinnen und Berufsschulabgänger nach der Schulart und dem erreichten Schulabschluss wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schulabgängerinnen und Schulabgängern bei den verschiedenen Kombinationen aus Schulart und Abschlussart zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schulabgängerinnen und-abgänger haben. Je höher der erreichte Schulabschluss ist, desto besser auch die weiteren Chancen für eine gleichberechtigte, strukturelle Teilhabe.</p>
+            <p>Der Indikator gibt den Anteil von Schülerinnen und Schülern im 8. Schuljahrgang nach Nationalität und Schulform an. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schülerinnen und Schülern in den verschiedenen Schulformen zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schülerinnen und Schüler haben. Der 8. Schuljahrgang bietet sich für den strukturellen Vergleich an, weil in diesem Jahrgang die Verteilung der Schülerinnen und Schüler auf die verschiedenen Schulformen im Wesentlichen abgeschlossen ist und auch in früheren Jahren, als es z.B. noch die Orientierungsstufe gab, abgeschlossen war.</p>
 
           
         </td>
@@ -1013,7 +1013,7 @@ data-event-label="Change to Sources tab"
         <th scope="row">Methodische Hinweise </th>
         <td>
           
-            <p>Der Indikator ist auf die Schulabschlüsse an den berufsbildenden Schulen beschränkt. Dargestellt werden folglich Abschlüsse, die im Anschluss an den Besuch einer allgemein bildenden Schule im beruflichen Schulwesen, z.B. an Fach- und Berufsfachschulen, Berufsaufbauschulen oder beruflichen Gymnasien, erreicht wurden. In Frage kommt hierfür die Gruppe der Personen, die zuvor keinen Schulabschluss (vgl. Indikatoren B6 und B7) bzw. einen Hauptschul- oder Realschulabschluss erreicht hatte. Die Dauer des Bildungsganges und demographische Veränderungen müssen in die Betrachtung eingehen. Eine methodische Schwierigkeit bei einem bundesweiten Vergleich besteht in der Unterschiedlichkeit der länderspezifischen Schulsysteme.</p>
+            <p>Die Schulstatistik soll gemäß einer Entscheidung der Kultusministerkonferenz (KMK) künftig eine länderübergreifend einheitliche Definition des Migrationshintergrundes verwenden, die die drei Merkmale Staatsangehörigkeit, überwiegend in der Familie gesprochene Verkehrssprache und Geburtsland einbezieht. Migrationsmerkmale der Eltern sollen nicht in die Ableitung des Merkmals eingehen. Entsprechende Daten liegen für Niedersachsen aber noch nicht vor. Daher wird der Indikator zunächst nur nach Staatsangehörigkeit gegliedert. Eine methodische Schwierigkeit bei einem bundesweiten Vergleich besteht in der Untergliederung der einzelnen, länderspezifischen Schulsysteme in Schultypen. Unter die Integrierte Gesamtschule werden auch Freie Waldorfschulen u. ä. subsumiert. Die verschiedenen Zweige der Kooperativen Gesamtschule werden den Schulformen Hauptschule, Realschule und Gymnasium zugeordnet.</p>
 
           
         </td>
@@ -1023,7 +1023,20 @@ data-event-label="Change to Sources tab"
   
       
         
+      
+      
+      <tr>
+        <th scope="row">Weiterführende Informationen </th>
+        <td>
           
+            <p>Angaben für Niedersachsen sind verfügbar in der <a href="https://www1.nls.niedersachsen.de/statistik/default.asp" target="_blank">LSN-Online Datenbank</a> (Statistische Erhebung &gt; 300 Allgemein bildende Schulen).</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
   
   
   
@@ -1094,8 +1107,8 @@ data-event-label="Change to Sources tab"
             
 
             
-              <a href="https://christoph-lsn.github.io/MT_Site/assets/excel/4-1-1.xlsx" target="_blank">
-                Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss <span class="visuallyhidden">in neuem Fenster öffnen</span>
+              <a href="https://wohnungnds.github.io/MT_Site/assets/excel/2021_4-1-1.xlsx" target="_blank">
+                Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang <span class="visuallyhidden">in neuem Fenster öffnen</span>
               </a>
             
 
@@ -1181,7 +1194,20 @@ data-event-label="Change to Sources tab"
           
       
         
+      
+      
+      <tr>
+        <th scope="row">Datenquelle </th>
+        <td>
           
+            <p>Schulstatistik</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
       
         
           
@@ -1191,10 +1217,35 @@ data-event-label="Change to Sources tab"
   
       
         
+      
+      
+      <tr>
+        <th scope="row">Link zur Datenquelle </th>
+        <td>
           
+            
+            
+            
+            
+
+            
+              <a href="https://www1.nls.niedersachsen.de/statistik/default.asp" target="_blank">
+                LSN-Online-Datenbank <span class="visuallyhidden">in neuem Fenster öffnen</span>
+              </a>
+            
+
+          
+        </td>
+        </tr>
+        
+      
+  
       
         
-          
+      
+      
+      
+  
 </table>
 
     </div>
@@ -1308,12 +1359,12 @@ data-event-label="Change to Sources tab"
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211129162609'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211129164144'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211129162609"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211129164144"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();
