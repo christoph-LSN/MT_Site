@@ -107,7 +107,7 @@ var translations = {
         
         Indikator 4.1.6 -
         
-        Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent) - Migration und Teilhabe in Niedersachsen
+        Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss - Migration und Teilhabe in Niedersachsen
     </title>
 
 
@@ -138,7 +138,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211129173213">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211129174657">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -437,13 +437,13 @@ data-event-label="high"
     
 <div class="previous-next-links row">
     <div class="col-xs-3 col-md-3 col-lg-4 pull-left text-left">
-        <a class="btn btn-primary" href="/MT_Site/4-1-4" aria-labelledby="previous-link">
+        <a class="btn btn-primary" href="/MT_Site/4-1-5" aria-labelledby="previous-link">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
             <span id="previous-link" class="hidden-sm hidden-xs"></span>
         </a>
     </div>
     <div class="col-xs-3 col-md-3 col-lg-4 pull-right text-right">
-        <a class="btn btn-primary" href="/MT_Site/4-1-7" aria-labelledby="next-link">
+        <a class="btn btn-primary" href="/MT_Site/4-2-1" aria-labelledby="next-link">
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
             <span id="next-link" class="hidden-sm hidden-xs"></span>
         </a>
@@ -469,7 +469,7 @@ data-event-label="high"
             
             Indikator 4.1.6
             
-            <span class="lead-copy">Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent)</span>
+            <span class="lead-copy">Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss</span>
           </h1>
         </div>
       </div>
@@ -496,24 +496,24 @@ data-event-label="high"
   data-indicatorid='indicator_4-1-6'
   data-id="4-1-6"
   data-country="Australia"
-  data-charttitle="Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent)"
+  data-charttitle="Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss"
   data-charttitles="null"
   data-measurementunit=""
   data-xaxislabel=""
   data-showdata="true"
-  data-graphtype="line"
+  data-graphtype="bar"
   data-geocoderegex=""
-  data-showmap="false"
-  data-startvalues="[{&quot;field&quot;:&quot;Geschlecht&quot;,&quot;value&quot;:&quot;Insgesamt&quot;},{&quot;field&quot;:&quot;Migrationserfahrung&quot;,&quot;value&quot;:&quot;mit eigener Migrationserfahrung&quot;},{&quot;field&quot;:&quot;Migrationserfahrung&quot;,&quot;value&quot;:&quot;ohne eigene Migrationserfahrung&quot;}]"
+  data-showmap="true"
+  data-startvalues="[{&quot;field&quot;:&quot;Staatsangehörigkeit&quot;,&quot;value&quot;:&quot;Ausländerinnen und Ausländer&quot;},{&quot;field&quot;:&quot;Erreichter Abschluss&quot;,&quot;value&quot;:&quot;Insgesamt&quot;},{&quot;field&quot;:&quot;Schulart&quot;,&quot;value&quot;:&quot;Insgesamt&quot;}]"
   data-graphlimits="null"
   data-stackeddisaggregation=""
   data-graphannotations="null"
   data-graphtargetlines="null"
   data-graphseriesbreaks="null"
   data-indicatordownloads="null"
-  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Migrationshuntergrund&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;mit und ohne Migrationshintergrund&quot;,&quot;ohne Migrationshintergrund&quot;,&quot;mit Migrationshintergrund&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Migrationshuntergrund&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;Männer&quot;,&quot;Frauen&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;Migrationserfahrung&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;mit eigener Migrationserfahrung&quot;,&quot;ohne eigene Migrationserfahrung&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Migrationserfahrung&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;%&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Nationalität&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Deutsche&quot;,&quot;Ausländerinnen und Ausländer&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Nationalität&quot;},{&quot;name&quot;:&quot;Schulart&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;Berufsschule (Teilzeit)&quot;,&quot;Berufseinstiegsklasse2)&quot;,&quot;Berufsvorbereitungsjahr2)&quot;,&quot;Berufseinstiegsschule3)&quot;,&quot;Berufsfachschule&quot;,&quot;Fachoberschule&quot;,&quot;Berufsoberschule&quot;,&quot;Berufl. Gymnasium&quot;,&quot;Fachschule&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Schulart&quot;},{&quot;name&quot;:&quot;Erreichter Abschluss&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;Allgemeine Hochschulreife ¹⁾&quot;,&quot;Fachhochschulreife&quot;,&quot;Schulischer Teil der Fachhochschulreife&quot;,&quot;Realschulabschluss&quot;,&quot;Hauptschulabschluss&quot;,&quot;Erfolgreicher Besuch&quot;,&quot;Entlassungen aus BVJ bzw. aus den BS V-Bildungslehrgängen&quot;,&quot;Ohne erfolgreichen Besuch/Abschluss&quot;,&quot;nachrichtlich: Abbruch im laufenden Schuljahr&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Erreichter Abschluss&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Anzahl&quot;,&quot;Prozent&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;string&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
-  data-precision="{&quot;unit&quot;:&quot;%&quot;,&quot;-decimals&quot;:1}"
+  data-precision="null"
 >
   
   <span role="status" class="sr-only" id="indicator-data-view-status"></span>
@@ -545,7 +545,7 @@ data-event-label="high"
 
     <h3>Headline data</h3>
     <table class="table-responsive table table-hover dataTable no-footer" role="grid">
-      <caption>Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent)</caption>
+      <caption>Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss</caption>
       <thead>
         
       </thead>
@@ -588,6 +588,12 @@ data-event-category="Tab change"
 data-event-action="Change data view"
 data-event-label="Change to Table tab"
 >Tabelle</a>
+  </li><li role="presentation" class="nav-item map" style="display:none">
+    <a data-no-disagg="true" class="nav-link" data-toggle="tab" id="tab-mapview" href="#mapview" aria-controls="mapview" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Map tab"
+ aria-describedby="table-alternative">Karte</a>
   </li></ul>
 
     <div class="tab-content data-view">
@@ -604,7 +610,7 @@ data-event-label="Change to Table tab"
     <div id="selectionsChart">
       <figure role="group">
         <div id="chart-canvas">
-          <h4 id="chart-heading" class="chart-title">Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent)</h4>
+          <h4 id="chart-heading" class="chart-title">Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss</h4>
           <div id="chart" class="plot-container">
             
 <canvas
@@ -808,39 +814,32 @@ opensdg.chartConfigAlter(function(config, info) {
 </script>
 
 <script>
-// For line charts, add the vertical line hover functionality.
 opensdg.chartConfigAlter(function(config, info) {
+  if (info.stackedDisaggregation) {
     var overrides = {
-        options: {
-            tooltips: {
-                intersect: false,
-                axis: 'x'
-            },
-        },
-        plugins: [{
-            beforeDatasetsDraw: function(chart) {
-                if (chart.tooltip._active && chart.tooltip._active.length) {
-                    var activePoint = chart.tooltip._active[0],
-                        ctx = chart.ctx,
-                        x = activePoint.tooltipPosition().x,
-                        topY = chart.scales['y-axis-0'].top,
-                        bottomY = chart.scales['y-axis-0'].bottom;
-
-                    // draw line
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.moveTo(x, topY);
-                    ctx.lineTo(x, bottomY);
-                    ctx.lineWidth = 2;
-                    ctx.strokeStyle = '#757575';
-                    ctx.stroke();
-                    ctx.restore();
-                }
-            }
-        }],
+      options: {
+        scales: {
+          xAxes: [{ stacked: true }],
+          yAxes: [{ stacked: true }],
+        }
+      }
     };
+    // If we have stackedDisaggregation, we need to group datasets into stacks.
+    config.data.datasets.forEach(function(dataset) {
+      var disaggregation = $.extend({}, dataset.disaggregation);
+      // We're going to "stringify" each combination of disaggregations in order
+      // to place them in their own "stacks". To place "stacked" disaggregations
+      // into the same stack, we set them as "samestack" before stringifying.
+      // Note that the string "samestack" is completely arbitrary.
+      if (typeof disaggregation[info.stackedDisaggregation] !== 'undefined') {
+        disaggregation[info.stackedDisaggregation] = 'samestack';
+      }
+      // Use the disaggregation as a unique id for each stack.
+      dataset.stack = JSON.stringify(disaggregation);
+    });
     // Add these overrides onto the normal config, and return it.
     $.extend(true, config, overrides);
+  }
 });
 </script>
 
@@ -903,6 +902,32 @@ opensdg.chartConfigAlter(function(config, info) {
 </div>
 
 <div id="tableSelectionDownload" class="clearfix"></div>
+
+  </div><div role="tabpanel" class="tab-pane" id="mapview" class="map">
+    
+<h4 id="map-heading" class="chart-title">Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss</h4>
+<div id="map" aria-describedby="table-alternative">
+  <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
+</div>
+
+
+
+
+<div id="mapFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+    <dl>
+</div>
+
 
   </div>
 </div>
@@ -972,7 +997,7 @@ data-event-label="Change to Sources tab"
         <th scope="row">Definition des Indikators </th>
         <td>
           
-            <p>Der Indikator gibt den Anteil der 18- bis unter 25-Jährigen ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) wieder, die sich weder in schulischer oder beruflicher Ausbildung befinden noch an einer Weiterbildung teilnehmen, an der Bevölkerung der entsprechenden Altersgruppe an. Grundwehr- und Zivildienstleistende werden aus der Berechnung ausgeschlossen. Der Indikator fasst Personen zusammen, die maximal die Sekundarstufe I abgeschlossen haben, also maximal über einen Haupt- oder Realschulabschluss verfügen beziehungsweise maximal die 10. Klasse des Gymnasiums oder ein Berufsvorbereitungsjahr abgeschlossen haben.</p>
+            <p>Der Indikator gibt die Anzahl sowie den Anteil ausländischer und deutscher Berufsschulabgängerinnen und Berufsschulabgänger nach der Schulart und dem erreichten Schulabschluss wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schulabgängerinnen und Schulabgängern bei den verschiedenen Kombinationen aus Schulart und Abschlussart zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schulabgängerinnen und-abgänger haben. Je höher der erreichte Schulabschluss ist, desto besser auch die weiteren Chancen für eine gleichberechtigte, strukturelle Teilhabe.</p>
 
           
         </td>
@@ -988,7 +1013,7 @@ data-event-label="Change to Sources tab"
         <th scope="row">Methodische Hinweise </th>
         <td>
           
-            <p>Dem Indikator liegt die von der UNESCO entwickelte internationale Klassifikation des Bildungswesens (ISCED) zugrunde. Diese wurde entwickelt, um nationale und internationale Statistiken und Indikatoren des Bildungswesens einheitlich darzustellen. Datenquelle ist der Mikrozensus. Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br />1. zugewanderte und nicht zugewanderte Ausländer;<br />2. zugewanderte und nicht zugewanderte Eingebürgerte;<br />3. (Spät-)Aussiedler;<br />4. mit deutscher Staatsangehörigkeit geborene Nachkommen<br />Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten.</p>
+            <p>Der Indikator ist auf die Schulabschlüsse an den berufsbildenden Schulen beschränkt. Dargestellt werden folglich Abschlüsse, die im Anschluss an den Besuch einer allgemein bildenden Schule im beruflichen Schulwesen, z.B. an Fach- und Berufsfachschulen, Berufsaufbauschulen oder beruflichen Gymnasien, erreicht wurden. In Frage kommt hierfür die Gruppe der Personen, die zuvor keinen Schulabschluss (vgl. Indikatoren B6 und B7) bzw. einen Hauptschul- oder Realschulabschluss erreicht hatte. Die Dauer des Bildungsganges und demographische Veränderungen müssen in die Betrachtung eingehen. Eine methodische Schwierigkeit bei einem bundesweiten Vergleich besteht in der Unterschiedlichkeit der länderspezifischen Schulsysteme.</p>
 
           
         </td>
@@ -1069,8 +1094,8 @@ data-event-label="Change to Sources tab"
             
 
             
-              <a href="https://wohnungnds.github.io/IM_Site/assets/excel/2021_4-1-6.xlsx" target="_blank">
-                Frühe Schulabgängerinnen und Schulabgänger nach Geschlecht, Zuwanderungsgeschichte und eigener Migrationserfahrung (in Prozent) <span class="visuallyhidden">in neuem Fenster öffnen</span>
+              <a href="https://christoph-lsn.github.io/MT_Site/assets/excel/4-1-6.xlsx" target="_blank">
+                Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss <span class="visuallyhidden">in neuem Fenster öffnen</span>
               </a>
             
 
@@ -1156,20 +1181,7 @@ data-event-label="Change to Sources tab"
           
       
         
-      
-      
-      <tr>
-        <th scope="row">Datenquelle </th>
-        <td>
           
-            <p>Mikrozensus</p>
-
-          
-        </td>
-        </tr>
-        
-      
-  
       
         
           
@@ -1271,6 +1283,15 @@ data-event-label="Change to Sources tab"
 <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.2/dist/patternomaly.js"></script>
 
 
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.zoomshowhide@0.1.0/dist/leaflet-zoom-show-hide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.4.0/chroma.min.js"></script>
+<script src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+<script src="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.min.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+<script src="https://bowercdn.net/c/leaflet.zoomhome-latest/dist/leaflet.zoomhome.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.3/dist/html2canvas.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>
@@ -1287,12 +1308,12 @@ data-event-label="Change to Sources tab"
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211129173213'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211129174657'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211129173213"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211129174657"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();
