@@ -406,6 +406,14 @@
           "status": "complete"
         },
         {
+          "id": "4-2-1",
+          "title": "Höchster beruflicher Abschluss der 25- bis unter 35-Jährigen nach Zuwanderungsgeschichte und Geschlecht (in Prozent)",
+          "description": "Der Indikator gibt den Anteil von Menschen mit und ohne Zuwanderungsgeschichte im Alter von 25 bis unter 35 Jahren nach höchstem beruflichen Abschluss wieder. Berufliche Qualifikationen sind ein zentrales Merkmal der strukturellen Teilhabe und beeinflussen die Position am Arbeitsmarkt sowie die gesellschaftliche Teilhabe.",
+          "keywords": "",
+          "href": "/MT_Site/4-2-1",
+          "status": "complete"
+        },
+        {
           "id": "4-2-2",
           "title": "Ausbildungsbeteiligungsquote im dualen System nach Geschlecht und Nationalität",
           "description": "Der Indikator gibt die Ausbildungsbeteiligungsquote im dualen System nach Geschlecht und Nationalität an. Er ermöglicht einen Einblick in die Partizipation an der beruflichen Ausbildung von deutschen und ausländischen Staatsangehörigen.",
@@ -427,14 +435,6 @@
           "description": "Der Indikator gibt die Anzahl sowie den Anteil der bestandenen Abschlussprüfungen an niedersächsischen Hochschulen nach Fächergruppen für deutsche und ausländische Studierende wieder. Es erfolgt keine Unterscheidung nach dem Land des Erwerbs der Studienberechtigung (siehe hierfür Indikator 4.3.1). Studierende sind in einem Fachstudium ordentlich immatrikulierte (eingeschriebene) Personen, die einen berufsqualifizierenden Hochschulabschluss anstreben (ohne Beurlaubte, Studienkollegiate und Gasthörerinnen und Gasthörer).",
           "keywords": "",
           "href": "/MT_Site/4-3-2",
-          "status": "complete"
-        },
-        {
-          "id": "4-4-2",
-          "title": "Höchster beruflicher Abschluss der 25- bis unter 35-Jährigen nach Zuwanderungsgeschichte und Geschlecht (in Prozent)",
-          "description": "Der Indikator gibt den Anteil von Menschen mit und ohne Zuwanderungsgeschichte im Alter von 25 bis unter 35 Jahren nach höchstem beruflichen Abschluss wieder. Berufliche Qualifikationen sind ein zentrales Merkmal der strukturellen Teilhabe und beeinflussen die Position am Arbeitsmarkt sowie die gesellschaftliche Teilhabe.",
-          "keywords": "",
-          "href": "/MT_Site/4-4-2",
           "status": "complete"
         },
         {
