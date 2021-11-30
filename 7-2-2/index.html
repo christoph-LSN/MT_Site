@@ -138,7 +138,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211130170334">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211130174106">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -513,7 +513,7 @@ data-event-label="high"
   data-indicatordownloads="null"
   data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Bundesland&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Niedersachsen&quot;,&quot;Deutschland&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Bundesland&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;männlich&quot;,&quot;weiblich&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;Bezugspersonen mit selbst bewohntem Wohneigentum&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Bezugspersonen mit selbst bewohntem Wohneigentum&quot;,&quot;Eigentümerquote der Bezugspersonen mit selbst bewohntem Wohneigentum&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Bezugspersonen mit selbst bewohntem Wohneigentum&quot;},{&quot;name&quot;:&quot;Migrationsstatus&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;mit Migrationshintergrund&quot;,&quot;ohne Migrationshintergrund&quot;,&quot;Deutsche mit Migrationshintergrund&quot;,&quot;Ausländerinnen und Ausländer mit Migrationshintergrund&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Migrationsstatus&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;in 1000&quot;,&quot;Prozent&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
-  data-precision="null"
+  data-precision="[{&quot;decimals&quot;:1}]"
 >
   
   <span role="status" class="sr-only" id="indicator-data-view-status"></span>
@@ -997,7 +997,7 @@ data-event-label="Change to Sources tab"
         <th scope="row">Definition des Indikators </th>
         <td>
           
-            <p>Der Indikator gibt die Anzahl sowie den Anteil….</p>
+            <p>Die Eigentümerquote gibt einerseits Aufschluss über die wirtschaftliche Leistungsfähigkeit der Bevölkerung mit Migrationshintergrund, andererseits ist sie ein Indikator für eine dauerhafte Aufenthaltsorientierung. Gleichzeitig kann der Erwerb von Eigentum allerdings auch mit der mangelnden Möglichkeit zu tun haben, auf dem freien Wohnungsmarkt eine Wohnung zu finden und eine „Flucht ins Eigentum“ darstellen. Zu berücksichtigen ist, dass die Menschen mit Migrationshintergrund häufiger in Städten und Großstädten leben, in denen die Eigentumsquote generell geringer als in ländlichen Regionen ist.</p>
 
           
         </td>
@@ -1013,7 +1013,7 @@ data-event-label="Change to Sources tab"
         <th scope="row">Methodische Hinweise </th>
         <td>
           
-            <p>Der Indikator ist ….</p>
+            <p>Die Ergebnisse bis 2010 sind auf Basis der fortgeschriebenen Ergebnisse der Volkszählung 1987 und ab dem Berichtsjahr 2011 an der Bevölkerungsfortschreibung auf Basis des Zensus 2011 hochgerechnet. Seit 2017 wird der Migrationsstatus in Gemeinschaftsunterkünften nicht mehr abgefragt, so dass sich die Ergebnisse seit 2017 auf die Bevölkerung in Privathaushalten beziehen.</p>
 
           
         </td>
@@ -1023,7 +1023,20 @@ data-event-label="Change to Sources tab"
   
       
         
+      
+      
+      <tr>
+        <th scope="row">Weiterführende Informationen </th>
+        <td>
           
+            <p>Weitere Informationen finden Sie im Integrationsmonitoring der Länder. <a href="https://www.integrationsmonitoring-laender.de/indikatoren/g1" target="_blank">Indikator G1 Eigentümerquote </a></p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
   
   
   
@@ -1095,7 +1108,7 @@ data-event-label="Change to Sources tab"
 
             
               <a href="https://wohnungnds.github.io/IM_Site/assets/excel/B8.xlsx" target="_blank">
-                Schulabgängerinnen und Schulabgänger an berufsbildenden Schulen nach Schulart und Schulabschluss <span class="visuallyhidden">in neuem Fenster öffnen</span>
+                Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht <span class="visuallyhidden">in neuem Fenster öffnen</span>
               </a>
             
 
@@ -1308,12 +1321,12 @@ data-event-label="Change to Sources tab"
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211130170334'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211130174106'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211130170334"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211130174106"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();
