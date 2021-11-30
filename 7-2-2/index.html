@@ -107,7 +107,7 @@ var translations = {
         
         Indikator 7.2.2 -
         
-        Wohneigentum - Migration und Teilhabe in Niedersachsen
+        Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht - Migration und Teilhabe in Niedersachsen
     </title>
 
 
@@ -138,7 +138,7 @@ var translations = {
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211130102957">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20211130170334">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -469,7 +469,7 @@ data-event-label="high"
             
             Indikator 7.2.2
             
-            <span class="lead-copy">Wohneigentum</span>
+            <span class="lead-copy">Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht</span>
           </h1>
         </div>
       </div>
@@ -496,7 +496,7 @@ data-event-label="high"
   data-indicatorid='indicator_7-2-2'
   data-id="7-2-2"
   data-country="Australia"
-  data-charttitle="Wohneigentum"
+  data-charttitle="Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht"
   data-charttitles="null"
   data-measurementunit=""
   data-xaxislabel=""
@@ -511,7 +511,7 @@ data-event-label="high"
   data-graphtargetlines="null"
   data-graphseriesbreaks="null"
   data-indicatordownloads="null"
-  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Group&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;G&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Group&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Bundesland&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Niedersachsen&quot;,&quot;Deutschland&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Bundesland&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;männlich&quot;,&quot;weiblich&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;Bezugspersonen mit selbst bewohntem Wohneigentum&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Bezugspersonen mit selbst bewohntem Wohneigentum&quot;,&quot;Eigentümerquote der Bezugspersonen mit selbst bewohntem Wohneigentum&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Bezugspersonen mit selbst bewohntem Wohneigentum&quot;},{&quot;name&quot;:&quot;Migrationsstatus&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;mit Migrationshintergrund&quot;,&quot;ohne Migrationshintergrund&quot;,&quot;Deutsche mit Migrationshintergrund&quot;,&quot;Ausländerinnen und Ausländer mit Migrationshintergrund&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Migrationsstatus&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;in 1000&quot;,&quot;Prozent&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
   data-precision="null"
 >
@@ -545,31 +545,11 @@ data-event-label="high"
 
     <h3>Headline data</h3>
     <table class="table-responsive table table-hover dataTable no-footer" role="grid">
-      <caption>Wohneigentum</caption>
+      <caption>Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht</caption>
       <thead>
-        
-        
-        <th scope="col">Year</th>
-        
-        
-        
-        <th scope="col" class="table-value">Value</th>
-        
         
       </thead>
       <tbody>
-        
-        <tr>
-          
-          
-          <td>2015</td>
-          
-          
-          
-          <td class="table-value">2</td>
-          
-          
-        </tr>
         
       </tbody>
     </table>
@@ -630,7 +610,7 @@ data-event-label="Change to Map tab"
     <div id="selectionsChart">
       <figure role="group">
         <div id="chart-canvas">
-          <h4 id="chart-heading" class="chart-title">Wohneigentum</h4>
+          <h4 id="chart-heading" class="chart-title">Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht</h4>
           <div id="chart" class="plot-container">
             
 <canvas
@@ -925,7 +905,7 @@ opensdg.chartConfigAlter(function(config, info) {
 
   </div><div role="tabpanel" class="tab-pane" id="mapview" class="map">
     
-<h4 id="map-heading" class="chart-title">Wohneigentum</h4>
+<h4 id="map-heading" class="chart-title">Bezugspersonen in Privathaushalten mit selbst bewohntem Wohneigentum sowie Eigentümerquoten 2006 – 2018 nach Migrationsstatus und Geschlecht</h4>
 <div id="map" aria-describedby="table-alternative">
   <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
 </div>
@@ -1328,12 +1308,12 @@ data-event-label="Change to Sources tab"
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20211130102957'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20211130170334'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20211130102957"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20211130170334"></script><script>
 $(function() {
     if($('#indicatorData').length) {
       var domData = $('#indicatorData').data();
