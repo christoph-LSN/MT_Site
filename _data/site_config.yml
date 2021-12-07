@@ -1,6 +1,9 @@
 ##Dezimaltrenner
 decimal_separator: ','
 
+#Map disaggregation select
+map_disaggregation_select: true
+
 
 accessible_charts: true
 accessible_tabs: true
