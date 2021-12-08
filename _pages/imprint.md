@@ -5,26 +5,23 @@ layout: page
 ---
 
 Impressum
-Anbieter gem. § 5 des Telemediengesetzes (TMG) und § 18 des Medienstaatsvertrags (MStV):
-
-
+<b>Anbieter gem. § 5 des Telemediengesetzes (TMG) und § 18 des Medienstaatsvertrags (MStV):</b>
+<br>
 Niedersächsisches Ministerium für Soziales, Gesundheit und Gleichstellung
 Hannah-Arendt-Platz 2
 30159 Hannover
-
+<br>
 Sie können auch eine E-Mail an Pressestelle{at}ms.niedersachsen.de senden.
 
-
-
-Vertretungsberechtigt
+<b>Vertretungsberechtigt</b>
 
 Staatssekretär Heiger Scholz
 
-Verantwortlich
+<b>Verantwortlich</b>
 
 Oliver Grimm
 
-Redaktion
+<b>Redaktion<b>
 
 Rebecca Toporik
 
@@ -32,16 +29,12 @@ Gabriele Heiser
 
 Technischer Betrieb:
 
-Landesbetrieb IT.Niedersachsen (IT.N)
+[Landesbetrieb IT.Niedersachsen (IT.N)](http://www.it.niedersachsen.de/startseite/)
 
 Gestaltung & Realisierung:
 
 brunsmiteisenberg werbeagentur GmbH
 flying dog software
-
-
-
-
 
 Haftungsausschluss
 
