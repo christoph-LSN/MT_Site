@@ -436,20 +436,6 @@ opensdg.autotrack = function(preset, category, action, label) {
         // And we can now update the colors.
         plugin.updateColors();
 
-        // Add the disaggregation select if necessary.
-        
-        var disaggregationOptions = plugin.getVisibleLayers().toGeoJSON().features[0].properties.disaggregations.map(function(disaggregation) {
-          return Object.values(disaggregation).filter(function(subcategory) {
-            return subcategory;
-          }).map(function(subcategory) {
-            return translations.t(subcategory);
-          }).join(' - ');
-        });
-        if (disaggregationOptions.length > 1) {
-          plugin.map.addControl(L.Control.disaggregationSelect(plugin, disaggregationOptions));
-        }
-        
-
         // Add zoom control.
         plugin.map.addControl(L.Control.zoomHome());
 
@@ -551,16 +537,8 @@ opensdg.autotrack = function(preset, category, action, label) {
         }
       });
 
-      // Certain things cannot be done until the map is visible. Because our
-      // map is in a tab which might not be visible, we have to postpone those
-      // things until it becomes visible.
-      if ($('#map').is(':visible')) {
-        finalMapPreparation();
-      }
-      else {
-        $('#tab-mapview').parent().click(finalMapPreparation);
-      }
-      function finalMapPreparation() {
+      // Perform some last-minute tasks when the user clicks on the "Map" tab.
+      $('.map .nav-link').click(function() {
         setTimeout(function() {
           $('#map #loader-container').hide();
           // Leaflet needs "invalidateSize()" if it was originally rendered in a
@@ -588,7 +566,7 @@ opensdg.autotrack = function(preset, category, action, label) {
             $('#map').height(maxHeight);
           }
         }, 500);
-      };
+      });
     },
 
     featureShouldDisplay: function(feature) {
@@ -1566,9 +1544,7 @@ function fieldItemStatesForView(fieldItemStates, fieldsByUnit, selectedUnit, dat
           var fieldItemValue = fieldItem.values.find(function(valueItem) {
             return valueItem.value === selectedValue;
           });
-          if (fieldItemValue) {
-            fieldItemValue.checked = true;
-          }
+          fieldItemValue.checked = true;
         })
       }
     });
@@ -2393,19 +2369,12 @@ function getHeadlineTable(rows, selectedUnit) {
 
 /**
  * @param {Object} data Object imported from JSON file
- * @param {Array} dropKeys Array of keys to drop from the rows
  * @return {Array} Rows
  */
-function convertJsonFormatToRows(data, dropKeys) {
+function convertJsonFormatToRows(data) {
   var keys = Object.keys(data);
   if (keys.length === 0) {
     return [];
-  }
-
-  if (dropKeys && dropKeys.length > 0) {
-    keys = keys.filter(function(key) {
-      return !(dropKeys.includes(key));
-    });
   }
 
   return data[keys[0]].map(function(item, index) {
@@ -2478,26 +2447,6 @@ function getPrecision(precisions, selectedUnit, selectedSeries) {
   return (match) ? match.decimals : false;
 }
 
-/**
- * @param {Object} data Object imported from JSON file
- * @return {Array} Rows
- */
-function inputData(data) {
-  var dropKeys = [];
-  
-  return convertJsonFormatToRows(data, dropKeys);
-}
-
-/**
- * @param {Object} edges Object imported from JSON file
- * @return {Array} Rows
- */
-function inputEdges(edges) {
-  var edgesData = convertJsonFormatToRows(edges);
-  
-  return edgesData;
-}
-
 
   function deprecated(name) {
     return function() {
@@ -2553,8 +2502,6 @@ function inputEdges(edges) {
     getGraphLimits: getGraphLimits,
     getGraphAnnotations: getGraphAnnotations,
     getColumnsFromData: getColumnsFromData,
-    inputEdges: inputEdges,
-    inputData: inputData,
     // Backwards compatibility.
     footerFields: deprecated('helpers.footerFields'),
   }
@@ -2574,8 +2521,8 @@ function inputEdges(edges) {
 
   // general members:
   var that = this;
-  this.data = helpers.inputData(options.data);
-  this.edgesData = helpers.inputEdges(options.edgesData);
+  this.data = helpers.convertJsonFormatToRows(options.data);
+  this.edgesData = helpers.convertJsonFormatToRows(options.edgesData);
   this.hasHeadline = true;
   this.country = options.country;
   this.indicatorId = options.indicatorId;
@@ -2938,11 +2885,8 @@ var indicatorView = function (model, options) {
       }
     });
 
-    // Execute the hide/show functionality for the sidebar, both on
-    // the currently active tab, and each time a tab is clicked on.
-    $('.data-view .nav-item.active .nav-link').each(toggleSidebar);
-    $('.data-view .nav-link').on('click', toggleSidebar);
-    function toggleSidebar() {
+    // Provide the hide/show functionality for the sidebar.
+    $('.data-view .nav-link').on('click', function(e) {
       var $sidebar = $('.indicator-sidebar'),
           $main = $('.indicator-main'),
           hideSidebar = $(this).data('no-disagg'),
@@ -2961,7 +2905,7 @@ var indicatorView = function (model, options) {
         $sidebar.removeClass('indicator-sidebar-hidden');
         $main.removeClass('indicator-main-full');
       }
-    };
+    });
   });
 
   this._model.onDataComplete.attach(function (sender, args) {
@@ -4645,60 +4589,6 @@ $(function() {
     });
   }
 }());
-/*
- * Leaflet disaggregation select.
- *
- * This is a Leaflet control designed to select the disaggregations available
- * in the GeoJSON.
- */
-(function () {
-  "use strict";
-
-  if (typeof L === 'undefined') {
-    return;
-  }
-
-  L.Control.DisaggregationSelect = L.Control.extend({
-
-    options: {
-      position: 'topleft'
-    },
-
-    initialize: function(plugin, disaggregationOptions) {
-      this.plugin = plugin;
-      this.disaggregationOptions = disaggregationOptions;
-    },
-
-    onAdd: function() {
-      // Use the first feature - assumes they are all the same.
-      var div = L.DomUtil.create('div', 'disaggregation-select-container'),
-          label = L.DomUtil.create('label', 'disaggregation-select-label', div),
-          select = L.DomUtil.create('select', 'disaggregation-select', div);
-
-      label.setAttribute('for', 'disaggregation-select-element');
-      label.innerHTML = translations.indicator.sub_categories;
-      select.setAttribute('id', 'disaggregation-select-element');
-      select.innerHTML = this.disaggregationOptions.map(function(option) {
-        return '<option>' + option  + '</option>';
-      });
-      var that = this;
-      L.DomEvent.on(select, 'change', function(event) {
-        that.plugin.currentDisaggregation = this.selectedIndex;
-        that.plugin.updateColors();
-        that.plugin.selectionLegend.update();
-      });
-
-      return div;
-    }
-
-  });
-
-  // Factory function for this class.
-  L.Control.disaggregationSelect = function(plugin, disaggregationOptions) {
-    return new L.Control.DisaggregationSelect(plugin, disaggregationOptions);
-  };
-}());
-
 /*
  * Leaflet fullscreenAccessible.
  *
