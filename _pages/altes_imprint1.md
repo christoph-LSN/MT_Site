@@ -81,7 +81,7 @@ Für die Standard-Veröffentlichungen des Landesamtes für Statistik Niedersachs
 <br>
 <b>Bildnachweise</b>
 <br>
-Icons erstellt von: 
+Icons erstellt von:
 <br>
 [mangsaabguru](https://www.flaticon.com/de/autoren/mangsaabguru)  from [www.flaticon.com/de](https://www.flaticon.com/de/)
 <br>
