@@ -181,6 +181,8 @@ map_layers:
 map_options:
   minZoom: 5
   maxZoom: 10
+  colorRange: chroma.brewer.OrRd
+  limits: chroma.limits(data, 'e', 5)
   tileURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
   tileOptions:
     id: 'mapbox.light'
