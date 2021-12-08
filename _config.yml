@@ -2,8 +2,8 @@
 
 # Tell the Remote Theme plugin to use the Open SDG platform (Jekyll theme).
 #remote_theme: open-sdg/open-sdg@1.7.0-dev
-remote_theme: open-sdg/open-sdg@1.6.0
-#remote_theme: brockfanning/open-sdg@map-disaggregation-select-latest
+#remote_theme: open-sdg/open-sdg@1.6.0
+remote_theme: brockfanning/open-sdg@map-disaggregation-select-latest
 
 #brockfanning:map-disaggregation-select-latest
 
@@ -40,4 +40,3 @@ exclude:
   - README
   - README.md
   - LICENSE
-
