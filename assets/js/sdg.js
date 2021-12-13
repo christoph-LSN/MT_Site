@@ -284,6 +284,13 @@ opensdg.autotrack = function(preset, category, action, label) {
       }
     },
 
+    // Set (or re-set) the choropleth color scale.
+    setColorScale: function() {
+      this.colorScale = chroma.scale(this.options.colorRange)
+          .domain(this.valueRanges[this.currentDisaggregation])
+          .classes(this.options.colorRange.length);
+    },
+
     // Get the (long) URL of a geojson file, given a particular subfolder.
     getGeoJsonUrl: function(subfolder) {
       var fileName = this.indicatorId + '.geojson';
@@ -414,8 +421,14 @@ opensdg.autotrack = function(preset, category, action, label) {
           _.each(geoJson.features, function(feature) {
             if (feature.properties.values && feature.properties.values.length) {
               availableYears = availableYears.concat(Object.keys(feature.properties.values[0]));
-              minimumValues.push(_.min(Object.values(feature.properties.values[0])));
-              maximumValues.push(_.max(Object.values(feature.properties.values[0])));
+              for (var valueIndex = 0; valueIndex < feature.properties.values.length; valueIndex++) {
+                if (minimumValues.length <= valueIndex) {
+                  minimumValues.push([]);
+                  maximumValues.push([]);
+                }
+                minimumValues[valueIndex].push(_.min(Object.values(feature.properties.values[valueIndex])));
+                maximumValues[valueIndex].push(_.max(Object.values(feature.properties.values[valueIndex])));
+              }
             }
           });
         }
@@ -424,12 +437,14 @@ opensdg.autotrack = function(preset, category, action, label) {
         function isMapValueInvalid(val) {
           return _.isNaN(val) || val === '';
         }
-        minimumValues = _.reject(minimumValues, isMapValueInvalid);
-        maximumValues = _.reject(maximumValues, isMapValueInvalid);
-        plugin.valueRange = [_.min(minimumValues), _.max(maximumValues)];
-        plugin.colorScale = chroma.scale(plugin.options.colorRange)
-          .domain(plugin.valueRange)
-          .classes(plugin.options.colorRange.length);
+        plugin.valueRanges = [];
+        for (var valueIndex = 0; valueIndex < minimumValues.length; valueIndex++) {
+          minimumValues[valueIndex] = _.reject(minimumValues[valueIndex], isMapValueInvalid);
+          maximumValues[valueIndex] = _.reject(maximumValues[valueIndex], isMapValueInvalid);
+          plugin.valueRanges[valueIndex] = [_.min(minimumValues[valueIndex]), _.max(maximumValues[valueIndex])];
+        }
+
+        plugin.setColorScale();
         plugin.years = _.uniq(availableYears).sort();
         plugin.currentYear = plugin.years[0];
 
@@ -4394,6 +4409,13 @@ $(function() {
     },
 
     onAdd: function() {
+      var div = L.DomUtil.create('div', 'selection-legend');
+      this.legendDiv = div;
+      this.resetSwatches();
+      return div;
+    },
+
+    renderSwatches: function() {
       var controlTpl = '' +
         '<ul id="selection-list"></ul>' +
         '<div class="legend-swatches">' +
@@ -4413,13 +4435,16 @@ $(function() {
           color: swatchColor,
         });
       }).join('');
-      var div = L.DomUtil.create('div', 'selection-legend');
-      div.innerHTML = L.Util.template(controlTpl, {
-        lowValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRange[0])),
-        highValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRange[1])),
+
+      return L.Util.template(controlTpl, {
+        lowValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][0])),
+        highValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][1])),
         legendSwatches: swatches,
       });
-      return div;
+    },
+
+    resetSwatches: function() {
+      this.legendDiv.innerHTML = this.renderSwatches();
     },
 
     update: function() {
@@ -4432,7 +4457,7 @@ $(function() {
           '<i class="selection-close fa fa-remove"></i>' +
         '</li>';
       var plugin = this.plugin;
-      var valueRange = this.plugin.valueRange;
+      var valueRange = this.plugin.valueRanges[this.plugin.currentDisaggregation];
       selectionList.innerHTML = this.selections.map(function(selection) {
         var value = plugin.getData(selection.feature.properties);
         var percentage, valueStatus;
@@ -4684,7 +4709,9 @@ $(function() {
       var that = this;
       L.DomEvent.on(select, 'change', function(event) {
         that.plugin.currentDisaggregation = this.selectedIndex;
+        that.plugin.setColorScale();
         that.plugin.updateColors();
+        that.plugin.selectionLegend.resetSwatches();
         that.plugin.selectionLegend.update();
       });
 
