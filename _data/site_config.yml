@@ -120,8 +120,9 @@ frontpage_instructions: ''
 frontpage_introduction_banner:
   title: frontpage.intro_title
   description: frontpage.intro_body
-goal_image_base: https://wohnungnds.github.io/IM_translations/www/assets/img/goals/
+goal_image_base: https://christoph-lsn.github.io/IM_translations/www/assets/img/goals/
 #goal_image_base: 'https://open-sdg.org/sdg-translations/assets/img/goals'
+#https://wohnungnds.github.io/IM_translations/www/assets/img/goals/
 goal_image_extension: ''
 goals_page:
   title: general.goals
