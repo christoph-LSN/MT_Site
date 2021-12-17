@@ -90,19 +90,19 @@ footer_menu:
   - path: /about/cookies-and-privacy/
     translation_key: menu.cookies
 frontpage_cards:
-  - title: frontpage.download_all
-    content: ''
+  - title: Alle Daten herunterladen
+    content: |
+      Hier können Sie alles Daten als zip-Datei herunterladen
     include: components/download-all-data.html
     button_label: ''
     button_link: ''
     rule_color: ''
-  - title: Lorem ipsum
+  - title: Schon gewusst?
     content: |
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mollis
-      cursus est sed dapibus.
+      In der Statistischen Region Braunschweig ist der Anteil der Sozialversichungspflichtig Beschäftigten mit hoher Qualifikation am höchsten...
     include: ''
-    button_label: Read more
-    button_link: 'https://example.com'
+    button_label: Mehr erfahren
+    button_link: 'https://christoph-lsn.github.io/MT_Site/5-2-3/'
     rule_color: ''
   - title: Frühere Berichte
     content: |
