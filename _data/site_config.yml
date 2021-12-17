@@ -1,4 +1,4 @@
-###Dezimaltrenner
+##Dezimaltrenner
 decimal_separator: ','
 
 #Map disaggregation select
@@ -122,6 +122,8 @@ frontpage_introduction_banner:
   description: frontpage.intro_body
 goal_image_base: https://wohnungnds.github.io/IM_translations/www/assets/img/goals/
 #goal_image_base: 'https://open-sdg.org/sdg-translations/assets/img/goals'
+#https://wohnungnds.github.io/IM_translations/www/assets/img/goals/
+#https://christoph-lsn.github.io/translations/www/assets/img/goals/
 goal_image_extension: ''
 goals_page:
   title: general.goals
