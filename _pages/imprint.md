@@ -30,22 +30,20 @@ Gabriele Heiser
 
 [Landesbetrieb IT.Niedersachsen (IT.N)](http://www.it.niedersachsen.de/startseite/)
 
-<b>Gestaltung & Realisierung:<b>
+<b>Gestaltung & Realisierung:</b>
 <br>
 Landesamt für Statistik Niedersachsen<br>
 Telefon: +49 511 9898 - 0<br>
 Fax: +49 511 9898 – 4000<br>
 [Poststelle@statistik.niedersachsen.de](mailto:Poststelle@statistik.niedersachsen.de)<br>
-[https://www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de)<br>
+[Landesamt für Statistik Niedersachsen (LSN)](http://www.statistik.niedersachsen.de/)
 <br>
 Direkter Ansprechpartner:<br>
 Dr. Christoph Biester<br>
 Telefon: +49 511 9898 - 2218<br>
 [christoph.biester@statistik.niedersachsen.de](mailto:christoph.biester@statistik.niedersachsen.de)<br>
-
-[Landesamt für Statistik Niedersachsen (LSN)](http://www.statistik.niedersachsen.de/)
 <br>
-Erstellt mit [OpenSDG]https://open-sdg.org/)<br>
+Erstellt mit [OpenSDG](https://open-sdg.org/)<br>
 
 Haftungsausschluss
 
