@@ -38,6 +38,7 @@ Fax: +49 511 9898 – 4000<br>
 [Poststelle@statistik.niedersachsen.de](mailto:Poststelle@statistik.niedersachsen.de)<br>
 [Landesamt für Statistik Niedersachsen (LSN)](http://www.statistik.niedersachsen.de/)
 <br>
+<br>
 Direkter Ansprechpartner:<br>
 Dr. Christoph Biester<br>
 Telefon: +49 511 9898 - 2218<br>
