@@ -92,7 +92,7 @@ footer_menu:
 frontpage_cards:
   - title: Alle Daten herunterladen
     content: |
-      Hier können Sie alles Daten als zip-Datei herunterladen
+      Hier können Sie alle Daten als zip-Datei herunterladen
     include: components/download-all-data.html
     button_label: ''
     button_link: ''
@@ -102,7 +102,7 @@ frontpage_cards:
       In der Statistischen Region Braunschweig ist der Anteil der Sozialversichungspflichtig Beschäftigten mit hoher Qualifikation am höchsten...
     include: ''
     button_label: Mehr erfahren
-    button_link: 'https://christoph-lsn.github.io/MT_Site/5-2-3/'
+    button_link: '/5-2-3/'
     rule_color: ''
   - title: Frühere Berichte
     content: |
