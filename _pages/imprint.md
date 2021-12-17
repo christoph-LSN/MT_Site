@@ -26,19 +26,31 @@ Rebecca Toporik
 
 Gabriele Heiser
 
-Technischer Betrieb:
+<b>Technischer Betrieb:</b>
 
 [Landesbetrieb IT.Niedersachsen (IT.N)](http://www.it.niedersachsen.de/startseite/)
 
-Gestaltung & Realisierung:
+<b>Gestaltung & Realisierung:<b>
+<br>
+Landesamt für Statistik Niedersachsen<br>
+Telefon: +49 511 9898 - 0<br>
+Fax: +49 511 9898 – 4000<br>
+[Poststelle@statistik.niedersachsen.de](mailto:Poststelle@statistik.niedersachsen.de)<br>
+[https://www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de)<br>
+<br>
+Direkter Ansprechpartner:<br>
+Dr. Christoph Biester<br>
+Telefon: +49 511 9898 - 2218<br>
+[christoph.biester@statistik.niedersachsen.de](mailto:christoph.biester@statistik.niedersachsen.de)<br>
 
-brunsmiteisenberg werbeagentur GmbH
-flying dog software
+[Landesamt für Statistik Niedersachsen (LSN)](http://www.statistik.niedersachsen.de/)
+<br>
+Erstellt mit [OpenSDG]https://open-sdg.org/)<br>
 
 Haftungsausschluss
 
 
-1. Inhalt des Onlineangebotes 
+1. Inhalt des Onlineangebotes
 <br>Der Autor übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten Informationen. Haftungsansprüche gegen den Autor, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollständiger Informationen verursacht wurden, sind grundsätzlich ausgeschlossen, sofern seitens des Autors kein nachweislich vorsätzliches oder grob fahrlässiges Verschulden vorliegt.
 <br>
 Alle Angebote sind freibleibend und unverbindlich. Der Autor behält es sich ausdrücklich vor, Teile der Seiten oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen.
