@@ -55,6 +55,7 @@
         <span class="indicator-card-number">
           {{ indicator.number }}
           {% include components/reportingstatus/reporting-status-label.html indicator=indicator %}
+          {% include components/indicator/data_status.html indicator=indicator %}
         </span>
         <a href="{{ indicator.url }}">
           {{ indicator.name }}
