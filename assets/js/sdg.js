@@ -116,6 +116,7 @@ opensdg.autotrack = function(preset, category, action, label) {
     this.SERIES_COLUMN = 'Series';
     this.selectedSeries = options.selectedSeries || null;
     this.selectedUnit = options.selectedUnit || null;
+    this.selectedSubcategories = options.selectedSubcategories || null;
     this.indicatorView = options.indicatorView;
     this.allDisaggregations = [];
     this.currentDisaggregation = 0;
@@ -147,7 +148,7 @@ opensdg.autotrack = function(preset, category, action, label) {
 
   Plugin.prototype = {
 
-    // Getters and setters for series and unit.
+    // Getters and setters for series, unit, and sub-categories.
     setSeries: function(series) {
       this.selectedSeries = series;
       this.refreshAfterDataChange();
@@ -162,15 +163,30 @@ opensdg.autotrack = function(preset, category, action, label) {
     getUnit: function() {
       return this.selectedUnit;
     },
+    setSubcategories: function(subcategories) {
+      this.selectedSubcategories = subcategories;
+      if (this.valueRanges) {
+        this.refreshAfterDataChange();
+      }
+    },
+    getSubcategories: function() {
+      return this.selectedSubcategories;
+    },
 
     // Update the everything after a potential data change.
     refreshAfterDataChange: function() {
       this.updateCurrentDisaggregation();
-      this.setColorScale();
-      this.updateColors();
-      this.updateTooltips();
-      this.selectionLegend.resetSwatches();
-      this.selectionLegend.update();
+      if (this.currentDisaggregation == -1) {
+        this.noDataAvailable();
+      }
+      else {
+        this.dataAvailable();
+        this.setColorScale();
+        this.updateColors();
+        this.updateTooltips();
+        this.selectionLegend.resetSwatches();
+        this.selectionLegend.update();
+      }
     },
 
     // Get info about the current disaggregation.
@@ -179,6 +195,14 @@ opensdg.autotrack = function(preset, category, action, label) {
       delete info[this.UNIT_COLUMN];
       delete info[this.SERIES_COLUMN];
       return info;
+    },
+
+    noDataAvailable: function() {
+      $('#mapview').addClass('no-map-data-available');
+    },
+
+    dataAvailable: function() {
+      $('#mapview').removeClass('no-map-data-available');
     },
 
     // Zoom to a feature.
@@ -353,37 +377,57 @@ opensdg.autotrack = function(preset, category, action, label) {
 
     // Decide which disaggregation should be used.
     getCorrectDisaggregation(disaggregations) {
+
       if (typeof disaggregations === 'undefined') {
         disaggregations = this.allDisaggregations;
       }
       var i = 0,
           selectedSeries = this.getSeries(),
-          selectedUnit = this.getUnit();
+          selectedUnit = this.getUnit(),
+          selectedSubcategories = this.getSubcategories(),
+          that = this;
 
-      if (selectedSeries && !selectedUnit) {
-        for (i = 0; i < disaggregations.length; i++) {
-          if (disaggregations[i][this.SERIES_COLUMN] == selectedSeries) {
-            return i;
-          }
+      function disaggregationDoesNotMatch(disagg) {
+        var matches = true;
+        if (selectedSubcategories.length > 0) {
+          selectedSubcategories.forEach(function(subcategory) {
+            var field = subcategory.field;
+            if (!disagg[field] || !(subcategory.values.includes(disagg[field]))) {
+              matches = false;
+            }
+          });
         }
-        return 0
+        else {
+          Object.keys(disagg).forEach(function(field) {
+            if (field !== that.SERIES_COLUMN &&
+                field !== that.UNIT_COLUMN &&
+                disagg[field] &&
+                disagg[field] !== '') {
+              matches = false;
+            }
+          });
+        }
+        return !matches;
       }
-      else if (selectedUnit && !selectedSeries) {
-        for (i = 0; i < disaggregations.length; i++) {
-          if (disaggregations[i][this.UNIT_COLUMN] == selectedUnit) {
-            return i;
-          }
+
+      for (i = 0; i < disaggregations.length; i++) {
+        var match = true;
+        if (selectedSeries && disaggregations[i][this.SERIES_COLUMN] != selectedSeries) {
+          match = false;
+        }
+        if (selectedUnit && disaggregations[i][this.UNIT_COLUMN] != selectedUnit) {
+          match = false;
+        }
+        if (disaggregationDoesNotMatch(disaggregations[i])) {
+          match = false;
+        }
+        if (match) {
+          return i;
         }
       }
-      else if (selectedSeries && selectedUnit) {
-        for (i = 0; i < disaggregations.length; i++) {
-          if (disaggregations[i][this.UNIT_COLUMN] == selectedUnit &&
-              disaggregations[i][this.SERIES_COLUMN] == selectedSeries) {
-            return i;
-          }
-        }
-      }
-      return 0;
+
+      // Signal with a -1 that no disaggregation was found.
+      return -1;
     },
 
     updateCurrentDisaggregation: function() {
@@ -392,7 +436,6 @@ opensdg.autotrack = function(preset, category, action, label) {
         layer.currentDisaggregation = that.getCorrectDisaggregation(layer.allDisaggregations);
         that.currentDisaggregation = layer.currentDisaggregation;
       });
-      this.indicatorView.updateMapDisaggregation();
     },
 
     // Get the (long) URL of a geojson file, given a particular subfolder.
@@ -2941,6 +2984,7 @@ function inputEdges(edges) {
         precision: helpers.getPrecision(this.precision, this.selectedUnit, this.selectedSeries),
         selectedSeries: this.selectedSeries,
         selectedUnit: this.selectedUnit,
+        selectedFields: this.selectedFields,
       });
     }
 
@@ -3010,7 +3054,7 @@ var mapView = function () {
 
   "use strict";
 
-  this.initialise = function(indicatorId, precision, decimalSeparator, selectedUnit, selectedSeries, indicatorView) {
+  this.initialise = function(indicatorId, precision, decimalSeparator, selectedUnit, selectedSeries, selectedSubcategories, indicatorView) {
     $('.map').show();
     return $('#map').sdgMap({
       indicatorId: indicatorId,
@@ -3020,6 +3064,7 @@ var mapView = function () {
       decimalSeparator: decimalSeparator,
       selectedUnit: selectedUnit,
       selectedSeries: selectedSeries,
+      selectedSubcategories: selectedSubcategories,
       indicatorView: indicatorView,
     });
   };
@@ -3062,7 +3107,7 @@ var indicatorView = function (model, options) {
       var $sidebar = $('.indicator-sidebar'),
           $main = $('.indicator-main'),
           hideSidebar = $(this).data('no-disagg'),
-          hideSubcategories = $(this).data('no-subcategories'),
+          singleSubcategories = $(this).data('single-subcategories'),
           mobile = window.matchMedia("screen and (max-width: 990px)");
       if (hideSidebar) {
         $sidebar.addClass('indicator-sidebar-hidden');
@@ -3078,14 +3123,46 @@ var indicatorView = function (model, options) {
         $sidebar.removeClass('indicator-sidebar-hidden');
         $main.removeClass('indicator-main-full');
       }
-      if (hideSubcategories) {
-        $sidebar.addClass('indicator-subcategories-hidden');
+      if (singleSubcategories) {
+        view_obj.singleSubcategoryMode();
       }
       else {
-        $sidebar.removeClass('indicator-subcategories-hidden');
+        view_obj.multipleSubcategoryMode();
       }
     };
   });
+
+  this.singleSubcategoryMode = function() {
+    var $sidebar = $('.indicator-sidebar');
+    $sidebar.addClass('indicator-subcategories-single');
+    $sidebar.find('#fields input[type="checkbox"]').each(function() {
+      // Remember whether it is checked.
+      $(this).data('wasChecked', $(this).is(':checked'));
+      $(this).attr({
+        type: 'radio',
+        name: 'radio-' + $(this).data('field'),
+      });
+    });
+    // Because this may uncheck things, we need to signal a change.
+    updateWithSelectedFields();
+  };
+
+  this.multipleSubcategoryMode = function() {
+    var $sidebar = $('.indicator-sidebar');
+    $sidebar.removeClass('indicator-subcategories-single');
+    var checkedSomething = false;
+    $sidebar.find('#fields input[type="radio"]').each(function() {
+      $(this).attr('type', 'checkbox');
+      $(this).removeAttr('name');
+      if ($(this).data('wasChecked')) {
+        $(this).prop('checked', true);
+        checkedSomething = true;
+      }
+    });
+    if (checkedSomething) {
+      updateWithSelectedFields();
+    }
+  };
 
   this._model.onDataComplete.attach(function (sender, args) {
 
@@ -3113,7 +3190,15 @@ var indicatorView = function (model, options) {
 
     if(args.hasGeoData && args.showMap) {
       view_obj._mapView = new mapView();
-      var mapElement = view_obj._mapView.initialise(args.indicatorId, args.precision, view_obj._decimalSeparator, args.selectedUnit, args.selectedSeries, view_obj);
+      var mapElement = view_obj._mapView.initialise(
+        args.indicatorId,
+        args.precision,
+        view_obj._decimalSeparator,
+        args.selectedUnit,
+        args.selectedSeries,
+        args.selectedFields,
+        view_obj
+      );
       view_obj._mapPlugin = $.data(mapElement.get(0), 'plugin_sdgMap');
     }
   });
@@ -3145,7 +3230,7 @@ var indicatorView = function (model, options) {
   }
 
   this._model.onFieldsCleared.attach(function(sender, args) {
-    $(view_obj._rootElement).find(':checkbox').prop('checked', false);
+    $(view_obj._rootElement).find(':checkbox, :radio').prop('checked', false);
     $(view_obj._rootElement).find('#clear')
       .addClass('disabled')
       .attr('aria-disabled', 'true')
@@ -3169,6 +3254,10 @@ var indicatorView = function (model, options) {
         .addClass('disabled')
         .attr('aria-disabled', 'true')
         .attr('disabled', 'disabled');
+    }
+
+    if (view_obj._mapPlugin) {
+      view_obj._mapPlugin.setSubcategories(args.selectedFields);
     }
 
     // loop through the available fields:
@@ -3220,11 +3309,13 @@ var indicatorView = function (model, options) {
   $(this._rootElement).on('click', '#fields label', function (e) {
 
     if(!$(this).closest('.variable-selector').hasClass('disallowed')) {
-      $(this).find(':checkbox').trigger('click');
+      $(this).find(':checkbox, :radio').trigger('click');
     }
 
-    e.preventDefault();
-    e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   });
 
   $(this._rootElement).on('change', '#units input', function() {
@@ -3252,7 +3343,7 @@ var indicatorView = function (model, options) {
 
   $(this._rootElement).on('click', '.variable-options button', function(e) {
     var type = $(this).data('type');
-    var $options = $(this).closest('.variable-options').find(':checkbox');
+    var $options = $(this).closest('.variable-options').find(':checkbox, :radio');
 
     // The clear button can clear all checkboxes.
     if (type == 'clear') {
@@ -3268,7 +3359,7 @@ var indicatorView = function (model, options) {
     e.stopPropagation();
   });
 
-  $(this._rootElement).on('click', ':checkbox', function(e) {
+  $(this._rootElement).on('click', ':checkbox, :radio', function(e) {
 
     // don't permit disallowed selections:
     if ($(this).closest('.variable-selector').hasClass('disallowed')) {
@@ -3319,6 +3410,13 @@ var indicatorView = function (model, options) {
 
     } else {
       $(this._rootElement).addClass('no-fields');
+    }
+
+    // Check to see if we need radio buttons.
+    var activeDataTab = $('.nav-tabs.data-view > li.active > a'),
+        singleSubcategories = $(activeDataTab).data('single-subcategories');
+    if (singleSubcategories) {
+      this.singleSubcategoryMode();
     }
   };
 
@@ -3441,29 +3539,6 @@ var indicatorView = function (model, options) {
         }
       });
     }
-  }
-
-  this.updateMapDisaggregation = function() {
-    var disaggregationInfo = this._mapPlugin.getDisaggregationInfo();
-    var heading = '<h4>' + translations.t('Map sub-categories') + '</h4>';
-    var html = '';
-    var disaggregations = Object.keys(disaggregationInfo);
-    var values = Object.values(disaggregationInfo);
-    var hasDisaggregation = values.some(function(val) {
-      return val && val !== '';
-    });
-    if (hasDisaggregation) {
-      html += heading;
-      html += '<dl class="alternate-subcategory-list">';
-      for (var i = 0; i < disaggregations.length; i++) {
-        if (values[i] && values[i] !== '') {
-          html += '<dt>' + translations.t(disaggregations[i]) + '</dt>';
-          html += '<dd>' + translations.t(values[i]) + '</dd>';
-        }
-      }
-      html += '</dl>';
-    }
-    $('#alternate-subcategory-display').html(html);
   }
 
   this.updatePlot = function(chartInfo) {
