@@ -3311,7 +3311,7 @@ body {
     background-size: 220px;
     background-repeat: no-repeat; } }
 
-.layout-data_status .data-status-description {
+.layout-data_status .data_status-description {
   margin-bottom: 25px; }
 .layout-data_status #main-content .statuses strong {
   font-weight: normal; }
