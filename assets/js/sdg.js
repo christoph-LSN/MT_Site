@@ -331,7 +331,7 @@ opensdg.autotrack = function(preset, category, action, label) {
 
     // Get the data from a feature's properties, according to the current year.
     getData: function(props) {
-      if (props.values && props.values.length && props.values[this.currentDisaggregation][this.currentYear]) {
+      if (this.currentDisaggregation > -1 && props.values && props.values.length && props.values[this.currentDisaggregation][this.currentYear]) {
         return opensdg.dataRounding(props.values[this.currentDisaggregation][this.currentYear]);
       }
       return false;
@@ -350,6 +350,9 @@ opensdg.autotrack = function(preset, category, action, label) {
 
     // Set (or re-set) the choropleth color scale.
     setColorScale: function() {
+      if (this.currentDisaggregation === -1) {
+        return;
+      }
       this.colorScale = chroma.scale(this.options.colorRange)
           .domain(this.valueRanges[this.currentDisaggregation])
           .classes(this.options.colorRange.length);
@@ -4663,6 +4666,9 @@ $(function() {
     },
 
     renderSwatches: function() {
+      if (this.plugin.currentDisaggregation === -1) {
+        return '';
+      }
       var controlTpl = '' +
         '<ul id="selection-list"></ul>' +
         '<div class="legend-swatches">' +
