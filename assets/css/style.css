@@ -150,7 +150,7 @@ h3 {
   font-size: 18px; }
 
 .small-text {
-  font-size: 14px; }
+  font-size: 85%; }
 
 .goal-banner a {
   background: transparent;
@@ -1777,9 +1777,6 @@ footer {
   display: none; }
 #main-content .indicator-main-full {
   width: 100%; }
-#main-content .indicator-subcategories-single button[data-type="select"],
-#main-content .indicator-subcategories-single button[data-type="clear"] {
-  display: none; }
 #main-content #toolbar button {
   width: 100%;
   background-color: white;
@@ -2164,12 +2161,6 @@ footer {
 #main-content #mapFooter {
   margin-top: 30px;
   padding-left: 0; }
-#main-content .no-map-data-message {
-  display: none; }
-#main-content .no-map-data-available #map {
-  display: none; }
-#main-content .no-map-data-available .no-map-data-message {
-  display: block; }
 #main-content #selectionsTable {
   padding-bottom: 20px; }
   #main-content #selectionsTable div.dataTables_wrapper {
@@ -3284,14 +3275,6 @@ body.contrast-high.layout-search form input, body.contrast-high.layout-search fo
     .layout-post.contrast-high .post-categories li:last-child:after {
       content: '';
       padding-right: 0; }
-
-.page-not-found-image {
-  margin-top: 40px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  max-width: 150px; }
 
 body {
   background: white;

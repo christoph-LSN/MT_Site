@@ -112,13 +112,6 @@ opensdg.autotrack = function(preset, category, action, label) {
     this.indicatorId = options.indicatorId;
     this._precision = options.precision;
     this._decimalSeparator = options.decimalSeparator;
-    this.UNIT_COLUMN = 'Units';
-    this.SERIES_COLUMN = 'Series';
-    this.selectedSeries = options.selectedSeries || null;
-    this.selectedUnit = options.selectedUnit || null;
-    this.selectedSubcategories = options.selectedSubcategories || null;
-    this.indicatorView = options.indicatorView;
-    this.allDisaggregations = [];
     this.currentDisaggregation = 0;
 
     // Require at least one geoLayer.
@@ -147,63 +140,6 @@ opensdg.autotrack = function(preset, category, action, label) {
   }
 
   Plugin.prototype = {
-
-    // Getters and setters for series, unit, and sub-categories.
-    setSeries: function(series) {
-      this.selectedSeries = series;
-      this.refreshAfterDataChange();
-    },
-    getSeries: function() {
-      return this.selectedSeries;
-    },
-    setUnit: function(unit) {
-      this.selectedUnit = unit;
-      this.refreshAfterDataChange();
-    },
-    getUnit: function() {
-      return this.selectedUnit;
-    },
-    setSubcategories: function(subcategories) {
-      this.selectedSubcategories = subcategories;
-      if (this.valueRanges) {
-        this.refreshAfterDataChange();
-      }
-    },
-    getSubcategories: function() {
-      return this.selectedSubcategories;
-    },
-
-    // Update the everything after a potential data change.
-    refreshAfterDataChange: function() {
-      this.updateCurrentDisaggregation();
-      if (this.currentDisaggregation == -1) {
-        this.noDataAvailable();
-      }
-      else {
-        this.dataAvailable();
-        this.setColorScale();
-        this.updateColors();
-        this.updateTooltips();
-        this.selectionLegend.resetSwatches();
-        this.selectionLegend.update();
-      }
-    },
-
-    // Get info about the current disaggregation.
-    getDisaggregationInfo: function() {
-      var info = Object.assign({}, this.allDisaggregations[this.currentDisaggregation]);
-      delete info[this.UNIT_COLUMN];
-      delete info[this.SERIES_COLUMN];
-      return info;
-    },
-
-    noDataAvailable: function() {
-      $('#mapview').addClass('no-map-data-available');
-    },
-
-    dataAvailable: function() {
-      $('#mapview').removeClass('no-map-data-available');
-    },
 
     // Zoom to a feature.
     zoomToFeature: function(layer) {
@@ -331,7 +267,7 @@ opensdg.autotrack = function(preset, category, action, label) {
 
     // Get the data from a feature's properties, according to the current year.
     getData: function(props) {
-      if (this.currentDisaggregation > -1 && props.values && props.values.length && props.values[this.currentDisaggregation][this.currentYear]) {
+      if (props.values && props.values.length && props.values[this.currentDisaggregation][this.currentYear]) {
         return opensdg.dataRounding(props.values[this.currentDisaggregation][this.currentYear]);
       }
       return false;
@@ -346,99 +282,6 @@ opensdg.autotrack = function(preset, category, action, label) {
       else {
         return this.options.noValueColor;
       }
-    },
-
-    // Set (or re-set) the choropleth color scale.
-    setColorScale: function() {
-      if (this.currentDisaggregation === -1) {
-        return;
-      }
-      this.colorScale = chroma.scale(this.options.colorRange)
-          .domain(this.valueRanges[this.currentDisaggregation])
-          .classes(this.options.colorRange.length);
-    },
-
-    saveDisaggregations: function(layer) {
-      if (typeof layer.allDisaggregations === 'undefined') {
-        layer.allDisaggregations = [];
-      }
-      if (layer.allDisaggregations.length > 0) {
-        // Only needs to be done once.
-        return;
-      }
-      // We just need to find the first feature with disaggregations,
-      // and we assume all the others will be the same.
-      for (var i = 0; i < layer.geoJsonObject.features.length; i++) {
-        var feature = layer.geoJsonObject.features[i];
-        if (!feature.properties || !feature.properties.disaggregations || feature.properties.disaggregations.length == 0) {
-          continue;
-        }
-        layer.allDisaggregations = feature.properties.disaggregations;
-        break;
-      }
-    },
-
-    // Decide which disaggregation should be used.
-    getCorrectDisaggregation(disaggregations) {
-
-      if (typeof disaggregations === 'undefined') {
-        disaggregations = this.allDisaggregations;
-      }
-      var i = 0,
-          selectedSeries = this.getSeries(),
-          selectedUnit = this.getUnit(),
-          selectedSubcategories = this.getSubcategories(),
-          that = this;
-
-      function disaggregationDoesNotMatch(disagg) {
-        var matches = true;
-        if (selectedSubcategories.length > 0) {
-          selectedSubcategories.forEach(function(subcategory) {
-            var field = subcategory.field;
-            if (!disagg[field] || !(subcategory.values.includes(disagg[field]))) {
-              matches = false;
-            }
-          });
-        }
-        else {
-          Object.keys(disagg).forEach(function(field) {
-            if (field !== that.SERIES_COLUMN &&
-                field !== that.UNIT_COLUMN &&
-                disagg[field] &&
-                disagg[field] !== '') {
-              matches = false;
-            }
-          });
-        }
-        return !matches;
-      }
-
-      for (i = 0; i < disaggregations.length; i++) {
-        var match = true;
-        if (selectedSeries && disaggregations[i][this.SERIES_COLUMN] != selectedSeries) {
-          match = false;
-        }
-        if (selectedUnit && disaggregations[i][this.UNIT_COLUMN] != selectedUnit) {
-          match = false;
-        }
-        if (disaggregationDoesNotMatch(disaggregations[i])) {
-          match = false;
-        }
-        if (match) {
-          return i;
-        }
-      }
-
-      // Signal with a -1 that no disaggregation was found.
-      return -1;
-    },
-
-    updateCurrentDisaggregation: function() {
-      var that = this;
-      this.getVisibleLayers().eachLayer(function(layer) {
-        layer.currentDisaggregation = that.getCorrectDisaggregation(layer.allDisaggregations);
-        that.currentDisaggregation = layer.currentDisaggregation;
-      });
     },
 
     // Get the (long) URL of a geojson file, given a particular subfolder.
@@ -554,8 +397,6 @@ opensdg.autotrack = function(preset, category, action, label) {
           layer.on('add', zoomInHandler);
           // Save the GeoJSON object for direct access (download) later.
           layer.geoJsonObject = geoJson;
-          // Save disaggregations for layer use.
-          plugin.saveDisaggregations(layer);
           // Add the layer to the ZoomShowHide group.
           plugin.dynamicLayers.addLayer(layer);
 
@@ -573,14 +414,8 @@ opensdg.autotrack = function(preset, category, action, label) {
           _.each(geoJson.features, function(feature) {
             if (feature.properties.values && feature.properties.values.length) {
               availableYears = availableYears.concat(Object.keys(feature.properties.values[0]));
-              for (var valueIndex = 0; valueIndex < feature.properties.values.length; valueIndex++) {
-                if (minimumValues.length <= valueIndex) {
-                  minimumValues.push([]);
-                  maximumValues.push([]);
-                }
-                minimumValues[valueIndex].push(_.min(Object.values(feature.properties.values[valueIndex])));
-                maximumValues[valueIndex].push(_.max(Object.values(feature.properties.values[valueIndex])));
-              }
+              minimumValues.push(_.min(Object.values(feature.properties.values[0])));
+              maximumValues.push(_.max(Object.values(feature.properties.values[0])));
             }
           });
         }
@@ -589,14 +424,12 @@ opensdg.autotrack = function(preset, category, action, label) {
         function isMapValueInvalid(val) {
           return _.isNaN(val) || val === '';
         }
-        plugin.valueRanges = [];
-        for (var valueIndex = 0; valueIndex < minimumValues.length; valueIndex++) {
-          minimumValues[valueIndex] = _.reject(minimumValues[valueIndex], isMapValueInvalid);
-          maximumValues[valueIndex] = _.reject(maximumValues[valueIndex], isMapValueInvalid);
-          plugin.valueRanges[valueIndex] = [_.min(minimumValues[valueIndex]), _.max(maximumValues[valueIndex])];
-        }
-
-        plugin.setColorScale();
+        minimumValues = _.reject(minimumValues, isMapValueInvalid);
+        maximumValues = _.reject(maximumValues, isMapValueInvalid);
+        plugin.valueRange = [_.min(minimumValues), _.max(maximumValues)];
+        plugin.colorScale = chroma.scale(plugin.options.colorRange)
+          .domain(plugin.valueRange)
+          .classes(plugin.options.colorRange.length);
         plugin.years = _.uniq(availableYears).sort();
         plugin.currentYear = plugin.years[0];
 
@@ -700,23 +533,12 @@ opensdg.autotrack = function(preset, category, action, label) {
         }
         // Event handler for when a geoJson layer is zoomed into.
         function zoomInHandler(e) {
-          var geoJsonLayer = e.target;
-          plugin.allDisaggregations = geoJsonLayer.allDisaggregations;
-          plugin.updateCurrentDisaggregation(layer);
           plugin.updateStaticLayers();
         }
       });
 
-      // Certain things cannot be done until the map is visible. Because our
-      // map is in a tab which might not be visible, we have to postpone those
-      // things until it becomes visible.
-      if ($('#map').is(':visible')) {
-        finalMapPreparation();
-      }
-      else {
-        $('#tab-mapview').parent().click(finalMapPreparation);
-      }
-      function finalMapPreparation() {
+      // Perform some last-minute tasks when the user clicks on the "Map" tab.
+      $('.map .nav-link').click(function() {
         setTimeout(function() {
           $('#map #loader-container').hide();
           // Leaflet needs "invalidateSize()" if it was originally rendered in a
@@ -744,7 +566,7 @@ opensdg.autotrack = function(preset, category, action, label) {
             $('#map').height(maxHeight);
           }
         }, 500);
-      };
+      });
     },
 
     featureShouldDisplay: function(feature) {
@@ -1722,9 +1544,7 @@ function fieldItemStatesForView(fieldItemStates, fieldsByUnit, selectedUnit, dat
           var fieldItemValue = fieldItem.values.find(function(valueItem) {
             return valueItem.value === selectedValue;
           });
-          if (fieldItemValue) {
-            fieldItemValue.checked = true;
-          }
+          fieldItemValue.checked = true;
         })
       }
     });
@@ -2549,19 +2369,12 @@ function getHeadlineTable(rows, selectedUnit) {
 
 /**
  * @param {Object} data Object imported from JSON file
- * @param {Array} dropKeys Array of keys to drop from the rows
  * @return {Array} Rows
  */
-function convertJsonFormatToRows(data, dropKeys) {
+function convertJsonFormatToRows(data) {
   var keys = Object.keys(data);
   if (keys.length === 0) {
     return [];
-  }
-
-  if (dropKeys && dropKeys.length > 0) {
-    keys = keys.filter(function(key) {
-      return !(dropKeys.includes(key));
-    });
   }
 
   return data[keys[0]].map(function(item, index) {
@@ -2634,26 +2447,6 @@ function getPrecision(precisions, selectedUnit, selectedSeries) {
   return (match) ? match.decimals : false;
 }
 
-/**
- * @param {Object} data Object imported from JSON file
- * @return {Array} Rows
- */
-function inputData(data) {
-  var dropKeys = [];
-  
-  return convertJsonFormatToRows(data, dropKeys);
-}
-
-/**
- * @param {Object} edges Object imported from JSON file
- * @return {Array} Rows
- */
-function inputEdges(edges) {
-  var edgesData = convertJsonFormatToRows(edges);
-  
-  return edgesData;
-}
-
 
   function deprecated(name) {
     return function() {
@@ -2709,8 +2502,6 @@ function inputEdges(edges) {
     getGraphLimits: getGraphLimits,
     getGraphAnnotations: getGraphAnnotations,
     getColumnsFromData: getColumnsFromData,
-    inputEdges: inputEdges,
-    inputData: inputData,
     // Backwards compatibility.
     footerFields: deprecated('helpers.footerFields'),
   }
@@ -2730,8 +2521,8 @@ function inputEdges(edges) {
 
   // general members:
   var that = this;
-  this.data = helpers.inputData(options.data);
-  this.edgesData = helpers.inputEdges(options.edgesData);
+  this.data = helpers.convertJsonFormatToRows(options.data);
+  this.edgesData = helpers.convertJsonFormatToRows(options.edgesData);
   this.hasHeadline = true;
   this.country = options.country;
   this.indicatorId = options.indicatorId;
@@ -2985,9 +2776,6 @@ function inputEdges(edges) {
         indicatorId: this.indicatorId,
         showMap: this.showMap,
         precision: helpers.getPrecision(this.precision, this.selectedUnit, this.selectedSeries),
-        selectedSeries: this.selectedSeries,
-        selectedUnit: this.selectedUnit,
-        selectedFields: this.selectedFields,
       });
     }
 
@@ -3057,18 +2845,14 @@ var mapView = function () {
 
   "use strict";
 
-  this.initialise = function(indicatorId, precision, decimalSeparator, selectedUnit, selectedSeries, selectedSubcategories, indicatorView) {
+  this.initialise = function(indicatorId, precision, decimalSeparator) {
     $('.map').show();
-    return $('#map').sdgMap({
+    $('#map').sdgMap({
       indicatorId: indicatorId,
       mapOptions: {"minZoom":5,"maxZoom":10,"limits":"chroma.limits(data, 'e', 5)","tileURL":"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","tileOptions":{"id":"mapbox.light","accessToken":"pk.eyJ1IjoiY2hyaXN0b3BoNDcxMSIsImEiOiJjanp1cjdpbzQwMTFwM29tdzJ2ZTh3Ymo4In0.C7_7e3AFcMaF_QBg6MaT0Q","attribution":"<a href=\"https://www.mapbox.com\">Mapbox</a> | <a href=\"http://www.bkg.bund.de\">© GeoBasis-DE / BKG | <a href=\"https://www.openstreetmap.org/copyright\">&copy; OpenStreetMap</a>"},"colorRange":"chroma.brewer.OrRd","noValueColor":"#f0f0f0","styleNormal":{"weight":1,"opacity":1,"fillOpacity":0.7,"color":"#888888","dashArray":""},"styleHighlighted":{"weight":1,"opacity":1,"fillOpacity":0.7,"color":"#111111","dashArray":""},"styleStatic":{"weight":2,"opacity":1,"fillOpacity":0,"color":"#172d44","dashArray":"5,5"}},
       mapLayers: [{"min_zoom":0,"max_zoom":20,"staticBorders":false,"subfolder":"map","label":"indicator.map"},{"min_zoom":0,"max_zoom":20,"staticBorders":false,"subfolder":"Mikrozensus","label":"Mikrozensus"},{"min_zoom":0,"max_zoom":20,"staticBorders":false,"subfolder":"Statistische Region","label":"Statistische Region"}],
       precision: precision,
       decimalSeparator: decimalSeparator,
-      selectedUnit: selectedUnit,
-      selectedSeries: selectedSeries,
-      selectedSubcategories: selectedSubcategories,
-      indicatorView: indicatorView,
     });
   };
 };
@@ -3083,7 +2867,6 @@ var indicatorView = function (model, options) {
   this._rootElement = options.rootElement;
   this._tableColumnDefs = options.tableColumnDefs;
   this._mapView = undefined;
-  this._mapPlugin = undefined;
   this._legendElement = options.legendElement;
   this._precision = undefined;
   this._decimalSeparator = options.decimalSeparator;
@@ -3102,15 +2885,11 @@ var indicatorView = function (model, options) {
       }
     });
 
-    // Execute the hide/show functionality for the sidebar, both on
-    // the currently active tab, and each time a tab is clicked on.
-    $('.data-view .nav-item.active .nav-link').each(toggleSidebar);
-    $('.data-view .nav-link').on('click', toggleSidebar);
-    function toggleSidebar() {
+    // Provide the hide/show functionality for the sidebar.
+    $('.data-view .nav-link').on('click', function(e) {
       var $sidebar = $('.indicator-sidebar'),
           $main = $('.indicator-main'),
           hideSidebar = $(this).data('no-disagg'),
-          singleSubcategories = $(this).data('single-subcategories'),
           mobile = window.matchMedia("screen and (max-width: 990px)");
       if (hideSidebar) {
         $sidebar.addClass('indicator-sidebar-hidden');
@@ -3126,46 +2905,8 @@ var indicatorView = function (model, options) {
         $sidebar.removeClass('indicator-sidebar-hidden');
         $main.removeClass('indicator-main-full');
       }
-      if (singleSubcategories) {
-        view_obj.singleSubcategoryMode();
-      }
-      else {
-        view_obj.multipleSubcategoryMode();
-      }
-    };
+    });
   });
-
-  this.singleSubcategoryMode = function() {
-    var $sidebar = $('.indicator-sidebar');
-    $sidebar.addClass('indicator-subcategories-single');
-    $sidebar.find('#fields input[type="checkbox"]').each(function() {
-      // Remember whether it is checked.
-      $(this).data('wasChecked', $(this).is(':checked'));
-      $(this).attr({
-        type: 'radio',
-        name: 'radio-' + $(this).data('field'),
-      });
-    });
-    // Because this may uncheck things, we need to signal a change.
-    updateWithSelectedFields();
-  };
-
-  this.multipleSubcategoryMode = function() {
-    var $sidebar = $('.indicator-sidebar');
-    $sidebar.removeClass('indicator-subcategories-single');
-    var checkedSomething = false;
-    $sidebar.find('#fields input[type="radio"]').each(function() {
-      $(this).attr('type', 'checkbox');
-      $(this).removeAttr('name');
-      if ($(this).data('wasChecked')) {
-        $(this).prop('checked', true);
-        checkedSomething = true;
-      }
-    });
-    if (checkedSomething) {
-      updateWithSelectedFields();
-    }
-  };
 
   this._model.onDataComplete.attach(function (sender, args) {
 
@@ -3185,7 +2926,6 @@ var indicatorView = function (model, options) {
     view_obj.createSelectionsTable(args);
 
     view_obj.updateChartTitle(args.chartTitle);
-    view_obj.updateSeriesAndUnitElements(args.selectedSeries, args.selectedUnit);
   });
 
   this._model.onFieldsComplete.attach(function(sender, args) {
@@ -3193,16 +2933,7 @@ var indicatorView = function (model, options) {
 
     if(args.hasGeoData && args.showMap) {
       view_obj._mapView = new mapView();
-      var mapElement = view_obj._mapView.initialise(
-        args.indicatorId,
-        args.precision,
-        view_obj._decimalSeparator,
-        args.selectedUnit,
-        args.selectedSeries,
-        args.selectedFields,
-        view_obj
-      );
-      view_obj._mapPlugin = $.data(mapElement.get(0), 'plugin_sdgMap');
+      view_obj._mapView.initialise(args.indicatorId, args.precision, view_obj._decimalSeparator);
     }
   });
 
@@ -3216,24 +2947,8 @@ var indicatorView = function (model, options) {
     });
   }
 
-  if (this._model.onSeriesesSelectedChanged) {
-    this._model.onSeriesesSelectedChanged.attach(function(sender, args) {
-      if (view_obj._mapPlugin) {
-        view_obj._mapPlugin.setSeries(args);
-      }
-    });
-  }
-
-  if (this._model.onUnitsSelectedChanged) {
-    this._model.onUnitsSelectedChanged.attach(function(sender, args) {
-      if (view_obj._mapPlugin) {
-        view_obj._mapPlugin.setUnit(args);
-      }
-    });
-  }
-
   this._model.onFieldsCleared.attach(function(sender, args) {
-    $(view_obj._rootElement).find(':checkbox, :radio').prop('checked', false);
+    $(view_obj._rootElement).find(':checkbox').prop('checked', false);
     $(view_obj._rootElement).find('#clear')
       .addClass('disabled')
       .attr('aria-disabled', 'true')
@@ -3257,10 +2972,6 @@ var indicatorView = function (model, options) {
         .addClass('disabled')
         .attr('aria-disabled', 'true')
         .attr('disabled', 'disabled');
-    }
-
-    if (view_obj._mapPlugin) {
-      view_obj._mapPlugin.setSubcategories(args.selectedFields);
     }
 
     // loop through the available fields:
@@ -3312,13 +3023,11 @@ var indicatorView = function (model, options) {
   $(this._rootElement).on('click', '#fields label', function (e) {
 
     if(!$(this).closest('.variable-selector').hasClass('disallowed')) {
-      $(this).find(':checkbox, :radio').trigger('click');
+      $(this).find(':checkbox').trigger('click');
     }
 
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+    e.preventDefault();
+    e.stopPropagation();
   });
 
   $(this._rootElement).on('change', '#units input', function() {
@@ -3346,7 +3055,7 @@ var indicatorView = function (model, options) {
 
   $(this._rootElement).on('click', '.variable-options button', function(e) {
     var type = $(this).data('type');
-    var $options = $(this).closest('.variable-options').find(':checkbox, :radio');
+    var $options = $(this).closest('.variable-options').find(':checkbox');
 
     // The clear button can clear all checkboxes.
     if (type == 'clear') {
@@ -3362,7 +3071,7 @@ var indicatorView = function (model, options) {
     e.stopPropagation();
   });
 
-  $(this._rootElement).on('click', ':checkbox, :radio', function(e) {
+  $(this._rootElement).on('click', ':checkbox', function(e) {
 
     // don't permit disallowed selections:
     if ($(this).closest('.variable-selector').hasClass('disallowed')) {
@@ -3413,13 +3122,6 @@ var indicatorView = function (model, options) {
 
     } else {
       $(this._rootElement).addClass('no-fields');
-    }
-
-    // Check to see if we need radio buttons.
-    var activeDataTab = $('.nav-tabs.data-view > li.active > a'),
-        singleSubcategories = $(activeDataTab).data('single-subcategories');
-    if (singleSubcategories) {
-      this.singleSubcategoryMode();
     }
   };
 
@@ -3518,29 +3220,6 @@ var indicatorView = function (model, options) {
   this.updateChartTitle = function(chartTitle) {
     if (typeof chartTitle !== 'undefined') {
       $('.chart-title').text(chartTitle);
-    }
-  }
-
-  this.updateSeriesAndUnitElements = function(selectedSeries, selectedUnit) {
-    var hasSeries = typeof selectedSeries !== 'undefined',
-        hasUnit = typeof selectedUnit !== 'undefined',
-        hasBoth = hasSeries && hasUnit;
-    if (hasSeries || hasUnit || hasBoth) {
-      $('[data-for-series], [data-for-unit]').each(function() {
-        var elementSeries = $(this).data('for-series'),
-            elementUnit = $(this).data('for-unit'),
-            seriesMatches = elementSeries === selectedSeries,
-            unitMatches = elementUnit === selectedUnit;
-        if ((hasSeries || hasBoth) && !seriesMatches && elementSeries !== '') {
-          $(this).hide();
-        }
-        else if ((hasUnit || hasBoth) && !unitMatches && elementUnit !== '') {
-          $(this).hide();
-        }
-        else {
-          $(this).show();
-        }
-      });
     }
   }
 
@@ -4659,16 +4338,6 @@ $(function() {
     },
 
     onAdd: function() {
-      var div = L.DomUtil.create('div', 'selection-legend');
-      this.legendDiv = div;
-      this.resetSwatches();
-      return div;
-    },
-
-    renderSwatches: function() {
-      if (this.plugin.currentDisaggregation === -1) {
-        return '';
-      }
       var controlTpl = '' +
         '<ul id="selection-list"></ul>' +
         '<div class="legend-swatches">' +
@@ -4688,15 +4357,13 @@ $(function() {
           color: swatchColor,
         });
       }).join('');
-      return L.Util.template(controlTpl, {
-        lowValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][0])),
-        highValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][1])),
+      var div = L.DomUtil.create('div', 'selection-legend');
+      div.innerHTML = L.Util.template(controlTpl, {
+        lowValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRange[0])),
+        highValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRange[1])),
         legendSwatches: swatches,
       });
-    },
-
-    resetSwatches: function() {
-      this.legendDiv.innerHTML = this.renderSwatches();
+      return div;
     },
 
     update: function() {
@@ -4709,7 +4376,7 @@ $(function() {
           '<i class="selection-close fa fa-remove"></i>' +
         '</li>';
       var plugin = this.plugin;
-      var valueRange = this.plugin.valueRanges[this.plugin.currentDisaggregation];
+      var valueRange = this.plugin.valueRange;
       selectionList.innerHTML = this.selections.map(function(selection) {
         var value = plugin.getData(selection.feature.properties);
         var percentage, valueStatus;
