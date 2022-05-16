@@ -29,7 +29,8 @@ jobs:
         gem install bundler
         bundle config path vendor/bundle
         bundle install
-        bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }} && npx staticrypt _site/index.html IM_TEST -o _site/index.html -f _layouts/password_template.html
+        bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }}
+#        bundle exec jekyll build --baseurl=/${{ env.GITHUB_REPOSITORY_NAME_PART }} && npx staticrypt _site/index.html IM_TEST -o _site/index.html -f _layouts/password_template.html
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
