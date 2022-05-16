@@ -1,3 +1,10 @@
+###tests for 2.0.0
+
+bootstrap_5: true
+chartjs_3: true
+
+
+
 ##Dezimaltrenner
 decimal_separator: ','
 
