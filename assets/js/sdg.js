@@ -924,154 +924,128 @@ event.prototype = {
     }
   }
 };
-var accessibilitySwitcher = function() {
+var accessibilitySwitcher = function () {
 
-  var contrastIdentifiers = ['default', 'high'],
-      contrastType = "default" || "default",
-      singleToggle = (contrastType === 'long' || contrastType === 'single');
-
-  if (contrastType === 'long') {
-    $('body').addClass('long');
-  }
-  function setActiveContrast(newContrast) {
-    var oldContrast = getActiveContrast();
-    if (oldContrast !== newContrast) {
-      _.each(contrastIdentifiers, function(id) {
-        $('body').removeClass('contrast-' + id);
-      });
-      $('body').addClass('contrast-' + newContrast);
-
-      createCookie("contrast", newContrast, 365);
-
-      if (singleToggle) {
-        flipAllContrastLinks(oldContrast, newContrast);
-      }
+    function getActiveContrast() {
+        return $('body').hasClass('contrast-high') ? 'high' : 'default';
     }
-  }
 
-  function flipAllContrastLinks(newContrast, oldContrast) {
-    var title = getContrastToggleTitle(newContrast),
-        label = getContrastToggleLabel(newContrast);
-        gaAttributes = opensdg.autotrack('switch_contrast', 'Accessibility', 'Change contrast setting', newContrast);
-    $('[data-contrast-switch-to]')
-      .data('contrast-switch-to', newContrast)
-      .attr('title', title)
-      .attr('aria-label', title)
-      .attr(gaAttributes)
-      .html(label)
-      .parent()
-        .addClass('contrast-' + newContrast)
-        .removeClass('contrast-' + oldContrast);
-  }
+    function setHighContrast() {
+        $('body')
+            .removeClass('contrast-default')
+            .addClass('contrast-high');
+        var title = translations.header.disable_high_contrast;
+        var gaAttributes = opensdg.autotrack('switch_contrast', 'Accessibility', 'Change contrast setting', 'default');
+        $('[data-contrast-switch-to]')
+            .attr('data-contrast-switch-to', 'default')
+            .attr('title', title)
+            .attr('aria-label', title)
+            .attr(gaAttributes);
 
-  function getActiveContrast() {
-    var contrast = _.filter(contrastIdentifiers, function(id) {
-      return $('body').hasClass('contrast-' + id);
+        imageFix('high');
+        createCookie('contrast', 'high', 365);
+    }
+
+    function setDefaultContrast() {
+        $('body')
+            .removeClass('contrast-high')
+            .addClass('contrast-default');
+        var title = translations.header.enable_high_contrast;
+        var gaAttributes = opensdg.autotrack('switch_contrast', 'Accessibility', 'Change contrast setting', 'high');
+        $('[data-contrast-switch-to]')
+            .attr('data-contrast-switch-to', 'high')
+            .attr('title', title)
+            .attr('aria-label', title)
+            .attr(gaAttributes);
+
+        imageFix('default');
+        createCookie('contrast', 'default', 365);
+
+    }
+
+    $('[data-contrast-switch-to]').click(function () {
+        var newContrast = $(this).attr('data-contrast-switch-to');
+        var oldContrast = getActiveContrast();
+        if (newContrast === oldContrast) {
+            return;
+        }
+        if (newContrast === 'high') {
+            setHighContrast();
+            broadcastContrastChange('high', this);
+        }
+        else {
+            setDefaultContrast();
+            broadcastContrastChange('default', this);
+        }
+
     });
 
-    return contrast.length > 0 ? contrast[0] : contrastIdentifiers[0];
-  }
-
-  function createCookie(name,value,days) {
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime()+(days*24*60*60*1000));
-      var expires = "; expires="+date.toGMTString();
+    function createCookie(name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
     }
-    else expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-  }
 
-  function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
     }
-    return null;
-  }
 
-  window.onunload = function(e) {
-    var contrast = getActiveContrast();
-    createCookie("contrast", contrast, 365);
-  }
+    function imageFix(contrast) {
+        var doNotSwitchTheseSuffixes = ['.svg'];
+        if (contrast == 'high') {
+            _.each($('img:not([src*=high-contrast])'), function (image) {
+                var src = $(image).attr('src').toLowerCase();
+                var switchThisImage = true;
+                for (var i = 0; i < doNotSwitchTheseSuffixes.length; i++) {
+                    var suffix = doNotSwitchTheseSuffixes[i];
+                    if (src.slice(0 - suffix.length) === suffix) {
+                        switchThisImage = false;
+                    }
+                }
+                if (switchThisImage) {
+                    $(image).attr('src', $(image).attr('src').replace('img/', 'img/high-contrast/'));
+                }
+            });
+        } else {
+            // Remove high-contrast
+            _.each($('img[src*=high-contrast]'), function (goalImage) {
+                $(goalImage).attr('src', $(goalImage).attr('src').replace('high-contrast/', ''));
+            })
+        }
+    };
 
-  var cookie = readCookie("contrast");
-  var contrast = cookie ? cookie : contrastIdentifiers[0];
-  setActiveContrast(contrast);
-  imageFix(contrast);
-
-  ////////////////////////////////////////////////////////////////////////////////////
-
-  $('[data-contrast-switch-to]').click(function() {
-
-    var oldContrast = getActiveContrast();
-    var newContrast = $(this).data('contrast-switch-to');
-
-    if (oldContrast !== newContrast) {
-      setActiveContrast(newContrast);
-      imageFix(newContrast);
-      broadcastContrastChange(newContrast, this);
+    function broadcastContrastChange(contrast, elem) {
+        var event = new CustomEvent('contrastChange', {
+            bubbles: true,
+            detail: contrast
+        });
+        elem.dispatchEvent(event);
     }
-  });
 
-  function broadcastContrastChange(contrast, elem) {
-    var event = new CustomEvent('contrastChange', {
-      bubbles: true,
-      detail: contrast
-    });
-    elem.dispatchEvent(event);
-  }
+    window.onunload = function (e) {
+        var contrast = getActiveContrast();
+        createCookie('contrast', contrast, 365);
+    }
 
-  function getContrastToggleLabel(identifier){
-    if (contrastType === "long") {
-      if (identifier === "default") {
-        return translations.header.default_contrast.replace(' ', '<br>');
-      }
-      else if (identifier === "high") {
-        return translations.header.high_contrast.replace(' ', '<br>');
-      }
+    var cookie = readCookie('contrast');
+    var contrast = cookie ? cookie : 'default';
+    if (contrast === 'high') {
+        setHighContrast();
     }
     else {
-      return 'A'
+        setDefaultContrast();
     }
-  }
-
-  function getContrastToggleTitle(identifier){
-    if (identifier === "default") {
-      return translations.header.disable_high_contrast;
-    }
-    else if (identifier === "high") {
-      return translations.header.enable_high_contrast;
-    }
-  }
-
-
-  function imageFix(contrast) {
-    var doNotSwitchTheseSuffixes = ['.svg'];
-    if (contrast == 'high')  {
-      _.each($('img:not([src*=high-contrast])'), function(image) {
-        var src = $(image).attr('src').toLowerCase();
-        var switchThisImage = true;
-        for (var i = 0; i < doNotSwitchTheseSuffixes.length; i++) {
-          var suffix = doNotSwitchTheseSuffixes[i];
-          if (src.slice(0 - suffix.length) === suffix) {
-            switchThisImage = false;
-          }
-        }
-        if (switchThisImage) {
-          $(image).attr('src', $(image).attr('src').replace('img/', 'img/high-contrast/'));
-        }
-      });
-    } else {
-      // Remove high-contrast
-      _.each($('img[src*=high-contrast]'), function(goalImage){
-        $(goalImage).attr('src', $(goalImage).attr('src').replace('high-contrast/', ''));
-      })
-    }
-  };
 
 };
 opensdg.chartColors = function(indicatorId) {
@@ -4685,7 +4659,7 @@ $(document).ready(function() {
         // Allow clicking on the <li> to trigger tab click.
         tabsList.find('li').click(function(event) {
             if (event.target.tagName === 'LI') {
-                $(event.target).find('> a').click();
+                $(event.target).find('> button').click();
             }
         });
     });
@@ -4693,11 +4667,10 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('.nav-tabs').each(function() {
         var tabsList = $(this);
-        var tabs = tabsList.find('li > a');
+        var tabs = tabsList.find('li > button');
         var panes = tabsList.parent().find('.tab-pane');
 
         panes.attr({
-            'class': 'tabPanel',
             'role': 'tabpanel',
             'aria-hidden': 'true',
             'tabindex': '0',
@@ -4709,8 +4682,8 @@ $(document).ready(function() {
 
         tabs.each(function(idx) {
             var tab = $(this);
-            var tabId = 'tab-' + tab.attr('href').slice(1);
-            var pane = tabsList.parent().find(tab.attr('href'));
+            var tabId = 'tab-' + tab.attr('data-bs-target').slice(1);
+            var pane = tabsList.parent().find(tab.attr('data-bs-target'));
 
             tab.attr({
                 'id': tabId,
@@ -4719,8 +4692,6 @@ $(document).ready(function() {
                 'tabindex': '-1',
             }).parent().attr('role', 'presentation');
 
-            tab.removeAttr('href');
-
             pane.attr('aria-labelledby', tabId);
 
             tab.click(function(e) {
@@ -4728,11 +4699,12 @@ $(document).ready(function() {
 
                 tabsList.find('> li.active')
                     .removeClass('active')
-                    .find('> a')
+                    .find('> button')
                     .attr({
                         'aria-selected': 'false',
                         'tabindex': '-1',
-                    });
+                    })
+                    .removeClass('active');
 
                 panes.filter(':visible').attr({
                     'aria-hidden': 'true',
@@ -4754,32 +4726,32 @@ $(document).ready(function() {
         panes.first().attr('aria-hidden', 'false').show();
 
         // Set state for the first tabsList li
-        tabsList.find('li:first').addClass('active').find(' > a').attr({
+        tabsList.find('li:first').addClass('active').find(' > button').attr({
             'aria-selected': 'true',
             'tabindex': '0',
         });
 
         // Set keydown events on tabList item for navigating tabs
-        tabsList.delegate('a', 'keydown', function(e) {
+        tabsList.delegate('button', 'keydown', function(e) {
             var tab = $(this);
             switch (e.which) {
                 case 37:
                     if (tab.parent().prev().length != 0) {
-                        tab.parent().prev().find('> a').click();
+                        tab.parent().prev().find('> button').click();
                         e.preventDefault();
                     }
                     else {
-                        tabsList.find('li:last > a').click();
+                        tabsList.find('li:last > button').click();
                         e.preventDefault();
                     }
                     break;
                 case 39:
                     if (tab.parent().next().length != 0) {
-                        tab.parent().next().find('> a').click();
+                        tab.parent().next().find('> button').click();
                         e.preventDefault();
                     }
                     else {
-                        tabsList.find('li:first > a').click();
+                        tabsList.find('li:first > button').click();
                         e.preventDefault();
                     }
                     break;
@@ -5002,116 +4974,7 @@ $(function() {
 
   indicatorSearch();
 });
-$(function() {
 
-  // @deprecated start
-  if (typeof translations.search === 'undefined') {
-    translations.search = { search: 'Search' };
-  }
-  if (typeof translations.general === 'undefined') {
-    translations.general = { hide: 'Hide' };
-  }
-  if (typeof translations.cookies === 'undefined') {
-    translations.cookies = { cookie_settings: 'Cookie settings' };
-  }
-  // @deprecated end
-
-  var topLevelSearchLink = $('.top-level span:eq(1), .top-level button:eq(1)');
-
-  var resetForSmallerViewport = function() {
-    topLevelSearchLink.text('Search');
-    $('.top-level li').removeClass('active');
-    $('.top-level span').removeClass('open');
-  };
-
-  var topLevelMenuToggle = document.querySelector("#menuToggle");
-
-  topLevelMenuToggle.addEventListener("click", function(){
-    setTopLevelMenuAccessibilityActions();
-  });
-  function setTopLevelMenuAccessibilityActions(){
-    if(topLevelMenuIsOpen()){
-      setAriaExpandedStatus(true);
-      focusOnFirstMenuElement();
-    }
-    else{
-      setAriaExpandedStatus(false);
-    }
-    function topLevelMenuIsOpen(){
-      return topLevelMenuToggle.classList.contains("active");
-    }
-    function setAriaExpandedStatus(expandedStatus){
-      topLevelMenuToggle.setAttribute("aria-expanded", expandedStatus.toString());
-    }
-    function focusOnFirstMenuElement(){
-      var firstMenuElement = getFirstMenuElement();
-      firstMenuElement.focus();
-    }
-    function getFirstMenuElement(){
-      return document.querySelector("#menu .nav-link:first-child a");
-    }
-  }
-
-  $('.top-level span, .top-level button').click(function() {
-    var target = $(this).data('target');
-
-    $('.top-level li').removeClass('active');
-    topLevelSearchLink.text('Search');
-
-    var targetEl = $('#' + target);
-    var wasVisible = targetEl.is(':visible');
-
-    // hide everything:
-    $('.menu-target').hide();
-    $(".top-level li button[data-target='" + target + "']").attr("aria-expanded", "false");
-
-    if(target === 'search') {
-      // TODO: This is never used and needs to be revisited.
-      $(this).toggleClass('open');
-
-      if($(this).hasClass('open') || !wasVisible) {
-        $(this).text(translations.general.hide);
-      } else {
-        $(this).text(translations.search.search);
-      }
-    } else if (target === 'search-mobile') {
-      topLevelMenuToggle.setAttribute('aria-expanded', false);
-      $(topLevelMenuToggle).find('> button').attr('aria-expanded', false);
-    } else {
-      // menu click, always hide search:
-      topLevelSearchLink.removeClass('open');
-      topLevelSearchLink.text(translations.search.search);
-    }
-
-    if(!wasVisible) {
-      targetEl.show();
-      $(".top-level li button[data-target='" + target + "']").attr("aria-expanded", "true");
-      $(this).parent().addClass('active');
-      $('#indicator_search').focus();
-    }
-  });
-
-  $(window).on('resize', function(e) {
-    var viewportWidth = window.innerWidth,
-        previousWidth = $('body').data('vwidth'),
-        breakpointWidth = 768;
-
-    if(viewportWidth > breakpointWidth && previousWidth <= breakpointWidth) {
-      // switched to larger viewport:
-      $('.menu-target').show();
-    } else if(previousWidth >= breakpointWidth && viewportWidth < breakpointWidth) {
-      // switched to smaller viewport:
-      $('.menu-target').hide();
-      resetForSmallerViewport();
-    }
-
-    // update the viewport width:
-    $('body').data('vwidth', viewportWidth);
-  });
-
-  // Add the cookie settings link in the footer.
-  
-});
 /*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */
 "document"in self&&("classList"in document.createElement("_")&&(!document.createElementNS||"classList"in document.createElementNS("http://www.w3.org/2000/svg","g"))||!function(t){"use strict";if("Element"in t){var e="classList",n="prototype",i=t.Element[n],s=Object,r=String[n].trim||function(){return this.replace(/^\s+|\s+$/g,"")},o=Array[n].indexOf||function(t){for(var e=0,n=this.length;n>e;e++)if(e in this&&this[e]===t)return e;return-1},a=function(t,e){this.name=t,this.code=DOMException[t],this.message=e},c=function(t,e){if(""===e)throw new a("SYNTAX_ERR","An invalid or illegal string was specified");if(/\s/.test(e))throw new a("INVALID_CHARACTER_ERR","String contains an invalid character");return o.call(t,e)},l=function(t){for(var e=r.call(t.getAttribute("class")||""),n=e?e.split(/\s+/):[],i=0,s=n.length;s>i;i++)this.push(n[i]);this._updateClassName=function(){t.setAttribute("class",""+this)}},u=l[n]=[],h=function(){return new l(this)};if(a[n]=Error[n],u.item=function(t){return this[t]||null},u.contains=function(t){return t+="",-1!==c(this,t)},u.add=function(){var t,e=arguments,n=0,i=e.length,s=!1;do t=e[n]+"",-1===c(this,t)&&(this.push(t),s=!0);while(++n<i);s&&this._updateClassName()},u.remove=function(){var t,e,n=arguments,i=0,s=n.length,r=!1;do for(t=n[i]+"",e=c(this,t);-1!==e;)this.splice(e,1),r=!0,e=c(this,t);while(++i<s);r&&this._updateClassName()},u.toggle=function(t,e){t+="";var n=this.contains(t),i=n?e!==!0&&"remove":e!==!1&&"add";return i&&this[i](t),e===!0||e===!1?e:!n},u.toString=function(){return this.join(" ")},s.defineProperty){var f={get:h,enumerable:!0,configurable:!0};try{s.defineProperty(i,e,f)}catch(g){(void 0===g.number||-2146823252===g.number)&&(f.enumerable=!1,s.defineProperty(i,e,f))}}else s[n].__defineGetter__&&i.__defineGetter__(e,h)}}(self),function(){"use strict";var t=document.createElement("_");if(t.classList.add("c1","c2"),!t.classList.contains("c2")){var e=function(t){var e=DOMTokenList.prototype[t];DOMTokenList.prototype[t]=function(t){var n,i=arguments.length;for(n=0;i>n;n++)t=arguments[n],e.call(this,t)}};e("add"),e("remove")}if(t.classList.toggle("c3",!1),t.classList.contains("c3")){var n=DOMTokenList.prototype.toggle;DOMTokenList.prototype.toggle=function(t,e){return 1 in arguments&&!this.contains(t)==!e?e:n.call(this,t)}}t=null}());/*! modernizr 3.5.0 (Custom Build) | MIT *
  * https://modernizr.com/download/?-blobconstructor-localstorage-setclasses !*/
