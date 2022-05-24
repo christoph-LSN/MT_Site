@@ -136,12 +136,11 @@ var translations = {
 
         
         
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
         
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220524082752">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220524083906">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -156,7 +155,7 @@ var translations = {
 
     </head>
 <body class="language-de
-layout-indicator-bootstrap5
+layout-indicator
 ">
 <!-- <div class="container"> -->
 
@@ -164,9 +163,9 @@ layout-indicator-bootstrap5
 
 <script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
+<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
-    
+  
 <div class="container">
   <div class="disclaimer-alert">
     <strong class="phase-tag">Alpha-Version</strong>
@@ -178,50 +177,162 @@ layout-indicator-bootstrap5
 
 </div>
 
-<header role="banner" class="">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light flex-wrap align-items-start">
-            <a class="navbar-brand" href="/MT_Site/" id="home">
+<header role="banner" class="header-menu-left-aligned">
+  <div class="container">
+
+    <div class="logo-and-mobile-widgets">
+      <a class="navbar-brand" href="/MT_Site/" id="home">
     <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="d-flex flex-wrap w-100 justify-content-between">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav" id="menu"><li class="nav-item ">
-    <a class="nav-link" href="/MT_Site/goals">Themenbereiche</a>
-</li><li class="nav-item ">
-    <a class="nav-link" href="/MT_Site/reporting-status">Berichtsstatus</a>
-</li><li class="nav-item ">
-    <a class="nav-link" href="/MT_Site/about">Über uns</a>
-</li></ul>
-    
-                </div>
-                <div class="header-search-bar">
-                    <form class="align-self-lg-end" id="search" action="/MT_Site/search/">
-    <div class="input-group">
-        <label class="visually-hidden" for="indicator_search">Suche</label>
-        <input class="form-control" type="search" name="q" id="indicator_search" title="Suche">
-        <span class="input-group-append">
-            <button class="btn btn-outline-secondary ms-n5" aria-label="Suche" id="search-btn" type="submit">
-                <i class="fa fa-search"></i>
-            </button>
-        </span>
-    </div>
-</form>
+      <div class="mobile-widgets">
+    <ul id='accessibility-nav' class='contrast-switcher'>
+        
 
-                </div>
-                <div class="header-toggles d-flex"><a title="Aktivieren Sie hohen Kontrast" aria-label="Aktivieren Sie hohen Kontrast"
-    data-contrast-switch-to="" href="javascript:void(0)" data-on="click"
+    <li class="nav-link contrast contrast-default contrast-type-default">
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
+           data-contrast-switch-to="default"
+           href="javascript:void(0)"
+           data-on="click"
+data-event-category="Accessibility"
+data-event-action="Change contrast setting"
+data-event-label="default"
+
+        >A</a>
+    </li>
+    <li class="nav-link contrast contrast-high contrast-type-default">
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
+           data-contrast-switch-to="high"
+           href="javascript:void(0)"
+           data-on="click"
 data-event-category="Accessibility"
 data-event-action="Change contrast setting"
 data-event-label="high"
->A</a>
-                </div>
-            </div>
-        </nav>
+
+        >A</a>
+    </li>
+
+
+    </ul></div>
     </div>
+
+    <div class="search-and-desktop-widgets">
+      <div id="search" class="menu-target">
+  <form action="/MT_Site/search/">
+    <label class="sr-only" for="indicator_search">Suche</label>
+    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+  </form>
+</div>
+
+      <div class="navbar navbar-default widgets-without-menu">
+        <ul class="nav navbar-nav contrast-switcher">
+
+    <li class="nav-link contrast contrast-default contrast-type-default">
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
+           data-contrast-switch-to="default"
+           href="javascript:void(0)"
+           data-on="click"
+data-event-category="Accessibility"
+data-event-action="Change contrast setting"
+data-event-label="default"
+
+        >A</a>
+    </li>
+    <li class="nav-link contrast contrast-high contrast-type-default">
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
+           data-contrast-switch-to="high"
+           href="javascript:void(0)"
+           data-on="click"
+data-event-category="Accessibility"
+data-event-action="Change contrast setting"
+data-event-label="high"
+
+        >A</a>
+    </li>
+
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="navbar navbar-default menu-without-widgets" id="main-nav">
+      <ul class="top-level">
+    <li id="menuToggle"
+        aria-label=""
+        aria-haspopup="true">
+        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
+        <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
+    <a href="/MT_Site/goals">Themenbereiche</a>
+</li><li class="nav-link ">
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
+</li><li class="nav-link ">
+    <a href="/MT_Site/about">Über uns</a>
+</li>
+
+
+
+    <li class="nav-link contrast contrast-default contrast-type-default">
+        <a title="Hoher Kontrast deaktivieren"
+           aria-label="Hoher Kontrast deaktivieren"
+           data-contrast-switch-to="default"
+           href="javascript:void(0)"
+           data-on="click"
+data-event-category="Accessibility"
+data-event-action="Change contrast setting"
+data-event-label="default"
+
+        >A</a>
+    </li>
+    <li class="nav-link contrast contrast-high contrast-type-default">
+        <a title="Aktivieren Sie hohen Kontrast"
+           aria-label="Aktivieren Sie hohen Kontrast"
+           data-contrast-switch-to="high"
+           href="javascript:void(0)"
+           data-on="click"
+data-event-category="Accessibility"
+data-event-action="Change contrast setting"
+data-event-label="high"
+
+        >A</a>
+    </li>
+
+
+
+</ul>
+
+    </li>
+    <li id="searchToggle"
+        aria-label=""
+        aria-haspopup="true">
+        <button data-target="search-mobile" aria-expanded="false">Suche</button>
+        <div id="search-mobile" class="menu-target">
+  <form action="/MT_Site/search/">
+    <label class="sr-only" for="indicator_search-mobile">Suche</label>
+    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
+    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
+  </form>
+</div>
+
+    </li>
+</ul>
+      <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
+    <a href="/MT_Site/goals">Themenbereiche</a>
+</li><li class="nav-link ">
+    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
+</li><li class="nav-link ">
+    <a href="/MT_Site/about">Über uns</a>
+</li>
+
+</ul>
+
+    </div>
+
+  </div>
+
 </header>
 <div id="top" tabindex=-1></div>
 
@@ -318,37 +429,29 @@ data-event-label="high"
 
 <div class="container">
   
-<nav>
-    <ol aria-label="breadcrumb" class="breadcrumb" style="--bs-breadcrumb-divider: '&rsaquo;';">
-        
-        <li class="breadcrumb-item">
-            <a href="/MT_Site/">Home</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a href="/MT_Site/goals">Themenbereiche</a>
-        </li>
-        
-        <li class="breadcrumb-item">
-            <a href="/MT_Site/2" title="Rechtliche Integration &amp; Asyl">Themenbereich 2</a>
-        </li>
-        
-    </ol>
-</nav>
+<ol class="breadcrumb">
+  
+  <li><a href="/MT_Site/">Home</a></li>
+  <li><a href="/MT_Site/goals">Themenbereiche</a></li>
+  
+  <li><a href="/MT_Site/2" title="Rechtliche Integration &amp; Asyl">Themenbereich 2</a></li>
+  
+</ol>
 
 
   
     
-<div class="previous-next-links d-flex justify-content-between">
-    <div class="text-left">
+<div class="previous-next-links row">
+    <div class="col-xs-3 col-md-3 col-lg-4 pull-left text-left">
         <a class="btn btn-primary" href="/MT_Site/2-2-1" aria-labelledby="previous-link">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
-            <span id="previous-link" class="d-none d-md-inline"></span>
+            <span id="previous-link" class="hidden-sm hidden-xs"></span>
         </a>
     </div>
-    <div class="text-right">
+    <div class="col-xs-3 col-md-3 col-lg-4 pull-right text-right">
         <a class="btn btn-primary" href="/MT_Site/2-2-3" aria-labelledby="next-link">
-            <span id="next-link" class="d-none d-md-inline"></span>
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            <span id="next-link" class="hidden-sm hidden-xs"></span>
         </a>
     </div>
 </div>
@@ -357,31 +460,29 @@ data-event-label="high"
   
 </div>
 <div class="heading goal-banner indicator goal-2">
-    <div class="container">
-        <div class="row">
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-xs-4 col-md-3 col-lg-2 goal-icon goal-tiles">
+        <a href="/MT_Site/2" title="Zeigt die Indikatorenliste zum SDG-Ziel an.">
+          <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/2.png" alt="Rechtliche Integration &amp; Asyl - Themenbereich 2" id="goal-2" class="goal-icon-image goal-icon-image-"/>
+        </a>
+      </div>
+      <div class="col-xs-8 col-md-9 col-lg-10 indicator-details">
+      
+        <div>
+          <h1>
             
-            <div class="col-4 col-md-3 col-lg-2 goal-icon goal-tiles">
-                <a href="/MT_Site/2" title="Zeigt die Indikatorenliste zum SDG-Ziel an.">
-                    <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/2.png"
-                        alt="Rechtliche Integration &amp; Asyl - Themenbereich 2"
-                        id="goal-2"
-                        class="goal-icon-image goal-icon-image-" />
-                </a>
-            </div>
-            <div class="col-8 col-md-9 col-lg-10 indicator-details">
+            Indikator 2.2.2
             
-                <div>
-                    <h1>
-                        
-                        Indikator 2.2.2
-                        
-                        <span class="lead-copy">Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)</span>
-                    </h1>
-                </div>
-            </div>
+            <span class="lead-copy">Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)</span>
+          </h1>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+
 <div id="main-content" class="container goal-2" role="main">
   
 
@@ -422,7 +523,7 @@ data-event-label="high"
   data-precision="null"
 >
   
-  <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
+  <span role="status" class="sr-only" id="indicator-data-view-status"></span>
   <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
     <div id="serieses"></div>
 <div id="units"></div>
@@ -475,94 +576,94 @@ data-event-label="high"
 
   <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
 
-  <div class="async-loaded mt-4" style="display:none;">
+  <div class="async-loaded spacer medium" style="display:none;">
 
     <div style="display: none;">
-    <span id="table-alternative"></span>
-  </div>
-  <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
-    
-    <li role="presentation"
-      class="
-        nav-item
-        
-        
-      ">
-      <button
-        class="nav-link active"
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-chartview"
-          data-bs-target="#chartview"
-          aria-controls="chartview"
-          aria-describedby="table-alternative"
-          data-on="click"
+  <span id="table-alternative"></span>
+</div>
+<ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
+  
+  <li role="presentation"
+    class="
+      nav-item
+      
+      
+      active
+    ">
+    <a
+      class="nav-link"
+      data-toggle="tab"
+      role="tab"
+      
+        id="tab-chartview"
+        href="#chartview"
+        aria-controls="chartview"
+        aria-describedby="table-alternative"
+        data-on="click"
 data-event-category="Tab change"
 data-event-action="Change data view"
 data-event-label="Change to Chart tab"
 
-        
-      >Grafik</button>
-    </li>
-    
-    <li role="presentation"
-      class="
-        nav-item
-        
-        
-      ">
-      <button
-        class="nav-link "
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-tableview"
-          data-bs-target="#tableview"
-          aria-controls="tableview"
-          data-on="click"
+      
+    >Grafik</a>
+  </li>
+  
+  <li role="presentation"
+    class="
+      nav-item
+      
+      
+      
+    ">
+    <a
+      class="nav-link"
+      data-toggle="tab"
+      role="tab"
+      
+        id="tab-tableview"
+        href="#tableview"
+        aria-controls="tableview"
+        data-on="click"
 data-event-category="Tab change"
 data-event-action="Change data view"
 data-event-label="Change to Table tab"
 
-        
-      >Tabelle</button>
-    </li>
-    
-    <li role="presentation"
-      class="
-        nav-item
-        map
-        
-      ">
-      <button
-        class="nav-link "
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-mapview"
-          data-bs-target="#mapview"
-          aria-controls="mapview"
-          data-no-disagg="true"
-          data-on="click"
+      
+    >Tabelle</a>
+  </li>
+  
+  <li role="presentation"
+    class="
+      nav-item
+      map
+      
+      
+    ">
+    <a
+      class="nav-link"
+      data-toggle="tab"
+      role="tab"
+      
+        id="tab-mapview"
+        href="#mapview"
+        aria-controls="mapview"
+        data-no-disagg="true"
+        data-on="click"
 data-event-category="Tab change"
 data-event-action="Change data view"
 data-event-label="Change to Map tab"
 
-        
-      >Karte</button>
-    </li>
-    
-  </ul>
-  
-    <div class="tab-content data-view">
-    
       
-        <div role="tabpanel" class="tab-pane active" id="chartview">
-          
+    >Karte</a>
+  </li>
+  
+</ul>
+
+    <div class="tab-content data-view">
+  
+    
+      <div role="tabpanel" class="tab-pane active" id="chartview">
+        
 
     <div id="dataset-size-warning" style="display:none" role="alert">
       <i class="fa fa-bolt"><span class="sr-only"></span></i>
@@ -619,15 +720,15 @@ data-event-label="Change to Map tab"
 
 
 
-        </div>
-      
+      </div>
     
-      
-        <div role="tabpanel" class="tab-pane " id="tableview">
-          <div style="display: none;">
-            <span id="column-sort-info"></span>
-          </div>
-          <div id="selectionsTable"></div>
+  
+    
+      <div role="tabpanel" class="tab-pane " id="tableview">
+        <div style="display: none;">
+          <span id="column-sort-info"></span>
+        </div>
+        <div id="selectionsTable"></div>
 <dl id="tableTargetLines" class="clearfix"></dl>
 
 
@@ -652,12 +753,12 @@ data-event-label="Change to Map tab"
 
 <div id="tableSelectionDownload" class="clearfix"></div>
 
-        </div>
-      
+      </div>
     
-      
-        <div role="tabpanel" class="tab-pane " id="mapview" class="map">
-          
+  
+    
+      <div role="tabpanel" class="tab-pane " id="mapview" class="map">
+        
 <h4 id="map-heading" class="chart-title">Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)</h4>
 <div id="map" aria-describedby="table-alternative">
   <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
@@ -684,64 +785,63 @@ data-event-label="Change to Map tab"
   </div>
 
 
-        </div>
-      
+      </div>
     
-  </div>
   
+</div>
+
 
   </div>
 
 </section>
 
   
-  <div class="mt-4">
-<ul class="nav nav-tabs" role="tablist">
-    
-        <li role="presentation" class="nav-item">
-    <button type="button" class="nav-link active" data-bs-toggle="tab" id="tab-national" data-bs-target="#national" aria-controls="national" role="tab" data-on="click"
+  <ul class="nav nav-tabs spacer medium" role="tablist">
+
+  <li role="presentation" class="nav-item active">
+  <a class="nav-link" data-toggle="tab" id="tab-national" href="#national" aria-controls="national" role="tab" data-on="click"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to National Metadata tab"
->Indikator Beschreibung</button>
+>Indikator Beschreibung</a>
 </li>
 
 <li role="presentation" class="nav-item">
-    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-global" data-bs-target="#global" aria-controls="global" role="tab" data-on="click"
+  <a class="nav-link" data-toggle="tab" id="tab-global" href="#global" aria-controls="global" role="tab" data-on="click"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to Global Metadata tab"
->Tabellen zum Download</button>
+>Tabellen zum Download</a>
 </li>
 
 <li role="presentation" class="nav-item">
-    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-sources" data-bs-target="#sources" aria-controls="sources" role="tab" data-on="click"
+  <a class="nav-link" data-toggle="tab" id="tab-sources" href="#sources" aria-controls="sources" role="tab" data-on="click"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to Sources tab"
->Datenquellen</button>
+>Datenquellen</a>
 </li>
+
+
   
-    
-    
-        <li role="presentation" class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
-        </li>
-    
+  <li role="presentation" class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
+  </li>
+  
 </ul>
 
 <div class="tab-content">
-    
-        <div role="tabpanel" class="tab-pane active" id="national">
-    <!-- National Metadata -->
-    <div>
-        <article>
-            <p>
-                
-                
-                
-            </p>
-            <table class="table">
+  
+    <div role="tabpanel" class="tab-pane active" id="national">
+  <!-- National Metadata -->
+  <div >
+    <article>
+      <p>
+        
+        
+        
+      </p>
+      <table class="table">
   
   
   
@@ -809,15 +909,15 @@ data-event-label="Change to Sources tab"
   
 </table>
 
-        </article>
-    </div>
+    </article>
+  </div>
 </div>
 <div role="tabpanel" class="tab-pane" id="global">
-    <!-- Global Metadata -->
-    <div>
-        <article>
-            <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
-            <table class="table">
+  <!-- Global Metadata -->
+  <div>
+    <article>
+      <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
+      <table class="table">
   
   
   
@@ -860,21 +960,22 @@ data-event-label="Change to Sources tab"
   
 </table>
 
-        </article>
-    </div>
+    </article>
+  </div>
 </div>
 <div role="tabpanel" class="tab-pane" id="sources">
-    <!-- Count the non-empty sources (up to 5) -->
+  <!-- Count the non-empty sources (up to 5) -->
 
 
 
 
 
 </div>
-    
-    
-        <div role="tabpanel" class="tab-pane" id="edit">
-            <div class="edit-container">
+
+  
+  
+  <div role="tabpanel" class="tab-pane" id="edit">
+    <div class="edit-container">
   
   
 
@@ -895,11 +996,11 @@ data-event-label="Change to Sources tab"
 
 </div>
 
-        </div>
-    
-</div>
+  </div>
   
 </div>
+
+
   </div>
 </div>
 
@@ -907,50 +1008,46 @@ data-event-label="Change to Sources tab"
 
 
 <footer role="contentinfo">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div id="footerLinks">
-                    <ul>
-                        <li>
-                            <a href="https://open-sdg.org">Erstellt mit Open SDG</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/MT_Site/imprint/">Impressum</a>
-                            
-                        </li>
-                        <li>
-                            <a href="/MT_Site/notes/">Methodische Hinweise</a>
-                            
-                        </li>
-                        <li>
-                            <a href="/MT_Site/contact-us">Kontakt</a>
-                            
-                        </li>
-                        <li>
-                            <a href="/MT_Site/about/cookies-and-privacy/">Cookies</a>
-                            
-                        </li>
-                        
-                        
-                        
-                        <li>
-                            <a href="/MT_Site/config">Configuration</a>
-                        </li>
-                        </ul>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div id="footerLinks">
+          <ul>
+            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
+            
+              <li>
+                <a href="/MT_Site/imprint/">Impressum</a>
+                
+                </li>
+              <li>
+                <a href="/MT_Site/notes/">Methodische Hinweise</a>
+                
+                </li>
+              <li>
+                <a href="/MT_Site/contact-us">Kontakt</a>
+                
+                </li>
+              <li>
+                <a href="/MT_Site/about/cookies-and-privacy/">Cookies</a>
+                
+                </li>
+              
+            
+            
+            <li><a href="/MT_Site/config">Configuration</a></li>
+            </ul>
         </div>
-        
+      </div>
     </div>
+    
+  </div>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 
 <script src="//cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
@@ -1148,12 +1245,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220524082752'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220524083906'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220524082752"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220524083906"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
