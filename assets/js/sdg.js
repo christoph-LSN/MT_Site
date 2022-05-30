@@ -620,7 +620,7 @@ opensdg.autotrack = function(preset, category, action, label) {
 // This "crops" the charts so that empty years are not displayed
 // at the beginning or end of each dataset. This ensures that the
 // chart will fill all the available space.
-Chart.plugins.register({
+Chart.register({
   id: 'rescaler',
   beforeInit: function (chart, options) {
     chart.config.data.allLabels = chart.config.data.labels.slice(0);
@@ -692,7 +692,7 @@ function getTextLinesOnCanvas(ctx, text, maxWidth) {
 }
 
 // This plugin displays a message to the user whenever a chart has no data.
-Chart.plugins.register({
+Chart.register({
   id: 'open-sdg-no-data-message',
   afterDraw: function(chart) {
     if (chart.data.datasets.length === 0) {
@@ -704,9 +704,9 @@ Chart.plugins.register({
       // @deprecated end
 
       
-      var ctx = chart.chart.ctx;
-      var width = chart.chart.width;
-      var height = chart.chart.height;
+      var ctx = chart.ctx;
+      var width = chart.width;
+      var height = chart.height;
       
 
       chart.clear();
@@ -734,7 +734,7 @@ Chart.plugins.register({
   }
 });
 // This plugin allows users to cycle through tooltips by keyboard.
-Chart.plugins.register({
+Chart.register({
     id: 'open-sdg-accessible-charts',
     afterInit: function(chart) {
         var plugin = this;
@@ -1108,7 +1108,7 @@ var VALUE_COLUMN = 'Value';
 var HEADLINE_COLOR = '#777777';
 var SERIES_TOGGLE = true;
 var GRAPH_TITLE_FROM_SERIES = false;
-var CHARTJS_3 = false;
+var CHARTJS_3 = true;
 
   /**
  * Model helper functions with general utility.
@@ -4129,7 +4129,7 @@ $(document).ready(function() {
         // Allow clicking on the <li> to trigger tab click.
         tabsList.find('li').click(function(event) {
             if (event.target.tagName === 'LI') {
-                $(event.target).find('> a').click();
+                $(event.target).find('> button').click();
             }
         });
     });
