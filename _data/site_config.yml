@@ -1,7 +1,7 @@
 ###tests for 2.0.0
 
-bootstrap_5: true
-chartjs_3: true
+bootstrap_5: false
+chartjs_3: false
 
 
 
