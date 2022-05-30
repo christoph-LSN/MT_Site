@@ -131,11 +131,12 @@ var translations = {
 
         
         
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220530092034">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220530094707">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -158,9 +159,9 @@ layout-config-builder
 
 <script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
-<a class="sr-only sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
+<a class="sr-only-focusable" id="skiplink" href="#main-content" tabindex="0"> Zum Hauptinhalt springen</a>
 <div id="disclaimer">
-  
+    
 <div class="container">
   <div class="disclaimer-alert">
     <strong class="phase-tag">Alpha-Version</strong>
@@ -172,162 +173,50 @@ layout-config-builder
 
 </div>
 
-<header role="banner" class="header-menu-left-aligned">
-  <div class="container">
-
-    <div class="logo-and-mobile-widgets">
-      <a class="navbar-brand" href="/MT_Site/" id="home">
+<header role="banner" class="">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light flex-wrap align-items-start">
+            <a class="navbar-brand" href="/MT_Site/" id="home">
     <img src="/MT_Site/assets/img/SDG_logo.png" alt="Ziele für Nachhaltige Entwicklung - " />
 </a>
-      <div class="mobile-widgets">
-    <ul id='accessibility-nav' class='contrast-switcher'>
-        
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-flex flex-wrap w-100 justify-content-between">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav" id="menu"><li class="nav-item ">
+    <a class="nav-link" href="/MT_Site/goals">Themenbereiche</a>
+</li><li class="nav-item ">
+    <a class="nav-link" href="/MT_Site/reporting-status">Berichtsstatus</a>
+</li><li class="nav-item ">
+    <a class="nav-link" href="/MT_Site/about">Über uns</a>
+</li></ul>
+    
+                </div>
+                <div class="header-search-bar">
+                    <form class="align-self-lg-end" id="search" action="/MT_Site/search/">
+    <div class="input-group">
+        <label class="visually-hidden" for="indicator_search">Suche</label>
+        <input class="form-control" type="search" name="q" id="indicator_search" title="Suche">
+        <span class="input-group-append">
+            <button class="btn btn-outline-secondary ms-n5" aria-label="Suche" id="search-btn" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
+</form>
 
-    <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Hoher Kontrast deaktivieren"
-           aria-label="Hoher Kontrast deaktivieren"
-           data-contrast-switch-to="default"
-           href="javascript:void(0)"
-           data-on="click"
-data-event-category="Accessibility"
-data-event-action="Change contrast setting"
-data-event-label="default"
-
-        >A</a>
-    </li>
-    <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Aktivieren Sie hohen Kontrast"
-           aria-label="Aktivieren Sie hohen Kontrast"
-           data-contrast-switch-to="high"
-           href="javascript:void(0)"
-           data-on="click"
+                </div>
+                <div class="header-toggles d-flex"><a title="Aktivieren Sie hohen Kontrast" aria-label="Aktivieren Sie hohen Kontrast"
+    data-contrast-switch-to="" href="javascript:void(0)" data-on="click"
 data-event-category="Accessibility"
 data-event-action="Change contrast setting"
 data-event-label="high"
-
-        >A</a>
-    </li>
-
-
-    </ul></div>
+>A</a>
+                </div>
+            </div>
+        </nav>
     </div>
-
-    <div class="search-and-desktop-widgets">
-      <div id="search" class="menu-target">
-  <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search">Suche</label>
-    <input type="text" name="q" id="indicator_search" title="Suche" /><!--
-    --><button aria-label="Suche" id="search-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
-  </form>
-</div>
-
-      <div class="navbar navbar-default widgets-without-menu">
-        <ul class="nav navbar-nav contrast-switcher">
-
-    <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Hoher Kontrast deaktivieren"
-           aria-label="Hoher Kontrast deaktivieren"
-           data-contrast-switch-to="default"
-           href="javascript:void(0)"
-           data-on="click"
-data-event-category="Accessibility"
-data-event-action="Change contrast setting"
-data-event-label="default"
-
-        >A</a>
-    </li>
-    <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Aktivieren Sie hohen Kontrast"
-           aria-label="Aktivieren Sie hohen Kontrast"
-           data-contrast-switch-to="high"
-           href="javascript:void(0)"
-           data-on="click"
-data-event-category="Accessibility"
-data-event-action="Change contrast setting"
-data-event-label="high"
-
-        >A</a>
-    </li>
-
-
-        </ul>
-      </div>
-    </div>
-
-    <div class="navbar navbar-default menu-without-widgets" id="main-nav">
-      <ul class="top-level">
-    <li id="menuToggle"
-        aria-label=""
-        aria-haspopup="true">
-        <button data-target="menu-mobile" aria-expanded="false">Menü</button>
-        <ul class="nav navbar-nav menu-target contrast-switcher" id="menu-mobile"><li class="nav-link ">
-    <a href="/MT_Site/goals">Themenbereiche</a>
-</li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
-</li><li class="nav-link ">
-    <a href="/MT_Site/about">Über uns</a>
-</li>
-
-
-
-    <li class="nav-link contrast contrast-default contrast-type-default">
-        <a title="Hoher Kontrast deaktivieren"
-           aria-label="Hoher Kontrast deaktivieren"
-           data-contrast-switch-to="default"
-           href="javascript:void(0)"
-           data-on="click"
-data-event-category="Accessibility"
-data-event-action="Change contrast setting"
-data-event-label="default"
-
-        >A</a>
-    </li>
-    <li class="nav-link contrast contrast-high contrast-type-default">
-        <a title="Aktivieren Sie hohen Kontrast"
-           aria-label="Aktivieren Sie hohen Kontrast"
-           data-contrast-switch-to="high"
-           href="javascript:void(0)"
-           data-on="click"
-data-event-category="Accessibility"
-data-event-action="Change contrast setting"
-data-event-label="high"
-
-        >A</a>
-    </li>
-
-
-
-</ul>
-
-    </li>
-    <li id="searchToggle"
-        aria-label=""
-        aria-haspopup="true">
-        <button data-target="search-mobile" aria-expanded="false">Suche</button>
-        <div id="search-mobile" class="menu-target">
-  <form action="/MT_Site/search/">
-    <label class="sr-only" for="indicator_search-mobile">Suche</label>
-    <input type="text" name="q" id="indicator_search-mobile" title="Suche" /><!--
-    --><button aria-label="Suche" id="search-mobile-btn" type="submit"><i class="fa fa-search" aria-hidden="false"></i></button>
-  </form>
-</div>
-
-    </li>
-</ul>
-      <ul class="nav navbar-nav menu-target " id="menu"><li class="nav-link ">
-    <a href="/MT_Site/goals">Themenbereiche</a>
-</li><li class="nav-link ">
-    <a href="/MT_Site/reporting-status">Berichtsstatus</a>
-</li><li class="nav-link ">
-    <a href="/MT_Site/about">Über uns</a>
-</li>
-
-</ul>
-
-    </div>
-
-  </div>
-
 </header>
 <div id="top" tabindex=-1></div>
 
@@ -665,46 +554,50 @@ data-event-label="high"
 </div>
 
 <footer role="contentinfo">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <div id="footerLinks">
-          <ul>
-            <li><a href="https://open-sdg.org">Erstellt mit Open SDG</a></li>
-            
-              <li>
-                <a href="/MT_Site/imprint/">Impressum</a>
-                
-                </li>
-              <li>
-                <a href="/MT_Site/notes/">Methodische Hinweise</a>
-                
-                </li>
-              <li>
-                <a href="/MT_Site/contact-us">Kontakt</a>
-                
-                </li>
-              <li>
-                <a href="/MT_Site/about/cookies-and-privacy/">Cookies</a>
-                
-                </li>
-              
-            
-            
-            <li><a href="/MT_Site/config">Configuration</a></li>
-            </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="footerLinks">
+                    <ul>
+                        <li>
+                            <a href="https://open-sdg.org">Erstellt mit Open SDG</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/MT_Site/imprint/">Impressum</a>
+                            
+                        </li>
+                        <li>
+                            <a href="/MT_Site/notes/">Methodische Hinweise</a>
+                            
+                        </li>
+                        <li>
+                            <a href="/MT_Site/contact-us">Kontakt</a>
+                            
+                        </li>
+                        <li>
+                            <a href="/MT_Site/about/cookies-and-privacy/">Cookies</a>
+                            
+                        </li>
+                        
+                        
+                        
+                        <li>
+                            <a href="/MT_Site/config">Configuration</a>
+                        </li>
+                        </ul>
+                </div>
+            </div>
         </div>
-      </div>
+        
     </div>
-    
-  </div>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
 <script src="//cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
@@ -893,12 +786,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220530092034'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220530094707'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220530092034"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220530094707"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
