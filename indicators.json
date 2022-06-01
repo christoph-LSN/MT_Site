@@ -83,7 +83,7 @@
           "description": "Der Indikator gibt ...",
           "keywords": "",
           "href": "/MT_Site/1-2-7",
-          "status": "inprogress"
+          "status": "complete"
         },
         {
           "id": "1-2-8",
@@ -515,7 +515,7 @@
           "description": "Der Indikator gibt die Anzahl sowie den Anteil....",
           "keywords": "",
           "href": "/MT_Site/5-3-4",
-          "status": "inprogress"
+          "status": "complete"
         }]
     }
   },

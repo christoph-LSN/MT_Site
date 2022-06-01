@@ -41,10 +41,6 @@ var opensdg = {
   language: 'de',
 };
 
-// For backwards compatibility, some of these might need to be global.
-// @TODO: Remove these eventually.
-var remoteDataBaseUrl = opensdg.remoteDataBaseUrl;
-
 </script>
 
         <script>
@@ -123,25 +119,18 @@ var translations = {
         <script src="/MT_Site/assets/js/lib/classList.js"></script>
         <![endif]-->
 
-        
-
-
-
-
-<link rel="apple-touch-icon" sizes="180x180" href="/MT_Site/assets/img/favicons/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/MT_Site/assets/img/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/MT_Site/assets/img/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/MT_Site/assets/img/favicons/favicon-16x16.png">
 <link rel="icon" type="image/x-icon" href="/MT_Site/assets/img/favicons/favicon.ico" />
 
 
         
-        
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-        
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220530111655">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220601091006">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -159,8 +148,6 @@ var translations = {
 layout-indicator
 ">
 <!-- <div class="container"> -->
-
-
 
 <script>translations['header'] = {"alpha":"Alpha-Version","default_contrast":"Standard kontrast","disable_high_contrast":"Hoher Kontrast deaktivieren","disclaimer":"Diese Seite befindet sich im Entwicklungsstadium. Wir freuen uns über Ihre Kommentare.","enable_high_contrast":"Aktivieren Sie hohen Kontrast","high_contrast":"Hoher kontrast","skip_link":" Zum Hauptinhalt springen","tag_line":""};</script>
 
@@ -227,16 +214,11 @@ data-event-label="high"
 
 
 
-
-
 <script type="text/template" id="item_template">
   <% _.each(fields, function(fieldItem) { %>
     <div class="variable-selector
       <% if(allowedFields.indexOf(fieldItem.field) == -1) { %> disallowed <% }%>
       <% if (typeof childFields !== 'undefined' && childFields.indexOf(fieldItem.field) !== -1) { %> child <% }%>
-      <% // @deprecated start %>
-      <% if (typeof childFields === 'undefined' && allowedFields.indexOf(fieldItem.field) == -1) { %> child <% }%>
-      <% // @deprecated end %>
       "
       data-field="<%=fieldItem.field%>"
     >
@@ -318,29 +300,37 @@ data-event-label="high"
 
 <div class="container">
   
-<ol class="breadcrumb">
-  
-  <li><a href="/MT_Site/">Home</a></li>
-  <li><a href="/MT_Site/goals">Themenbereiche</a></li>
-  
-  <li><a href="/MT_Site/4" title="Bildung &amp; Qualifikation">Themenbereich 4</a></li>
-  
-</ol>
+<nav>
+    <ol aria-label="breadcrumb" class="breadcrumb" style="--bs-breadcrumb-divider: '&rsaquo;';">
+        
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/goals">Themenbereiche</a>
+        </li>
+        
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/4" title="Bildung &amp; Qualifikation">Themenbereich 4</a>
+        </li>
+        
+    </ol>
+</nav>
 
 
   
     
-<div class="previous-next-links row">
-    <div class="col-xs-3 col-md-3 col-lg-4 pull-left text-left">
+<div class="previous-next-links d-flex justify-content-between">
+    <div class="text-left">
         <a class="btn btn-primary" href="/MT_Site/4-3-2" aria-labelledby="previous-link">
             <i class="fa fa-chevron-left" aria-hidden="true"></i>
-            <span id="previous-link" class="hidden-sm hidden-xs"></span>
+            <span id="previous-link" class="d-none d-md-inline"></span>
         </a>
     </div>
-    <div class="col-xs-3 col-md-3 col-lg-4 pull-right text-right">
+    <div class="text-right">
         <a class="btn btn-primary" href="/MT_Site/5-1-1" aria-labelledby="next-link">
+            <span id="next-link" class="d-none d-md-inline"></span>
             <i class="fa fa-chevron-right" aria-hidden="true"></i>
-            <span id="next-link" class="hidden-sm hidden-xs"></span>
         </a>
     </div>
 </div>
@@ -349,29 +339,31 @@ data-event-label="high"
   
 </div>
 <div class="heading goal-banner indicator goal-4">
-  <div class="container">
-    <div class="row">
-      
-      <div class="col-xs-4 col-md-3 col-lg-2 goal-icon goal-tiles">
-        <a href="/MT_Site/4" title="Zeigt die Indikatorenliste zum SDG-Ziel an.">
-          <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/4.png" alt="Bildung &amp; Qualifikation - Themenbereich 4" id="goal-4" class="goal-icon-image goal-icon-image-"/>
-        </a>
-      </div>
-      <div class="col-xs-8 col-md-9 col-lg-10 indicator-details">
-      
-        <div>
-          <h1>
+    <div class="container">
+        <div class="row">
             
-            Indikator 4.4.1
+            <div class="col-4 col-md-3 col-lg-2 goal-icon goal-tiles">
+                <a href="/MT_Site/4" title="Zeigt die Indikatorenliste zum SDG-Ziel an.">
+                    <img src="https://wohnungnds.github.io/IM_translations/www/assets/img/goals//de/4.png"
+                        alt="Bildung &amp; Qualifikation - Themenbereich 4"
+                        id="goal-4"
+                        class="goal-icon-image goal-icon-image-" />
+                </a>
+            </div>
+            <div class="col-8 col-md-9 col-lg-10 indicator-details">
             
-            <span class="lead-copy">Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)</span>
-          </h1>
+                <div>
+                    <h1>
+                        
+                        Indikator 4.4.1
+                        
+                        <span class="lead-copy">Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)</span>
+                    </h1>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
-
 <div id="main-content" class="container goal-4" role="main">
   
 
@@ -412,7 +404,7 @@ data-event-label="high"
   data-precision="null"
 >
   
-  <span role="status" class="sr-only" id="indicator-data-view-status"></span>
+  <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
   <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
     <div id="serieses"></div>
 <div id="units"></div>
@@ -465,69 +457,69 @@ data-event-label="high"
 
   <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
 
-  <div class="async-loaded spacer medium" style="display:none;">
+  <div class="async-loaded mt-4" style="display:none;">
 
     <div style="display: none;">
-  <span id="table-alternative"></span>
-</div>
-<ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
-  
-  <li role="presentation"
-    class="
-      nav-item
-      
-      
-      active
-    ">
-    <a
-      class="nav-link"
-      data-toggle="tab"
-      role="tab"
-      
-        id="tab-chartview"
-        href="#chartview"
-        aria-controls="chartview"
-        aria-describedby="table-alternative"
-        data-on="click"
+    <span id="table-alternative"></span>
+  </div>
+  <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
+    
+    <li role="presentation"
+      class="
+        nav-item
+        
+        
+      ">
+      <button
+        class="nav-link active"
+        data-bs-toggle="tab"
+        role="tab"
+        type="button"
+        
+          id="tab-chartview"
+          data-bs-target="#chartview"
+          aria-controls="chartview"
+          aria-describedby="table-alternative"
+          data-on="click"
 data-event-category="Tab change"
 data-event-action="Change data view"
 data-event-label="Change to Chart tab"
 
-      
-    >Grafik</a>
-  </li>
-  
-  <li role="presentation"
-    class="
-      nav-item
-      
-      
-      
-    ">
-    <a
-      class="nav-link"
-      data-toggle="tab"
-      role="tab"
-      
-        id="tab-tableview"
-        href="#tableview"
-        aria-controls="tableview"
-        data-on="click"
+        
+      >Grafik</button>
+    </li>
+    
+    <li role="presentation"
+      class="
+        nav-item
+        
+        
+      ">
+      <button
+        class="nav-link "
+        data-bs-toggle="tab"
+        role="tab"
+        type="button"
+        
+          id="tab-tableview"
+          data-bs-target="#tableview"
+          aria-controls="tableview"
+          data-on="click"
 data-event-category="Tab change"
 data-event-action="Change data view"
 data-event-label="Change to Table tab"
 
-      
-    >Tabelle</a>
-  </li>
-  
-</ul>
-
-    <div class="tab-content data-view">
-  
-    
-      <div role="tabpanel" class="tab-pane active" id="chartview">
         
+      >Tabelle</button>
+    </li>
+    
+  </ul>
+  
+    <div class="tab-content data-view">
+    
+      
+        <div role="tabpanel" class="tab-pane active" id="chartview">
+          
 
     <div id="dataset-size-warning" style="display:none" role="alert">
       <i class="fa fa-bolt"><span class="sr-only"></span></i>
@@ -541,15 +533,13 @@ data-event-label="Change to Table tab"
         <div id="chart-canvas">
           <h4 id="chart-heading" class="chart-title">Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)</h4>
           <div id="chart" class="plot-container">
-            
-              <canvas
+            <canvas
     role="img"
     aria-labelledby="chart-heading"
     aria-describedby="table-alternative chart-annotations"
     tabindex="0"
  ></canvas>
 
-            
           </div>
           <div id="plotLegend"></div>
           
@@ -587,15 +577,15 @@ data-event-label="Change to Table tab"
 
 
 
-      </div>
-    
-  
-    
-      <div role="tabpanel" class="tab-pane " id="tableview">
-        <div style="display: none;">
-          <span id="column-sort-info"></span>
         </div>
-        <div id="selectionsTable"></div>
+      
+    
+      
+        <div role="tabpanel" class="tab-pane " id="tableview">
+          <div style="display: none;">
+            <span id="column-sort-info"></span>
+          </div>
+          <div id="selectionsTable"></div>
 <dl id="tableTargetLines" class="clearfix"></dl>
 
 
@@ -623,63 +613,64 @@ data-event-label="Change to Table tab"
 
 <div id="tableSelectionDownload" class="clearfix"></div>
 
-      </div>
+        </div>
+      
     
+  </div>
   
-</div>
-
 
   </div>
 
 </section>
 
   
-  <ul class="nav nav-tabs spacer medium" role="tablist">
-
-  <li role="presentation" class="nav-item active">
-  <a class="nav-link" data-toggle="tab" id="tab-national" href="#national" aria-controls="national" role="tab" data-on="click"
+  <div class="mt-4">
+<ul class="nav nav-tabs" role="tablist">
+    
+        <li role="presentation" class="nav-item">
+    <button type="button" class="nav-link active" data-bs-toggle="tab" id="tab-national" data-bs-target="#national" aria-controls="national" role="tab" data-on="click"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to National Metadata tab"
->Indikator Beschreibung</a>
+>Indikator Beschreibung</button>
 </li>
 
 <li role="presentation" class="nav-item">
-  <a class="nav-link" data-toggle="tab" id="tab-global" href="#global" aria-controls="global" role="tab" data-on="click"
+    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-global" data-bs-target="#global" aria-controls="global" role="tab" data-on="click"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to Global Metadata tab"
->Tabellen zum Download</a>
+>Tabellen zum Download</button>
 </li>
 
 <li role="presentation" class="nav-item">
-  <a class="nav-link" data-toggle="tab" id="tab-sources" href="#sources" aria-controls="sources" role="tab" data-on="click"
+    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-sources" data-bs-target="#sources" aria-controls="sources" role="tab" data-on="click"
 data-event-category="Tab change"
 data-event-action="Change metadata view"
 data-event-label="Change to Sources tab"
->Datenquellen</a>
+>Datenquellen</button>
 </li>
-
-
   
-  <li role="presentation" class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
-  </li>
-  
+    
+    
+        <li role="presentation" class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
+        </li>
+    
 </ul>
 
 <div class="tab-content">
-  
-    <div role="tabpanel" class="tab-pane active" id="national">
-  <!-- National Metadata -->
-  <div >
-    <article>
-      <p>
-        
-        
-        
-      </p>
-      <table class="table">
+    
+        <div role="tabpanel" class="tab-pane active" id="national">
+    <!-- National Metadata -->
+    <div>
+        <article>
+            <p>
+                
+                
+                
+            </p>
+            <table class="table">
   
   
   
@@ -760,15 +751,15 @@ data-event-label="Change to Sources tab"
   
 </table>
 
-    </article>
-  </div>
+        </article>
+    </div>
 </div>
 <div role="tabpanel" class="tab-pane" id="global">
-  <!-- Global Metadata -->
-  <div>
-    <article>
-      <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
-      <table class="table">
+    <!-- Global Metadata -->
+    <div>
+        <article>
+            <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
+            <table class="table">
   
   
   
@@ -833,11 +824,11 @@ data-event-label="Change to Sources tab"
   
 </table>
 
-    </article>
-  </div>
+        </article>
+    </div>
 </div>
 <div role="tabpanel" class="tab-pane" id="sources">
-  <!-- Count the non-empty sources (up to 5) -->
+    <!-- Count the non-empty sources (up to 5) -->
 
 
 
@@ -925,11 +916,10 @@ data-event-label="Change to Sources tab"
 
 
 </div>
-
-  
-  
-  <div role="tabpanel" class="tab-pane" id="edit">
-    <div class="edit-container">
+    
+    
+        <div role="tabpanel" class="tab-pane" id="edit">
+            <div class="edit-container">
   
   
 
@@ -950,16 +940,15 @@ data-event-label="Change to Sources tab"
 
 </div>
 
-  </div>
+        </div>
+    
+</div>
   
 </div>
-
-
   </div>
 </div>
 
 </div>
-
 
 <footer role="contentinfo">
     <div class="container">
@@ -1002,16 +991,12 @@ data-event-label="Change to Sources tab"
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-
 <script src="//cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" integrity="sha256-Y26AMvaIfrZ1EQU49pf6H4QzVTrOI8m9wQYKkftBt4s=" crossorigin="anonymous"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.2/dist/patternomaly.js"></script>
 
 
@@ -1194,12 +1179,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220530111655'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220601091006'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220530111655"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220601091006"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
@@ -1207,4 +1192,3 @@ if (allRequired) {
 
 </body>
 </html>
-
