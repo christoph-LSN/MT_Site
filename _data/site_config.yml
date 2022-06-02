@@ -9,7 +9,7 @@ chartjs_3: true
 decimal_separator: ','
 
 #Map disaggregation select
-map_disaggregation_select: true
+#map_disaggregation_select: true
 
 
 accessible_charts: true
@@ -94,8 +94,8 @@ footer_menu:
     translation_key: menu.notes
   - path: /contact-us
     translation_key: menu.contact_us
-  - path: /about/cookies-and-privacy/
-    translation_key: menu.cookies
+#  - path: /about/cookies-and-privacy/
+#    translation_key: menu.cookies
 frontpage_cards:
   - title: Alle Daten herunterladen
     content: |
