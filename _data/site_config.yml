@@ -37,7 +37,7 @@ breadcrumbs:
       label: menu.updates
 contrast_type: default
 cookie_consent_form:
-  enabled: true
+  enabled: false
 country:
   name: Australia
   adjective: Australian
