@@ -1,6 +1,0 @@
-{% assign header_include = site.header.include | default: 'header-default.html' %}
-{% if site.bootstrap_5 %}
-{% include bootstrap5/header.html %}
-{% else %}
-{% include components/header/{{ header_include }} %}
-{% endif %}
