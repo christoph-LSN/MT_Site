@@ -188,6 +188,7 @@ map_layers:
   subfolder: Statistische Region
   label: Statistische Region
 map_options:
+  disaggregation_controls: true
   minZoom: 5
   maxZoom: 10
   limits: chroma.limits(data, 'e', 5)
