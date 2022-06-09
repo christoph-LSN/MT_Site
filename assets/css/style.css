@@ -28,7 +28,11 @@
   /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }
 .js #headlineTable {
   display: none; }
+.js .no-js-language-toggle {
+  display: none; }
 
+.no-js .language-toggle-dropdown {
+  display: none; }
 .no-js #indicatorData > .col-md-3 {
   display: none; }
 .no-js #indicatorData > .col-md-9 {
@@ -259,6 +263,33 @@ body.contrast-high [href]:focus {
   background-color: #ffdd00 !important;
   box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c !important; }
 
+/**
+ * CSS rules specific to certain languages.
+ */
+.language-ar {
+  direction: rtl; }
+
+.language-km #page-content,
+.language-km #indicator-sidebar,
+.language-km #indicator-main,
+.language-km #main-content,
+.language-km .goal-banner,
+.language-lo #page-content,
+.language-lo #indicator-sidebar,
+.language-lo #indicator-main,
+.language-lo #main-content,
+.language-lo .goal-banner {
+  line-break: anywhere; }
+.language-km #main-content .status-inner,
+.language-km #main-content .status,
+.language-lo #main-content .status-inner,
+.language-lo #main-content .status {
+  line-break: normal; }
+.language-km #indicator-main #national th[scope="row"], .language-km #indicator-main #global th[scope="row"],
+.language-lo #indicator-main #national th[scope="row"],
+.language-lo #indicator-main #global th[scope="row"] {
+  min-width: 100px; }
+
 .dropdown button {
   border-radius: 0; }
 .dropdown .dropdown-menu {
@@ -475,6 +506,9 @@ body.contrast-high #search button {
     right: 0;
     width: auto; } }
 
+.no-js .header-search-bar {
+  display: none; }
+
 .language-toggle-container {
   margin-right: 20px; }
   .language-toggle-container .dropdown-toggle, .language-toggle-container .dropdown-item {
@@ -534,6 +568,9 @@ body.contrast-high [data-contrast-switch-to="default"] {
     color: black !important;
     background-color: white !important;
     outline: 4px solid #FFDD00 !important; }
+
+.no-js [data-contrast-switch-to] {
+  display: none; }
 
 .navbar-toggler {
   margin-top: .325rem; }
@@ -1917,19 +1954,49 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
       top: 50%;
       left: 50%;
       height: 400px;
-      width: 600px;
       margin-top: -200px;
-      margin-left: -300px;
+      width: 250px;
+      margin-left: -125px;
       background-color: white;
       padding: 20px;
       border: 2px solid rgba(0, 0, 0, 0.3);
       border-radius: 5px; }
+      @media only screen and (min-width: 300px) {
+        #main-content #map .disaggregation-controls .disaggregation-form-outer {
+          width: 300px;
+          margin-left: -150px; } }
+      @media only screen and (min-width: 400px) {
+        #main-content #map .disaggregation-controls .disaggregation-form-outer {
+          width: 400px;
+          margin-left: -200px; } }
+      @media only screen and (min-width: 500px) {
+        #main-content #map .disaggregation-controls .disaggregation-form-outer {
+          width: 500px;
+          margin-left: -250px; } }
+      @media only screen and (min-width: 600px) {
+        #main-content #map .disaggregation-controls .disaggregation-form-outer {
+          width: 600px;
+          margin-left: -300px; } }
+      @media only screen and (min-width: 700px) {
+        #main-content #map .disaggregation-controls .disaggregation-form-outer {
+          width: 700px;
+          margin-left: -350px; } }
+      @media only screen and (min-width: 800px) {
+        #main-content #map .disaggregation-controls .disaggregation-form-outer {
+          width: 800px;
+          margin-left: -400px; } }
       #main-content #map .disaggregation-controls .disaggregation-form-outer .disaggregation-form {
-        display: flex;
-        flex-wrap: wrap;
         height: 100%; }
+        #main-content #map .disaggregation-controls .disaggregation-form-outer .disaggregation-form .disaggregation-form-inner {
+          display: flex;
+          flex-wrap: wrap;
+          height: 325px;
+          overflow: scroll;
+          width: 100%; }
         #main-content #map .disaggregation-controls .disaggregation-form-outer .disaggregation-form .disaggregation-fieldset-container {
           flex: 1 0 50%; }
+          #main-content #map .disaggregation-controls .disaggregation-form-outer .disaggregation-form .disaggregation-fieldset-container .disaggregation-fieldset {
+            margin-top: 10px; }
         #main-content #map .disaggregation-controls .disaggregation-form-outer .disaggregation-form .disaggregation-label {
           display: block;
           font-size: 16px; }

@@ -2964,7 +2964,7 @@ var mapView = function () {
     $('.map').show();
     $('#map').sdgMap({
       indicatorId: indicatorId,
-      mapOptions: {"minZoom":5,"maxZoom":10,"limits":"chroma.limits(data, 'e', 5)","tileURL":"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","tileOptions":{"id":"mapbox.light","accessToken":"pk.eyJ1IjoiY2hyaXN0b3BoNDcxMSIsImEiOiJjanp1cjdpbzQwMTFwM29tdzJ2ZTh3Ymo4In0.C7_7e3AFcMaF_QBg6MaT0Q","attribution":"<a href=\"https://www.mapbox.com\">Mapbox</a> | <a href=\"http://www.bkg.bund.de\">© GeoBasis-DE / BKG | <a href=\"https://www.openstreetmap.org/copyright\">&copy; OpenStreetMap</a>"},"colorRange":"chroma.brewer.OrRd","noValueColor":"#f0f0f0","styleNormal":{"weight":1,"opacity":1,"fillOpacity":0.7,"color":"#888888","dashArray":""},"styleHighlighted":{"weight":1,"opacity":1,"fillOpacity":0.7,"color":"#111111","dashArray":""},"styleStatic":{"weight":2,"opacity":1,"fillOpacity":0,"color":"#172d44","dashArray":"5,5"}},
+      mapOptions: {"disaggregation_controls":true,"minZoom":5,"maxZoom":10,"limits":"chroma.limits(data, 'e', 5)","tileURL":"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png","tileOptions":{"id":"mapbox.light","accessToken":"pk.eyJ1IjoiY2hyaXN0b3BoNDcxMSIsImEiOiJjanp1cjdpbzQwMTFwM29tdzJ2ZTh3Ymo4In0.C7_7e3AFcMaF_QBg6MaT0Q","attribution":"<a href=\"https://www.mapbox.com\">Mapbox</a> | <a href=\"http://www.bkg.bund.de\">© GeoBasis-DE / BKG | <a href=\"https://www.openstreetmap.org/copyright\">&copy; OpenStreetMap</a>"},"colorRange":"chroma.brewer.OrRd","noValueColor":"#f0f0f0","styleNormal":{"weight":1,"opacity":1,"fillOpacity":0.7,"color":"#888888","dashArray":""},"styleHighlighted":{"weight":1,"opacity":1,"fillOpacity":0.7,"color":"#111111","dashArray":""},"styleStatic":{"weight":2,"opacity":1,"fillOpacity":0,"color":"#172d44","dashArray":"5,5"}},
       mapLayers: [{"min_zoom":0,"max_zoom":20,"staticBorders":false,"subfolder":"map","label":"indicator.map"},{"min_zoom":0,"max_zoom":20,"staticBorders":false,"subfolder":"Mikrozensus","label":"Mikrozensus"},{"min_zoom":0,"max_zoom":20,"staticBorders":false,"subfolder":"Statistische Region","label":"Statistische Region"}],
       precision: precision,
       decimalSeparator: decimalSeparator,
@@ -5517,8 +5517,11 @@ $(function() {
             var seriesColumn = this.seriesColumn,
                 unitsColumn = this.unitsColumn,
                 container = this.form,
+                formInputs = L.DomUtil.create('div', 'disaggregation-form-inner'),
                 that = this;
             container.innerHTML = '';
+            container.append(formInputs)
+            L.DomEvent.disableScrollPropagation(formInputs);
             if (this.hasSeries) {
                 var form = L.DomUtil.create('div', 'disaggregation-fieldset-container'),
                     legend = L.DomUtil.create('legend', 'disaggregation-fieldset-legend'),
@@ -5526,7 +5529,7 @@ $(function() {
                 legend.innerHTML = translations.indicator.series;
                 fieldset.append(legend);
                 form.append(fieldset);
-                container.append(form);
+                formInputs.append(form);
                 this.allSeries.forEach(function(series) {
                     var input = L.DomUtil.create('input', 'disaggregation-input');
                     input.type = 'radio';
@@ -5551,7 +5554,7 @@ $(function() {
                 legend.innerHTML = translations.indicator.unit_of_measurement;
                 fieldset.append(legend);
                 form.append(fieldset);
-                container.append(form);
+                formInputs.append(form);
                 this.allUnits.forEach(function(unit) {
                     var input = L.DomUtil.create('input', 'disaggregation-input');
                     if (that.isDisaggegrationValidGivenCurrent(unitsColumn, unit)) {
@@ -5581,7 +5584,7 @@ $(function() {
                     legend.innerHTML = field;
                     fieldset.append(legend);
                     form.append(fieldset);
-                    container.append(form);
+                    formInputs.append(form);
                     disaggregation.values.forEach(function (value) {
                         var input = L.DomUtil.create('input', 'disaggregation-input');
                         if (that.isDisaggegrationValidGivenCurrent(field, value)) {
@@ -5639,9 +5642,10 @@ $(function() {
                 this.updateList();
 
                 var numSeries = this.allSeries.length,
-                    numUnits = this.allUnits.length;
+                    numUnits = this.allUnits.length,
+                    displayForm = true;
 
-                if (this.hasDisaggregations || (numSeries > 1 || numUnits > 1)) {
+                if (displayForm && (this.hasDisaggregations || (numSeries > 1 || numUnits > 1))) {
 
                     var button = L.DomUtil.create('button', 'disaggregation-button');
                     button.innerHTML = 'Change breakdowns';
