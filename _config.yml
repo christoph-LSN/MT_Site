@@ -13,9 +13,9 @@
 
 #brockfanning:map-disaggregation-select-latest
 
-#remote_theme: brockfanning/open-sdg@map-disaggregation-in-leaflet
+remote_theme: brockfanning/open-sdg@map-disaggregation-in-leaflet
 
-remote_theme: open-sdg/open-sdg@2.0.0-dev
+#remote_theme: open-sdg/open-sdg@2.0.0-dev
 
 # Replace this title as needed.
 title: general.site_title
