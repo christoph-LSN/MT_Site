@@ -1,3 +1,4 @@
-<span class="data_status {{ status_css }}">
+{% assign status_css = include.indicator.reporting_status | slugify %}
+<span class="data_status {{ data_status_css }}">
     <span class="status-inner">{{ data_status }}</span>
 </span>
