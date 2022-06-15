@@ -479,7 +479,8 @@ opensdg.autotrack = function(preset, category, action, label) {
         plugin.map.addControl(plugin.selectionLegend);
 
         // Add the disaggregation controls.
-        plugin.map.addControl(L.Control.disaggregationControls(plugin));
+        plugin.disaggregationControls = L.Control.disaggregationControls(plugin);
+        plugin.map.addControl(plugin.disaggregationControls);
 
         // Add the search feature.
         plugin.searchControl = new L.Control.SearchAccessible({
@@ -554,10 +555,16 @@ opensdg.autotrack = function(preset, category, action, label) {
             }
           });
           plugin.updateStaticLayers();
+          if (plugin.disaggregationControls) {
+            plugin.disaggregationControls.update();
+          }
         }
         // Event handler for when a geoJson layer is zoomed into.
         function zoomInHandler(e) {
           plugin.updateStaticLayers();
+          if (plugin.disaggregationControls) {
+            plugin.disaggregationControls.update();
+          }
         }
       });
 
@@ -5426,13 +5433,20 @@ $(function() {
 
         initialize: function (plugin) {
             this.plugin = plugin;
-            this.disaggregations = plugin.getVisibleLayers().toGeoJSON().features[0].properties.disaggregations;
             this.list = null;
             this.form = null;
             this.currentDisaggregation = 0;
             this.displayedDisaggregation = 0;
             this.seriesColumn = 'Series';
             this.unitsColumn = 'Units';
+            this.displayForm = true;
+            this.updateDisaggregations();
+        },
+
+        updateDisaggregations: function() {
+            // TODO: Not all of this needs to be done
+            // at every update.
+            this.disaggregations = this.getVisibleDisaggregations();
             this.fieldsInOrder = this.getFieldsInOrder();
             this.valuesInOrder = this.getValuesInOrder();
             this.allSeries = this.getAllSeries();
@@ -5441,6 +5455,48 @@ $(function() {
             this.hasSeries = (this.allSeries.length > 0);
             this.hasUnits = (this.allUnits.length > 0);
             this.hasDisaggregations = this.hasDissagregationsWithValues();
+        },
+
+        getVisibleDisaggregations: function() {
+            var features = this.plugin.getVisibleLayers().toGeoJSON().features;
+            var disaggregations = features[0].properties.disaggregations;
+            // The purpose of the rest of this function is to
+            // "prune" the disaggregations by removing any keys
+            // that are identical across all disaggregations.
+            var allKeys = Object.keys(disaggregations[0]);
+            var relevantKeys = {};
+            var rememberedValues = {};
+            disaggregations.forEach(function(disagg) {
+                for (var i = 0; i < allKeys.length; i++) {
+                    var key = allKeys[i];
+                    if (rememberedValues[key]) {
+                        if (rememberedValues[key] !== disagg[key]) {
+                            relevantKeys[key] = true;
+                        }
+                    }
+                    rememberedValues[key] = disagg[key];
+                }
+            });
+            relevantKeys = Object.keys(relevantKeys);
+            var pruned = [];
+            disaggregations.forEach(function(disaggregation) {
+                var clone = Object.assign({}, disaggregation);
+                Object.keys(clone).forEach(function(key) {
+                    if (!(relevantKeys.includes(key))) {
+                        delete clone[key];
+                    }
+                });
+                pruned.push(clone);
+            });
+            return pruned;
+        },
+
+        update: function() {
+            this.updateDisaggregations();
+            this.updateList();
+            if (this.displayForm) {
+                this.updateForm();
+            }
         },
 
         getFieldsInOrder: function () {
@@ -5643,7 +5699,7 @@ $(function() {
 
                 var numSeries = this.allSeries.length,
                     numUnits = this.allUnits.length,
-                    displayForm = true;
+                    displayForm = this.displayForm;
 
                 if (displayForm && (this.hasDisaggregations || (numSeries > 1 || numUnits > 1))) {
 
