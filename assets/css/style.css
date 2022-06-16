@@ -1941,7 +1941,7 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
       text-align: right; } }
   #main-content #map .selection-legend {
     padding: 0;
-    min-width: 360px;
+    min-width: 460px;
     margin-right: 25px; }
     @media only screen and (max-width: 680px) {
       #main-content #map .selection-legend {
@@ -1949,7 +1949,7 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
     #main-content #map .selection-legend .legend-footer {
       position: relative;
       width: 150px;
-      left: 210px;
+      left: 310px;
       bottom: 0; }
       #main-content #map .selection-legend .legend-footer .legend-swatches, #main-content #map .selection-legend .legend-footer .legend-values {
         position: relative;
@@ -2003,14 +2003,14 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
       #main-content #map .selection-legend #selection-list dt {
         float: left;
         clear: left;
-        width: 200px;
+        width: 300px;
         text-align: right;
         padding-top: 4px; }
         #main-content #map .selection-legend #selection-list dt .selection-name-background {
           background-color: rgba(255, 255, 255, 0.6);
           padding: 5px; }
       #main-content #map .selection-legend #selection-list dd {
-        margin-left: 210px;
+        margin-left: 310px;
         position: relative;
         width: 150px;
         background-color: rgba(150, 150, 150, 0.6);
@@ -2029,11 +2029,20 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
           display: none; }
         #main-content #map .selection-legend #selection-list dd .selection-value {
           z-index: 2;
-          background-color: white;
           padding: 3px;
-          border-radius: 2px;
+          border-radius: 2px; }
+        #main-content #map .selection-legend #selection-list dd .selection-value-high {
           right: 0;
-          text-align: right; }
+          text-align: right;
+          background-color: white; }
+          #main-content #map .selection-legend #selection-list dd .selection-value-high .selection-value-high-background {
+            background-color: #ddd;
+            padding: 2px;
+            border-radius: 5px; }
+        #main-content #map .selection-legend #selection-list dd .selection-value-low .selection-value-low-background {
+          background-color: #ddd;
+          padding: 2px;
+          border-radius: 5px; }
         #main-content #map .selection-legend #selection-list dd .selection-close {
           top: 1px;
           right: -20px;
