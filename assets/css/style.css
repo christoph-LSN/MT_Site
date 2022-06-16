@@ -1941,7 +1941,8 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
       text-align: right; } }
   #main-content #map .selection-legend {
     padding: 0;
-    min-width: 360px; }
+    min-width: 360px;
+    margin-right: 25px; }
     @media only screen and (max-width: 680px) {
       #main-content #map .selection-legend {
         display: none; } }
@@ -2005,6 +2006,9 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
         width: 200px;
         text-align: right;
         padding-top: 4px; }
+        #main-content #map .selection-legend #selection-list dt .selection-name-background {
+          background-color: rgba(255, 255, 255, 0.6);
+          padding: 5px; }
       #main-content #map .selection-legend #selection-list dd {
         margin-left: 210px;
         position: relative;
@@ -2025,15 +2029,17 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
           display: none; }
         #main-content #map .selection-legend #selection-list dd .selection-value {
           z-index: 2;
-          margin-right: 5px;
-          background-color: #ddd;
+          background-color: white;
           padding: 3px;
-          border-radius: 2px; }
+          border-radius: 2px;
+          right: 0;
+          text-align: right; }
         #main-content #map .selection-legend #selection-list dd .selection-close {
-          top: 6px;
-          right: 5px;
+          top: 1px;
+          right: -20px;
           position: absolute;
-          z-index: 3; }
+          z-index: 3;
+          padding: 6px; }
 
 #embeddedmapview h3 {
   text-align: center; }
