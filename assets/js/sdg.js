@@ -5023,7 +5023,7 @@ $(function() {
       var selectionTplHighValue = '' +
         '<dt class="selection-name"><span class="selection-name-background">{name}</span></dt>' +
         '<dd class="selection-value-item {valueStatus}">' +
-          '<span class="selection-bar" style="width: {percentage}%;">' +
+          '<span class="selection-bar" style="background-color: {color}; width: {percentage}%;">' +
             '<span class="selection-value selection-value-high">' +
               '<span class="selection-value-high-background">{value}</span>' +
             '</span>' +
@@ -5033,7 +5033,7 @@ $(function() {
       var selectionTplLowValue = '' +
       '<dt class="selection-name"><span class="selection-name-background">{name}</span></dt>' +
       '<dd class="selection-value-item {valueStatus}">' +
-        '<span class="selection-bar" style="width: {percentage}%;"></span>' +
+        '<span class="selection-bar" style="background-color: {color}; width: {percentage}%;"></span>' +
         '<span class="selection-value selection-value-low" style="left: {percentage}%;">' +
           '<span class="selection-value-low-background">{value}</span>' +
         '</span>' +
@@ -5043,9 +5043,11 @@ $(function() {
       var valueRange = this.plugin.valueRange;
       selectionList.innerHTML = this.selections.map(function(selection) {
         var value = plugin.getData(selection.feature.properties);
+        var color = '#FFFFFF';
         var percentage, valueStatus;
         var templateToUse = selectionTplHighValue;
         if (value) {
+          color = plugin.colorScale(value).hex();
           valueStatus = 'has-value';
           var fraction = (value - valueRange[0]) / (valueRange[1] - valueRange[0]);
           percentage = Math.round(fraction * 100);
@@ -5063,6 +5065,7 @@ $(function() {
           valueStatus: valueStatus,
           percentage: percentage,
           value: plugin.alterData(opensdg.dataRounding(value)),
+          color: color,
         });
       }).join('');
 
