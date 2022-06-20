@@ -26,9 +26,6 @@
   font-weight: 700;
   src: local(""), url("../fonts/open-sans-v20-latin-700italic.woff2") format("woff2"), url("../fonts/open-sans-v20-latin-700italic.woff") format("woff");
   /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }
-.tag-datenstand-2020 {
-  background-color: pink; }
-
 .js #headlineTable {
   display: none; }
 .js .no-js-language-toggle {
@@ -2489,3 +2486,6 @@ body {
     background-position: right center;
     background-size: 220px;
     background-repeat: no-repeat; } }
+
+.tag-datenstand-2020 {
+  background-color: pink; }
