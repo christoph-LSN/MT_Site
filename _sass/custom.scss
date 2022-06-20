@@ -25,11 +25,21 @@ body {
     }
 }
 //Tag Colors
-.tags {
-  .tag-datenstand-2020 {
-    background-color: pink;
-  }
-  .tag-datenstand-2021 {
-    background-color: green;
-  }
+//.tags {
+//  .tag-datenstand-2020 {
+//    background-color: pink;
+//  }
+//  .tag-datenstand-2021 {
+//    background-color: green;
+//  }
+//}
+
+li:nth-child(1) {
+  background: pink;
+}
+li:nth-child(2) {
+  background: lightgreen;
+}
+li:nth-child(3) {
+  background: yellow;
 }
