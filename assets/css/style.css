@@ -2487,9 +2487,9 @@ body {
     background-size: 220px;
     background-repeat: no-repeat; } }
 
-.tags li:nth-child(1) {
+.tags li:nth-child(1) .tag {
   background: pink; }
-.tags li:nth-child(2) {
+.tags li:nth-child(2) .tag {
   background: lightgreen; }
-.tags li:nth-child(3) {
+.tags li:nth-child(3) .tag {
   background: yellow; }
