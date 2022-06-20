@@ -1359,7 +1359,7 @@ body.contrast-high div#serieses {
   font-size: 12px;
   color: #0b0c0c;
   border: 1px solid transparent;
-  background: yellow;
+  background: #ffdc8e;
   white-space: nowrap; }
   .tags .tag a {
     color: #0b0c0c;
@@ -2487,5 +2487,7 @@ body {
     background-size: 220px;
     background-repeat: no-repeat; } }
 
-.tag-datenstand-2020 {
+.tags .tag-datenstand-2020 {
   background-color: pink; }
+.tags .tag-datenstand-2021 {
+  background-color: blue; }
