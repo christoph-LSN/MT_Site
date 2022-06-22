@@ -1357,12 +1357,12 @@ body.contrast-high div#serieses {
 .tags .tag {
   padding: 4px;
   font-size: 12px;
-  color: white;
+  color: black;
   border: 1px solid transparent;
   background: #707071;
   white-space: nowrap; }
   .tags .tag a {
-    color: white;
+    color: black;
     text-decoration: underline; }
 
 .status {
