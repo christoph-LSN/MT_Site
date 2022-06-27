@@ -125,7 +125,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220627113328">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220627120702">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -371,7 +371,7 @@ klaroConfig.translations = {
         acceptSelected: "Ausgewählte Cookies akzeptieren",
         close: "Schließen",
         consentModal: {
-            description: "Here you can change which cookies you're happy for us to use.",
+            description: "Hier können Sie die Cookie-Einstellungen ändern.",
             title: "Cookie Einstellungen",
         },
         consentNotice: {
@@ -398,8 +398,8 @@ klaroConfig.translations = {
         },
         purposes: {
             functional: {
-                description: "Essential cookies keep your information secure, and do things like remember your preferences and the choices you make whilst you use the website. They always need to be on.",
-                title: "Essential cookies",
+                description: "Notwendige Cookies erleichtern die Nutzung der Seite und speichern lediglich die Auswahl des Hintergrundkontrastes.",
+                title: "Notwendige Cookies",
             },
             analytics: {
                 description: "These services collect information about how you use the website. We use this data to help make the website better.",
@@ -434,7 +434,7 @@ klaroConfig.services.forEach(function(service) {
         service.translations = {
             de: {
                 description: "Retains active state of accessibility services",
-                title: "Accessibility mode",
+                title: "Hintergrundkontrast",
             },
         }
     }
@@ -458,7 +458,7 @@ klaroConfig.services.forEach(function(service) {
 
 if (allRequired) {
     klaroConfig.translations['de'].consentNotice.description = "Es werden zwei essentielle Cookies gespeichert.";
-    klaroConfig.translations['de'].ok = "OK";
+    klaroConfig.translations['de'].ok = "Ok";
     klaroConfig.hideDeclineAll = true;
     klaroConfig.hideLearnMore = true;
 }
@@ -480,12 +480,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220627113328'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220627120702'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220627113328"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220627120702"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
