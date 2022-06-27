@@ -264,7 +264,7 @@ opensdg.autotrack = function(preset, category, action, label) {
     // Get the data from a feature's properties, according to the current year.
     getData: function(props) {
       var ret = false;
-      if (props.values && props.values.length) {
+      if (props.values && props.values.length && this.currentDisaggregation < props.values.length) {
         var value = props.values[this.currentDisaggregation][this.currentYear];
         if (typeof value === 'number') {
           ret = opensdg.dataRounding(value);
@@ -3416,6 +3416,9 @@ function createPlot(chartInfo) {
     VIEW._chartInstance.data.labels = updatedConfig.data.labels;
     VIEW._chartInstance.options = updatedConfig.options;
 
+    // The following is needed in our custom "rescaler" plugin.
+    VIEW._chartInstance.data.allLabels = VIEW._chartInstance.data.labels.slice(0);
+
     VIEW._chartInstance.update();
 
     $(VIEW._legendElement).html(generateChartLegend(VIEW._chartInstance));
@@ -3600,7 +3603,7 @@ opensdg.chartTypes.base = function(info) {
                     backgroundColor: 'rgba(0,0,0,0.7)',
                     callbacks: {
                         label: function (tooltipItem) {
-                            return tooltipItem.dataset.label + ': ' + alterDataDisplay(tooltipItem.formattedValue, tooltipItem.dataset, 'chart tooltip');
+                            return translations.t(tooltipItem.dataset.label) + ': ' + alterDataDisplay(tooltipItem.formattedValue, tooltipItem.dataset, 'chart tooltip');
                         },
                         afterBody: function () {
                             var unit = MODEL.selectedUnit ? translations.t(MODEL.selectedUnit) : MODEL.measurementUnit;
