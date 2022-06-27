@@ -17,7 +17,7 @@
 
 #remote_theme: brockfanning/open-sdg@selection-legend-text-to-the-left
 #remote_theme: brockfanning/open-sdg@map-zero-handling-and-tooltip-updates
-remote_theme: open-sdg/open-sdg@2.0.0-beta2
+remote_theme: open-sdg/open-sdg@2.0.0
 
 # Replace this title as needed.
 title: general.site_title
