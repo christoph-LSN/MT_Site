@@ -182,6 +182,11 @@ map_layers:
 - min_zoom: 0
   max_zoom: 20
   staticBorders: false
+  subfolder: Regionale Anpassungsschichten
+  label: Regionale Anpassungsschichten
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
   subfolder: Mikrozensus
   label: Mikrozensus
 - min_zoom: 0
