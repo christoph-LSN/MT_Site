@@ -24,15 +24,19 @@ body {
         background-repeat: no-repeat;
     }
 }
-//Tag Colors
-//.tags {
-//  .tag-datenstand-2020 {
-//    background-color: pink;
-//  }
-//  .tag-datenstand-2021 {
-//    background-color: green;
-//  }
-//}
+Tag Colors
+.tags {
+  .tag-datenstand-2020 {
+    background-color: pink;
+  }
+  .tag-datenstand-2021 {
+    background-color: green;
+  }
+  .tag-datenstand-2019 {
+    background-color: red;
+  }
+}
+
 .tags {
   li:nth-child(1) .tag { background: pink; }
   li:nth-child(2) .tag { background: lightgreen; }
