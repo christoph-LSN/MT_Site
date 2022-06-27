@@ -2529,6 +2529,16 @@ body {
     background-size: 220px;
     background-repeat: no-repeat; } }
 
+Tag Colors
+.tags .tag-datenstand-2020 {
+  background-color: pink; }
+Tag Colors
+.tags .tag-datenstand-2021 {
+  background-color: green; }
+Tag Colors
+.tags .tag-datenstand-2019 {
+  background-color: red; }
+
 .tags li:nth-child(1) .tag {
   background: pink; }
 .tags li:nth-child(2) .tag {
