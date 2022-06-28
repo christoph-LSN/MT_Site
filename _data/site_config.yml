@@ -199,6 +199,7 @@ map_layers:
   staticBorders: false
   subfolder: NI ohne Hannover Landeshauptstadt
   label: NI ohne Hannover Landeshauptstadt
+  
 map_options:
   disaggregation_controls: true
   minZoom: 5
