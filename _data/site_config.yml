@@ -179,26 +179,26 @@ map_layers:
   staticBorders: false
   subfolder: map
   label: indicator.map
- - min_zoom: 0
-   max_zoom: 20
-   staticBorders: false
-   subfolder: Regionale Anpassungsschichten
-   label: Regionale Anpassungsschichten
- - min_zoom: 0
-   max_zoom: 20
-   staticBorders: false
-   subfolder: Mikrozensus
-   label: Mikrozensus
- - min_zoom: 0
-   max_zoom: 20
-   staticBorders: false
-   subfolder: Statistische Region
-   label: Statistische Region
- - min_zoom: 0
-   max_zoom: 20
-   staticBorders: false
-   subfolder: Region Hannover
-   label: Region Hannover
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: Regionale Anpassungsschichten
+  label: Regionale Anpassungsschichten
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: Mikrozensus
+  label: Mikrozensus
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: Statistische Region
+  label: Statistische Region
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: Region Hannover
+  label: Region Hannover
 
 map_options:
   disaggregation_controls: true
