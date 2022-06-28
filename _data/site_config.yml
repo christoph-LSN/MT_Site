@@ -197,8 +197,8 @@ map_layers:
 - min_zoom: 0
   max_zoom: 20
   staticBorders: false
-  subfolder: Region Hannover
-  label: Region Hannover
+  subfolder: NI_Hannover_Region
+  label: NI_Hannover_Region
 
 map_options:
   disaggregation_controls: true
