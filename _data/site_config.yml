@@ -194,12 +194,12 @@ map_layers:
   staticBorders: false
   subfolder: Statistische Region
   label: Statistische Region
-- min_zoom: 0
-  max_zoom: 20
-  staticBorders: false
-  subfolder: NI ohne Hannover Landeshauptstadt
-  label: NI ohne Hannover Landeshauptstadt
-  
+#- min_zoom: 0
+#  max_zoom: 20
+#  staticBorders: false
+#  subfolder: NI ohne Hannover Landeshauptstadt
+#  label: NI ohne Hannover Landeshauptstadt
+
 map_options:
   disaggregation_controls: true
   minZoom: 5
