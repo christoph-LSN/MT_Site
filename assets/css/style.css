@@ -2208,6 +2208,8 @@ body.contrast-high #main-content #map .disaggregation-controls {
     background: #f0ad4e;
     color: #0b0c0c; }
 
+body.contrast-high .cookie-modal .cm-modal span {
+  color: black; }
 body.contrast-high .cookie-notice .cn-body p span {
   color: black; }
 body.contrast-high .cookie-notice .cn-body .cm-link {
