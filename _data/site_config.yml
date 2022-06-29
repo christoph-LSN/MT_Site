@@ -198,7 +198,7 @@ map_layers:
   max_zoom: 20
   staticBorders: false
   subfolder: NI_Hannover_Region
-  label: indicator
+  label: indicator_name
 
 map_options:
   disaggregation_controls: true
