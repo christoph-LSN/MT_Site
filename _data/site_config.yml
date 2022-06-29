@@ -142,7 +142,7 @@ graph_color_headline_high_contrast: '#55a6e5'
 graph_color_set: accessible
 graph_color_list: []
 graph_color_number: 0
-graph_title_from_series: false
+graph_title_from_series: true
 header:
   include: header-menu-left-aligned.html
 header_language_toggle: dropdown
@@ -198,7 +198,7 @@ map_layers:
   max_zoom: 20
   staticBorders: false
   subfolder: NI_Hannover_Region
-  label: NI_Hannover_Region
+  label: indicator
 
 map_options:
   disaggregation_controls: true
