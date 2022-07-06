@@ -1903,10 +1903,6 @@ body.contrast-high.layout-goals #main-content .goal-tiles .global-goals-extra-ic
 .layout-config-builder.contrast-high .btn-group .btn span {
   color: black; }
 
-#main-content #mapFooter .data-controlled-footer-field,
-#main-content #mapFooter [data-for-unit]:not([data-for-unit=""]),
-#main-content #mapFooter [data-for-series]:not([data-for-series=""]) {
-  display: none !important; }
 #main-content #map {
   height: 500px;
   width: 100%; }
