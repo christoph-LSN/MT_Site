@@ -4,9 +4,16 @@ language: de
 permalink: /notes/
 layout: page
 ---
+
+<div class="spkbl" data-spkbl-player="customPlayer"><fieldset class="spkbl-player spkbl-player--inactive"><legend>Custom player</legend><input type="button" value="Text vorlesen" class="spkbl-ctrl spkbl-ctrl--play"><input type="button" value="Pause" class="spkbl-ctrl spkbl-ctrl--pause" aria-pressed="false"><progress class="spkbl-ctrl spkbl-ctrl--progress" max="100" value="0" aria-label="Fortschritt" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" role="progressbar">0 % </progress><input type="button" value="Schließen" class="spkbl-ctrl spkbl-ctrl--stop"></fieldset>
+                <p>Dieser Text nutzt weiche Zeilenumbrüche<br>Der Screenreader sollte am Zeilenende eine hörbare Pause
+                    machen und vor allem nicht 6000<br>000 als sechs Millionen lesen.<br>Mit Punkt am Ende einer Zeile
+                    darf die Pause aber auch nicht zu lang werden. Im Übrigen nutzt der Text eine individuelle
+                    Player-Variante.</p>
+            </div>
 <script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
 
-<script>
+<script> ==$0
             function customPlayer(spkbl) {
                 const player = {
                     player: document.createElement('fieldset'),
