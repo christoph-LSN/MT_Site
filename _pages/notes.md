@@ -5,12 +5,7 @@ permalink: /notes/
 layout: page
 ---
 
-<div class="spkbl" data-spkbl-player="customPlayer"><fieldset class="spkbl-player spkbl-player--inactive"><legend>Custom player</legend><input type="button" value="Text vorlesen" class="spkbl-ctrl spkbl-ctrl--play"><input type="button" value="Pause" class="spkbl-ctrl spkbl-ctrl--pause" aria-pressed="false"><progress class="spkbl-ctrl spkbl-ctrl--progress" max="100" value="0" aria-label="Fortschritt" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" role="progressbar">0 % </progress><input type="button" value="Schließen" class="spkbl-ctrl spkbl-ctrl--stop"></fieldset>
-                <p>Dieser Text nutzt weiche Zeilenumbrüche<br>Der Screenreader sollte am Zeilenende eine hörbare Pause
-                    machen und vor allem nicht 6000<br>000 als sechs Millionen lesen.<br>Mit Punkt am Ende einer Zeile
-                    darf die Pause aber auch nicht zu lang werden. Im Übrigen nutzt der Text eine individuelle
-                    Player-Variante.</p>
-            </div>
+
 <script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
 
 <script> ==$0
@@ -58,7 +53,8 @@ layout: page
       }
 </script>
 
-
+<div class="spkbl" data-spkbl-player="customPlayer"><fieldset class="spkbl-player spkbl-player--inactive"><legend>Custom player</legend><input type="button" value="Text vorlesen" class="spkbl-ctrl spkbl-ctrl--play"><input type="button" value="Pause" class="spkbl-ctrl spkbl-ctrl--pause" aria-pressed="false"><progress class="spkbl-ctrl spkbl-ctrl--progress" max="100" value="0" aria-label="Fortschritt" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" role="progressbar">0 % </progress><input type="button" value="Schließen" class="spkbl-ctrl spkbl-ctrl--stop"></fieldset>
+                <p>
 <section class="spkbl">
     <h2>This is a speakable section</h2>
     <p>The player will read all the text inside the section.</p>
@@ -94,3 +90,5 @@ Darüber hinaus fließen weitere amtliche Statistiken in den Bericht ein. Sie k�
 
 <br>
 Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen des LSN stehen unter [www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de) bereit. Zusätzliche Informationen stellt die Internetseite [www.statistikportal.de](https://www.statistikportal.de) (mit Gemeinschaftsveröffentlichungen der Statistischen Ämter des Bundes und der Länder, u.a. zur amtlichen Sozialberichterstattung) zur Verfügung. Näheres erläutern jeweils die Indikatoren. Für eine übergeordnete Sicht auf das Migrationsgeschehen in Deutschland wird auf das [Integrationsmonitoring der Länder](https://www.integrationsmonitoring-laender.de/) verwiesen.
+</p>
+</div>
