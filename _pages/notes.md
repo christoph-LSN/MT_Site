@@ -4,20 +4,40 @@ language: de
 permalink: /notes/
 layout: page
 ---
-<script src="spkbl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
+
 <script>
-    if ('Speakable' in window) {
-        Speakable.init({
-            multivoice: true,
-            l18n: {
-                play: 'Text vorlesen',
-                pause: 'Pause',
-                progress: 'Fortschritt',
-                stop: 'Schließen'
+            function customPlayer(spkbl) {
+                const player = {
+                    player: document.createElement('fieldset'),
+                    controls: {}
+                };
+                const legend = document.createElement('legend');
+                legend.innerHTML = 'Custom player';
+                player.player.appendChild(legend);
+                player.controls.play = player.player.appendChild(document.createElement('input'));
+                player.controls.play.value = spkbl.options.l18n.play;
+                player.controls.pause = player.player.appendChild(document.createElement('input'));
+                player.controls.pause.value = spkbl.options.l18n.pause;
+                player.controls.progress = player.player.appendChild(document.createElement('progress'));
+                player.controls.progress.innerHTML = '0%';
+                player.controls.stop = player.player.appendChild(document.createElement('input'));
+                player.controls.stop.value = spkbl.options.l18n.stop;
+                return player;
             }
-        });
-    }
-</script>
+
+            Speakable.init({
+                multivoice: true,
+                l18n: {
+                    play: 'Text vorlesen',
+                    pause: 'Pause',
+                    progress: 'Fortschritt',
+                    stop: 'Schließen'
+                }
+            });
+        </script>
+
+
 <section class="spkbl">
     <h2>This is a speakable section</h2>
     <p>The player will read all the text inside the section.</p>
