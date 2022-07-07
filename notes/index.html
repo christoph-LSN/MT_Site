@@ -125,7 +125,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220707165319">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220707170142">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -232,21 +232,38 @@ data-event-label="high"
         
 
 
-    <script src="spkbl.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
 
 <script>
-    if ('Speakable' in window) {
-        Speakable.init({
-            multivoice: true,
-            l18n: {
-                play: 'Text vorlesen',
-                pause: 'Pause',
-                progress: 'Fortschritt',
-                stop: 'Schließen'
+            function customPlayer(spkbl) {
+                const player = {
+                    player: document.createElement('fieldset'),
+                    controls: {}
+                };
+                const legend = document.createElement('legend');
+                legend.innerHTML = 'Custom player';
+                player.player.appendChild(legend);
+                player.controls.play = player.player.appendChild(document.createElement('input'));
+                player.controls.play.value = spkbl.options.l18n.play;
+                player.controls.pause = player.player.appendChild(document.createElement('input'));
+                player.controls.pause.value = spkbl.options.l18n.pause;
+                player.controls.progress = player.player.appendChild(document.createElement('progress'));
+                player.controls.progress.innerHTML = '0%';
+                player.controls.stop = player.player.appendChild(document.createElement('input'));
+                player.controls.stop.value = spkbl.options.l18n.stop;
+                return player;
             }
-        });
-    }
-</script>
+
+            Speakable.init({
+                multivoice: true,
+                l18n: {
+                    play: 'Text vorlesen',
+                    pause: 'Pause',
+                    progress: 'Fortschritt',
+                    stop: 'Schließen'
+                }
+            });
+        </script>
 
 <section class="spkbl">
     <h2>This is a speakable section</h2>
@@ -504,12 +521,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220707165319'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220707170142'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220707165319"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220707170142"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
