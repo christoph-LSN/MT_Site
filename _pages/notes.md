@@ -6,7 +6,15 @@ layout: page
 ---
 <script>
     if ('Speakable' in window) {
-        Speakable.init();
+        Speakable.init({
+            multivoice: true,
+            l18n: {
+                play: 'Text vorlesen',
+                pause: 'Pause',
+                progress: 'Fortschritt',
+                stop: 'Schließen'
+            }
+        });
     }
 </script>
 <section class="spkbl">
