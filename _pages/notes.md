@@ -44,6 +44,20 @@ layout: page
             });
         </script>
 
+<script>
+    if ('Speakable' in window) {
+        Speakable.init({
+        multivoice: true,
+        l18n: {
+                play: 'Text vorlesen',
+                pause: 'Pause',
+                progress: 'Fortschritt',
+                stop: 'Schließen'
+              }
+          });
+      }
+</script>
+
 
 <section class="spkbl">
     <h2>This is a speakable section</h2>
