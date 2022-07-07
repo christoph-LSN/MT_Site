@@ -4,6 +4,7 @@ language: de
 permalink: /notes/
 layout: page
 ---
+<script src="spkbl.min.js"></script>
 <script>
     if ('Speakable' in window) {
         Speakable.init({
