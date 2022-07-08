@@ -4,66 +4,19 @@ language: de
 permalink: /notes/
 layout: page
 ---
-
-
-<script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
-
-<script> ==$0
-            function customPlayer(spkbl) {
-                const player = {
-                    player: document.createElement('fieldset'),
-                    controls: {}
-                };
-                const legend = document.createElement('legend');
-                legend.innerHTML = 'Custom player';
-                player.player.appendChild(legend);
-                player.controls.play = player.player.appendChild(document.createElement('input'));
-                player.controls.play.value = spkbl.options.l18n.play;
-                player.controls.pause = player.player.appendChild(document.createElement('input'));
-                player.controls.pause.value = spkbl.options.l18n.pause;
-                player.controls.progress = player.player.appendChild(document.createElement('progress'));
-                player.controls.progress.innerHTML = '0%';
-                player.controls.stop = player.player.appendChild(document.createElement('input'));
-                player.controls.stop.value = spkbl.options.l18n.stop;
-                return player;
-            }
-
-            Speakable.init({
-                multivoice: true,
-                l18n: {
-                    play: 'Text vorlesen',
-                    pause: 'Pause',
-                    progress: 'Fortschritt',
-                    stop: 'Schließen'
-                }
-            });
-        </script>
-
-<script>
-    if ('Speakable' in window) {
-        Speakable.init({
-        multivoice: true,
-        l18n: {
-                play: 'Text vorlesen',
-                pause: 'Pause',
-                progress: 'Fortschritt',
-                stop: 'Schließen'
-              }
-          });
-      }
-</script>
-
-<section class="spkbl"><div class="spkbl-player spkbl-player--inactive"><button type="button" class="spkbl-ctrl spkbl-ctrl--play">Text vorlesen</button><button type="button" class="spkbl-ctrl spkbl-ctrl--pause" aria-pressed="false">Pause</button><progress class="spkbl-ctrl spkbl-ctrl--progress" max="100" value="0" aria-label="Fortschritt" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" role="progressbar">0 % </progress><button type="button" class="spkbl-ctrl spkbl-ctrl--stop">Schließen</button></div>
+<section class="spkbl">
                 <h1 lang="en">Speakable Test</h1>
                 <p>Dies ist ein Typoblindtext. <span>An ihm kann man sehen, ob alle Buchstaben da sind und wie sie aussehen.</span>
                     Manchmal benutzt man Worte wie Hamburgefonts, Rafgenduks oder <span lang="en">Handgloves</span>, um
                     Schriften zu testen. Manchmal Sätze, die alle Buchstaben des Alphabets enthalten — man nennt diese
                     Sätze »Pangrams«. Sehr bekannt ist dieser:
-                </p><blockquote lang="en">The quick brown fox jumps over the lazy old dog.</blockquote>
+                <blockquote lang="en">The quick brown fox jumps over the lazy old dog.</blockquote>
                 <p>Oft werden in Typoblindtexte auch fremdsprachige Satzteile eingebaut (<span lang="en">AVAIL® and Wefox™
                                     are testing aussi la Kerning</span>), um die Wirkung in anderen Sprachen zu
                     testen.</p>
-</section>
+            </section>
+
+
 
 Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung und Qualifikation (4), Erwerbstätigkeit und Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie und Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
 <br>
@@ -96,3 +49,36 @@ Darüber hinaus fließen weitere amtliche Statistiken in den Bericht ein. Sie k�
 
 <br>
 Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen des LSN stehen unter [www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de) bereit. Zusätzliche Informationen stellt die Internetseite [www.statistikportal.de](https://www.statistikportal.de) (mit Gemeinschaftsveröffentlichungen der Statistischen Ämter des Bundes und der Länder, u.a. zur amtlichen Sozialberichterstattung) zur Verfügung. Näheres erläutern jeweils die Indikatoren. Für eine übergeordnete Sicht auf das Migrationsgeschehen in Deutschland wird auf das [Integrationsmonitoring der Länder](https://www.integrationsmonitoring-laender.de/) verwiesen.
+
+
+<script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
+        <script>
+            function customPlayer(spkbl) {
+                const player = {
+                    player: document.createElement('fieldset'),
+                    controls: {}
+                };
+                const legend = document.createElement('legend');
+                legend.innerHTML = 'Custom player';
+                player.player.appendChild(legend);
+                player.controls.play = player.player.appendChild(document.createElement('input'));
+                player.controls.play.value = spkbl.options.l18n.play;
+                player.controls.pause = player.player.appendChild(document.createElement('input'));
+                player.controls.pause.value = spkbl.options.l18n.pause;
+                player.controls.progress = player.player.appendChild(document.createElement('progress'));
+                player.controls.progress.innerHTML = '0%';
+                player.controls.stop = player.player.appendChild(document.createElement('input'));
+                player.controls.stop.value = spkbl.options.l18n.stop;
+                return player;
+            }
+
+            Speakable.init({
+                multivoice: true,
+                l18n: {
+                    play: 'Text vorlesen',
+                    pause: 'Pause',
+                    progress: 'Fortschritt',
+                    stop: 'Schließen'
+                }
+            });
+        </script>
