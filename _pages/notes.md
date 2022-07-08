@@ -6,7 +6,7 @@ layout: page
 ---
 <section class="spkbl">
                 <h1 lang="en"></h1>
-                <p> 
+                <p>
 
 
 
@@ -47,7 +47,7 @@ Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen de
 
 <p>
 </p>
-</section>
+
 
 <script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
         <script>
