@@ -63,7 +63,7 @@ layout: page
                 <p>Oft werden in Typoblindtexte auch fremdsprachige Satzteile eingebaut (<span lang="en">AVAIL® and Wefox™
                                     are testing aussi la Kerning</span>), um die Wirkung in anderen Sprachen zu
                     testen.</p>
-
+</section>
 
 Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung und Qualifikation (4), Erwerbstätigkeit und Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie und Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
 <br>
@@ -96,5 +96,3 @@ Darüber hinaus fließen weitere amtliche Statistiken in den Bericht ein. Sie k�
 
 <br>
 Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen des LSN stehen unter [www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de) bereit. Zusätzliche Informationen stellt die Internetseite [www.statistikportal.de](https://www.statistikportal.de) (mit Gemeinschaftsveröffentlichungen der Statistischen Ämter des Bundes und der Länder, u.a. zur amtlichen Sozialberichterstattung) zur Verfügung. Näheres erläutern jeweils die Indikatoren. Für eine übergeordnete Sicht auf das Migrationsgeschehen in Deutschland wird auf das [Integrationsmonitoring der Länder](https://www.integrationsmonitoring-laender.de/) verwiesen.
-
-</section>
