@@ -11,8 +11,7 @@ layout: page
                     Schriften zu testen. Manchmal Sätze, die alle Buchstaben des Alphabets enthalten — man nennt diese
                     Sätze »Pangrams«. Sehr bekannt ist dieser:
                 <blockquote lang="en">The quick brown fox jumps over the lazy old dog.</blockquote>
-                <p>Oft werden in Typoblindtexte auch fremdsprachige Satzteile eingebaut (<span lang="en">AVAIL® and Wefox™
-                                    are testing aussi la Kerning</span>), um die Wirkung in anderen Sprachen zu
+                <p>
                     testen.</p>
             </section>
 
