@@ -7,6 +7,7 @@ layout: page
 <section class="spkbl">
                 <h1 lang="en">Speakable Test</h1>
                 <p>Dies ist ein Typoblindtext. <span>An ihm kann man sehen, ob alle Buchstaben da sind und wie sie aussehen.</span>
+                    Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung und Qualifikation (4), Erwerbstätigkeit und Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie und Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
                     Manchmal benutzt man Worte wie Hamburgefonts, Rafgenduks oder <span lang="en">Handgloves</span>, um
                     Schriften zu testen. Manchmal Sätze, die alle Buchstaben des Alphabets enthalten — man nennt diese
                     Sätze »Pangrams«. Sehr bekannt ist dieser:
