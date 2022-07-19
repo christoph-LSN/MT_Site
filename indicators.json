@@ -224,7 +224,7 @@
         {
           "id": "2-2-2",
           "title": "Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)",
-          "description": "Der Indikator zeigt, die durchschnittliche Anzahl der Bewohnerinnen und Bewohner in den von der Landesaufnahmebehörde zu verfügung gestellten Wohnunungen / Wohnheimen, sowie die vorhandenen Kapazitäten.",
+          "description": "Der Indikator zeigt, die durchschnittliche Anzahl der Bewohnerinnen und Bewohner in den von der Landesaufnahmebehörde zur Verfügung gestellten Wohnunungen / Wohnheimen, sowie die vorhandenen Kapazitäten.",
           "keywords": "",
           "href": "/MT_Site/2-2-2",
           "status": "complete"
@@ -232,14 +232,14 @@
         {
           "id": "2-2-3",
           "title": "Abschiebungen und Überstellungen nach der Dublin III VO",
-          "description": "Der Indikator zeigt, die Anzahl Abschiebungen und Überstellungen nach der Dublin II VO.",
+          "description": "Der Indikator zeigt die Anzahl Abschiebungen und Überstellungen nach der Dublin III VO.",
           "keywords": "",
           "href": "/MT_Site/2-2-3",
           "status": "complete"
         },
         {
           "id": "2-2-4",
-          "title": "In Niedersachsen gestellte Ansylanträge",
+          "title": "In Niedersachsen gestellte Asylanträge",
           "description": "Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge.",
           "keywords": "",
           "href": "/MT_Site/2-2-4",
@@ -248,7 +248,7 @@
         {
           "id": "2-3-1",
           "title": "Einbürgerungen nach Niedersachsen (Anzahl)",
-          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet",
+          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
           "keywords": "",
           "href": "/MT_Site/2-3-1",
           "status": "complete"
@@ -256,7 +256,7 @@
         {
           "id": "2-3-2",
           "title": "Veränderungen der Anzahl der Einbürgerungen",
-          "description": "Der Indikator gibt die Veränderung der Anzahl der eingebürgerten Personen in Niedersachsen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet",
+          "description": "Der Indikator gibt die Veränderung der Anzahl der eingebürgerten Personen in Niedersachsen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
           "keywords": "",
           "href": "/MT_Site/2-3-2",
           "status": "complete"
