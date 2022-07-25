@@ -80,7 +80,7 @@
         {
           "id": "1-2-7",
           "title": "Ausländerinnen und Ausländer in Niedersachsen nach Durchschnittsalter (A7x)",
-          "description": "Der Indikator gibt ...",
+          "description": "Der Indikator gibt das Durschschnittsalter der in den Kreisfreien Städten und Landkreisen lebenden Ausländerinnen und Ausländer differenziert nach Geschlecht wider. Mit Hilfe diese Indikators kann die Altersstruktur der jeweiligen Ausländischen Gesellschaft abgebildet werden.",
           "keywords": "",
           "href": "/MT_Site/1-2-7",
           "status": "complete"
@@ -216,7 +216,7 @@
         {
           "id": "2-2-1",
           "title": "EASY-Zugänge in Niedersachsen",
-          "description": "Der Indikator zeigt die nach dem Königsteiner Schlüssel nach Niedersachsen zugewiesenen Geflüchteten.",
+          "description": "Das Land Niedersachsen ist nach dem Asylge­setz verpflichtet, Menschen mit ausländischer Staatsangehörigkeit, die im Bundesgebiet um Asyl bitten, aufzunehmen. Die Aufnahmequote richtet sich nach dem sogenannten „Königsteiner Schlüssel'. Die Asylsuchenden werden mit Hilfe des bundesweiten Verteilungssystems „EASY' (Erstverteilung von Asyl­suchenden) entsprechend der Aufnahmequote auf die Länder verteilt. Niedersachsen unterhält für diese Personenkreise an den Standorten Braunschweig, Bramsche und Friedland, Oldenburg und Osnabrück der Landes­auf­nah­me­be­hörde Niedersachsen (LAB NI) Aufnahmeeinrichtungen.<br> Weitere Informationen zur Erstverteilung der Asylsuchenden und dem Königssteiner Schlüssel finden Sie auf den Internetseiten des [BAMF](https://www.bamf.de/DE/Themen/AsylFluechtlingsschutz/AblaufAsylverfahrens/Erstverteilung/erstverteilung-node.html).",
           "keywords": "",
           "href": "/MT_Site/2-2-1",
           "status": "complete"
@@ -224,7 +224,7 @@
         {
           "id": "2-2-2",
           "title": "Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)",
-          "description": "Der Indikator zeigt, die durchschnittliche Anzahl der Bewohnerinnen und Bewohner in den von der Landesaufnahmebehörde zur Verfügung gestellten Wohnunungen / Wohnheimen, sowie die vorhandenen Kapazitäten.",
+          "description": "Die Landesaufnahmebehörde Niedersachsen betreibt derzeit sechs Standorte über das gesamte Landesgebiet verteilt. Die Standorte Bramsche und Bad Fallingbostel-Oerbke nehmen die Funktion eines Ankunftzentrums wahr. Der Indikator zeigt, die durchschnittliche Anzahl der Bewohnerinnen und Bewohner in den von der Landesaufnahmebehörde zur Verfügung gestellten Wohnunungen / Wohnheimen, sowie die vorhandenen Kapazitäten.",
           "keywords": "",
           "href": "/MT_Site/2-2-2",
           "status": "complete"
@@ -232,7 +232,7 @@
         {
           "id": "2-2-3",
           "title": "Abschiebungen und Überstellungen nach der Dublin III VO",
-          "description": "Der Indikator zeigt die Anzahl Abschiebungen und Überstellungen nach der Dublin III VO.",
+          "description": "Der Indikator zeigt die Anzahl Abschiebungen und Überstellungen nach der Dublin III VO.<br> Das Dublin-Verfahren dient der Zuständigkeitsbestimmung zur Durchführung des Asylverfahrens in einem EU-Mitgliedstaat. Die Dublin III-VO legt Kriterien und Verfahren fest, die bei der Bestimmung des Mitgliedstaates, der für die Prüfung des gestellten Antrags auf internationalen Schutz zuständig ist, zur Anwendung kommen. Die Dublin III VO wird in allen EU-Mitgliedstaaten sowie Norwegen, Island, Liechtenstein und der Schweiz angewendet. Das Dublin-Verfahren bezweckt, dass jeder Asylantrag, der auf dem Hoheitsgebiet der Mitgliedstaaten gestellt wird, materiell-rechtlich nur durch einen Staat geprüft wird. Damit soll die Sekundärwanderung innerhalb Europas gesteuert bzw. begrenzt werden.",
           "keywords": "",
           "href": "/MT_Site/2-2-3",
           "status": "complete"
@@ -240,7 +240,7 @@
         {
           "id": "2-2-4",
           "title": "In Niedersachsen gestellte Asylanträge",
-          "description": "Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge.",
+          "description": "Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge  (Erst- und Folgeanträge). Die Voraussetzungen für die Aufnahme politisch verfolgter sowie anderer schutzsuchender Personen sind in Art. 16a Grundgesetz (GG), im Asylgesetz (AsylG) sowie in § 60 des Aufenthaltsgesetzes (AufenthG) geregelt. Das Bundesamt für Migration und Flüchtlinge entscheidet über die Asylanträge. Die Aufenthaltsregelung während und nach dem Abschluss des Asylverfahrens fällt in die Zuständigkeit der Ausländerbehörden der Bundesländer.",
           "keywords": "",
           "href": "/MT_Site/2-2-4",
           "status": "complete"
