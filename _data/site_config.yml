@@ -48,6 +48,8 @@ create_goals:
 create_indicators:
   layout: indicator
   previous_next_links: true
+  indicators:
+    -content: Sie können zwischen verschiedenen Kategorien wöhlen
 create_pages:
   - filename: ''
     folder: /
