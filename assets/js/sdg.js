@@ -845,6 +845,9 @@ Chart.register({
             });
         }
     },
+    afterUpdate: function(chart) {
+        this.setMeta();
+    },
     setMeta: function() {
         this.meta = this.chart.getDatasetMeta(this.currentDataset);
     },
@@ -3226,7 +3229,10 @@ function initialiseUnits(args) {
  * @return null
  */
 function initialiseSerieses(args) {
-    var templateElement = $('#series_template');
+    var activeSeriesInput = $('#serieses').find(document.activeElement),
+        seriesWasFocused = (activeSeriesInput.length > 0) ? true : false,
+        focusedValue = (seriesWasFocused) ? $(activeSeriesInput).val() : null,
+        templateElement = $('#series_template');
     if (templateElement.length > 0) {
         var template = _.template(templateElement.html()),
             serieses = args.serieses || [],
@@ -3248,6 +3254,10 @@ function initialiseSerieses(args) {
         else {
             $(OPTIONS.rootElement).removeClass('no-serieses');
         }
+    }
+    // Return focus if necessary.
+    if (seriesWasFocused) {
+        $('#serieses :input[value="' + focusedValue + '"]').focus();
     }
 }
 
@@ -5401,6 +5411,12 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
     });
     // Create the player.
     options.player = new L.TimeDimension.Player(options.playerOptions, options.timeDimension);
+    options.player.on('play', function() {
+      $('.timecontrol-play').attr('title', 'Pause');
+    });
+    options.player.on('stop', function() {
+      $('.timecontrol-play').attr('title', 'Play');
+    });
     // Listen for time changes.
     if (typeof options.yearChangeCallback === 'function') {
       options.timeDimension.on('timeload', options.yearChangeCallback);

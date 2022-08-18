@@ -1624,6 +1624,10 @@ body.contrast-high #main-content .nav-tabs {
   body.layout-indicator .container .indicator-details {
     float: none;
     width: 100%; } }
+.empty-metadata-placeholder {
+  font-style: italic;
+  color: #505A5F; }
+
 .layout-reportingstatus .reporting-status-description {
   margin-bottom: 25px; }
 .layout-reportingstatus #main-content .statuses strong {
