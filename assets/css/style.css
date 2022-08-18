@@ -1480,6 +1480,15 @@ body.contrast-high .status.notapplicable {
 body.contrast-high .previous-next-links .btn-primary span {
   color: black !important; }
 
+@media only screen and (max-width: 500px) {
+  .metadata-content > tbody > tr {
+    table-layout: fixed; }
+    .metadata-content > tbody > tr > th, .metadata-content > tbody > tr > td {
+      word-wrap: break-word;
+      max-width: 1px; }
+    .metadata-content > tbody > tr > th {
+      width: 40%; } }
+
 #sources .row > div:nth-child(odd) {
   clear: left; }
 
