@@ -4,16 +4,9 @@ language: de
 permalink: /notes/
 layout: page
 ---
-<section class="spkbl">
-                <h1 lang="en"></h1>
-                <p>
 
 
-
-
-
-
-Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung und Qualifikation (4), Erwerbstätigkeit und Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie und Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
+Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung & Qualifikation (4), Erwerbstätigkeit & Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie & Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
 <br>
 <br>
 <b>Tabellen, Grafiken und beschreibende Texte</b>
@@ -44,39 +37,3 @@ Darüber hinaus fließen weitere amtliche Statistiken in den Bericht ein. Sie k�
 
 <br>
 Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen des LSN stehen unter [www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de) bereit. Zusätzliche Informationen stellt die Internetseite [www.statistikportal.de](https://www.statistikportal.de) (mit Gemeinschaftsveröffentlichungen der Statistischen Ämter des Bundes und der Länder, u.a. zur amtlichen Sozialberichterstattung) zur Verfügung. Näheres erläutern jeweils die Indikatoren. Für eine übergeordnete Sicht auf das Migrationsgeschehen in Deutschland wird auf das [Integrationsmonitoring der Länder](https://www.integrationsmonitoring-laender.de/) verwiesen.
-
-<p>
-</p>
-
-
-<script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
-        <script>
-            function customPlayer(spkbl) {
-                const player = {
-                    player: document.createElement('fieldset'),
-                    controls: {}
-                };
-                const legend = document.createElement('legend');
-                legend.innerHTML = 'Custom player';
-                player.player.appendChild(legend);
-                player.controls.play = player.player.appendChild(document.createElement('input'));
-                player.controls.play.value = spkbl.options.l18n.play;
-                player.controls.pause = player.player.appendChild(document.createElement('input'));
-                player.controls.pause.value = spkbl.options.l18n.pause;
-                player.controls.progress = player.player.appendChild(document.createElement('progress'));
-                player.controls.progress.innerHTML = '0%';
-                player.controls.stop = player.player.appendChild(document.createElement('input'));
-                player.controls.stop.value = spkbl.options.l18n.stop;
-                return player;
-            }
-
-            Speakable.init({
-                multivoice: true,
-                l18n: {
-                    play: 'Text vorlesen',
-                    pause: 'Pause',
-                    progress: 'Fortschritt',
-                    stop: 'Schließen'
-                }
-            });
-        </script>

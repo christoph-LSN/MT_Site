@@ -1,7 +1,7 @@
 ###tests for 2.0.0
 
-bootstrap_5: true
-chartjs_3: true
+#bootstrap_5: true
+#chartjs_3: true
 
 
 
@@ -48,7 +48,7 @@ create_goals:
 create_indicators:
   layout: indicator
   previous_next_links: true
-  
+
 create_pages:
   - filename: ''
     folder: /
