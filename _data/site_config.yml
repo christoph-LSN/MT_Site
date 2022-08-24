@@ -151,7 +151,7 @@ hide_empty_metadata: true
 hide_single_series: true
 hide_single_unit: true
 indicator_config_form:
-  enabled: false # true
+  enabled: true
   dropdowns: []
   repository_link: /tree/develop/indicator-config
   translation_link: ''
