@@ -73,8 +73,7 @@ create_pages:
 custom_css: []
 custom_js:
   - /assets/js/custom.js
-data_edit_url: #data
-  enabled: false
+data_edit_url: data
 data_fields:
   units: ''
   series: ''
