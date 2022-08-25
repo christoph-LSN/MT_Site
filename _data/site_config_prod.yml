@@ -16,7 +16,7 @@
 
 environment: production
 # Replace my-github-org and open-sdg-data-starter as needed.
-remote_data_prefix: "https://MT_production_site.github.io/IM_production_data"
+remote_data_prefix: "https://MT-production.github.io/IM_production_data"
 
 analytics:
   # For production, you likely want to enter a Google Analytics code below.
