@@ -5,7 +5,7 @@ permalink: /about/
 layout: page
 ---
 
-Das Niedersächsische IntegrationsmMonitoring zu Migration und Teilhabe in Niedersachsen wird vom Niedersächsischen Ministerium für Soziales, Gesundheit und Gleichstellung (MS) in Kooperation mit dem Landesamt für Statistik Niedersachsen (LSN) erstellt.
+Das Monitoring zu Migration und Teilhabe in Niedersachsen - Integrationsmonitoring wird vom Niedersächsischen Ministerium für Soziales, Gesundheit und Gleichstellung (MS) in Kooperation mit dem Landesamt für Statistik Niedersachsen (LSN) erstellt.
 
 Das Ministerium verfolgt das Anliegen, Teilhabe und Chancengleichheit für Zuwanderinnen und Zuwanderer und ihre Familien herzustellen. Mit dem Integrationsmonitoring wird eine verlässliche Datenbasis zur Information und Analyse der Situation im Land angeboten. Integrationsprozesse werden im Zeitverlauf sichtbar, Erfolge und Handlungsbedarfe können identifiziert werden.
 

@@ -1,4 +1,4 @@
-# You will need to change all of the Github-related variables below according
+## You will need to change all of the Github-related variables below according
 # to your Github setup. For example, if your site and data repositories are:
 # -- https://github.com/my-awesome-github-org/my-awesome-site-repo
 # -- https://github.com/my-awesome-github-org/my-awesome-data-repo
@@ -16,7 +16,7 @@
 
 environment: production
 # Replace my-github-org and open-sdg-data-starter as needed.
-remote_data_prefix: "https://my-github-org.github.io/open-sdg-data-starter"
+remote_data_prefix: "https://MT-production.github.io/IM_production_data"
 
 analytics:
   # For production, you likely want to enter a Google Analytics code below.

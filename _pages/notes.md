@@ -4,16 +4,9 @@ language: de
 permalink: /notes/
 layout: page
 ---
-<section class="spkbl">
-                <h1 lang="en"></h1>
-                <p>
 
 
-
-
-
-
-Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung und Qualifikation (4), Erwerbstätigkeit und Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie und Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
+Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen 48 Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung & Qualifikation (4), Erwerbstätigkeit & Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie & Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
 <br>
 <br>
 <b>Tabellen, Grafiken und beschreibende Texte</b>
@@ -27,7 +20,7 @@ Der Begriff „Migrationshintergrund“ wird im Niedersächsischen Integrationsm
 <br>
 Seit dem Jahr 2018 wird im Mikrozensus der Migrationshintergrund im weiteren Sinne jährlich berichtet. Durch eine rückwirkende Revision der Mikrozensusdaten wird auch für das Jahr 2017 der Migrationshintergrund im weiteren Sinne dargestellt. Die in den Tabellen ab dem Jahr 2017 berichteten Daten zum Migrationshintergrund entsprechen dem Migrationshintergrund im weiteren Sinne, bis 2016 wird der Migrationshintergrund im engeren Sinne abgebildet: Von den Deutschen mit Migrationshintergrund, die seit Geburt Deutsche sind, wurden bei der Definition im engeren Sinne nur jene hinzugezählt, die mit ihren Eltern oder einem Elternteil im selben Haushalt lebten. Nur dann lag die für die Zuordnung entscheidende Elterninformation vor. Mit der Statistikänderung kann nun die umfassendere Definition des „weiteren Sinnes“ durchgängig verwendet und in den Tabellen fortgeschrieben werden. Die Vergleichbarkeit zwischen den Jahren sowie zwischen den früheren Berichten und dem aktuellen Bericht des Integrationsmonitorings Niedersachsen ist dadurch eingeschränkt.
 <br>
-Die Ergebnisse des Mikrozensus 2020 sind unter anderem aufgrund methodischer Effekte im Rahmen einer Neugestaltung der Erhebung sowie insbesondere aufgrund der Folgen der Corona-Pandemie in Ihrer Datenqualität eingeschränkt. Auf die Verwendung dieser Ergebnisse wird daher verzichtet. Weitere Informationen zur methodischen Neugestaltung des Mikrozensus ab 2020 und zu den Auswirkungen der Neugestaltung und der Corona-Krise auf die Ergebnisse des Jahres 2020 finden Sie auf der Informationsseite des Statistischen Bundesamtes.
+Die Ergebnisse des Mikrozensus 2020 sind unter anderem aufgrund methodischer Effekte im Rahmen einer Neugestaltung der Erhebung sowie insbesondere aufgrund der Folgen der Corona-Pandemie in Ihrer Datenqualität eingeschränkt. Auf die Verwendung dieser Ergebnisse wird daher verzichtet. Weitere Informationen zur methodischen Neugestaltung des Mikrozensus ab 2020 und zu den Auswirkungen der Neugestaltung und der Corona-Krise auf die Ergebnisse des Jahres 2020 und 2021 finden Sie auf der [Informationsseite des Statistischen Bundesamtes](https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Methoden/mikrozensus-2020.html).
 <br>
 Bei Auswertungen des Mikrozensus ist zu beachten, dass Stichprobenfehler umso stärker ins Gewicht fallen, je geringer die Häufigkeit der erfragten Merkmalsausprägungen ist. Daher werden in den Tabellen Werte unter 5 000 nicht ausgewiesen. Sie werden durch einen Schrägstrich (/) ersetzt. Werte zwischen 5 000 und 10 000 werden wegen ihrer eingeschränkten Aussagekraft in Klammern gesetzt. In den Ergebnistabellen kann bedingt durch Rundungsdifferenzen die Summe der Einzelwerte vom ausgewiesenen „Insgesamt“-Wert bzw. „Zusammen“-Wert abweichen.
 <br>
@@ -44,39 +37,3 @@ Darüber hinaus fließen weitere amtliche Statistiken in den Bericht ein. Sie k�
 
 <br>
 Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen des LSN stehen unter [www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de) bereit. Zusätzliche Informationen stellt die Internetseite [www.statistikportal.de](https://www.statistikportal.de) (mit Gemeinschaftsveröffentlichungen der Statistischen Ämter des Bundes und der Länder, u.a. zur amtlichen Sozialberichterstattung) zur Verfügung. Näheres erläutern jeweils die Indikatoren. Für eine übergeordnete Sicht auf das Migrationsgeschehen in Deutschland wird auf das [Integrationsmonitoring der Länder](https://www.integrationsmonitoring-laender.de/) verwiesen.
-
-<p>
-</p>
-
-
-<script src="https://cdn.jsdelivr.net/gh/tollwerk/speakable@0.4.1-pre/dist/spkbl.js"></script>
-        <script>
-            function customPlayer(spkbl) {
-                const player = {
-                    player: document.createElement('fieldset'),
-                    controls: {}
-                };
-                const legend = document.createElement('legend');
-                legend.innerHTML = 'Custom player';
-                player.player.appendChild(legend);
-                player.controls.play = player.player.appendChild(document.createElement('input'));
-                player.controls.play.value = spkbl.options.l18n.play;
-                player.controls.pause = player.player.appendChild(document.createElement('input'));
-                player.controls.pause.value = spkbl.options.l18n.pause;
-                player.controls.progress = player.player.appendChild(document.createElement('progress'));
-                player.controls.progress.innerHTML = '0%';
-                player.controls.stop = player.player.appendChild(document.createElement('input'));
-                player.controls.stop.value = spkbl.options.l18n.stop;
-                return player;
-            }
-
-            Speakable.init({
-                multivoice: true,
-                l18n: {
-                    play: 'Text vorlesen',
-                    pause: 'Pause',
-                    progress: 'Fortschritt',
-                    stop: 'Schließen'
-                }
-            });
-        </script>

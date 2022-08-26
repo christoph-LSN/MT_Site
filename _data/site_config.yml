@@ -1,7 +1,7 @@
 ###tests for 2.0.0
 
-bootstrap_5: true
-chartjs_3: true
+#bootstrap_5: true
+#chartjs_3: true
 
 
 
@@ -48,6 +48,7 @@ create_goals:
 create_indicators:
   layout: indicator
   previous_next_links: true
+
 create_pages:
   - filename: ''
     folder: /
@@ -139,8 +140,8 @@ goals_page:
   description: goal.description
 graph_color_headline: '#004466'
 graph_color_headline_high_contrast: '#55a6e5'
-graph_color_set: accessible
-graph_color_list: []
+graph_color_set: custom #accessible
+graph_color_list: ['ee0000','436eee','32cd32','ffd700','ba55d3','66cdaa']
 graph_color_number: 0
 graph_title_from_series: true
 header:
@@ -150,7 +151,7 @@ hide_empty_metadata: true
 hide_single_series: true
 hide_single_unit: true
 indicator_config_form:
-  enabled: true
+  enabled: false
   dropdowns: []
   repository_link: /tree/develop/indicator-config
   translation_link: ''
@@ -281,7 +282,7 @@ search_index_extra_fields: []
 series_toggle: true
 sharethis_property: ''
 site_config_form:
-  enabled: true
+  enabled: false
   dropdowns: []
   repository_link: /tree/develop/_data
   translation_link: ''
