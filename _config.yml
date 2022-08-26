@@ -15,7 +15,7 @@
 #brockfanning:map-series-unit-behaviors
 #remote_theme: brockfanning/open-sdg@selection-legend-text-to-the-left
 #remote_theme: brockfanning/open-sdg@map-series-unit-behaviors
-remote_theme: brockfanning/open-sdg@local-metadata-links #open-sdg/open-sdg@2.0.0
+remote_theme: open-sdg/open-sdg@2.0.0
 
 # Replace this title as needed.
 title: general.site_title
