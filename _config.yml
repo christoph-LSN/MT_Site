@@ -17,7 +17,7 @@
 #remote_theme: brockfanning/open-sdg@map-series-unit-behaviors
 
 #remote_theme: brockfanning/open-sdg@local-metadata-links
-remote_theme: open-sdg/open-sdg@2.0.0
+remote_theme: open-sdg/open-sdg@2.1.0-dev
 
 # Replace this title as needed.
 title: general.site_title
