@@ -566,36 +566,4 @@
           "status": "complete"
         }]
     }
-  },
-  {
-    "goal": {
-      "id": "9",
-      "title": "Unkraine Spezial",
-      "indicators": [
-        
-        {
-          "id": "9-1-1",
-          "title": "Gesamtzahl Ankünfte Vertriebener aus der Ukraine",
-          "description": "Nach einer Auswertung des Ausländerzentralregisters (AZR) durch das BAMF zum Stichtag 22.05.2022 sind seit dem 24.02.2022 (Kriegsbeginn) bundesweit etwa 781.000 und in Niedersachsen 73.000 Vertriebene aus der Ukraine angekommen und im AZR erfasst. Die Zahl umfasst Personen, denen bereits ein Aufenthaltstitel nach § 24 Aufenthaltsgesetz zum vorübergehenden Schutz erteilt wurde, Personen, die ein Schutzgesuch geäußert haben sowie eingereiste ukrainische Staatsangehörige, die ohne Schutzgesuch und Aufenthaltstitelerteilung erfasst wurden. Nicht abgebildet werden Personen, die sich bisher nicht bei den örtlichen Behörden gemeldet habe oder die zunächst im AZR erfasst wurden, aber inzwischen ohne Abmeldung weitergereist und nicht mehr in Niedersachsen aufhältig sind. Es ist somit immer auch von einem „Dunkelfeld“ auszugehen, insbesondere aufgrund des zunächst 90tägigen visafreien Aufenthaltes und der Ausnahme vom Erfordernis eines Aufenthaltstitels bis zum 31.08.2022 für aus der Ukraine Vertriebene.",
-          "keywords": "",
-          "href": "/MT_Site/9-1-1",
-          "status": "complete"
-        },
-        {
-          "id": "9-1-2",
-          "title": "Ankünfte Vertriebener aus der Ukraine nach Aufenthalstitel",
-          "description": "Zum Thema Ausländer- und Flüchtlingsangelegenheiten stellt das Nds.  Ministerium für Inneres und Sport an [dieser Stelle](https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html) monatlich statistische Auswertungen zur Verfügung, aus denen sich aktuelle Zahlen und Entwicklungen der Asyl-und Flüchlingssituation ablesen lassen.",
-          "keywords": "",
-          "href": "/MT_Site/9-1-2",
-          "status": "complete"
-        },
-        {
-          "id": "9-2-1",
-          "title": "Vertrieben aus der Ukraine in NIedersachsen nach Geschlecht und Alter",
-          "description": "Zum Thema Ausländer- und Flüchtlingsangelegenheiten stellt das Nds.  Ministerium für Inneres und Sport an [dieser Stelle](https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html) monatlich statistische Auswertungen zur Verfügung, aus denen sich aktuelle Zahlen und Entwicklungen der Asyl-und Flüchlingssituation ablesen lassen.",
-          "keywords": "",
-          "href": "/MT_Site/9-2-1",
-          "status": "complete"
-        }]
-    }
   }]
