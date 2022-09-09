@@ -128,7 +128,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220908062340">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220909091235">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -447,7 +447,7 @@ data-event-label="high"
     // Set values according to this site's configuration.
     
       try {
-        var currentValue = normalizeCurrentValue('national_indicator_description', "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der \"Bevölkerung mit Migrationshintergrund\" umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert. Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen : 1. zugewanderte und nicht zugewanderte Ausländer; 2. zugewanderte und nicht zugewanderte Eingebürgerte; 3. (Spät-)Aussiedler; 4. mit deutscher Staatsangehörigkeit geborene Nachkommen. Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten.");
+        var currentValue = normalizeCurrentValue('national_indicator_description', "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br> 1. zugewanderte und nicht zugewanderte Ausländer;<br>2. zugewanderte und nicht zugewanderte Eingebürgerte;<br> 3. (Spät-)Aussiedler;<br> 4. mit deutscher Staatsangehörigkeit geborene Nachkommen<br> Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. Der Indikator untergliedert die Personen zusätzlich in Ausländerinnen und Ausländer, Spätaussiedlerinnen und Spätaussiedler und weitere Deutsche mit Migrationshintergrund.");
         var propertyEditor = editor.getEditor('root.national_indicator_description');
         propertyEditor.setValue(null);
         propertyEditor.setValue(currentValue);
@@ -793,12 +793,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220908062340'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220909091235'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220908062340"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220909091235"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
