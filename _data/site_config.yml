@@ -112,11 +112,11 @@ frontpage_cards:
     button_label: Mehr erfahren
     button_link: '/5-2-3/'
     rule_color: ''
-  - title: Frühere Berichte
+  - title: Weitere Berichte
     content: |
-      Der Bericht Migration und Teilhabe in Niedersachsen erscheint seit dem Jahr 2016. Laden Sie frühere Berichte hier herunter
+      Der Bericht Migration und Teilhabe in Niedersachsen erscheint seit dem Jahr 2016. Laden Sie weitere Berichte hier herunter
     include: ''
-    button_label: Frühere Berichte
+    button_label: Weitere Berichte
     button_link: /previous_reports/
     rule_color: ''
 frontpage_goals_grid:
