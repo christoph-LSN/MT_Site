@@ -5661,17 +5661,14 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
             this.hasSeries = (this.allSeries.length > 0);
             this.hasUnits = (this.allUnits.length > 0);
             this.hasDisaggregations = this.hasDissagregationsWithValues();
-            this.hasDisaggregationsWithMultipleValues = this.hasDisaggregationsWithMultipleValues();
         },
 
         getVisibleDisaggregations: function() {
             var features = this.plugin.getVisibleLayers().toGeoJSON().features;
             var disaggregations = features[0].properties.disaggregations;
-            // The purpose of the rest of this function is to identiy
-            // and remove any "region columns" - ie, any columns that
-            // correspond exactly to names of map regions. These columns
-            // are useful on charts and tables but should not display
-            // on maps.
+            // The purpose of the rest of this function is to
+            // "prune" the disaggregations by removing any keys
+            // that are identical across all disaggregations.
             var allKeys = Object.keys(disaggregations[0]);
             var relevantKeys = {};
             var rememberedValues = {};
@@ -5687,27 +5684,6 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                 }
             });
             relevantKeys = Object.keys(relevantKeys);
-            if (features.length > 1) {
-                // Any columns not already identified as "relevant" might
-                // be region columns.
-                var regionColumnCandidates = allKeys.filter(function(item) {
-                    return relevantKeys.includes(item) ? false : true;
-                });
-                // Compare the column value across map regions - if it is
-                // different then we assume the column is a "region column".
-                // For efficiency we only check the first and second region.
-                var regionColumns = regionColumnCandidates.filter(function(candidate) {
-                    var region1 = features[0].properties.disaggregations[0][candidate];
-                    var region2 = features[1].properties.disaggregations[0][candidate];
-                    return region1 === region2 ? false : true;
-                });
-                // Now we can treat any non-region columns as relevant.
-                regionColumnCandidates.forEach(function(item) {
-                    if (!regionColumns.includes(item)) {
-                        relevantKeys.push(item);
-                    }
-                });
-            }
             relevantKeys.push(this.seriesColumn);
             relevantKeys.push(this.unitsColumn);
             var pruned = [];
@@ -5757,16 +5733,6 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
             return hasDisaggregations;
         },
 
-        hasDisaggregationsWithMultipleValues: function () {
-            var hasDisaggregations = false;
-            this.allDisaggregations.forEach(function(disaggregation) {
-                if (disaggregation.values.length > 1 && disaggregation.values[1] !== '') {
-                    hasDisaggregations = true;
-                }
-            });
-            return hasDisaggregations;
-        },
-
         updateList: function () {
             var list = this.list;
             list.innerHTML = '';
@@ -5797,7 +5763,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                         definition = L.DomUtil.create('dd', 'disaggregation-definition'),
                         container = L.DomUtil.create('div', 'disaggregation-container'),
                         field = disaggregation.field;
-                    title.innerHTML = translations.t(field);
+                    title.innerHTML = field;
                     var disaggregationValue = currentDisaggregation[field];
                     if (disaggregationValue !== '') {
                         definition.innerHTML = disaggregationValue;
@@ -5877,7 +5843,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                         legend = L.DomUtil.create('legend', 'disaggregation-fieldset-legend'),
                         fieldset = L.DomUtil.create('fieldset', 'disaggregation-fieldset'),
                         field = disaggregation.field;
-                    legend.innerHTML = translations.t(field);
+                    legend.innerHTML = field;
                     fieldset.append(legend);
                     form.append(fieldset);
                     formInputs.append(form);
@@ -5890,7 +5856,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                             input.tabindex = 0;
                             input.checked = (value === currentDisaggregation[field]) ? 'checked' : '';
                             var label = L.DomUtil.create('label', 'disaggregation-label');
-                            label.innerHTML = (value === '') ? translations.indicator.total : value;
+                            label.innerHTML = (value === '') ? 'All' : value;
                             label.prepend(input);
                             fieldset.append(label);
                             input.addEventListener('change', function(e) {
@@ -5945,7 +5911,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                     numUnits = this.allUnits.length,
                     displayForm = this.displayForm;
 
-                if (displayForm && (this.hasDisaggregationsWithMultipleValues || (numSeries > 1 || numUnits > 1))) {
+                if (displayForm && (this.hasDisaggregations || (numSeries > 1 || numUnits > 1))) {
 
                     var button = L.DomUtil.create('button', 'disaggregation-button');
                     button.innerHTML = translations.indicator.change_breakdowns;
