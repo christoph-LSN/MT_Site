@@ -16,9 +16,11 @@
 #remote_theme: brockfanning/open-sdg@selection-legend-text-to-the-left
 #remote_theme: brockfanning/open-sdg@map-series-unit-behaviors
 
-remote_theme: brockfanning/open-sdg@local-metadata-links
-#remote_theme: open-sdg/open-sdg@alter-data-display-decimal-fix
+remote_theme: brockfanning/open-sdg@chart-tooltip-use-raw
 
+#local-metadata-links
+#remote_theme: open-sdg/open-sdg@alter-data-display-decimal-fix
+#brockfanning:chart-tooltip-use-raw
 # Replace this title as needed.
 title: general.site_title
 url: ""
