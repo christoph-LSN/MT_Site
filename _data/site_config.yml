@@ -100,7 +100,7 @@ footer_menu:
 frontpage_cards:
   - title: Alle Daten herunterladen
     content: |
-      Hier können Sie alle Daten als zip-Datei herunterladen
+      Hier können Sie alle Daten als zip-Datei herunterladen <br><br>
     include: components/download-all-data.html
     button_label: ''
     button_link: ''
@@ -114,7 +114,7 @@ frontpage_cards:
     rule_color: ''
   - title: Weitere Berichte
     content: |
-      Hier finden Sie die Berichte des Integrationsmonitorings der Länder 
+      Hier finden Sie die Berichte des Integrationsmonitorings der Länder
     include: ''
     button_label: Weitere Berichte
     button_link: /previous_reports/
