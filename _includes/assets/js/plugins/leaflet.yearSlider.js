@@ -121,15 +121,17 @@
       // We pad our years to at least January 2nd, so that timezone issues don't
       // cause any problems. This converts the array of years into a comma-
       // delimited string of YYYY-MM-DD dates.
-
-      // currentTime: new Date(years[0].time).getTime(),
-      // currentTime: new Date(years.slice(-1)[0].time).getTime(),
-
       times: years.map(function(y) { return y.time }).join(','),
-      currentTime: new Date(years[0].time).getTime(),
+      currentTime: new Date(years.slice(-1)[0].time).getTime(),
     });
     // Create the player.
     options.player = new L.TimeDimension.Player(options.playerOptions, options.timeDimension);
+    options.player.on('play', function() {
+      $('.timecontrol-play').attr('title', 'Pause');
+    });
+    options.player.on('stop', function() {
+      $('.timecontrol-play').attr('title', 'Play');
+    });
     // Listen for time changes.
     if (typeof options.yearChangeCallback === 'function') {
       options.timeDimension.on('timeload', options.yearChangeCallback);

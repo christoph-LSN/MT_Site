@@ -100,7 +100,7 @@ footer_menu:
 frontpage_cards:
   - title: Alle Daten herunterladen
     content: |
-      Hier können Sie alle Daten als zip-Datei herunterladen
+      Hier können Sie alle Daten als zip-Datei herunterladen <br>
     include: components/download-all-data.html
     button_label: ''
     button_link: ''
@@ -112,11 +112,11 @@ frontpage_cards:
     button_label: Mehr erfahren
     button_link: '/5-2-3/'
     rule_color: ''
-  - title: Frühere Berichte
+  - title: Weitere Berichte
     content: |
-      Der Bericht Migration und Teilhabe in Niedersachsen erscheint seit dem Jahr 2016. Laden Sie frühere Berichte hier herunter
+      Hier finden Sie die Berichte des Integrationsmonitorings der Länder
     include: ''
-    button_label: Frühere Berichte
+    button_label: Weitere Berichte
     button_link: /previous_reports/
     rule_color: ''
 frontpage_goals_grid:
