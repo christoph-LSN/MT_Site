@@ -133,7 +133,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220927115243">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20220927132526">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -398,7 +398,7 @@ data-event-label="high"
   data-charttitles="[{&quot;unit&quot;:&quot;Prozent&quot;,&quot;title&quot;:&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent&quot;},{&quot;unit&quot;:&quot;Anzahl&quot;,&quot;title&quot;:&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang (Anzahl)&quot;}]"
   data-measurementunit=""
   data-xaxislabel=""
-  data-showdata="true"
+  data-showdata="false"
   data-graphtype="bar"
   data-graphtypes="null"
   data-geocoderegex=""
@@ -415,275 +415,7 @@ data-event-label="high"
   data-precision="[{&quot;unit&quot;:&quot;Prozent&quot;,&quot;decimals&quot;:1},{&quot;unit&quot;:&quot;Anzahl&quot;,&quot;decimals&quot;:0}]"
 >
   
-  <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
-  <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
-    <div id="serieses"></div>
-<div id="units"></div>
-<div id="toolbar">
-  <span id="series-help">
-    <h4>Kategorien</h4>
-    <p>Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.</p>
-  </span>
-  <div id="fields">
-    <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
-  </div>
-</div>
-
-  </div>
-  <div id="indicator-main" class="indicator-main col-md-9">
-    
-
-
-
-
-<div id="headlineTable">
-
-  <div id="datatables">
-
-    
-    <a href="https://christoph-lsn.github.io/IM_Data/de/data/4-1-1.csv" class="btn btn-primary btn-download" download='indicator_4-1-1.csv' tabindex='0' role='button'>Daten im CSV-Format speichern</a>
-
-    <p class="no-js-disaggregation-hint"></p>
-
-    
-    <h3></h3>
-    
-  </div>
-
-  
-
-</div>
-
-
-<section>
-
-  <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
-
-  <div class="async-loaded mt-4" style="display:none;">
-
-    <div style="display: none;">
-    <span id="table-alternative"></span>
-  </div>
-  <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
-    
-    <li role="presentation"
-      class="
-        nav-item
-        
-        
-      ">
-      <button
-        class="nav-link active"
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-chartview"
-          data-bs-target="#chartview"
-          aria-controls="chartview"
-          aria-describedby="table-alternative"
-          data-on="click"
-data-event-category="Tab change"
-data-event-action="Change data view"
-data-event-label="Change to Chart tab"
-
-        
-      >Grafik</button>
-    </li>
-    
-    <li role="presentation"
-      class="
-        nav-item
-        
-        
-      ">
-      <button
-        class="nav-link "
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-tableview"
-          data-bs-target="#tableview"
-          aria-controls="tableview"
-          data-on="click"
-data-event-category="Tab change"
-data-event-action="Change data view"
-data-event-label="Change to Table tab"
-
-        
-      >Tabelle</button>
-    </li>
-    
-    <li role="presentation"
-      class="
-        nav-item
-        map
-        
-      ">
-      <button
-        class="nav-link "
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-mapview"
-          data-bs-target="#mapview"
-          aria-controls="mapview"
-          data-no-disagg="true"
-          data-on="click"
-data-event-category="Tab change"
-data-event-action="Change data view"
-data-event-label="Change to Map tab"
-
-        
-      >Karte</button>
-    </li>
-    
-  </ul>
-  
-    <div class="tab-content data-view">
-    
-      
-        <div role="tabpanel" class="tab-pane active" id="chartview">
-          
-
-    <div id="dataset-size-warning" style="display:none" role="alert">
-      <i class="fa fa-bolt"><span class="sr-only"></span></i>
-      Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden
-    </div>
-
-    
-    <div id="selectionsChart">
-      <figure role="group">
-        <div id="chart-canvas">
-          <h4 id="chart-heading" class="chart-title">Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent</h4>
-          <div id="chart" class="plot-container">
-            <canvas
-    role="img"
-    aria-labelledby="chart-heading"
-    aria-describedby="table-alternative chart-annotations"
-    tabindex="0"
- ></canvas>
-
-          </div>
-          <div id="plotLegend"></div>
-          
-
-
-
-<div id="selectionChartFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        <dt>Fußnoten:</dt>
-        <dd><br>1) Integrierte Gesamtschule: einschließlich Freie Waldorfschule u. ä.; die verschiedenen Zweige der Kooperativen   Gesamtschule werden den Schulformen Hauptschule, Realschule und Gymnasium zugeordnet. <br>2) Oberschule: Schulform in Niedersachsen zum Schuljahr 2011/2012 eingeführt</dd>
-        
-    <dl>
-  </div>
-
-        </div>
-      </figure>
-      <div id="chartSelectionDownload" class="clearfix">
-        <button id="btnSave" title="Grafik als Bild herunterladen" class='btn btn-primary btn-download'>
-          Grafik herunterladen
-        </button><!-- 
-   --></div>
-    </div>
-
-
-
-        </div>
-      
-    
-      
-        <div role="tabpanel" class="tab-pane " id="tableview">
-          <div style="display: none;">
-            <span id="column-sort-info"></span>
-          </div>
-          <div id="selectionsTable"></div>
-<dl id="tableTargetLines" class="clearfix"></dl>
-
-
-
-
-<div id="selectionTableFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        <dt>Fußnoten:</dt>
-        <dd><br>1) Integrierte Gesamtschule: einschließlich Freie Waldorfschule u. ä.; die verschiedenen Zweige der Kooperativen   Gesamtschule werden den Schulformen Hauptschule, Realschule und Gymnasium zugeordnet. <br>2) Oberschule: Schulform in Niedersachsen zum Schuljahr 2011/2012 eingeführt</dd>
-        
-    <dl>
-  </div>
-
-<div id="tableSelectionDownload" class="clearfix"></div>
-
-        </div>
-      
-    
-      
-        <div role="tabpanel" class="tab-pane " id="mapview" class="map">
-          
-<h4 id="map-heading" class="map-title">Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent</h4>
-<div id="map" aria-describedby="table-alternative">
-  <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
-</div>
-
-
-
-
-<div id="mapFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        <dt>Fußnoten:</dt>
-        <dd><br>1) Integrierte Gesamtschule: einschließlich Freie Waldorfschule u. ä.; die verschiedenen Zweige der Kooperativen   Gesamtschule werden den Schulformen Hauptschule, Realschule und Gymnasium zugeordnet. <br>2) Oberschule: Schulform in Niedersachsen zum Schuljahr 2011/2012 eingeführt</dd>
-        
-    <dl>
-  </div>
-
-
-        </div>
-      
-    
-  </div>
-  
-
-  </div>
-
-</section>
-
+  <div id="indicator-main" class="indicator-main col-md-12">
   
   <div class="mt-4">
 <ul class="nav nav-tabs" role="tablist">
@@ -1278,12 +1010,12 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20220927115243'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20220927132526'></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20220927115243"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20220927132526"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
