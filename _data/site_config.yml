@@ -100,7 +100,7 @@ footer_menu:
 frontpage_cards:
   - title: Alle Daten herunterladen
     content: |
-      Hier können Sie alle Daten als zip-Datei herunterladen <br><br>
+      Hier können Sie alle Daten als zip-Datei herunterladen <br>
     include: components/download-all-data.html
     button_label: ''
     button_link: ''
