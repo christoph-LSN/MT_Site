@@ -114,7 +114,7 @@ frontpage_cards:
     rule_color: ''
   - title: Weitere Berichte
     content: |
-      Der Bericht Migration und Teilhabe in Niedersachsen erscheint seit dem Jahr 2016. Laden Sie weitere Berichte hier herunter
+      Hier finden Sie die Berichte des Integrationsmonitorings der Länder 
     include: ''
     button_label: Weitere Berichte
     button_link: /previous_reports/
