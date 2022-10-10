@@ -19,6 +19,6 @@ environment: production
 #remote_data_prefix: "https://MT-production.github.io/IM_production_data"
 remote_data_prefix: "https://integrationsmonitoring.niedersachsen.de/IM_production_data"
 
-analytics:
+#analytics:
   # For production, you likely want to enter a Google Analytics code below.
-  ga_prod: ''
+#  ga_prod: ''
