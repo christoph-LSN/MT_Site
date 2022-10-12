@@ -110,7 +110,7 @@ frontpage_cards:
       In der Statistischen Region Braunschweig ist der Anteil der Sozialversichungspflichtig Beschäftigten mit hoher Qualifikation am höchsten...
     include: ''
     button_label: Mehr erfahren
-    button_link: '/5-2-3/'
+    button_link: '/5-2-2/'
     rule_color: ''
   - title: Weitere Berichte
     content: |
