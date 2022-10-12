@@ -1137,6 +1137,16 @@ var accessibilitySwitcher = function () {
     }
 
 };
+
+// Dynamic aria labels on navbar toggle.
+$(document).ready(function() {
+    $('#navbarSupportedContent').on('shown.bs.collapse', function() {
+        $('.navbar-toggler').attr('aria-label', translations.header.hide_menu);
+    });
+    $('#navbarSupportedContent').on('hidden.bs.collapse', function() {
+        $('.navbar-toggler').attr('aria-label', translations.header.show_menu);
+    });
+});
 opensdg.chartColors = function(indicatorId) {
   var colorSet = "custom";
   var numberOfColors = 0;
@@ -4381,6 +4391,7 @@ function createDownloadButton(table, name, indicatorId, el) {
             .attr({
                 'download': fileName,
                 'title': translations.indicator.download_csv_title,
+                'aria-label': translations.indicator.download_csv_title,
                 'class': 'btn btn-primary btn-download',
                 'tabindex': 0
             });
@@ -4412,6 +4423,7 @@ function createDownloadButton(table, name, indicatorId, el) {
                 'href': opensdg.remoteDataBaseUrl + '/headline/' + id + '.csv',
                 'download': headlineId + '.csv',
                 'title': translations.indicator.download_headline_title,
+                'aria-label': translations.indicator.download_headline_title,
                 'class': 'btn btn-primary btn-download',
                 'tabindex': 0
             }));
@@ -4431,6 +4443,7 @@ function createSourceButton(indicatorId, el) {
             'href': opensdg.remoteDataBaseUrl + '/data/' + indicatorId + '.csv',
             'download': indicatorId + '.csv',
             'title': translations.indicator.download_source_title,
+            'aria-label': translations.indicator.download_source_title,
             'class': 'btn btn-primary btn-download',
             'tabindex': 0
         }));
@@ -5530,6 +5543,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
       this._button.innerHTML = '<i class="fa fa-search" aria-hidden="true"></i>';
 
       this._cancel.setAttribute('role', 'button');
+      this._cancel.title = translations.indicator.map_search_cancel;
       this._cancel.setAttribute('aria-label', this._cancel.title);
       this._cancel.innerHTML = '<i class="fa fa-close" aria-hidden="true"></i>';
 
