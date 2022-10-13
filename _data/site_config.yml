@@ -14,11 +14,11 @@ decimal_separator: ','
 
 accessible_charts: true
 accessible_tabs: true
-analytics:
+# analytics:
 #  ua: ''
 #  gtag: ''
 #  gtm: ''
-  ga_prod: 'G-5V7YNZ06KS'
+#  ga_prod: 'G-5V7YNZ06KS'
 breadcrumbs:
   goal:
     - path: /
