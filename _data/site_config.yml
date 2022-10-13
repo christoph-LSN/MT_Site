@@ -18,7 +18,7 @@ analytics:
 #  ua: ''
 #  gtag: ''
 #  gtm: ''
-  ga_prod: '337258961'
+  ga_prod: 'G-5V7YNZ06KS'
 breadcrumbs:
   goal:
     - path: /
