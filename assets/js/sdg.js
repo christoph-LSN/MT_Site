@@ -2553,14 +2553,14 @@ function getHeadline(selectableFields, rows) {
  * @param {Array} rows
  * @return {Array} Prepared rows
  */
-function prepareData(rows) {
+function prepareData(rows, context) {
   return rows.map(function(item) {
 
     if (item[VALUE_COLUMN] != 0) {
       // For rounding, use a function that can be set on the global opensdg
       // object, for easier control: opensdg.dataRounding()
       if (typeof opensdg.dataRounding === 'function') {
-        item.Value = opensdg.dataRounding(item.Value);
+        item.Value = opensdg.dataRounding(item.Value, context);
       }
     }
 
@@ -2792,7 +2792,7 @@ function getTimeSeriesAttributes(rows) {
   }
 
   // Before continuing, we may need to filter by Series, so set up all the Series stuff.
-  this.allData = helpers.prepareData(this.data);
+  this.allData = helpers.prepareData(this.data, { indicatorId: this.indicatorId });
   this.allColumns = helpers.getColumnsFromData(this.allData);
   this.hasSerieses = helpers.dataHasSerieses(this.allColumns);
   this.serieses = this.hasSerieses ? helpers.getUniqueValuesByProperty(helpers.SERIES_COLUMN, this.allData) : [];
@@ -5228,9 +5228,10 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
           color: swatchColor,
         });
       }).join('');
+      var context = { indicatorId: this.plugin.indicatorId };
       return L.Util.template(controlTpl, {
-        lowValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][0])),
-        highValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][1])),
+        lowValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][0], context)),
+        highValue: this.plugin.alterData(opensdg.dataRounding(this.plugin.valueRanges[this.plugin.currentDisaggregation][1], context)),
         legendSwatches: swatches,
       });
     },
