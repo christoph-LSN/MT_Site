@@ -5003,6 +5003,7 @@ var indicatorSearch = function() {
         if (opensdg.language != 'en' && lunr[opensdg.language]) {
           this.use(lunr[opensdg.language]);
         }
+        this.use(storeUnstemmed);
         this.ref('url');
         // Index the expected fields.
         this.field('title', getSearchFieldOptions('title'));
@@ -5106,9 +5107,13 @@ var indicatorSearch = function() {
   function getMatchedTerms(results) {
     var matchedTerms = {};
     results.forEach(function(result) {
-      Object.keys(result.matchData.metadata).forEach(function(matchedTerm) {
-        matchedTerms[matchedTerm] = true;
-      })
+      Object.keys(result.matchData.metadata).forEach(function(stemmedTerm) {
+        Object.keys(result.matchData.metadata[stemmedTerm]).forEach(function(fieldName) {
+          result.matchData.metadata[stemmedTerm][fieldName].unstemmed.forEach(function(unstemmedTerm) {
+            matchedTerms[unstemmedTerm] = true;
+          });
+        });
+      });
     });
     return Object.keys(matchedTerms);
   }
@@ -5129,6 +5134,19 @@ var indicatorSearch = function() {
   function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
   };
+
+  // Define a pipeline function that keeps the unstemmed word.
+  // See: https://github.com/olivernn/lunr.js/issues/287#issuecomment-454923675
+  function storeUnstemmed(builder) {
+    function pipelineFunction(token) {
+      token.metadata['unstemmed'] = token.toString();
+      return token;
+    };
+    lunr.Pipeline.registerFunction(pipelineFunction, 'storeUnstemmed');
+    var firstPipelineFunction = builder.pipeline._stack[0];
+    builder.pipeline.before(firstPipelineFunction, pipelineFunction);
+    builder.metadataWhitelist.push('unstemmed');
+  }
 };
 
 $(function() {
@@ -5537,6 +5555,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
       var container = L.Control.Search.prototype.onAdd.call(this, map);
 
       this._input.setAttribute('aria-label', this._input.placeholder);
+      this._input.removeAttribute('role');
       this._tooltip.setAttribute('aria-label', this._input.placeholder);
 
       this._button.setAttribute('role', 'button');
@@ -5624,6 +5643,18 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
       if ((typeof e === 'undefined' || e.type === 'keyup') && this._input.value === '') {
         return;
       }
+      if (this._tooltip.childNodes.length > 0 && this._input.value !== '') {
+        // This is a workaround for the bug where non-exact matches
+        // do not successfully search. See this Github issue:
+        // https://github.com/stefanocudini/leaflet-search/issues/264
+        var firstSuggestion = this._tooltip.childNodes[0].innerText;
+        var firstSuggestionLower = firstSuggestion.toLowerCase();
+        var userInput = this._input.value;
+        var userInputLower = userInput.toLowerCase();
+        if (firstSuggestion !== userInput && firstSuggestionLower.includes(userInputLower)) {
+          this._input.value = firstSuggestion;
+        }
+      }
       L.Control.Search.prototype._handleSubmit.call(this, e);
     },
     _handleArrowSelect: function(velocity) {
@@ -5689,11 +5720,17 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
             this.hasSeries = (this.allSeries.length > 0);
             this.hasUnits = (this.allUnits.length > 0);
             this.hasDisaggregations = this.hasDissagregationsWithValues();
-            this.hasDisaggregationsWithMultipleValues = this.hasDisaggregationsWithMultipleValues();
+            this.hasDisaggregationsWithMultipleValuesFlag = this.hasDisaggregationsWithMultipleValues();
         },
 
         getVisibleDisaggregations: function() {
-            var features = this.plugin.getVisibleLayers().toGeoJSON().features;
+            var features = this.plugin.getVisibleLayers().toGeoJSON().features.filter(function(feature) {
+                return typeof feature.properties.disaggregations !== 'undefined';
+            });
+            if (features.length === 0) {
+                return [];
+            }
+
             var disaggregations = features[0].properties.disaggregations;
             // The purpose of the rest of this function is to identiy
             // and remove any "region columns" - ie, any columns that
@@ -5973,7 +6010,7 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                     numUnits = this.allUnits.length,
                     displayForm = this.displayForm;
 
-                if (displayForm && (this.hasDisaggregationsWithMultipleValues || (numSeries > 1 || numUnits > 1))) {
+                if (displayForm && (this.hasDisaggregationsWithMultipleValuesFlag || (numSeries > 1 || numUnits > 1))) {
 
                     var button = L.DomUtil.create('button', 'disaggregation-button');
                     button.innerHTML = translations.indicator.change_breakdowns;
