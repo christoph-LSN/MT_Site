@@ -81,7 +81,7 @@ data_fields:
 date_formats:
 - type: standard
   language: de
-  format: "%d. %m. %Y"
+  format: "%d.%m.%Y"
 disclaimer:
   phase: ''
   message: ''
