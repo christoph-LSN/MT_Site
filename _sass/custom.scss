@@ -47,6 +47,10 @@ Tag Colors
 
 ///Buttons scss//
 
+@import 'mixins.scss';
+@import 'common.scss';
+
+
 $dtb-button-colour: rgba(0, 0, 0, 0.1) !default;
 $dtb-button-focus-colour: rgba(121, 172, 233, 1) !default;
 $dtb-button-border: 1px solid dtb-shade(transparent, 30%) !default;
