@@ -727,7 +727,7 @@ div.dt-button-collection.fixed {
 	border-radius: 5px;
 	background-color: white;
 	> {
-		&:last-child {
+		& :last-child {
 			max-height: 100vh;
 			overflow: auto;
 		}
