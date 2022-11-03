@@ -200,7 +200,7 @@ div.dt-button-collection {
 			border-top-left-radius: 3px;
 			border-top-right-radius: 3px;
 		}
-		&:last-child {
+		& :last-child {
 			border-bottom-left-radius: 3px;
 			border-bottom-right-radius: 3px;
 		}
@@ -226,7 +226,7 @@ div.dt-button-collection {
 			border-top-left-radius: 3px;
 			border-top-right-radius: 3px;
 		}
-		&:last-child {
+		& :last-child {
 			border-bottom-left-radius: 3px;
 			border-bottom-right-radius: 3px;
 		}
@@ -252,7 +252,7 @@ div.dt-button-collection {
 			border-top-left-radius: 3px;
 			border-top-right-radius: 3px;
 		}
-		&:last-child {
+		& :last-child {
 			border-bottom-left-radius: 3px;
 			border-bottom-right-radius: 3px;
 		}
@@ -313,7 +313,7 @@ div.dt-button-collection {
 				border-top-right-radius: 3px;
 			}
 		}
-		&:last-child {
+		& :last-child {
 			button.dt-button {
 				border-bottom-left-radius: 3px;
 			}
@@ -714,7 +714,7 @@ div.dt-button-collection.fixed {
 			border-top-left-radius: 0;
 			border-top-right-radius: 0;
 		}
-		&:last-child {
+		& :last-child {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 		}
@@ -747,7 +747,7 @@ div.dt-button-collection.fixed.columns {
 }
 div.dt-button-collection.two-column {
 	> {
-		&:last-child {
+		& :last-child {
 			display: block !important;
 			-webkit-column-gap: 8px;
 			-moz-column-gap: 8px;
@@ -766,7 +766,7 @@ div.dt-button-collection.two-column {
 }
 div.dt-button-collection.three-column {
 	> {
-		&:last-child {
+		& :last-child {
 			display: block !important;
 			-webkit-column-gap: 8px;
 			-moz-column-gap: 8px;
@@ -785,7 +785,7 @@ div.dt-button-collection.three-column {
 }
 div.dt-button-collection.four-column {
 	> {
-		&:last-child {
+		& :last-child {
 			display: block !important;
 			-webkit-column-gap: 8px;
 			-moz-column-gap: 8px;
@@ -805,7 +805,7 @@ div.dt-button-collection.four-column {
 div.dt-button-collection.columns {
 	width: auto;
 	> {
-		&:last-child {
+		& :last-child {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: flex-start;
@@ -823,7 +823,7 @@ div.dt-button-collection.columns {
 }
 div.dt-button-collection.columns.dtb-b3 {
 	> {
-		&:last-child {
+		& :last-child {
 			justify-content: space-between;
 		}
 	}
@@ -833,7 +833,7 @@ div.dt-button-collection.columns.dtb-b3 {
 }
 div.dt-button-collection.columns.dtb-b2 {
 	> {
-		&:last-child {
+		& :last-child {
 			justify-content: space-between;
 		}
 	}
@@ -843,7 +843,7 @@ div.dt-button-collection.columns.dtb-b2 {
 }
 div.dt-button-collection.columns.dtb-b1 {
 	> {
-		&:last-child {
+		& :last-child {
 			justify-content: space-between;
 		}
 	}
@@ -962,7 +962,7 @@ button.dt-btn-split-drop-button {
 	}
 	div.dt-button-collection.columns {
 		> {
-			&:last-child {
+			& :last-child {
 				width: 612px;
 			}
 		}
@@ -974,7 +974,7 @@ button.dt-btn-split-drop-button {
 	}
 	div.dt-button-collection.columns {
 		> {
-			&:last-child {
+			& :last-child {
 				width: 406px;
 			}
 		}
@@ -995,7 +995,7 @@ button.dt-btn-split-drop-button {
 	}
 	div.dt-button-collection.columns {
 		> {
-			&:last-child {
+			& :last-child {
 				width: 200px;
 			}
 		}
