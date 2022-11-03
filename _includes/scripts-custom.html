@@ -1,3 +1,18 @@
+
+opensdg.tableConfigAlter(function(config) {
+    var overrides = {
+      $('#myTable').DataTable( {
+          buttons: [
+              'print'
+          ]
+      } );
+
+        // Override any configuration here.
+    };
+    $.extend(true, config, overrides);
+});
+
+
 {% comment %}
 This space intended for custom third-party javascript.
 {% endcomment %}
