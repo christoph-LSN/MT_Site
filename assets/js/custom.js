@@ -3,7 +3,7 @@
 opensdg.tableConfigAlter(function(config) {
     var overrides = {
         "order": [[ 0, "desc" ]],
-        "buttons": ['print']
+        "buttons": ['pdf']
       };
     $.extend(true, config, overrides);
 
