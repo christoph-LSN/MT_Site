@@ -2,9 +2,12 @@
 
 opensdg.tableConfigAlter(function(config) {
     var overrides = {
-        "order": [[ 0, "desc" ]]
+        "order": [[ 0, "desc" ]],
+        "buttons": ['print']
       };
     $.extend(true, config, overrides);
+
+
 });
 
 
