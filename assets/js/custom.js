@@ -5,9 +5,11 @@
 function printDiv() {
             var divContents = document.getElementById("selectionsTable").innerHTML;
             var divTitle = document.getElementById("chart-heading").innerHTML;
+            var divHeading = document.getElementsByClassName("continer");
             var a = window.open('', '', 'height=500, width=500');
             a.document.write('<html>');
             a.document.write(divTitle);
+            a.document.write(divHeading);
             a.document.write(divContents);
             a.document.write('</body></html>');
             a.document.close();
