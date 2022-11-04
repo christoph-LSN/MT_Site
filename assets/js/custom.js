@@ -3,7 +3,7 @@
 // printing
 
 function printDiv() {
-            var divContents = document.getElementById("indicator-main").innerHTML;
+            var divContents = document.getElementById("chart").innerHTML;
             var a = window.open('', '', 'height=500, width=500');
             a.document.write('<html>');
             a.document.write('<body > <h1>Div contents are <br>');
