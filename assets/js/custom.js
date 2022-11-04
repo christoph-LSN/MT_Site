@@ -2,22 +2,16 @@
 
 // printing
 
-function printDiv()
-{
-
-  var divToPrint=document.getElementById('main-content');
-
-  var newWin=window.open('','Print-Window');
-
-  newWin.document.open();
-
-  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
-
-  newWin.document.close();
-
-  setTimeout(function(){newWin.close();},10);
-
-}
+function printDiv() {
+            var divContents = document.getElementById("indicator-main").innerHTML;
+            var a = window.open('', '', 'height=500, width=500');
+            a.document.write('<html>');
+            a.document.write('<body > <h1>Div contents are <br>');
+            a.document.write(divContents);
+            a.document.write('</body></html>');
+            a.document.close();
+            a.print();
+        }
 
 // table sorting desc.
 
