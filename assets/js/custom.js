@@ -2,10 +2,10 @@
 
 // printing
 
-function printDiv() 
+function printDiv()
 {
 
-  var divToPrint=document.getElementById('indicator-main');
+  var divToPrint=document.getElementById('main-content');
 
   var newWin=window.open('','Print-Window');
 
