@@ -18,7 +18,7 @@ function printDiv() {
 opensdg.tableConfigAlter(function(config) {
     var overrides = {
         "order": [[ 0, "desc" ]],
-        "buttons": ['pdf', 'print']
+        "button": ['pdf', 'print']
 
       };
     $.extend(true, config, overrides);
