@@ -111,10 +111,10 @@ frontpage_cards:
     rule_color: ''
   - title: Schon gewusst?
     content: |
-      In der Statistischen Region Braunschweig ist der Anteil der Sozialversichungspflichtig Beschäftigten mit hoher Qualifikation am höchsten...
+      Die Anzahl der abgeschlossenen Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungesetz der Frauen übersteigt die der Männer...
     include: ''
     button_label: Mehr erfahren
-    button_link: '/5-2-2/'
+    button_link: '/4-4-1/'
     rule_color: ''
   - title: Weitere Berichte
     content: |
