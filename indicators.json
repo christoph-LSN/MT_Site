@@ -80,7 +80,7 @@
         {
           "id": "1-2-7",
           "title": "Ausländerinnen und Ausländer in Niedersachsen nach Durchschnittsalter",
-          "description": "Der Indikator gibt das Durschschnittsalter der in den kreisfreien Städten und Landkreisen lebenden Ausländerinnen und Ausländer differenziert nach Geschlecht wider. Mit Hilfe diese Indikators kann die Altersstruktur der jeweiligen Ausländischen Gesellschaft abgebildet werden.",
+          "description": "Der Indikator gibt das Durchschnittsalter der in den kreisfreien Städten und Landkreisen lebenden Ausländerinnen und Ausländer differenziert nach Geschlecht wider. Mit Hilfe diese Indikators kann die Altersstruktur der jeweiligen ausländischen Bevölkerung abgebildet werden.",
           "keywords": "",
           "href": "/MT_Site/1-2-7",
           "status": "complete"
@@ -144,7 +144,7 @@
         {
           "id": "1-4-3",
           "title": "Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach ausgewählten Staatsangehörigkeiten",
-          "description": "Der Indikator bildet den Saldo der jährlichen Zu- und Fortzüge nach Niedersachsen aus dem Ausland bzw. von Niedersachsen in das Ausland (=über die Bundesgrenzen) nach Land der Land bzw. Land des Wanderungsziels ab.",
+          "description": "Der Indikator bildet den Saldo der jährlichen Zu- und Fortzüge nach Niedersachsen aus dem Ausland bzw. von Niedersachsen in das Ausland (=über die Bundesgrenzen) nach Land bzw. Land der Wanderungherkunft ab.",
           "keywords": "",
           "href": "/MT_Site/1-4-3",
           "status": "complete"
@@ -192,7 +192,7 @@
         {
           "id": "2-1-3",
           "title": "Ausländerinnen und Ausländer mit zeitlich befristeten und zeitlich unbefristeten Aufenthalstiteln",
-          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt. <br> Der Indikator zeigt die Anzahl und die pozentuale Verteilung der Ausländerinnen und Ausänder, die einen zeitlich befristeten bzw. eine zeitlich unbefristeten Aufenthaltstitel besitzen differnziert nach Geschlecht.",
+          "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Ausländerinnen und Ausländer leben in Deutschland mit einem bestimmten Aufenthaltstitel (z.B. Aufenthaltserlaubnis oder Niederlassungserlaubnis), zur Durchführung eines Asylverfahrens (Aufenthaltsgestattung) oder bei nicht rechtmäßigem Aufenthalt mit einer Duldung (Aussetzung der Abschiebung). Die Bedingungen der rechtmäßigen Einreise und des rechtmäßigen Aufenthalts werden durch unterschiedliche Aufenthaltstitel geregelt. Die nach dem Aufenthaltstitel gegliederten Daten sind ein Indikator, der die gesellschaftliche Teilhabe anhand rechtlicher Aufenthaltsbedingungen und den damit verbundenen Möglichkeiten z.B. zur Aufnahme einer Ausbildung oder Erwerbstätigkeit beschreibt. <br> Der Indikator zeigt die Anzahl und die pozentuale Verteilung der Ausländerinnen und Aulsänder, die einen zeitlich befristeten bzw. eine zeitlich unbefristeten Aufenthaltstitel besitzen differenziert nach Geschlecht.",
           "keywords": "",
           "href": "/MT_Site/2-1-3",
           "status": "complete"
@@ -400,7 +400,7 @@
         {
           "id": "4-4-1",
           "title": "Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) sowie dem Niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG)",
-          "description": "Der Indikator gibt die Gesamtzahl der in Niedersachsen durchgeführten Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) und dem niedersächsischen Berufsqualifikationsgesetz (NBQFG) sowie die Zahl der davon abgeschlossenen Verfahren nach der getroffenen Entscheidung an. Separat ausgewiesen werden Verfahren in der Berufshauptgruppe der medizinischen Gesundheitsberufe, da diese den überwiegenden Teil der Verfahren darstellten.",
+          "description": "Der Indikator gibt die Gesamtzahl der in Niedersachsen durchgeführten Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungsgesetz (BQFG) und dem niedersächsischen Berufsqualifikationsfeststellungsgesetz (NBQFG) sowie die Zahl der davon abgeschlossenen Verfahren nach der getroffenen Entscheidung an. Separat ausgewiesen werden Verfahren in der Berufshauptgruppe der medizinischen Gesundheitsberufe, da diese den überwiegenden Teil der Verfahren darstellten.",
           "keywords": "",
           "href": "/MT_Site/4-4-1",
           "status": "complete"
@@ -512,7 +512,7 @@
         {
           "id": "6-3-1",
           "title": "Bevölkerung am Ort der Hauptwohnung nach Zuwanderungsgeschichte und überwiegendem Lebensunterhalt in Niedersachsen",
-          "description": "Der überwiegende Lebensunterhalt kennzeichnet die Unterhaltsquelle, aus welcher hauptsächlich die Mittel für den Lebensunterhalt bezogen werden. Bei mehreren Unterhaltsquellen wird auf die wesentliche abgestellt. Im Mikrozensus werden diese Angaben durch eine Selbsteinstufung der Befragten ermittelt. Der Indikator zeigt an, aus welchen Quellen der Lebensunterhalt überwiegend bestritten wird. Von besonderer Bedeutung sind hier Erwerbstätigkeit und öffentliche Transferzahlungen. Ein Rückgang des Anteils der Personen mit Migrationshintergrund, die von öffentlichen Transferzahlungen abhängig sind, und ein Ansteigen des Anteils derer, die ihren Lebensunterhalt selbst zu finanzieren in der Lage sind, zeigen einen Fortschritt beim Integrationsprozess an.",
+          "description": "Der überwiegende Lebensunterhalt kennzeichnet die Unterhaltsquelle, aus welcher hauptsächlich die Mittel für den Lebensunterhalt bezogen werden. Bei mehreren Unterhaltsquellen wird auf die wesentliche abgestellt. Im Mikrozensus werden diese Angaben durch eine Selbsteinstufung der Befragten ermittelt. Der Indikator zeigt an, aus welchen Quellen der Lebensunterhalt überwiegend bestritten wird. Ein Rückgang des Anteils der Personen mit Migrationshintergrund, die von öffentlichen Transferzahlungen abhängig sind, und ein Ansteigen des Anteils derer, die ihren Lebensunterhalt selbst zu finanzieren in der Lage sind, zeigen einen Fortschritt beim Integrationsprozess an.",
           "keywords": "",
           "href": "/MT_Site/6-3-1",
           "status": "complete"
