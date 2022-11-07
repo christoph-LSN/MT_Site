@@ -1,14 +1,10 @@
 ---
 layout: page
-title: Contact us
-language: en
+title: Kontakt
+language: de
 permalink: /contact-us/
 ---
-### We are interested in your feedback regarding this website and its contents.
+### Wir sind an Ihren Rückmeldungen interessiert!.
 
 
-- If you have questions about the statistics, data sources, or metadata provided for our SDG indicators, please contact [{{site.email_contacts.questions}}](mailto:{{site.email_contacts.questions}})
-
-- If you have suggestions regarding additional site content or data sources, please contact [{{site.email_contacts.suggestions}}](mailto:{{site.email_contacts.suggestions}})
-
-- If you have suggestions on how to improve the functionality of this website, including data accessibility, please contact [{{site.email_contacts.functional}}](mailto:{{site.email_contacts.functional}})
+- Wenn Sie Fragen zu den Daten, den verwendeten Datenquellen und dem Integrationsmonitoring haben, zögern Sie nicht sich bei  [{{site.email_contacts.questions}}](mailto:{{site.email_contacts.questions}}) zu melden.
