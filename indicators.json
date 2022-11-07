@@ -232,7 +232,7 @@
         {
           "id": "2-2-3",
           "title": "Abschiebungen und Überstellungen nach der Dublin III VO",
-          "description": "Der Indikator zeigt die Anzahl Abschiebungen und Überstellungen nach der Dublin III VO.<br> Das Dublin-Verfahren dient der Zuständigkeitsbestimmung zur Durchführung des Asylverfahrens in einem EU-Mitgliedstaat. Die Dublin III-VO legt Kriterien und Verfahren fest, die bei der Bestimmung des Mitgliedstaates, der für die Prüfung des gestellten Antrags auf internationalen Schutz zuständig ist, zur Anwendung kommen. Die Dublin III VO wird in allen EU-Mitgliedstaaten sowie Norwegen, Island, Liechtenstein und der Schweiz angewendet. Das Dublin-Verfahren bezweckt, dass jeder Asylantrag, der auf dem Hoheitsgebiet der Mitgliedstaaten gestellt wird, materiell-rechtlich nur durch einen Staat geprüft wird. Damit soll die Sekundärwanderung innerhalb Europas gesteuert bzw. begrenzt werden.",
+          "description": "Der Indikator zeigt die Anzahl der Abschiebungen und Überstellungen nach der Dublin III VO.<br> Das Dublin-Verfahren dient der Zuständigkeitsbestimmung zur Durchführung des Asylverfahrens in einem EU-Mitgliedstaat. Die Dublin III-VO legt Kriterien und Verfahren fest, die bei der Bestimmung des Mitgliedstaates, der für die Prüfung des gestellten Antrags auf internationalen Schutz zuständig ist, zur Anwendung kommen. Die Dublin III VO wird in allen EU-Mitgliedstaaten sowie Norwegen, Island, Liechtenstein und der Schweiz angewendet. Das Dublin-Verfahren bezweckt, dass jeder Asylantrag, der auf dem Hoheitsgebiet der Mitgliedstaaten gestellt wird, materiell-rechtlich nur durch einen Staat geprüft wird. Damit soll die Sekundärwanderung innerhalb Europas gesteuert bzw. begrenzt werden.",
           "keywords": "",
           "href": "/MT_Site/2-2-3",
           "status": "complete"
@@ -240,7 +240,7 @@
         {
           "id": "2-2-4",
           "title": "In Niedersachsen gestellte Asylanträge",
-          "description": "Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge  (Erst- und Folgeanträge). Die Voraussetzungen für die Aufnahme politisch verfolgter sowie anderer schutzsuchender Personen sind in Art. 16a Grundgesetz (GG), im Asylgesetz (AsylG) sowie in § 60 des Aufenthaltsgesetzes (AufenthG) geregelt. Das Bundesamt für Migration und Flüchtlinge entscheidet über die Asylanträge. Die Aufenthaltsregelung während und nach dem Abschluss des Asylverfahrens fällt in die Zuständigkeit der Ausländerbehörden der Bundesländer.",
+          "description": "Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge  (Erst- und Folgeanträge). Das Bundesamt für Migration und Flüchtlinge entscheidet über die Asylanträge. Die Aufenthaltsregelung während und nach dem Abschluss des Asylverfahrens fällt in die Zuständigkeit der Ausländerbehörden.",
           "keywords": "",
           "href": "/MT_Site/2-2-4",
           "status": "complete"
@@ -272,7 +272,7 @@
         {
           "id": "2-3-4",
           "title": "Einbürgerungen nach Niedersachsen nach ausgewählten Staatsangehörigkeiten",
-          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen nach den 20 häufigsten Staatsangehörigkeiten in Niedersachsen lebenden Ausländerinnen und Ausländer wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
+          "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen nach den 20 häufigsten Staatsangehörigkeiten der in Niedersachsen lebenden Ausländerinnen und Ausländer wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
           "keywords": "",
           "href": "/MT_Site/2-3-4",
           "status": "complete"
