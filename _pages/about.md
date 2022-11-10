@@ -17,6 +17,6 @@ Bei der Interpretation der Monitoringergebnisse ist zu beachten, dass die Daten 
 
 <table>
   <tr>
-    <td><img src=https://github.com/christoph-LSN/MT_Site/assets/img/Logo-LSN.png" width="350" height="68"/></td><td>Inhalt</td><td>/assets/img/Logo-LSN.png</td>
+    <td><img src=https://christoph-lsn.github.io/MT_Site/assets/img/Logo-LSN.png" width="350" height="68"/></td><td>Inhalt</td><td>/assets/img/Logo-LSN.png</td>
   </tr>
 </table>
