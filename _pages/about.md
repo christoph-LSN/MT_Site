@@ -17,6 +17,6 @@ Bei der Interpretation der Monitoringergebnisse ist zu beachten, dass die Daten 
 
 <table>
   <tr>
-    <td>/assets/img/Logo-MS.png</td><td>Inhalt</td><td>/assets/img/Logo-LSN.png</td>
+    <td><img src="/assets/img/Logo-MS.png" width="160" height="145"/></td><td>Inhalt</td><td>/assets/img/Logo-LSN.png</td>
   </tr>
 </table>
