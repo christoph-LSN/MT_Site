@@ -15,8 +15,5 @@ Die Daten der amtlichen Statistiken beschreiben sehr umfassend die Lebensumstän
 
 Bei der Interpretation der Monitoringergebnisse ist zu beachten, dass die Daten keine Differenzierung innerhalb der nach Migrationshintergrund oder nach Staatsangehörigkeit ausgewiesenen Personengruppen erlauben. Die Verschiedenheit der erfassten Personen ist jedoch bei der Bewertung der Daten stets zu berücksichtigen. Auch können anhand der Daten erkennbare Unterschiede zwischen den Bevölkerungsgruppen nicht vereinfachend allein auf die Zuwanderungsgeschichte zurückgeführt werden. Sie bedürfen insoweit einer weitergehenden Analyse der jeweils maßgebenden Lebenssituationen, die durch vielfältige soziale Merkmale bestimmt werden, unabhängig von einer eigenen oder familiären Migrationserfahrung.
 
-<table>
-  <tr>
-    <td><img src=https://christoph-lsn.github.io/MT_Site/assets/img/Logo-LSN.png" width="350" height="68"/></td><td>Inhalt</td><td>/assets/img/Logo-LSN.png</td>
-  </tr>
-</table>
+<img src="https://christoph-lsn.github.io/MT_Site/assets/img/Logo-LSN.png" width="350" height="68"/>
+![LSN]("https://christoph-lsn.github.io/MT_Site/assets/img/Logo-LSN.png")
