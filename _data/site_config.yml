@@ -116,11 +116,11 @@ frontpage_cards:
     button_label: Mehr erfahren
     button_link: '/4-4-1/'
     rule_color: ''
-  - title: Weitere Berichte
+  - title: Weitere Informationen
     content: |
       Hier finden Sie die Berichte des Integrationsmonitorings der Länder
     include: ''
-    button_label: Weitere Berichte
+    button_label: Weitere Informationen
     button_link: /previous_reports/
     rule_color: ''
 frontpage_goals_grid:
