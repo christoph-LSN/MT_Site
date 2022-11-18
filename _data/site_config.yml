@@ -111,7 +111,7 @@ frontpage_cards:
     rule_color: ''
   - title: Schon gewusst?
     content: |
-      Die Anzahl der abgeschlossenen Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungesetz der Frauen übersteigt die der Männer...
+      Die Anzahl der abgeschlossenen Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungesetz der Frauen übersteigt die der Männer.
     include: ''
     button_label: Mehr erfahren
     button_link: '/4-4-1/'
