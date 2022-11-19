@@ -20,9 +20,9 @@ Staatssekretärin Dr. Christine Arbogast
 
 Oliver Grimm
 
-<b>Technischer Betrieb:</b>
+<b>Hosting:</b>
 
-[Landesbetrieb IT.Niedersachsen (IT.N)](http://www.it.niedersachsen.de/startseite/)
+[GitHub](https://github.com/)
 
 <b>Gestaltung & Realisierung:</b>
 <br>
