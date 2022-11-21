@@ -6,7 +6,7 @@ layout: page
 
 <b>Anbieter gem. § 5 des Telemediengesetzes (TMG) und § 18 des Medienstaatsvertrags (MStV):</b>
 <br>
-Niedersächsisches Ministerium für Soziales, Gesundheit und Gleichstellung<br>
+Niedersächsisches Ministerium für Soziales, Arbeit, Gesundheit und Gleichstellung<br>
 Hannah-Arendt-Platz 2<br>
 30159 Hannover
 <br>
@@ -14,21 +14,15 @@ Sie können auch eine E-Mail an Pressestelle{at}ms.niedersachsen.de senden.
 
 <b>Vertretungsberechtigt</b>
 
-Staatssekretär Heiger Scholz
+Staatssekretärin Dr. Christine Arbogast
 
 <b>Verantwortlich</b>
 
 Oliver Grimm
 
-<b>Redaktion<b>
+<b>Hosting:</b>
 
-Rebecca Toporik
-
-Gabriele Heiser
-
-<b>Technischer Betrieb:</b>
-
-[Landesbetrieb IT.Niedersachsen (IT.N)](http://www.it.niedersachsen.de/startseite/)
+[GitHub](https://github.com/)
 
 <b>Gestaltung & Realisierung:</b>
 <br>

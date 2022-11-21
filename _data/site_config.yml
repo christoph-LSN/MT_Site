@@ -14,11 +14,11 @@ decimal_separator: ','
 
 accessible_charts: true
 accessible_tabs: true
-#analytics:
+# analytics:
 #  ua: ''
 #  gtag: ''
 #  gtm: ''
-#  ga_prod: ''
+#  ga_prod: 'G-5V7YNZ06KS'
 breadcrumbs:
   goal:
     - path: /
@@ -77,7 +77,11 @@ data_edit_url: data
 data_fields:
   units: ''
   series: ''
-date_formats: []
+#date_formats: []
+date_formats:
+- type: standard
+  language: de
+  format: "%d.%m.%Y"
 disclaimer:
   phase: ''
   message: ''
@@ -107,16 +111,16 @@ frontpage_cards:
     rule_color: ''
   - title: Schon gewusst?
     content: |
-      In der Statistischen Region Braunschweig ist der Anteil der Sozialversichungspflichtig Beschäftigten mit hoher Qualifikation am höchsten...
+      Die Anzahl der abgeschlossenen Anerkennungsverfahren nach dem Berufsqualifikationsfeststellungesetz der Frauen übersteigt die der Männer.
     include: ''
     button_label: Mehr erfahren
-    button_link: '/5-2-3/'
+    button_link: '/4-4-1/'
     rule_color: ''
-  - title: Weitere Berichte
+  - title: Weitere Informationen
     content: |
       Hier finden Sie die Berichte des Integrationsmonitorings der Länder
     include: ''
-    button_label: Weitere Berichte
+    button_label: Weitere Informationen
     button_link: /previous_reports/
     rule_color: ''
 frontpage_goals_grid:
@@ -141,7 +145,7 @@ goals_page:
 graph_color_headline: '#004466'
 graph_color_headline_high_contrast: '#55a6e5'
 graph_color_set: custom #accessible
-graph_color_list: ['ee0000','436eee','32cd32','ffd700','ba55d3','66cdaa']
+graph_color_list: ['ee0000','436eee','006633','ffd700','ba55d3','66cdaa']
 graph_color_number: 0
 graph_title_from_series: true
 header:
