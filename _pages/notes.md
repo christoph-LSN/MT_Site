@@ -33,7 +33,7 @@ Darüber hinaus fließen weitere amtliche Statistiken in den Bericht ein. Sie k�
 - [LSN-Online-Datenbank](https://www1.nls.niedersachsen.de/statistik/default.asp)
 - [Regionaldatenbank Deutschland](https://www.regionalstatistik.de)
 - [Regionalmonitoring](https://www.regionalmonitoring-statistik.niedersachsen.de/)
-- [GENESIS Online Deutschland](https://www.genesis.destatis.de/)
+- [GENESIS Online Deutschland](https://www-genesis.destatis.de/)
 
 <br>
 Auch die Statistischen Berichte Niedersachsen und weitere Veröffentlichungen des LSN stehen unter [www.statistik.niedersachsen.de](https://www.statistik.niedersachsen.de) bereit. Zusätzliche Informationen stellt die Internetseite [www.statistikportal.de](https://www.statistikportal.de) (mit Gemeinschaftsveröffentlichungen der Statistischen Ämter des Bundes und der Länder, u.a. zur amtlichen Sozialberichterstattung) zur Verfügung. Näheres erläutern jeweils die Indikatoren. Für eine übergeordnete Sicht auf das Migrationsgeschehen in Deutschland wird auf das [Integrationsmonitoring der Länder](https://www.integrationsmonitoring-laender.de/) verwiesen.
