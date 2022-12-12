@@ -3420,6 +3420,7 @@ function setPlotEvents(chartInfo) {
             width = element.clientWidth + 50;
         var options = {
             // These options fix the height, width, and position.
+            scale: 2,
             height: height,
             width: width,
             windowHeight: height,
