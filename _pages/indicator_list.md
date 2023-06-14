@@ -10,7 +10,7 @@ layout: page
   <h2>{{ goal.name }}</h2>
   {% for indicator in page.indicators %}
     {% if indicator.goal_number == goal.number %}
-      <h3> <a href="{{ indicator.url }}">{{ indicator.name }}</a></h3>
+      <h3>{{ indicator.name }}</h3>
     {% endif %}
   {% endfor %}
 {% endfor %}
