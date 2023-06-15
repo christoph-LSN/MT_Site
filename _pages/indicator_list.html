@@ -9,7 +9,9 @@ layout: page
   <h2>{{ goal.number }} {{ goal.name }}</h2>
   {% for indicator in page.indicators %}
     {% if indicator.goal_number == goal.number %}
-  <table>
+  <table  width="100%">
+    <col style="width:90%">
+	  <col style="width:10%">
     <tr>
     <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td> <td> <a href="{{ indicator.source_url_1 }}">  (.xlsx-Download)</a></td>
     {% endif %}
