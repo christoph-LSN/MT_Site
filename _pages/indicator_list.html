@@ -10,11 +10,10 @@ layout: page
   {% for indicator in page.indicators %}
     {% if indicator.goal_number == goal.number %}
   <table  width="100%">
-    <col style="width:80%">
+    <col style="width:90%">
 	  <col style="width:10%">
-    <col style="width:10%">
-    <tr>
-    <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td> <td> <a href="{{ indicator.source_url_1 }}">  (.xlsx-Download)</a></td> <td> {{ indicator.tags }}</td>
+        <tr>
+    <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td> <td> <a href="{{ indicator.source_url_1 }}">  (.xlsx-Download)</a></td>
     {% endif %}
   {% endfor %}
 {% endfor %}
