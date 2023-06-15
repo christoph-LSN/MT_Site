@@ -7,9 +7,14 @@ layout: page
 <br>
 {% for goal in page.goals %}
   <h2>{{ goal.number }} {{ goal.name }}</h2>
+  <table>
+    <tr>
   {% for indicator in page.indicators %}
     {% if indicator.goal_number == goal.number %}
-      <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> <a href="{{ indicator.source_url_1 }}"> .xlsx-Download</a> <br>
+    <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td> <td> <a href="{{ indicator.source_url_1 }}"> .xlsx-Download</a></td>
     {% endif %}
   {% endfor %}
 {% endfor %}
+    </tr>
+  </table>
+  
