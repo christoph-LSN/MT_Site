@@ -1,6 +1,6 @@
 ---
 title: Indikatorenübersicht
-permalink: /indicator_list/
+permalink: /indicator_list/index.html
 layout: page
 ---
 
