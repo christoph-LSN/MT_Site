@@ -1,0 +1,42 @@
+---
+title: Indikatoren für EntscheiderInnen
+permalink: /decision_maker/
+layout: page
+---
+
+<br>
+
+{% for goal == 2 in page.goals %}
+  <h2>{{ goal.number }} {{ goal.name }}</h2>
+  {% for indicator in page.indicators %}
+    {% if indicator.goal_number == goal.number %}
+  <table  width="100%">
+    <col style="width:90%">
+	  <col style="width:10%">
+        <tr>
+    <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+    </tr>
+  </table>
+
+
+
+
+
+<br>
+{% for goal in page.goals %}
+  <h2>{{ goal.number }} {{ goal.name }}</h2>
+  {% for indicator in page.indicators %}
+    {% if indicator.goal_number == goal.number %}
+  <table  width="100%">
+    <col style="width:90%">
+	  <col style="width:10%">
+        <tr>
+    <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+    </tr>
+  </table>
