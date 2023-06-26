@@ -40,10 +40,12 @@ layout: page
           </tr>
           <tr>
             <td>
-              {% assign indicator_page_url = indicator.url | append: '/' %}
-              {% assign indicator_page_content = indicator_page_url | get %}
-              {% assign diagram_html = indicator_page_content | split: '<div id="chartview">' | last | split: '</div>' | first | prepend: '<div id="chartview">' | append: '</div>' %}
-              {{ diagram_html }}
+              <div id="chartview">
+                {% assign indicator_page_url = indicator.url | append: '/' %}
+                {% assign indicator_page_content = indicator_page_url | get %}
+                {% assign diagram_html = indicator_page_content | split: '<div id="chartview">' | last | split: '</div>' | first | prepend: '<div id="chartview">' | append: '</div>' %}
+                {{ diagram_html }}
+              </div>
             </td>
           </tr>
         </table>
