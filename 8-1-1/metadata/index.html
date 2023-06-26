@@ -129,7 +129,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230626115114">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230626134727">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -448,7 +448,7 @@ data-event-label="high"
     // Set values according to this site's configuration.
     
       try {
-        var currentValue = normalizeCurrentValue('national_indicator_description', "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br>1. zugewanderte und nicht zugewanderte Ausländer;<br>2. zugewanderte und nicht zugewanderte Eingebürgerte;<br>3. (Spät-)Aussiedler;<br>4. mit deutscher Staatsangehörigkeit geborene Nachkommen.<br>Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten.");
+        var currentValue = normalizeCurrentValue('national_indicator_description', "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br>1. zugewanderte und nicht zugewanderte Ausländer;<br>2. zugewanderte und nicht zugewanderte Eingebürgerte;<br>3. (Spät-)Aussiedler;<br>4. mit deutscher Staatsangehörigkeit geborene Nachkommen.<br>Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. ");
         var propertyEditor = editor.getEditor('root.national_indicator_description');
         propertyEditor.setValue(null);
         propertyEditor.setValue(currentValue);
@@ -462,7 +462,7 @@ data-event-label="high"
 
     
       try {
-        var currentValue = normalizeCurrentValue('computation_calculations', "Der Indikator ist eine wichtige Kennzahl für die vollen politischen Partizipationsmöglichkeiten von Deutschen mit Zuwanderungsgeschichte. Er zeigt jedoch nicht die Partizipationsmöglichkeiten von Ausländerinnen und Ausländern. Rechtliche Ausschlüsse vom Wahlrecht, die nicht mit der Staatsangehörigkeit zu tun haben, können nicht berücksichtigt werden.Wahlberechtigt sind alle Deutschen, die am Wahltag das 18. Lebensjahr vollendet haben, seit mindestens drei Monaten in Niedersachsen ihren wahlrechtlichen Wohnsitz haben und nicht vom Wahlrecht ausgeschlossen sind.    ");
+        var currentValue = normalizeCurrentValue('computation_calculations', "Der Indikator ist eine wichtige Kennzahl für die vollen politischen Partizipationsmöglichkeiten von Deutschen mit Zuwanderungsgeschichte. Er zeigt jedoch nicht die Partizipationsmöglichkeiten von Ausländerinnen und Ausländern. Rechtliche Ausschlüsse vom Wahlrecht, die nicht mit der Staatsangehörigkeit zu tun haben, können nicht berücksichtigt werden.Wahlberechtigt sind alle Deutschen, die am Wahltag das 18. Lebensjahr vollendet haben, seit mindestens drei Monaten in Niedersachsen ihren wahlrechtlichen Wohnsitz haben und nicht vom Wahlrecht ausgeschlossen sind. <br>Ab Veröffentlichungsjahr 2021 wird zwischen Erst- und Endveröffentlichungen von Mikrozensusergebnissen unterschieden. Bei Erst- und Endergebnissen handelt es sich um zwei Ergebnisarten, die beide auf vollständig aufbereiteten und validierten Daten beruhen. Die Endergebnisse basieren im Gegensatz zu den Erstergebnissen auf einer höheren Anzahl befragter Haushalte. Dies ist dadurch bedingt, dass auch nach Ende eines Erhebungsjahres fehlende Haushalte nach Erinnerungen und/oder Mahnungen noch Auskunft geben. Dieses Datenmaterial wird zudem an einem aktualisierten Bevölkerungseckwert hochgerechnet. Durch den größeren Stichprobenumfang und die aktualisierte Hochrechnung können ggf. Abweichungen gegenüber den Erstergebnissen entstehen. Bei den hier für das Jahr 2022 veröffentlichten Daten handelt es sich um die Erstergebnisse.   ");
         var propertyEditor = editor.getEditor('root.computation_calculations');
         propertyEditor.setValue(null);
         propertyEditor.setValue(currentValue);
@@ -478,7 +478,7 @@ data-event-label="high"
 
     
       try {
-        var currentValue = normalizeCurrentValue('source_url_1', "/assets/excel/2021_8-1-1.xlsx");
+        var currentValue = normalizeCurrentValue('source_url_1', "/assets/excel/2023_8-1-1.xlsx");
         var propertyEditor = editor.getEditor('root.source_url_1');
         propertyEditor.setValue(null);
         propertyEditor.setValue(currentValue);
@@ -782,14 +782,14 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20230626115114'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20230626134727'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20230626115114"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20230626134727"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
