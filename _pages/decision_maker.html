@@ -5,7 +5,6 @@ layout: page
 ---
 
 <br>
-
 {% for goal in page.goals %}
   {% if goal.number == 2 %}
     <h2>{{ goal.number }} {{ goal.name }}</h2>
@@ -16,12 +15,13 @@ layout: page
           <col style="width:10%">
           <tr>
             <td><a href="{{ indicator.url }}">{{ indicator.number }} {{ indicator.name }}</a></td>
+          </tr>
+        </table>
       {% endif %}
     {% endfor %}
   {% endif %}
 {% endfor %}
-</tr>
-</table>
+
 
 
 
