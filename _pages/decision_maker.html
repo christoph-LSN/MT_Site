@@ -4,27 +4,7 @@ permalink: /decision_maker/
 layout: page
 ---
 
-<br>
-{% for goal in page.goals %}
-  {% if goal.number == '2' %}
-    <h2>{{ goal.number }} {{ goal.name }}</h2>
-    {% for indicator in page.indicators %}
-      {% if indicator.number == '2.2.1' or indicator.number == '2.2.4' %}
-        <table width="100%">
-          <col style="width:90%">
-          <col style="width:10%">
-          <tr>
-            <td><a href="{{ indicator.url }}">{{ indicator.number }} {{ indicator.name }}</a></td>
-          </tr>
-        </table>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-{% endfor %}
 
-
-
-<br>
 <br>
 
 {% for goal in page.goals %}
@@ -55,57 +35,3 @@ layout: page
 {% endfor %}
 
 
-{% for goal in page.goals %}
-  {% if goal.number == '2' %}
-    <h2>{{ goal.number }} {{ goal.name }}</h2>
-    {% for indicator in page.indicators %}
-      {% if indicator.number == '2.2.1' or indicator.number == '2.2.4' %}
-        <table width="100%">
-          <col style="width:90%">
-          <col style="width:10%">
-          <tr>
-            <td><a href="{{ indicator.url }}">{{ indicator.number }} {{ indicator.name }}</a></td>
-          </tr>
-          <tr>
-            <td>
-              <div id="chartview">
-                <div role="tabpanel" class="tab-pane active" id="chartview">
-                  <div id="dataset-size-warning" style="display:none" role="alert">
-                    <!-- Warnungsmeldung, falls zu viele Zeitreihen ausgewählt sind -->
-                  </div>
-
-                  <div id="selectionsChart">
-                    <figure role="group">
-                      <div id="chart-canvas">
-                        <h4 id="chart-heading" class="chart-title">EASY-Zugänge in Niedersachsen</h4>
-                        <div id="chart" class="plot-container">
-                          <canvas
-                            role="img"
-                            aria-labelledby="chart-heading"
-                            aria-describedby="table-alternative chart-annotations"
-                            tabindex="0"
-                          ></canvas>
-                        </div>
-                        <div id="plotLegend"></div>
-                      </div>
-                    </figure>
-                    <div id="chartSelectionDownload" class="clearfix">
-                      <button
-                        id="btnSave"
-                        title="Grafik als Bild herunterladen"
-                        aria-label="Grafik als Bild herunterladen"
-                        class="btn btn-primary btn-download"
-                      >
-                        Grafik herunterladen
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </table>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-{% endfor %}
