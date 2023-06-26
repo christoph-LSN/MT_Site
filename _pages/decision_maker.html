@@ -24,5 +24,32 @@ layout: page
 
 
 
+<br>
+<br>
+
+{% for goal in page.goals %}
+  {% if goal.number == '2' %}
+    <h2>{{ goal.number }} {{ goal.name }}</h2>
+    {% for indicator in page.indicators %}
+      {% if indicator.number == '2.2.1' or indicator.number == '2.2.4' %}
+        <table width="100%">
+          <col style="width:90%">
+          <col style="width:10%">
+          <tr>
+            <td><a href="{{ indicator.url }}">{{ indicator.number }} {{ indicator.name }}</a></td>
+          </tr>
+          <tr>
+            <td>
+              {% assign indicator_page_url = indicator.url | append: '/' %}
+              {% assign indicator_page_content = indicator_page_url | get %}
+              {% assign diagram_html = indicator_page_content | split: '<div id="chart-canvas">' | last | split: '</div>' | first | prepend: '<div id="chart-canvas">' | append: '</div>' %}
+              {{ diagram_html }}
+            </td>
+          </tr>
+        </table>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
 
 
