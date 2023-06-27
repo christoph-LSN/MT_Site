@@ -21,6 +21,35 @@ layout: page
           <tr>
             <td>
 
+              [
+              {%- assign groups = page.indicators | group_by: 'goal_number' -%}
+              {%- for group in groups -%}
+              {% assign goal = group.name | sdg_lookup %}
+              {
+                "goal": {
+                  "id": "{{ goal.number }}",
+                  "title": "{{ goal.name | strip_newlines | strip | replace: '"', "'" }}",
+                  "indicators": [
+                    {% for indicator in group.items %}
+                    {
+                      "id": "{{ indicator.slug }}",
+                      "title": "{{ indicator.name | strip_newlines | strip | replace: '"', "'" }}",
+                      "description": "{{ indicator.national_indicator_description | strip_newlines | strip | replace: '"', "'" }}",
+                      "keywords": "{{ indicator.data_keywords }}",
+                      "href": "{{ indicator.url }}",
+                      "status": "{{ indicator.reporting_status }}"
+                    }
+                    {%- if forloop.last -%}{%- else -%},{%- endif -%}
+                    {%- endfor -%}
+                  ]
+                }
+              }
+              {%- if forloop.last -%}{%- else -%},{%- endif -%}
+              {%- endfor -%}
+            ]
+
+
+
 {% include components/indicator/fields-template.html %}
 {% include components/indicator/units-template.html %}
 {% include components/indicator/series-template.html %}
@@ -28,7 +57,6 @@ layout: page
 {% include multilingual-js.html key="data" %}
 
 
-{% include components/indicator/header.html %}
 <div id="main-content" class="container goal-{{ page.goal.number }}" role="main">
   {% include components/indicator/data-notice.html %}
   {% include components/indicator/indicator-available.html %}
