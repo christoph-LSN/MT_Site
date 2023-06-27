@@ -129,7 +129,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230627121234">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230627154116">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1308,6 +1308,579 @@ data-event-label="Change to Sources tab"
 
 
 
+<div id="main-content" class="container goal-2" role="main">
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+  <div class="row no-units no-serieses" id="indicatorData" data-indicatorid="indicator_2-2-1" data-id="2-2-1" data-country="Australia" data-charttitle="EASY-Zugänge in Niedersachsen" data-charttitles="null" data-measurementunit="" data-xaxislabel="" data-showdata="true" data-graphtype="line" data-graphtypes="null" data-geocoderegex="" data-showmap="false" data-startvalues="null" data-graphlimits="null" data-stackeddisaggregation="" data-graphannotations="null" data-graphtargetlines="null" data-graphseriesbreaks="null" data-indicatordownloads="null" data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Gebietseinheit&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Niedersachsen&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Gebietseinheit&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Value&quot;}]}" data-compositebreakdownlabel="" data-precision="null">
+    
+    <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
+    <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
+      <div id="serieses">
+    
+    
+    
+  </div>
+  <div id="units">
+    
+    
+    
+  </div>
+  <div id="toolbar">
+    <span id="series-help">
+      <h4>Kategorien</h4>
+      <p>Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.</p>
+    </span>
+    <button id="clear" aria-disabled="false" class="">Auswahl aufheben <i class="fa fa-remove"></i></button><div id="fields">
+    
+      <div class="variable-selector" data-field="Gebietseinheit" data-has-data="true">
+        <button class="accessBtn" tabindex="0" aria-expanded="false" aria-describedby="">
+          <h5>
+            <span aria-hidden="true">Gebietseinheit<i class="fa fa-chevron-down"></i></span>
+            <span class="sr-only"> Gebietseinheit</span>
+          </h5>
+        </button>
+        <div class="variable-options">
+          <fieldset>
+            <legend class="sr-only">Kategorien - Gebietseinheit</legend>
+            <div>
+              <button data-type="select">Alle auswählen</button>
+              <button data-type="clear">Auswahl aufheben</button>
+            </div>
+            
+              <label class="default" data-has-data="true">
+                <input type="checkbox" checked="" value="Niedersachsen" data-field="Gebietseinheit">Niedersachsen
+              </label>
+            
+          </fieldset>
+        </div>
+  
+        
+  
+      </div>
+    
+  </div>
+  </div>
+  
+    </div>
+    <div id="indicator-main" class="indicator-main col-md-9">
+      
+  
+  
+  
+  
+  <div id="headlineTable">
+  
+    <div id="datatables">
+  
+      
+      <a href="https://christoph-lsn.github.io/IM_Data/de/data/2-2-1.csv" class="btn btn-primary btn-download" download="indicator_2-2-1.csv" tabindex="0" role="button">Daten im CSV-Format speichern</a>
+  
+      <p class="no-js-disaggregation-hint"></p>
+  
+      
+      <h3></h3>
+      
+    </div>
+  
+    
+  
+  </div>
+  
+  
+  <section>
+  
+    
+  
+    <div class="async-loaded mt-4" style="">
+  
+      <div style="display: none;">
+      <span id="table-alternative"></span>
+    </div>
+    <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
+      
+      <li role="presentation" class="nav-item active">
+        <button class="nav-link active" data-bs-toggle="tab" role="tab" type="button" id="tab-chartview" data-bs-target="#chartview" aria-controls="chartview" aria-describedby="table-alternative" data-on="click" data-event-category="Tab change" data-event-action="Change data view" data-event-label="Change to Chart tab" aria-selected="true" tabindex="0">Grafik</button>
+      </li>
+      
+      <li role="presentation" class="
+          nav-item
+          
+          
+        ">
+        <button class="nav-link " data-bs-toggle="tab" role="tab" type="button" id="tab-tableview" data-bs-target="#tableview" aria-controls="tableview" data-on="click" data-event-category="Tab change" data-event-action="Change data view" data-event-label="Change to Table tab" aria-selected="false" tabindex="-1">Tabelle</button>
+      </li>
+      
+    </ul>
+    
+      <div class="tab-content data-view">
+      
+        
+          <div role="tabpanel" class="tab-pane active" id="chartview" aria-hidden="false" tabindex="0" aria-labelledby="tab-chartview" style="">
+            
+  
+      <div id="dataset-size-warning" style="display:none" role="alert">
+        <i class="fa fa-bolt"><span class="sr-only"></span></i>
+        Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden
+      </div>
+  
+      
+      <div id="selectionsChart">
+        <figure role="group">
+          <div id="chart-canvas">
+            <h4 id="chart-heading" class="chart-title">EASY-Zugänge in Niedersachsen</h4>
+            <div id="chart" class="plot-container" style="height: 420px;">
+              <canvas role="application" aria-labelledby="chart-heading" aria-describedby="chart-keyboard table-alternative chart-annotations" tabindex="0" style="display: block; box-sizing: border-box; height: 400px; width: 326px;" width="326" height="400"><span class="hide-during-image-download">Chart. undefined</span></canvas>
+  
+            <span class="sr-only" id="chart-tooltip-status" role="status"></span><span id="chart-keyboard" style="display: none;">, undefined</span></div>
+            <div id="plotLegend"><h5 class="sr-only">undefined</h5><ul id="legend" class="legend-for-line-chart"><li><span class="swatch" style="background-color: #ee0000"><span class="swatch-inner" style="background-color: #ee0000"></span></span>Niedersachsen</li></ul></div>
+            
+  
+  
+  
+  <div id="selectionChartFooter" class="table-footer-text">
+    <h5 class="sr-only">Chart details</h5>
+      <dl>
+          
+  
+          
+  
+          
+  
+          
+  
+          
+  
+          
+      <dl>
+    
+    </dl></dl></div>
+  
+          </div>
+        </figure>
+        <div id="chartSelectionDownload" class="clearfix">
+          <button id="btnSave" title="Grafik als Bild herunterladen" aria-label="Grafik als Bild herunterladen" class="btn btn-primary btn-download">
+            Grafik herunterladen
+          </button><!--
+     --><a data-on="click" data-event-category="Downloads" data-event-action="Download CSV" data-event-label="Download Chart CSV: 2-2-1" download="indicator_2-2-1.csv" title="im CSV-Format speichern" aria-label="im CSV-Format speichern" class="btn btn-primary btn-download" tabindex="0" href="blob:https://christoph-lsn.github.io/7658a793-06bf-4cfe-91c9-b17b59632b3f">Grafik im CSV-Format speichern</a><a data-on="click" data-event-category="Downloads" data-event-action="Download CSV" data-event-label="Download Source CSV: 2-2-1" href="https://christoph-lsn.github.io/IM_Data/de/data/2-2-1.csv" download="2-2-1.csv" title="Daten im CSV-Format speichern" aria-label="Daten im CSV-Format speichern" class="btn btn-primary btn-download" tabindex="0">Daten im CSV-Format speichern</a></div>
+      </div>
+  
+  
+  
+          </div>
+        
+      
+        
+          <div role="tabpanel" class="tab-pane " id="tableview" aria-hidden="true" tabindex="0" aria-labelledby="tab-tableview" style="display: none;">
+            <div style="display: none;">
+              <span id="column-sort-info"></span>
+            </div>
+            <div id="selectionsTable"><div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table class="table table-hover dataTable no-footer" id="DataTables_Table_0" style="width: 100%;"><caption>EASY-Zugänge in Niedersachsen</caption><thead><tr><th scope="col" class="sorting sorting_desc" aria-controls="DataTables_Table_0" aria-sort="descending" style="white-space: nowrap;"><span tabindex="0" role="button" aria-describedby="column-sort-info">Jahr</span><span class="sort"><i class="fa fa-sort"></i><i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></span></th><th class="table-value sorting" scope="col" aria-controls="DataTables_Table_0" style="white-space: nowrap;"><span tabindex="0" role="button" aria-describedby="column-sort-info">Niedersachsen</span><span class="sort"><i class="fa fa-sort"></i><i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></span></th></tr></thead><tbody><tr class="odd"><th scope="row" class="sorting_1">2021</th><td class="table-value">13.906</td></tr><tr class="even"><th scope="row" class="sorting_1">2020</th><td class="table-value">8.558</td></tr><tr class="odd"><th scope="row" class="sorting_1">2019</th><td class="table-value">11.586</td></tr><tr class="even"><th scope="row" class="sorting_1">2018</th><td class="table-value">13.358</td></tr><tr class="odd"><th scope="row" class="sorting_1">2017</th><td class="table-value">15.299</td></tr><tr class="even"><th scope="row" class="sorting_1">2016</th><td class="table-value">31.065</td></tr><tr class="odd"><th scope="row" class="sorting_1">2015</th><td class="table-value">102.231</td></tr><tr class="even"><th scope="row" class="sorting_1">2014</th><td class="table-value">22.400</td></tr></tbody></table></div></div><div class="row"><div class="col-sm-12 col-md-5"></div><div class="col-sm-12 col-md-7"></div></div></div></div>
+  <dl id="tableTargetLines" class="clearfix" style="display: none;"></dl>
+  
+  
+  
+  
+  <div id="selectionTableFooter" class="table-footer-text">
+    <h5 class="sr-only">Chart details</h5>
+      <dl>
+          
+  
+          
+  
+          
+  
+          
+  
+          
+  
+          
+      <dl>
+    
+    </dl></dl></div>
+  
+  <div id="tableSelectionDownload" class="clearfix"><a data-on="click" data-event-category="Downloads" data-event-action="Download CSV" data-event-label="Download Table CSV: 2-2-1" download="indicator_2-2-1.csv" title="im CSV-Format speichern" aria-label="im CSV-Format speichern" class="btn btn-primary btn-download" tabindex="0" href="blob:https://christoph-lsn.github.io/60e01d71-62c2-4b92-89c7-6b97ac1746c6">Tabelle im CSV-Format speichern</a><a data-on="click" data-event-category="Downloads" data-event-action="Download CSV" data-event-label="Download Source CSV: 2-2-1" href="https://christoph-lsn.github.io/IM_Data/de/data/2-2-1.csv" download="2-2-1.csv" title="Daten im CSV-Format speichern" aria-label="Daten im CSV-Format speichern" class="btn btn-primary btn-download" tabindex="0">Daten im CSV-Format speichern</a></div>
+  
+          </div>
+        
+      
+    </div>
+    
+  
+    </div>
+  
+  </section>
+  
+    
+    <div class="mt-4">
+  <ul class="nav nav-tabs" role="tablist">
+      
+          <li role="presentation" class="nav-item active">
+      <button type="button" class="nav-link active" data-bs-toggle="tab" id="tab-national" data-bs-target="#national" aria-controls="national" role="tab" data-on="click" data-event-category="Tab change" data-event-action="Change metadata view" data-event-label="Change to National Metadata tab" aria-selected="true" tabindex="0">Indikator Beschreibung</button>
+  </li>
+  
+  <li role="presentation" class="nav-item">
+      <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-global" data-bs-target="#global" aria-controls="global" role="tab" data-on="click" data-event-category="Tab change" data-event-action="Change metadata view" data-event-label="Change to Global Metadata tab" aria-selected="false" tabindex="-1">Tabellen zum Download</button>
+  </li>
+  
+  <li role="presentation" class="nav-item">
+      <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-sources" data-bs-target="#sources" aria-controls="sources" role="tab" data-on="click" data-event-category="Tab change" data-event-action="Change metadata view" data-event-label="Change to Sources tab" aria-selected="false" tabindex="-1">Datenquellen</button>
+  </li>
+    
+      
+      
+          <li role="presentation" class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" aria-controls="edit" role="tab" id="tab-edit" aria-selected="false" tabindex="-1">Bearbeiten
+          </button></li>
+      
+  </ul>
+  
+  <div class="tab-content">
+      
+          <div role="tabpanel" class="tab-pane active" id="national" aria-hidden="false" tabindex="0" aria-labelledby="tab-national" style="">
+      <!-- National Metadata -->
+      <div>
+          <article>
+              <p>
+                  
+                  
+                  
+              </p>
+              <table class="table metadata-content">
+    <tbody>
+    
+    
+    
+    
+    
+        
+        
+        
+        
+        <tr>
+          <th scope="row">Definition des Indikators </th>
+          <td>
+            
+              <p>Das Land Niedersachsen ist nach dem Asylge­setz verpflichtet, Menschen mit ausländischer Staatsangehörigkeit, die im Bundesgebiet um Asyl bitten, aufzunehmen. Die Aufnahmequote richtet sich nach dem sogenannten „Königsteiner Schlüssel”. Die Asylsuchenden werden mit Hilfe des bundesweiten Verteilungssystems „EASY” (Erstverteilung von Asyl­suchenden) entsprechend der Aufnahmequote auf die Länder verteilt. Niedersachsen unterhält für diese Personenkreise an den Standorten Braunschweig, Bramsche und Friedland, Oldenburg, Bad Fallingbostel und Osnabrück der Landes­auf­nah­me­be­hörde Niedersachsen (LAB NI) Aufnahmeeinrichtungen.<br> Weitere Informationen zur Erstverteilung der Asylsuchenden und dem Königssteiner Schlüssel finden Sie auf den Internetseiten des <a href="https://www.bamf.de/DE/Themen/AsylFluechtlingsschutz/AblaufAsylverfahrens/Erstverteilung/erstverteilung-node.html">BAMF</a>.</p>
+  
+            
+          </td>
+          </tr>
+          
+        
+    
+        
+        
+        
+        
+        <tr>
+          <th scope="row">Methodische Hinweise </th>
+          <td>
+            
+              <p>Auf Grund der Corona-Pandemie und den damit einhergehenden Auswirkungen auf den nationalen und internationalen Reiseverkehr, bestand vorübergehend ein deutlicher Rückgang der EASY-Zugänge. Ab dem 02.05.2022 wurde das Verteilverfahren „FREE“ Fachanwendung zur Registrierung, Erfassung und Erstverteilung zum vorüber gehenden Schutz eingeführt. Für Kriegsflüchtlinge aus der Ukraine ist die Beantragung einer Aufenthaltserlaubnis zum vorübergehenden Schutz nach §24 des Aufenthaltsgesetztes möglich. Bis zu diesem Zeitpunkt wurden Personen, die unter den §24 AufenthG fallen, in EASY erfasst. Diese Personen wurden auf FREE umgebucht und sind nicht mehr in den EASY Zahlen enthalten.</p>
+  
+            
+          </td>
+          </tr>
+          
+        
+    
+        
+        
+        
+        
+        <tr>
+          <th scope="row">Weiterführende Informationen </th>
+          <td>
+            
+              <p>Zum Thema Ausländer- und Flüchtlingsangelegenheiten stellt das Nds. Ministerium für Inneres und Sport an <a href="https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html">dieser Stelle</a> monatlich statistische Auswertungen zur Verfügung, aus denen sich aktuelle Zahlen und Entwicklungen der Asyl-und Flüchlingssituation ablesen lassen.</p>
+  
+            
+          </td>
+          </tr>
+          
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </tbody>
+  </table>
+  
+          </article>
+      </div>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="global" aria-hidden="true" tabindex="0" aria-labelledby="tab-global" style="display: none;">
+      <!-- Global Metadata -->
+      <div>
+          <article>
+              <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
+              <table class="table metadata-content">
+    <tbody>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+        
+        <tr>
+          <th scope="row">Tabelle zum Download </th>
+          <td>
+            
+              
+              
+              
+              
+              
+                <a href="https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html" target="_blank">
+                  Hier finden Sie weitere Daten zu Flüchtlings- und Ausländerangelegenheiten <span class="visuallyhidden">in neuem Fenster öffnen</span>
+                </a>
+              
+  
+            
+          </td>
+          </tr>
+          
+        
+    
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </tbody>
+  </table>
+  
+          </article>
+      </div>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="sources" aria-hidden="true" tabindex="0" aria-labelledby="tab-sources" style="display: none;">
+      <!-- Count the non-empty sources (up to 5) -->
+  
+  
+  
+  
+    <div class="row">
+    
+      
+      
+  <!--    <div class="col-md-6"> -->
+        
+        <table class="table metadata-content">
+    <tbody>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+        
+          
+            
+    
+    
+        
+        
+        
+          
+            
+        
+        
+        
+          
+            
+        
+        
+        
+          
+            
+        
+        
+        
+          
+            
+        
+        
+        
+          
+            
+        
+        
+        
+        
+        <tr>
+          <th scope="row">Datenquelle </th>
+          <td>
+            
+              <p>Niedersächisches Miniterium für Inneres und Sport, Statistische Daten zur Flüchtlingssituation</p>
+  
+            
+          </td>
+          </tr>
+          
+        
+    
+        
+        
+        
+          
+            
+        
+        
+        
+          
+            
+    
+        
+        
+        
+        
+        <tr>
+          <th scope="row">Link zur Datenquelle </th>
+          <td>
+            
+              
+              
+              
+              
+              
+                <a href="https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html" target="_blank">
+                  Statistische Daten zur Flüchtlingssituation <span class="visuallyhidden">in neuem Fenster öffnen</span>
+                </a>
+              
+  
+            
+          </td>
+          </tr>
+          
+        
+    
+        
+        
+        
+        
+        
+    
+    </tbody>
+  </table>
+  
+      </div>
+      
+    </div>
+  
+  
+  </div>
+      
+      
+          <div role="tabpanel" class="tab-pane" id="edit" aria-hidden="true" tabindex="0" aria-labelledby="tab-edit" style="display: none;">
+              <div class="edit-container">
+    
+    
+  
+    
+    
+  
+  
+    <a class="btn btn-primary" href="data">Daten bearbeiten</a>
+    
+  
+    
+    <a class="btn btn-primary" href="metadata">Metadaten bearbeite</a>
+    
+  
+    
+  
+  </div>
+  
+          </div>
+      
+  </div>
+  
+  </div>
+    </div>
+  </div>
+
+
 
 
 
@@ -1523,14 +2096,14 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20230627121234'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20230627154116'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20230627121234"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20230627154116"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
