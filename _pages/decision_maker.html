@@ -20,12 +20,15 @@ layout: page
           </tr>
           <tr>
             <td>
-              <div id="chartview">
-                {% assign indicator_page_url = indicator.url | append: '/' %}
-                {% assign indicator_page_content = indicator_page_url | get %}
-                {% assign diagram_html = indicator_page_content | split: '<div id="chartview">' | last | split: '</div>' | first | prepend: '<div id="chartview">' | append: '</div>' %}
-                {{ diagram_html }}
-              </div>
+              <div id="main-content" class="container goal-{{ page.goal.number }}" role="main">
+                {% include components/indicator/data-notice.html %}
+                {% include components/indicator/indicator-available.html %}
+                {% include components/indicator/proxy-banner.html %}
+                {% include components/indicator/indicator-progress.html %}
+                {% include components/indicator/indicator-content.html %}
+                {% include components/indicator/indicator-main.html %}
+                {% include back-to-top.html %}
+              </div>              
             </td>
           </tr>
         </table>
