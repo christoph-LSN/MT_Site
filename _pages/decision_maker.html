@@ -64,17 +64,26 @@ layout: page
 $.ajax({
   url: 'https://christoph-lsn.github.io/MT_Site/2-2-1/index.html',
   success: function(data) {
-    $('#div id="main-content" class="container goal-2" role="main').html(data);
+    $('#div id="main-content" class="container goal-2" role="main').html(data');
   }
 });
 
 
-$.ajax({
-  url: 'https://christoph-lsn.github.io/MT_Site/2-2-1/index.html',
-  success: function(data) {
-    $('#main-content').html(data);
-  }
-});
+<body>
+  <!-- HTML-Inhalt der Seite -->
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $.ajax({
+        url: 'https://christoph-lsn.github.io/MT_Site/2-2-1/index.html',
+        success: function(data) {
+          $('#main-content').html(data);
+        }
+      });
+    });
+  </script>
+</body>
 
 
 
