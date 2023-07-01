@@ -18,13 +18,13 @@ layout: page
         var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
         // Header ausblenden
-        var header = iframeDocument.getElementById("header");
+        var header = iframeDocument.querySelector("header[role='banner']");
         if (header) {
             header.style.display = "none";
         }
 
         // Footer ausblenden
-        var footer = iframeDocument.getElementById("footer");
+        var footer = iframeDocument.getElementById("disclaimer");
         if (footer) {
             footer.style.display = "none";
         }
