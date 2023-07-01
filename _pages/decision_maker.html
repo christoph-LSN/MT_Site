@@ -28,8 +28,21 @@ layout: page
         if (footer) {
             footer.style.display = "none";
         }
+
+        // Navigation ausblenden
+        var navigation = iframeDocument.querySelector("nav");
+        if (navigation) {
+            navigation.style.display = "none";
+        }
+
+        // Vorherigen/nächsten Linksteil ausblenden
+        var prevNextLinks = iframeDocument.querySelector(".previous-next-links");
+        if (prevNextLinks) {
+            prevNextLinks.style.display = "none";
+        }
     };
 </script>
+
 
   
 <br>
