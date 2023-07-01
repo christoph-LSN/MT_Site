@@ -75,7 +75,17 @@ layout: page
   mainContent.style.display = 'block';
 </script>
 
-
+<script>
+  // Zugriff auf das Dokument innerhalb des Iframe
+  var iframe = document.querySelector('iframe');
+  var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+  
+  // Zugriff auf das Element footer im Iframe-Dokument
+  var footer = iframeDoc.querySelector('footer');
+  
+  // Setzen der gewünschten Darstellung des Footers (ausblenden)
+  footer.style.display = 'none';
+</script>
 
 
 
