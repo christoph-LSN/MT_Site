@@ -67,33 +67,35 @@ layout: page
 <br>
 
 <h2>Iframe Indicator 2-2-4/index.html</h2>
-   <style>
-    .iframe-container {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio (change this value to adjust the aspect ratio) */
-        overflow: hidden;
-    }
-    
-    .iframe-container iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-        overflow-x: hidden; 
-        overflow-y: hidden;
-    }
-</style>
-
-<div class="iframe-container">
-    <iframe src="https://christoph-lsn.github.io/MT_Site/2-2-4/" frameborder="0" allowfullscreen></iframe>
-</div>
-
-
-
+  <head>
+    <title>Iframe Example</title>
+    <style>
+        /* Stil für den Iframe-Container */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Vollständige Höhe des Viewports */
+            overflow: hidden;
+        }
+        
+        /* Stil für den Iframe-Inhalt */
+        .iframe-content {
+            position: absolute;
+            top: -70px; /* Negative Position, um den Header auszublenden */
+            left: 0;
+            width: 100%;
+            height: calc(100% + 70px); /* Höhe inklusive des ausgeblendeten Headers */
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Iframe-Container -->
+    <div class="iframe-container">
+        <!-- Iframe-Inhalt -->
+        <iframe class="iframe-content" src="https://christoph-lsn.github.io/MT_Site/2-2-4/index.html" frameborder="0"></iframe>
+    </div>
+</body>
 
 {% for goal in page.goals %}
   {% if goal.number == '2' %}
