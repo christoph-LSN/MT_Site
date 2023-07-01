@@ -68,31 +68,28 @@ layout: page
 
 <h2>Iframe Indicator 2-2-4/index.html</h2>
    
-<iframe src="https://christoph-lsn.github.io/MT_Site/2-2-4/index.html" frameborder="0" style="width:100%;height:600px;"></iframe>
+<style>
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio (change this value to adjust the aspect ratio) */
+        overflow: hidden;
+    }
+    
+    .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+</style>
 
-<script>
-  // Zugriff auf das Dokument innerhalb des Iframe
-  var iframe = document.querySelector('iframe');
-  var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  
-  // Zugriff auf das Element #main-content im Iframe-Dokument
-  var mainContent = iframeDoc.querySelector('#main-content');
-  
-  // Setzen der gewünschten Darstellung des Elements #main-content
-  mainContent.style.display = 'block';
-</script>
-
-<script>
-  // Zugriff auf das Dokument innerhalb des Iframe
-  var iframe = document.querySelector('iframe');
-  var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  
-  // Zugriff auf das Element footer im Iframe-Dokument
-  var footer = iframeDoc.querySelector('footer');
-  
-  // Setzen der gewünschten Darstellung des Footers (ausblenden)
-  footer.style.display = 'none';
-</script>
+<div class="iframe-container">
+    <iframe src="https://christoph-lsn.github.io/MT_Site/2-2-4/" frameborder="0" allowfullscreen></iframe>
+</div>
 
 
 
