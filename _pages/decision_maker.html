@@ -40,6 +40,12 @@ layout: page
         if (prevNextLinks) {
             prevNextLinks.style.display = "none";
         }
+       
+       // Bereich <tbody> ausblenden
+        var tbody = iframeDocument.querySelector("tbody");
+        if (tbody) {
+            tbody.style.display = "none";
+        }
     };
 </script>
 
