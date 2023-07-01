@@ -61,9 +61,21 @@ layout: page
 
 <h2>Iframe Indicator 2-2-4/index.html</h2>
    
-<iframe src="https://christoph-lsn.github.io/MT_Site/2-2-4/index.html" width="1024" height="768">
-   Sorry your browser does not support inline frames.
-</iframe>
+<iframe src="https://christoph-lsn.github.io/MT_Site/2-2-4/index.html" frameborder="0" style="width:100%;height:600px;"></iframe>
+
+<script>
+  // Zugriff auf das Dokument innerhalb des Iframe
+  var iframe = document.querySelector('iframe');
+  var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+  
+  // Zugriff auf das Element #main-content im Iframe-Dokument
+  var mainContent = iframeDoc.querySelector('#main-content');
+  
+  // Setzen der gewünschten Darstellung des Elements #main-content
+  mainContent.style.display = 'block';
+</script>
+
+
 
 
 
