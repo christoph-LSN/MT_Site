@@ -62,35 +62,54 @@ layout: page
 <br>
 
 <h2>Iframe Indicator 2-2-4/index.html</h2>
-  <head>
-    <title>Iframe Example</title>
-    <style>
-        /* Stil für den Iframe-Container */
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            height: 100vh; /* Vollständige Höhe des Viewports */
-            overflow: hidden;
+  <iframe id="indicator_2-2-4" src="https://christoph-lsn.github.io/MT_Site/2-2-4/index.html" width="1024" height="768">
+   Sorry your browser does not support inline frames.
+</iframe>
+
+
+<script>
+    document.getElementById("indicator_2-2-4").onload = function() {
+        var iframe = document.getElementById("indicator_2-2-4");
+        var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+        // Header ausblenden
+        var header = iframeDocument.querySelector("header[role='banner']");
+        if (header) {
+            header.style.display = "none";
         }
-        
-        /* Stil für den Iframe-Inhalt */
-        .iframe-content {
-            position: absolute;
-            top: -70px; /* Negative Position, um den Header auszublenden */
-            left: 0;
-            width: 100%;
-            height: calc(100% + 70px); /* Höhe inklusive des ausgeblendeten Headers */
-            border: 0;
+
+        // Footer ausblenden
+        var disclaimer = iframeDocument.getElementById("disclaimer");
+        if (disclaimer) {
+            disclaimer.style.display = "none";
         }
-    </style>
-</head>
-<body>
-    <!-- Iframe-Container -->
-    <div class="iframe-container">
-        <!-- Iframe-Inhalt -->
-        <iframe class="iframe-content" src="https://christoph-lsn.github.io/MT_Site/2-2-4/index.html" frameborder="0"></iframe>
-    </div>
-</body>
+
+        // Navigation ausblenden
+        var navigation = iframeDocument.querySelector("nav");
+        if (navigation) {
+            navigation.style.display = "none";
+        }
+
+        // Vorherigen/nächsten Linksteil ausblenden
+        var prevNextLinks = iframeDocument.querySelector(".previous-next-links");
+        if (prevNextLinks) {
+            prevNextLinks.style.display = "none";
+        }
+       
+         // Element mit Klasse "heading goal-banner indicator goal-2" ausblenden
+        var element = iframeDocument.querySelector(".heading.goal-banner.indicator.goal-2");
+        if (element) {
+            element.style.display = "none";
+        }
+        // Element mit der Klasse "previous-next-links" ausblenden
+        var footer = iframeDocument.querySelector("footer[role='contentinfo']");
+
+        if (footer) {
+            footer.style.display = "none";
+        }
+    };
+
+</script>
 
 {% for goal in page.goals %}
   {% if goal.number == '2' %}
