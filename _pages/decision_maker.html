@@ -46,12 +46,17 @@ layout: page
         if (element) {
             element.style.display = "none";
         }
-        // Element mit der Klasse "previous-next-links" ausblenden
+        // Element mit der Klasse "footer" ausblenden
         var footer = iframeDocument.querySelector("footer[role='contentinfo']");
 
         if (footer) {
             footer.style.display = "none";
         }
+
+       var container = iframeDocument.querySelector(".container");
+    if (container) {
+        container.style.display = "none";
+       }
     };
 
 </script>
