@@ -24,9 +24,9 @@ layout: page
         }
 
         // Footer ausblenden
-        var footer = iframeDocument.getElementById("disclaimer");
-        if (footer) {
-            footer.style.display = "none";
+        var disclaimer = iframeDocument.getElementById("disclaimer");
+        if (disclaimer) {
+            disclaimer.style.display = "none";
         }
 
         // Navigation ausblenden
@@ -47,9 +47,9 @@ layout: page
             element.style.display = "none";
         }
         // Element mit der Klasse "previous-next-links" ausblenden
-        var element = iframeDocument.querySelector(".previous-next-links");
-        if (element) {
-            element.style.display = "none";
+        var footer = iframeDocument.querySelector(".footer[role="contentinfo"]");
+        if (footer) {
+            footer.style.display = "none";
         }
     };
 
