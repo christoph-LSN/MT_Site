@@ -14,6 +14,11 @@ layout: page
 	  <col style="width:10%">
         <tr>
     <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td>
+    <td>
+      {% if indicator.tags %}
+        - {{ indicator.tags[0] }}
+      {% endif %}
+    </td>
     {% endif %}
   {% endfor %}
 {% endfor %}
