@@ -5,31 +5,45 @@ layout: page
 ---
 
 <br>
-<table width="100%">
-  <col style="width:85%">
-  <col style="width:15%">
+<style>
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  table td {
+    word-wrap: break-word;
+  }
+</style>
+
+<table>
+  <colgroup>
+    <col style="width: 85%">
+    <col style="width: 15%">
+  </colgroup>
+  
   {% for goal in page.goals %}
-    <h2>{{ goal.number }} {{ goal.name }}</h2>
-    <table width="100%">
-      {% for indicator in page.indicators %}
-        {% if indicator.goal_number == goal.number %}
-          <tr>
-            <td><a href="{{ indicator.url }}">{{ indicator.number }} {{ indicator.name }}</a></td>
-            <td>
-              {% if indicator.tags %}
-                {% assign first_tag = indicator.tags[0] %}
-                {% if first_tag contains "-" %}
-                  {{ first_tag | remove: "-" }}
-                {% else %}
-                  {{ first_tag }}
-                {% endif %}
-              {% endif %}
-            </td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-    </table>
+    <tr>
+      <td colspan="2">
+        <h2>{{ goal.number }} {{ goal.name }}</h2>
+      </td>
+    </tr>
+    
+    {% for indicator in page.indicators %}
+      {% if indicator.goal_number == goal.number %}
+        <tr>
+          <td><a href="{{ indicator.url }}">{{ indicator.number }} {{ indicator.name }}</a></td>
+          <td>
+            {% if indicator.tags %}
+              {% assign first_tag = indicator.tags[0] %}
+              {{ first_tag | remove: "-" }}
+            {% endif %}
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
   {% endfor %}
 </table>
+
 
   
