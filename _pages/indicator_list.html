@@ -16,7 +16,12 @@ layout: page
     <td> <a href="{{ indicator.url }}"> {{ indicator.number }} {{ indicator.name }}</a> </td>
     <td>
       {% if indicator.tags %}
-        - {{ indicator.tags[0] }}
+        {% assign first_tag = indicator.tags[0] %}
+        {% if first_tag contains "-" %}
+          {{ first_tag | remove: "-" }}
+        {% else %}
+          {{ first_tag }}
+        {% endif %}
       {% endif %}
     </td>
     {% endif %}
