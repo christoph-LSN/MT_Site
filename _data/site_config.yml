@@ -239,6 +239,9 @@ menu:
   - path: /goals
     translation_key: general.goals
     dropdown: []
+  - path: /indicator_list
+    translation_key: menu.indicator_list
+    dropdown: []
   - path: /reporting-status
     translation_key: menu.reporting_status
     dropdown: []
