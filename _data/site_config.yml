@@ -1,4 +1,4 @@
-###tests for 2.0.0
+#####tests for 2.0.0
 
 #bootstrap_5: true
 #chartjs_3: true
@@ -109,12 +109,12 @@ frontpage_cards:
     button_label: ''
     button_link: ''
     rule_color: ''
-  - title: Schon gewusst?
+  - title: Mikrozensus Daten online!
     content: |
-      Verfahren zur Anerkennung ausländischer Berufsqualifikationen werden häufiger von Frauen als von Männern beantragt.
+      Die Auswertung der Mikrozensusdaten für die Jahre 2021 und 2022 ist abgeschlossen. Die entsprechenden Indikatoren wurden aktualisiert.
     include: ''
-    button_label: Mehr erfahren
-    button_link: '/4-4-1/'
+    button_label: Menschen mit Migrationshintergrund
+    button_link: '/1-3-1/'
     rule_color: ''
   - title: Weitere Informationen
     content: |
