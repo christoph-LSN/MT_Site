@@ -41,10 +41,10 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   }
 
   // Element metadaten ausblenden
-  var meta_data = iframeDocument.querySelector("ul.nav.nav-tabs");
-  if (meta_data) {
-    meta_data.style.display = "none";
-  }
+  //var meta_data = iframeDocument.querySelector("ul.nav.nav-tabs");
+  //if (meta_data) {
+  //  meta_data.style.display = "none";
+//  }
 
 
   
@@ -75,7 +75,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   iframeDocument.querySelectorAll("table metadata-content").forEach(a => a.style.display = "none");
 
   // Buttons ausblenden
-  iframeDocument.getElementById("navigationbuttons").style.display = 'none';
+  //iframeDocument.getElementById("navigationbuttons").style.display = 'none';
   
   // Buttons ausblenden
   iframeDocument.querySelectorAll(".app-c-back-to-top__icon").forEach(a => a.style.display = "none");
