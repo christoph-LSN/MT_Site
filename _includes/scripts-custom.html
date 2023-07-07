@@ -39,6 +39,12 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   if (element) {
     element.style.display = "none";
   }
+
+  // Element mit ID "tab-national" ausblenden
+  var tab-national = iframeDocument.getElementById("tab-national");
+  if (tab-national) {
+    tab-national.style.display = "none";
+  }
   
 // Element entfernen
 //  var element = iframeDocument.querySelector("mt-4");
