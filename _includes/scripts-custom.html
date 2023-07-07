@@ -34,6 +34,14 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
         if (footer) {
             footer.style.display = "none";
         }
+
+ // previousNextLinks ausblenden
+  var previousNextLinks = iframeDocument.querySelector(".previous-next-links");
+  if (previousNextLinks) {
+    previousNextLinks.style.display = "none";
+  }
+
+
   
   // Breadcrumbs ausblenden
   iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
@@ -48,10 +56,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   iframeDocument.querySelectorAll('[role="contentinfo"]').forEach(a => a.style.display = "none");
 }
 
-var previousNextLinks = iframeDocument.querySelector(".previous-next-links");
-  if (previousNextLinks) {
-    previousNextLinks.style.display = "none";
-  }
+
 
   
   
