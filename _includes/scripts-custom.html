@@ -41,6 +41,12 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   iframeDocument.querySelectorAll('[role="contentinfo"]').forEach(a => a.style.display = "none");
 }
 
+var previousNextLinks = iframeDocument.querySelector(".previous-next-links");
+  if (previousNextLinks) {
+    previousNextLinks.style.display = "none";
+  }
+  
+  
 </script>
 
 {% comment %}
