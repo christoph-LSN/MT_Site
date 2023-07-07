@@ -34,13 +34,13 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
             footer.style.display = "none";
         }
 
-// Element mit Klasse "btn btn-primary" ausblenden
-//  var next_btn = iframeDocument.querySelector("a.btn.btn-primary");
-//  if (next_btn) {
-//    next_btn.style.display = "none";
-//  }
+// Element entfernen
+  var element = iframeDocument.querySelector("a.btn.btn-primary[href='/MT_Site/2-1-5']");
+  if (element) {
+    element.remove();
+  }
 
-// Element metadaten ausblenden
+  // Element metadaten ausblenden
   var meta_data = iframeDocument.querySelector("ul.nav.nav-tabs");
   if (meta_data) {
     meta_data.style.display = "none";
