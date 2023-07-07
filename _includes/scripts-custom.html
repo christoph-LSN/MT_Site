@@ -41,6 +41,12 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
     next_btn.style.display = "none";
   }
 
+// Element mit Klasse "text-right" ausblenden
+  var element = iframeDocument.querySelector("div.text-right");
+  if (element) {
+    element.style.display = "none";
+  }
+  
   // Metadaten ausblenden
   var meta_data = iframeDocument.querySelector(".nav-item.active");
   if (meta_data) {
