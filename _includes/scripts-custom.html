@@ -27,6 +27,13 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   if (disclaimer) {
     disclaimer.style.display = "none";
   }
+
+  // footer ausblenden
+        var footer = iframeDocument.querySelector("footer[role='contentinfo']");
+
+        if (footer) {
+            footer.style.display = "none";
+        }
   
   // Breadcrumbs ausblenden
   iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
@@ -45,6 +52,7 @@ var previousNextLinks = iframeDocument.querySelector(".previous-next-links");
   if (previousNextLinks) {
     previousNextLinks.style.display = "none";
   }
+
   
   
 </script>
