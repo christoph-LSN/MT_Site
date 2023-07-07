@@ -42,10 +42,10 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   }
 
   // Metadaten ausblenden
-  //var element = iframeDocument.querySelector(".mt-4");
-  //if (element) {
-  //  element.style.display = "none";
- // }
+  var meta_data = iframeDocument.querySelector(".nav.nav-tabs");
+  if (meta_data) {
+    meta_data.style.display = "none";
+  }
   
   // Breadcrumbs ausblenden
   iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
