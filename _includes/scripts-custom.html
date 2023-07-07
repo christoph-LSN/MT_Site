@@ -1,6 +1,9 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
+
+
+<script>
 function deleteStuffFromIndicatorPagesForIframe(indicator) {
     var iframeId = 'myIframe_' + indicator;
     var goal = indicator.substring(0, indicator.search('-'));
@@ -30,7 +33,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
     // Footer ausblenden
     iframeDocument.querySelectorAll('[role="contentinfo"]').forEach(a=>a.style.display = "none");
   }
-
+</script>
 
 {% comment %}
 This space intended for custom third-party javascript.
