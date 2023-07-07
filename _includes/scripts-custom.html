@@ -52,6 +52,13 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
     tabglobal.style.display = 'none';
   }
 
+ // Das div-Element mit der Klasse "mt-4" ausblenden
+  var tabcontent = iframeDocument.getElementsByClassName("tab-global");
+  if (tabcontent) {
+    tabcontent.style.display = 'none';
+  }
+
+
   
 // Element entfernen
 //  var element = iframeDocument.querySelector("mt-4");
