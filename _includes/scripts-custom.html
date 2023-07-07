@@ -61,18 +61,21 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
 
   
 // Element entfernen
-//  var sources = iframeDocument.querySelector("tab-sources");
-//  if (sources) {
-//    sources.remove();
-//  }
+  var sources = iframeDocument.querySelector("tab-sources");
+  if (sources) {
+    sources.remove();
+  }
 
-  // Element metadaten ausblenden
-  //var edit = iframeDocument.querySelector("tab-edit");
-  //if (edit) {
-  //  edit.style.display = "none";
-//  }
+// Element metadaten ausblenden
+  var edit = iframeDocument.querySelector("tab-edit");
+  if (edit) {
+   edit.style.display = "none";
+  }
 
-
+var national = document.getElementById('tab-national');
+if (national) {
+  national.disabled = true;
+}
   
 // Next Button  ausblenden
 //  var next_btn = iframeDocument.querySelector("div.text-right");
