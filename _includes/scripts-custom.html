@@ -42,9 +42,9 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   }
 
   // Metadaten ausblenden
-  var metadataTable = iframeDocument.querySelector(".table.metadata-content");
-  if (metadataTable) {
-    metadataTable.style.display = "none";
+  var element = iframeDocument.querySelector(".mt-4");
+  if (element) {
+    element.style.display = "none";
   }
   
   // Breadcrumbs ausblenden
