@@ -41,17 +41,27 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
     next_btn.style.display = "none";
   }
 
-// Element mit Klasse "text-right" ausblenden
-  var element = iframeDocument.querySelector("div.text-right");
-  if (element) {
-    element.style.display = "none";
-  }
-  
-  // Metadaten ausblenden
-  var meta_data = iframeDocument.querySelector(".nav-item.active");
+// Element metadaten ausblenden
+  var meta_data = iframeDocument.querySelector("ul.nav.nav-tabs");
   if (meta_data) {
     meta_data.style.display = "none";
   }
+}
+
+  
+// Next Button  ausblenden
+  var next_btn = iframeDocument.querySelector("div.text-right");
+  if (next_btn) {
+    next_btn.style.display = "none";
+  }
+  
+  // Previous Button  ausblenden
+  var previous_btn = iframeDocument.querySelector(".nav-item.active");
+  if (previous_btn) {
+    previous_btn.style.display = "none";
+  }
+
+
   
   // Breadcrumbs ausblenden
   iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
