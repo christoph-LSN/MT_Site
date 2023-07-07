@@ -35,10 +35,10 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
             footer.style.display = "none";
         }
 
- // previousNextLinks ausblenden
-  var previousNextLinks = iframeDocument.querySelector(".previous-next-links");
-  if (previousNextLinks) {
-    previousNextLinks.style.display = "none";
+// Element mit Klasse "btn btn-primary" ausblenden
+  var next_btn = iframeDocument.querySelector("a.btn.btn-primary");
+  if (next_btn) {
+    next_btn.style.display = "none";
   }
 
   // Metadaten ausblenden
