@@ -17,9 +17,9 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   }
   
   // Element mit Klasse "heading goal-banner indicator goal-2" ausblenden
-  var element = iframeDocument.querySelector(".heading.goal-banner.indicator.goal-" + goal);
-  if (element) {
-    element.style.display = "none";
+  var goal_banner = iframeDocument.querySelector(".heading.goal-banner.indicator.goal-" + goal);
+  if (goal_banner) {
+    goal_banner.style.display = "none";
   }
   
   // Disclaimer ausblenden
@@ -30,23 +30,22 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
 
   // footer ausblenden
         var footer = iframeDocument.querySelector("footer[role='contentinfo']");
-
         if (footer) {
             footer.style.display = "none";
         }
 
 // Element mit Klasse "btn btn-primary" ausblenden
-  var next_btn = iframeDocument.querySelector("a.btn.btn-primary");
-  if (next_btn) {
-    next_btn.style.display = "none";
-  }
+//  var next_btn = iframeDocument.querySelector("a.btn.btn-primary");
+//  if (next_btn) {
+//    next_btn.style.display = "none";
+//  }
 
 // Element metadaten ausblenden
   var meta_data = iframeDocument.querySelector("ul.nav.nav-tabs");
   if (meta_data) {
     meta_data.style.display = "none";
   }
-}
+
 
   
 // Next Button  ausblenden
