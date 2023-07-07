@@ -62,7 +62,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   
 var sources = iframeDocument.querySelector("#tab-sources");
 if (sources) {
-  sources.style.display = "none";
+  sources.disabled = true; = "none";
 }
 
 // Element metadaten ausblenden
