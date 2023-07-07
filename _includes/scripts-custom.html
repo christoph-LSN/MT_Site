@@ -42,7 +42,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   }
 
   // Metadaten ausblenden
-  var meta_data = iframeDocument.querySelector(".nav.nav-tabs");
+  var meta_data = iframeDocument.querySelector(".nav-item.active");
   if (meta_data) {
     meta_data.style.display = "none";
   }
