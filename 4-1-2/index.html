@@ -134,7 +134,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230707155923">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230707161046">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1223,7 +1223,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20230707155923'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20230707161046'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1279,7 +1279,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   }
 
  // Das div-Element mit der Klasse "mt-4" ausblenden
-  var tabcontent = iframeDocument.getElementById("tab-conent");
+  var tabcontent = iframeDocument.getElementById("tab-content");
   if (tabcontent) {
     tabcontent.style.display = 'none';
   }
@@ -1289,7 +1289,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
 // Element entfernen
   var sources = iframeDocument.querySelector("tab-sources");
   if (sources) {
-    sources.style.display = "none";;
+    sources.style.display = "none";
   }
 
 // Element metadaten ausblenden
@@ -1354,7 +1354,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20230707155923"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20230707161046"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
