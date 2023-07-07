@@ -46,14 +46,14 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
     tabnational.style.display = "none";
   }
 
-   // Das div-Element mit der Klasse "mt-4" ausblenden
+   // Das div-Element mit der Klasse "tab-global" ausblenden
   var tabglobal = iframeDocument.getElementById("tab-global");
   if (tabglobal) {
     tabglobal.style.display = 'none';
   }
 
  // Das div-Element mit der Klasse "mt-4" ausblenden
-  var tabcontent = iframeDocument.getElementsById("tab-global");
+  var tabcontent = iframeDocument.getElementById("tab-conent");
   if (tabcontent) {
     tabcontent.style.display = 'none';
   }
