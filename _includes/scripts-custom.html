@@ -68,9 +68,11 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   // Elemente mit Klasse "btn btn-primary" ausblenden
   iframeDocument.querySelectorAll("a.btn.btn-primary").forEach(a => a.style.display = "none");
 
-  // Elemente mit Klasse "btn btn-primary" ausblenden
+  // Elemente mit Klasse "Metadaten tabs" ausblenden
   iframeDocument.querySelectorAll("ul.nav.nav-tabs").forEach(a => a.style.display = "none");
 
+  // Elemente mit Klasse "table metadata-content" ausblenden
+  iframeDocument.querySelectorAll("table metadata-content").forEach(a => a.style.display = "none");
 
   // Buttons ausblenden
   iframeDocument.getElementById("navigationbuttons").style.display = 'none';
