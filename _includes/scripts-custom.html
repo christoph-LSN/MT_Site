@@ -63,7 +63,7 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
 // Element entfernen
   var sources = iframeDocument.querySelector("tab-sources");
   if (sources) {
-    sources.remove();
+    sources.style.display = "none";;
   }
 
 // Element metadaten ausblenden
@@ -75,6 +75,11 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
 var national = document.getElementById('tab-national');
 if (national) {
   national.disabled = true;
+}
+
+var element = document.querySelector('ul.nav.nav-tabs li.nav-item.active');
+if (element) {
+  element.style.display = 'none';
 }
   
 // Next Button  ausblenden
