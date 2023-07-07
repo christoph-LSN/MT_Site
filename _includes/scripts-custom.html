@@ -64,7 +64,11 @@ function deleteStuffFromIndicatorPagesForIframe(indicator) {
   
   // Breadcrumbs ausblenden
   iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
-  
+
+  // Elemente mit Klasse "btn btn-primary" ausblenden
+  iframeDocument.querySelectorAll("a.btn.btn-primary").forEach(a => a.style.display = "none");
+
+
   // Buttons ausblenden
   iframeDocument.getElementById("navigationbuttons").style.display = 'none';
   
