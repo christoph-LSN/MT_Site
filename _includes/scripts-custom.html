@@ -2,6 +2,27 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
 
+<script>
+
+function printDiv() 
+{
+
+  var divToPrint=document.getElementById('main-content');
+
+  var newWin=window.open('','Print-Window');
+
+  newWin.document.open();
+
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+  newWin.document.close();
+
+  setTimeout(function(){newWin.close();},10);
+</script>
+
+
+
+
 
 <script>
 function deleteStuffFromIndicatorPagesForIframe(indicator) {
