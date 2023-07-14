@@ -44,21 +44,20 @@
   
  < </div> 
 </div>
-<script>
-    function printElement(elementId) {
-      var printContent = document.getElementById(elementId).innerHTML;
-      var originalContent = document.body.innerHTML;
-      
-      document.body.innerHTML = printContent;
-      window.print();
-      
-      document.body.innerHTML = originalContent;
+<style>
+    @media print {
+      body * {
+        display: none;
+      }
+      #chart-canvas {
+        display: block;
+      }
     }
-    </script>
-
-    <button onclick="printElement('chart-canvas')">Element drucken</button>
-
-    <figure role="group" id="chart-canvas">
+    </style>
+    <script>
+        function printElement() {
+          window.print();
+        }
+        </script>
         
-      </figure>
-    
+        <button onclick="printElement()">Element drucken</button>
