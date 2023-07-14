@@ -44,20 +44,16 @@
   
  < </div> 
 </div>
-<style>
-    @media print {
-      body * {
-        display: none;
-      }
-      #chart-canvas {
-        display: block;
-      }
+<script>
+    function printElement() {
+      var printContent = document.getElementById('chartview').innerHTML;
+      var printWindow = window.open('', '_blank');
+      
+      printWindow.document.open();
+      printWindow.document.write('<html><head><title>Druckansicht</title></head><body>' + printContent + '</body></html>');
+      printWindow.document.close();
+      printWindow.onload = function() {
+        printWindow.print();
+      };
     }
-    </style>
-    <script>
-        function printElement() {
-          window.print();
-        }
-        </script>
-        
-        <button onclick="printElement()">Element drucken</button>
+    <button onclick="printElement()">Element drucken</button>
