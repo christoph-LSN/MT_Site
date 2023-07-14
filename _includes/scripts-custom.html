@@ -21,7 +21,20 @@ function printDiv()
 </script>
 
 
+<script>
+  function printElement() {
+  var printContent = document.querySelector("#indicator-main > section > div > div.tab-content.data-view").innerHTML;
+  var printWindow = window.open('', '_blank');
+  
+  printWindow.document.open();
+  printWindow.document.write('<html><head><title>Druckansicht</title></head><body>' + printContent + '</body></html>');
+  printWindow.document.close();
+  printWindow.onload = function() {
+    printWindow.print();
+  };
+}  
 
+</script>
 
 
 <script>
