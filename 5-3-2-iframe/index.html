@@ -145,7 +145,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230716111716">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20230716112801">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -728,7 +728,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20230716111716'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20230716112801'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -738,13 +738,13 @@ if (allRequired) {
 function printDiv() 
 {
 
-  var divToPrint=document.querySelector("#btnSave");
+  var divToPrint=document.querySelector("#btnSave").outer.HTML;
 
   var newWin=window.open('','Print-Window');
 
   newWin.document.open();
 
-  newWin.document.write('<html><body onload="window.print()">'+divToPrint.+'</body></html>');
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.outer.HTML+'</body></html>');
 
   newWin.document.close();
 
@@ -893,7 +893,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20230716111716"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20230716112801"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
