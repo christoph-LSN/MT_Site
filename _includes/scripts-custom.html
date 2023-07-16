@@ -7,13 +7,13 @@
 function printDiv() 
 {
 
-  var divToPrint=document.querySelector("#btnSave");
+  var divToPrint=document.querySelector("#btnSave").outer.HTML;
 
   var newWin=window.open('','Print-Window');
 
   newWin.document.open();
 
-  newWin.document.write('<html><body onload="window.print()">'+divToPrint.+'</body></html>');
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.outer.HTML+'</body></html>');
 
   newWin.document.close();
 
