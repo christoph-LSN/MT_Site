@@ -24,7 +24,7 @@ function printDiv()
 
 <script>
   function printElement() {
-  var printContent = document.querySelector("#selectionsTable");
+  var printContent = document.querySelector("#selectionsTable").inner.HTML;
   var printWindow = window.open('', '_blank');
   
   printWindow.document.open();
