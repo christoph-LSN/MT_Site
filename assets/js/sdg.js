@@ -1734,6 +1734,9 @@ function sortFieldsForView(fieldItemStates, edges) {
       }
     });
     fieldItemStates.forEach(function(fieldItem) {
+      if (typeof tempHierarchyHash[fieldItem.topLevelParent] === 'undefined') {
+        return;
+      }
       if (fieldItem.topLevelParent !== '') {
         tempHierarchyHash[fieldItem.topLevelParent].children.push(fieldItem);
       }
@@ -1925,6 +1928,9 @@ function validParentsByChild(edges, fieldItemStates, rows) {
     var fieldItemState = fieldItemStates.find(function(fis) {
       return fis.field === childField;
     });
+    if (typeof fieldItemState === 'undefined') {
+      return;
+    }
     var childValues = fieldItemState.values.map(function(value) {
       return value.value;
     });
@@ -2761,6 +2767,8 @@ function getTimeSeriesAttributes(rows) {
   this.compositeBreakdownLabel = options.compositeBreakdownLabel;
   this.precision = options.precision;
   this.dataSchema = options.dataSchema;
+  this.proxy = options.proxy;
+  this.proxySerieses = (this.proxy === 'both') ? options.proxySeries : [];
 
   this.initialiseUnits = function() {
     if (this.hasUnits) {
@@ -2962,7 +2970,8 @@ function getTimeSeriesAttributes(rows) {
 
       this.onSeriesesComplete.notify({
         serieses: this.serieses,
-        selectedSeries: this.selectedSeries
+        selectedSeries: this.selectedSeries,
+        proxySerieses: this.proxySerieses,
       });
     }
 
@@ -2983,12 +2992,15 @@ function getTimeSeriesAttributes(rows) {
         allowedFields: this.allowedFields,
         edges: this.edgesData,
         hasGeoData: this.hasGeoData,
+        startValues: this.startValues,
         indicatorId: this.indicatorId,
         showMap: this.showMap,
         precision: helpers.getPrecision(this.precision, this.selectedUnit, this.selectedSeries),
         precisionItems: this.precision,
         dataSchema: this.dataSchema,
         chartTitles: this.chartTitles,
+        proxy: this.proxy,
+        proxySerieses: this.proxySerieses,
       });
     }
 
@@ -3051,6 +3063,7 @@ function getTimeSeriesAttributes(rows) {
       indicatorDownloads: this.indicatorDownloads,
       precision: helpers.getPrecision(this.precision, this.selectedUnit, this.selectedSeries),
       timeSeriesAttributes: timeSeriesAttributes,
+      isProxy: this.proxy === 'proxy' || this.proxySerieses.includes(this.selectedSeries),
     });
   };
 };
@@ -3069,7 +3082,7 @@ var mapView = function () {
 
   "use strict";
 
-  this.initialise = function(indicatorId, precision, precisionItems, decimalSeparator, dataSchema, viewHelpers, modelHelpers, chartTitles) {
+  this.initialise = function(indicatorId, precision, precisionItems, decimalSeparator, dataSchema, viewHelpers, modelHelpers, chartTitles, startValues, proxy, proxySerieses) {
     $('.map').show();
     $('#map').sdgMap({
       indicatorId: indicatorId,
@@ -3082,6 +3095,9 @@ var mapView = function () {
       viewHelpers: viewHelpers,
       modelHelpers: modelHelpers,
       chartTitles: chartTitles,
+      proxy: proxy,
+      proxySerieses: proxySerieses,
+      startValues: startValues,
     });
   };
 };
@@ -3098,6 +3114,7 @@ var indicatorView = function (model, options) {
 
   var HIDE_SINGLE_SERIES = true;
 var HIDE_SINGLE_UNIT = true;
+var PROXY_PILL = '<span aria-describedby="proxy-description" class="proxy-pill">' + translations.t("indicator.proxy") + '</span>';
 
   /**
  * @param {Object} args
@@ -3246,11 +3263,13 @@ function initialiseSerieses(args) {
     if (templateElement.length > 0) {
         var template = _.template(templateElement.html()),
             serieses = args.serieses || [],
-            selectedSeries = args.selectedSeries || null;
-
+            selectedSeries = args.selectedSeries || null,
+            proxySerieses = args.proxySerieses || [];
         $('#serieses').html(template({
             serieses: serieses,
-            selectedSeries: selectedSeries
+            selectedSeries: selectedSeries,
+            proxySerieses: proxySerieses,
+            proxyPill: PROXY_PILL,
         }));
 
         var noSerieses = (serieses.length < 1);
@@ -4091,7 +4110,7 @@ function initialiseDataTable(el, info) {
  * @return null
  */
 function createSelectionsTable(chartInfo) {
-    createTable(chartInfo.selectionsTable, chartInfo.indicatorId, '#selectionsTable', true);
+    createTable(chartInfo.selectionsTable, chartInfo.indicatorId, '#selectionsTable', chartInfo.isProxy);
     $('#tableSelectionDownload').empty();
     createTableTargetLines(chartInfo.graphAnnotations);
     createDownloadButton(chartInfo.selectionsTable, 'Table', chartInfo.indicatorId, '#tableSelectionDownload');
@@ -4141,7 +4160,7 @@ function tableHasData(table) {
  * @param {Element} el
  * @return null
  */
-function createTable(table, indicatorId, el) {
+function createTable(table, indicatorId, el, isProxy) {
 
     var table_class = OPTIONS.table_class || 'table table-hover';
 
@@ -4154,7 +4173,11 @@ function createTable(table, indicatorId, el) {
             'width': '100%'
         });
 
-        currentTable.append('<caption>' + MODEL.chartTitle + '</caption>');
+        var tableTitle = MODEL.chartTitle;
+        if (isProxy) {
+            tableTitle += ' ' + PROXY_PILL;
+        }
+        currentTable.append('<caption>' + tableTitle + '</caption>');
 
         var table_head = '<thead><tr>';
 
@@ -4203,6 +4226,24 @@ function createTable(table, indicatorId, el) {
                 var sortDirection = $(this).attr('aria-sort');
                 $(this).find('span[role="button"]').attr('aria-sort', sortDirection);
             });
+
+        let tableWrapper = document.querySelector('.dataTables_wrapper');
+        if (tableWrapper) {
+            tableWrapper.addEventListener('scroll', function(e) {
+                if (tableWrapper.scrollLeft > 0) {
+                    tableWrapper.classList.add('scrolled-x');
+                }
+                else {
+                    tableWrapper.classList.remove('scrolled-x');
+                }
+                if (tableWrapper.scrollTop > 0) {
+                    tableWrapper.classList.add('scrolled-y');
+                }
+                else {
+                    tableWrapper.classList.remove('scrolled-y');
+                }
+            });
+        }
     } else {
         $(el).append($('<h3 />').text(translations.indicator.data_not_available));
         $(el).addClass('table-has-no-data');
@@ -4481,6 +4522,7 @@ function createIndicatorDownloadButtons(indicatorDownloads, indicatorId, el) {
   return {
     HIDE_SINGLE_SERIES: HIDE_SINGLE_SERIES,
     HIDE_SINGLE_UNIT: HIDE_SINGLE_UNIT,
+    PROXY_PILL: PROXY_PILL,
     initialiseFields: initialiseFields,
     initialiseUnits: initialiseUnits,
     initialiseSerieses: initialiseSerieses,
@@ -4556,7 +4598,7 @@ function createIndicatorDownloadButtons(indicatorDownloads, indicatorId, el) {
                 $main.removeClass('indicator-main-full');
                 // Make sure the unit/series items are updated, in case
                 // they were changed while on the map.
-                helpers.updateChartTitle(VIEW._dataCompleteArgs.chartTitle);
+                helpers.updateChartTitle(VIEW._dataCompleteArgs.chartTitle, VIEW._dataCompleteArgs.isProxy);
                 helpers.updateSeriesAndUnitElements(VIEW._dataCompleteArgs.selectedSeries, VIEW._dataCompleteArgs.selectedUnit);
                 helpers.updateUnitElements(VIEW._dataCompleteArgs.selectedUnit);
                 helpers.updateTimeSeriesAttributes(VIEW._dataCompleteArgs.timeSeriesAttributes);
@@ -4579,7 +4621,7 @@ function createIndicatorDownloadButtons(indicatorDownloads, indicatorId, el) {
         }
 
         helpers.createSelectionsTable(args);
-        helpers.updateChartTitle(args.chartTitle);
+        helpers.updateChartTitle(args.chartTitle, args.isProxy);
         helpers.updateSeriesAndUnitElements(args.selectedSeries, args.selectedUnit);
         helpers.updateUnitElements(args.selectedUnit);
         helpers.updateTimeSeriesAttributes(args.timeSeriesAttributes);
@@ -4602,6 +4644,9 @@ function createIndicatorDownloadButtons(indicatorDownloads, indicatorId, el) {
                 VIEW.helpers,
                 MODEL.helpers,
                 args.chartTitles,
+                args.startValues,
+                args.proxy,
+                args.proxySerieses,
             );
         }
     });
@@ -4812,6 +4857,8 @@ var indicatorInit = function () {
                         dataSchema: domData.dataschema,
                         compositeBreakdownLabel: domData.compositebreakdownlabel,
                         precision: domData.precision,
+                        proxy: domData.proxy,
+                        proxySeries: domData.proxyseries,
                     });
                     var view = new indicatorView(model, {
                         rootElement: '#indicatorData',
@@ -5703,16 +5750,23 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
             this.form = null;
             this.currentDisaggregation = 0;
             this.displayedDisaggregation = 0;
+            this.needsMapUpdate = false;
             this.seriesColumn = 'Series';
             this.unitsColumn = 'Units';
             this.displayForm = true;
-            this.updateDisaggregations();
+            this.updateDisaggregations(plugin.startValues);
         },
 
-        updateDisaggregations: function() {
+        updateDisaggregations: function(startValues) {
             // TODO: Not all of this needs to be done
             // at every update.
-            this.disaggregations = this.getVisibleDisaggregations();
+            var features = this.getFeatures();
+            if (startValues && startValues.length > 0) {
+                this.currentDisaggregation = this.getStartingDisaggregation(features, startValues);
+                this.displayedDisaggregation = this.currentDisaggregation;
+                this.needsMapUpdate = true;
+            }
+            this.disaggregations = this.getVisibleDisaggregations(features);
             this.fieldsInOrder = this.getFieldsInOrder();
             this.valuesInOrder = this.getValuesInOrder();
             this.allSeries = this.getAllSeries();
@@ -5724,10 +5778,43 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
             this.hasDisaggregationsWithMultipleValuesFlag = this.hasDisaggregationsWithMultipleValues();
         },
 
-        getVisibleDisaggregations: function() {
-            var features = this.plugin.getVisibleLayers().toGeoJSON().features.filter(function(feature) {
+        getFeatures: function() {
+            return this.plugin.getVisibleLayers().toGeoJSON().features.filter(function(feature) {
                 return typeof feature.properties.disaggregations !== 'undefined';
             });
+        },
+
+        getStartingDisaggregation: function(features, startValues) {
+            if (features.length === 0) {
+                return;
+            }
+            var disaggregations = features[0].properties.disaggregations,
+                fields = Object.keys(disaggregations[0]),
+                weighted = _.sortBy(disaggregations.map(function(disaggregation, index) {
+                    var disaggClone = Object.assign({}, disaggregation);
+                    disaggClone.emptyFields = 0;
+                    disaggClone.index = index;
+                    fields.forEach(function(field) {
+                        if (disaggClone[field] == '') {
+                            disaggClone.emptyFields += 1;
+                        }
+                    });
+                    return disaggClone;
+                }), 'emptyFields').reverse(),
+                match = weighted.find(function(disaggregation) {
+                    return _.every(startValues, function(startValue) {
+                        return disaggregation[startValue.field] === startValue.value;
+                    });
+                });
+            if (match) {
+                return match.index;
+            }
+            else {
+                return 0;
+            }
+        },
+
+        getVisibleDisaggregations: function(features) {
             if (features.length === 0) {
                 return [];
             }
@@ -5901,6 +5988,9 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                     input.checked = (series === that.getCurrentSeries()) ? 'checked' : '';
                     var label = L.DomUtil.create('label', 'disaggregation-label');
                     label.innerHTML = series;
+                    if (that.plugin.proxySerieses.includes(series)) {
+                        label.innerHTML += ' ' + that.plugin.viewHelpers.PROXY_PILL;
+                    }
                     label.prepend(input);
                     fieldset.append(label);
                     input.addEventListener('change', function(e) {
@@ -5983,18 +6073,24 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                 that.updateForm();
             });
             applyButton.addEventListener('click', function(e) {
-                that.plugin.currentDisaggregation = that.currentDisaggregation;
-                that.plugin.updatePrecision();
-                that.plugin.setColorScale();
-                that.plugin.updateColors();
-                that.plugin.updateTooltips();
-                that.plugin.selectionLegend.resetSwatches();
-                that.plugin.selectionLegend.update();
-                that.plugin.updateTitle();
-                that.plugin.updateFooterFields();
+                that.updateMap();
                 that.updateList();
                 $('.disaggregation-form-outer').toggle();
             });
+        },
+
+        updateMap: function() {
+            this.needsMapUpdate = false;
+            this.plugin.currentDisaggregation = this.currentDisaggregation;
+            this.plugin.updatePrecision();
+            this.plugin.setColorScale();
+            this.plugin.updateColors();
+            this.plugin.updateTooltips();
+            this.plugin.selectionLegend.resetSwatches();
+            this.plugin.selectionLegend.update();
+            this.plugin.updateTitle();
+            this.plugin.updateFooterFields();
+            this.plugin.replaceYearSlider();
         },
 
         onAdd: function () {
@@ -6089,6 +6185,9 @@ if (klaroConfig && klaroConfig.noAutoLoad !== true) {
                                 return disaggregation[field];
                             })),
                         };
+                    if (typeof sortedValues === 'undefined') {
+                        return;
+                    }
                     item.values.sort(function(a, b) {
                         return sortedValues.indexOf(a) - sortedValues.indexOf(b);
                     });
