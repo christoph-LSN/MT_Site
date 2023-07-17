@@ -7,13 +7,13 @@
 function printDiv() 
 {
 
-  var divToPrint=document.querySelector("#indicator-main > section > div > div.tab-content.data-view").innerHTML;
+  var divToPrint=document.querySelector("#btnSave").outer.HTML;
 
   var newWin=window.open('','Print-Window');
 
   newWin.document.open();
 
-  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.outer.HTML+'</body></html>');
 
   newWin.document.close();
 
@@ -24,7 +24,7 @@ function printDiv()
 
 <script>
   function printElement() {
-  var printContent = document.querySelector("#indicator-main > section > div > div.tab-content.data-view").innerHTML;
+  var printContent = document.querySelector("#selectionsTable").inner.HTML;
   var printWindow = window.open('', '_blank');
   
   printWindow.document.open();
