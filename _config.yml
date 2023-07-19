@@ -17,7 +17,7 @@
 #remote_theme: brockfanning/open-sdg@map-series-unit-behaviors
 #remote_theme: brockfanning/open-sdg@indicator-iframes
 
-remote_theme: open-sdg/open-sdg@2.0.0
+remote_theme: open-sdg/open-sdg@2.2.0
 #brockfanning:indicator-iframes
 #remote_theme: brockfanning/open-sdg@cookie-modal-high-contrast
 
