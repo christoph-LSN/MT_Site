@@ -1,5 +1,164 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+
+
+
+<script>
+
+function printDiv() 
+{
+
+  var divToPrint=document.querySelector("#btnSave").outer.HTML;
+
+  var newWin=window.open('','Print-Window');
+
+  newWin.document.open();
+
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.outer.HTML+'</body></html>');
+
+  newWin.document.close();
+
+  setTimeout(function(){newWin.close();},10);
+}
+</script>
+
+
+<script>
+  function printElement() {
+  var printContent = document.querySelector("#selectionsTable").inner.HTML;
+  var printWindow = window.open('', '_blank');
+  
+  printWindow.document.open();
+  printWindow.document.write('<html><head><title>Druckansicht</title></head><body>' + printContent + '</body></html>');
+  printWindow.document.close();
+  printWindow.onload = function() {
+    printWindow.print();
+  };
+}  
+
+</script>
+
+
+<script>
+function deleteStuffFromIndicatorPagesForIframe(indicator) {
+  var iframeId = 'myIframe_' + indicator;
+  var goal = indicator.substring(0, indicator.search('-'));
+  var iframe = document.getElementById(iframeId);
+  var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+  
+  // Header ausblenden
+  var header = iframeDocument.querySelector("header[role='banner']");
+  if (header) {
+    header.style.display = "none";
+  }
+  
+  // Element mit Klasse "heading goal-banner indicator goal-2" ausblenden
+  var goal_banner = iframeDocument.querySelector(".heading.goal-banner.indicator.goal-" + goal);
+  if (goal_banner) {
+    goal_banner.style.display = "none";
+  }
+  
+  // Disclaimer ausblenden
+  var disclaimer = iframeDocument.getElementById("disclaimer");
+  if (disclaimer) {
+    disclaimer.style.display = "none";
+  }
+
+  // footer ausblenden
+        var footer = iframeDocument.querySelector("footer[role='contentinfo']");
+        if (footer) {
+            footer.style.display = "none";
+        }
+
+// Element mit ID "national" ausblenden
+  var element = iframeDocument.getElementById("national");
+  if (element) {
+    element.style.display = "none";
+  }
+
+  // Element mit ID "tab-national" ausblenden
+  var tabnational = iframeDocument.getElementById("tab-national");
+  if (tabnational) {
+    tabnational.style.display = "none";
+  }
+
+   // Das div-Element mit der Klasse "tab-global" ausblenden
+  var tabglobal = iframeDocument.getElementById("tab-global");
+  if (tabglobal) {
+    tabglobal.style.display = 'none';
+  }
+
+ // Das div-Element mit der Klasse "mt-4" ausblenden
+  var tabcontent = iframeDocument.getElementById("tab-content");
+  if (tabcontent) {
+    tabcontent.style.display = 'none';
+  }
+
+
+  
+var sources = iframeDocument.querySelector("#tab-sources");
+if (sources) {
+  sources.disabled = true;
+}
+
+// Element metadaten ausblenden
+  var edit = iframeDocument.querySelector("#tab-edit");
+  if (edit) {
+   edit.style.display = "none";
+  }
+
+var national = document.getElementById('tab-national');
+if (national) {
+  national.disabled = true;
+}
+
+var element = document.querySelector('ul.nav.nav-tabs li.nav-item.active');
+if (element) {
+  element.style.display = 'none';
+}
+  
+// Next Button  ausblenden
+//  var next_btn = iframeDocument.querySelector("div.text-right");
+//  if (next_btn) {
+//    next_btn.style.display = "none";
+//  }
+  
+  // Previous Button  ausblenden
+//  var previous_btn = iframeDocument.querySelector(".nav-item.active");
+//  if (previous_btn) {
+//    previous_btn.style.display = "none";
+//  }
+
+
+  
+  // Breadcrumbs ausblenden
+  iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
+
+  // Elemente mit Klasse "btn btn-primary" ausblenden
+  iframeDocument.querySelectorAll("a.btn.btn-primary").forEach(a => a.style.display = "none");
+
+  // Elemente mit Klasse "Metadaten tabs" ausblenden
+ // iframeDocument.querySelectorAll("ul.nav.nav-tabs").forEach(a => a.style.display = "none");
+
+  // Elemente mit Klasse "table metadata-content" ausblenden
+  iframeDocument.querySelectorAll("table metadata-content").forEach(a => a.style.display = "none");
+
+  // Buttons ausblenden
+  //iframeDocument.getElementById("navigationbuttons").style.display = 'none';
+  
+  // Buttons ausblenden
+  iframeDocument.querySelectorAll(".app-c-back-to-top__icon").forEach(a => a.style.display = "none");
+  
+  // Footer ausblenden
+  iframeDocument.querySelectorAll('[role="contentinfo"]').forEach(a => a.style.display = "none");
+}
+
+
+
+  
+  
+</script>
+
 {% comment %}
 This space intended for custom third-party javascript.
 {% endcomment %}
