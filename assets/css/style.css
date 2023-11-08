@@ -805,12 +805,18 @@ body.contrast-high #legend li {
 #selectionsTable {
   padding-bottom: 20px; }
   #selectionsTable div.dataTables_wrapper {
-    overflow-x: auto; }
+    overflow-x: auto;
+    overflow-y: auto;
+    height: fit-content;
+    max-height: 100vh; }
     #selectionsTable div.dataTables_wrapper .row {
       margin-left: 0;
       margin-right: 0; }
   #selectionsTable table {
     caption-side: top; }
+    #selectionsTable table thead {
+      position: sticky;
+      inset-block-start: 0; }
     #selectionsTable table thead th {
       cursor: pointer; }
       #selectionsTable table thead th span.sort {
@@ -829,6 +835,19 @@ body.contrast-high #legend li {
         background-image: url(../img/sort_desc.png); }
     #selectionsTable table tbody th {
       font-weight: normal; }
+    #selectionsTable table th:first-child {
+      position: sticky;
+      inset-inline-start: 0; }
+  #selectionsTable div.dataTables_wrapper.scrolled-y thead {
+    background-color: white;
+    box-shadow: #0b0c0c 0px 5px 6px -6px;
+    z-index: 1; }
+  #selectionsTable div.dataTables_wrapper.scrolled-x th:first-child {
+    background-color: white; }
+  #selectionsTable div.dataTables_wrapper.scrolled-x thead th:first-child {
+    z-index: 2; }
+  #selectionsTable div.dataTables_wrapper.scrolled-x tbody th:first-child {
+    box-shadow: #0b0c0c 1px 1px 2px 0px; }
 
 caption {
   color: #0b0c0c; }
@@ -2615,6 +2634,10 @@ body.contrast-high.layout-data-editor .ag-root-wrapper, body.contrast-high.layou
     #search-results .search-result .url {
       color: green;
       font-size: 16px; }
+      #search-results .search-result .url ol, #search-results .search-result .url li {
+        display: inline-block;
+        padding-left: 0;
+        margin-bottom: 0; }
     #search-results .search-result .content {
       margin-top: 2px; }
 
