@@ -1,16 +1,11 @@
-#####tests for 2.0.0
-
-#bootstrap_5: true
-#chartjs_3: true
-
-
 
 ##Dezimaltrenner
 decimal_separator: ','
 
-#Map disaggregation select
-#map_disaggregation_select: true
-
+##Qualitätskennzeichen
+observation_attributes:
+  - field: COMMENT_OBS
+    label: ''
 
 accessible_charts: true
 accessible_tabs: true
