@@ -3,29 +3,11 @@
 # Tell the Remote Theme plugin to use the Open SDG platform (Jekyll theme).
 
 
-#remote_theme: brockfanning/open-sdg@map-unit-and-series-support-with-subcategories
-##brockfanning:map-unit-and-series-support-with-subcategories
-#brockfanning/open-sdg@map-unit-and-series-support
 
-#brockfanning/open-sdg@map-disaggregation-select-latest
+#remote_theme: open-sdg/open-sdg@2.3.0-dev
+remote_theme: open-sdg/open-sdg@2.2.0
 
-#brockfanning:map-disaggregation-select-latest
 
-#remote_theme: brockfanning/open-sdg@map-disaggregation-in-leaflet
-#brockfanning:map-series-unit-behaviors
-#remote_theme: brockfanning/open-sdg@selection-legend-text-to-the-left
-#remote_theme: brockfanning/open-sdg@map-series-unit-behaviors
-#remote_theme: brockfanning/open-sdg@indicator-iframes
-
-remote_theme: open-sdg/open-sdg@2.3.0-dev
-#brockfanning:indicator-iframes
-#remote_theme: brockfanning/open-sdg@cookie-modal-high-contrast
-
-#remote_theme: brockfanning/open-sdg@chart-tooltip-use-raw
-
-#local-metadata-links
-#remote_theme: open-sdg/open-sdg@alter-data-display-decimal-fix
-#brockfanning:chart-tooltip-use-raw
 # Replace this title as needed.
 title: general.site_title
 url: ""
