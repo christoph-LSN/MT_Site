@@ -141,7 +141,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20231113170544">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20231114103407">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -463,7 +463,7 @@ data-event-label="high"
     // Set values according to this site's configuration.
     
       try {
-        var currentValue = normalizeCurrentValue('national_indicator_description', "Der Indikator frühe Schulabgänger/-innen gibt den Anteil der 18- bis unter 25-Jährigen ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) wieder, die sich weder in schulischer oder beruflicher Ausbildung befinden noch an einer Weiterbildung teilnehmen, an der Bevölkerung der entsprechenden Altersgruppe an. Grundwehr- und Zivildienstleistende werden aus der Berechnung ausgeschlossen. Der Indikator fasst Personen zusammen, die maximal die Sekundarstufe I abgeschlossen haben, also maximal über einen Haupt- oder Realschulabschluss verfügen beziehungsweise maximal die 10. Klasse des Gymnasiums oder ein Berufsvorbereitungsjahr abgeschlossen haben. Darüber hinaus bildet der Indikator Personen mit niedrigem Bildungsstand den Anteil der 25- bis unter 65-Jährigen ohne beruflichen Bildungsabschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) an der Bevölkerung der entsprechenden Altersgruppe ab.");
+        var currentValue = normalizeCurrentValue('national_indicator_description', "Der Indikator frühe Schulabgänger/-innen gibt den Anteil der 18- bis unter 25-Jährigen ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) wieder, die sich weder in schulischer oder beruflicher Ausbildung befinden noch an einer Weiterbildung teilnehmen, an der entsprechenden Bevölkerungsgruppe an. Grundwehr- und Zivildienstleistende werden aus der Berechnung ausgeschlossen. Der Indikator fasst Personen zusammen, die maximal die Sekundarstufe I abgeschlossen haben, also maximal über einen Haupt- oder Realschulabschluss verfügen beziehungsweise maximal die 10. Klasse des Gymnasiums oder ein Berufsvorbereitungsjahr abgeschlossen haben. Darüber hinaus bildet der Indikator Personen mit niedrigem Bildungsstand den Anteil der 25- bis unter 65-Jährigen ohne beruflichen Bildungsabschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) an der entsprechenden Bevölkerungsgruppe ab.");
         var propertyEditor = editor.getEditor('root.national_indicator_description');
         propertyEditor.setValue(null);
         propertyEditor.setValue(currentValue);
@@ -809,7 +809,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20231113170544'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20231114103407'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -975,7 +975,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20231113170544"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20231114103407"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
