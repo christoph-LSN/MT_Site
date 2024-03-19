@@ -141,7 +141,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20240318090937">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20240319092411">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -477,7 +477,7 @@ data-event-label="high"
 
     
       try {
-        var currentValue = normalizeCurrentValue('computation_calculations', "Unter dem Begriff der staatlichen Mindestsicherungsleistungen werden im Rahmen der Bund-Länder-Arbeitsgruppe „Amtliche Sozialberichterstattung“ folgende Hilfearten zusammengefasst: Leistungen nach dem SGB II (ALG II und Sozialgeld), Sozialhilfe nach dem SGB XII (laufende Hilfe zum Lebensunterhalt außerhalb von Einrichtungen), Grundsicherung im Alter und bei Erwerbsminderung, Regelleistungen nach dem Asylbewerberleistungsgesetz und Leistungen der Kriegsopferfürsorge (laufende Leistungen). Hier sind die Leistungen der Kriegsopferfürsorge nicht enthalten, da sie nicht regionalisierbar sind. Die Daten liegen differenziert nach Geschlecht, Nationalität und Altersgruppen vor.");
+        var currentValue = normalizeCurrentValue('computation_calculations', "Zu den Mindestsicherungsleistungen zählen folgende Leistungen: Gesamtregelleistung nach dem SGB II \"Grundsicherung für Arbeitsuchende\" (Arbeitslosengeld II / Sozialgeld; ab 2023: \"Bürgergeld\"), laufende Hilfe zum Lebensunterhalt außerhalb von Einrichtungen nach dem SGB XII,  Grundsicherung im Alter und bei Erwerbsminderung nach dem SGB XII Sozialhilfe sowie Regelleistungen nach dem Asylbewerberleistungsgesetz (AsylbLG). Ab Berichtsjahr 2020 wird in den Statistiken der Hilfe zum Lebensunterhalt, der Grundsicherung im Alter und bei Erwerbsminderung und der Asylbewerberleistungen zur Sicherstellung  der Geheimhaltung ein Rundungsverfahren eingesetzt. Dabei wird jede Zahl für sich auf ein Vielfaches von 5 auf- oder abgerundet. Die maximale Abweichung zu den jeweiligen Originalwerten beträgt dadurch für jeden Wert höchstens 2. Somit beträgt die jeweils mögliche Abweichung der Anzahl der Empfängerinnen und Empfänger sozialer Mindestsicherungsleistungen insgesamt vom Originalwert maximal 6. Personen, die in Niedersachsen ihren Hauptwohnsitz haben, jedoch Leistungen aus einem anderen Bundesland beziehen, sind nicht enthalten. Nicht enthalten sind für Niedersachsen zum 31.12.2022 zudem insgesamt 6.335 Personen (2021: 3.385; 2020: 2.430; 2019: 3.672; 2018: 2.583; 2017: 2.971; 2016: 3.149; 2015: 23.085; 2014: 2.020), die Leistungen der Landesaufnahmebehörde (überörtlicher Träger) erhalten. Regional sind sie ebenfalls nicht zugeordnet. Für Wilhelmshaven, Stadt ist der Wert für die Hilfe zum Lebensunterhalt in den Berichtsjahren 2018 und 2019 und damit für die Mindestsicherungsleistungen insgesamt nur eingeschränkt vergleichbar.");
         var propertyEditor = editor.getEditor('root.computation_calculations');
         propertyEditor.setValue(null);
         propertyEditor.setValue(currentValue);
@@ -809,7 +809,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20240318090937'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20240319092411'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -975,7 +975,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20240318090937"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20240319092411"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
