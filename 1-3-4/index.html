@@ -117,7 +117,12 @@ var translations = {
         ================================================== -->
 
         
-    <title>Test Post 1 - Migration und Teilhabe in Niedersachsen</title>
+    <title>
+        
+        Indikator 1.3.4 -
+        
+        Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000) - Migration und Teilhabe in Niedersachsen
+    </title>
 
 
 
@@ -163,7 +168,7 @@ var translations = {
 
     </head>
 <body class="language-de
-layout-post
+layout-indicator
 ">
 <!-- <div class="container"> -->
 
@@ -237,49 +242,563 @@ data-event-label="high"
 <div id="top" tabindex=-1></div>
 
 
+
+<script type="text/template" id="item_template">
+  <% _.each(fields, function(fieldItem) { %>
+    <div class="variable-selector
+      <% if(allowedFields.indexOf(fieldItem.field) == -1) { %> disallowed <% }%>
+      <% if (typeof childFields !== 'undefined' && childFields.indexOf(fieldItem.field) !== -1) { %> child <% }%>
+      "
+      data-field="<%=fieldItem.field%>"
+    >
+      <button class='accessBtn' tabindex='0' aria-expanded='false'
+        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
+        aria-describedby='variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>'
+        <% }%>
+      >
+        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %><h6><% } else { %><h5><% } %>
+          <span aria-hidden="true"><%=translations.t(fieldItem.label)%><i class="fa fa-chevron-down"></i></span>
+          <span class="sr-only"> <%=translations.t(fieldItem.label)%></span>
+        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %></h6><% } else { %></h5><% } %>
+      </button>
+      <div class="variable-options">
+        <fieldset>
+          <legend class="sr-only">Kategorien - <%=translations.t(fieldItem.field)%></legend>
+          <div>
+            <button data-type="select">Alle auswählen</button>
+            <button data-type="clear">Auswahl aufheben</button>
+          </div>
+          <% _.each(fieldItem.values, function(item) { %>
+            <label>
+              <input type="checkbox" <%=item.checked ? 'checked' : ''%> value="<%=item.value%>" data-field="<%=fieldItem.field%>" /><%=translations.t(item.value)%>
+            </label>
+          <% }); %>
+        </fieldset>
+      </div>
+
+      <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
+        <div class="variable-hint" id="variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>">Verfügbar
+        </div>
+        <div class="no-data-hint" id="no-data-hint-<%=fieldItem.field.replace(/ /g, '-')%>">
+          Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.
+        </div>
+      <% }%>
+
+    </div>
+  <% }); %>
+</script>
+
+<script type="text/template" id="units_template">
+  
+  <% if(units.length > 1) { %>
+  
+    <h4>Einheit</h4>
+    <fieldset>
+      <legend class="sr-only">Einheit</legend>
+      <% _.each(units, function(unitsItem, index) { %>
+        <% var checked = (selectedUnit) ? (selectedUnit==unitsItem) : (index==0); %>
+        <label><input type="radio" name="unit" value="<%=unitsItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(unitsItem)%></label>
+      <% }); %>
+    </fieldset>
+  
+  <% } %>
+  
+</script>
+
+<script type="text/template" id="series_template">
+  
+  <% if(serieses.length > 1) { %>
+  
+    <h4>Reihe</h4>
+    <fieldset>
+      <legend class="sr-only">Reihe</legend>
+      <% _.each(serieses, function(seriesItem, index) { %>
+        <% var isProxy = (proxySerieses.includes(seriesItem)) %>
+        <% var checked = (selectedSeries) ? (selectedSeries==seriesItem) : (index==0); %>
+        <label><input type="radio" name="series" value="<%=seriesItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(seriesItem)%> <%=isProxy ? proxyPill : ''%></label>
+      <% }); %>
+    </fieldset>
+  
+  <% } %>
+  
+</script>
+
+<script>translations['indicator'] = {"apply":"Ok","cancel":"Abbrechen","change_breakdowns":"Auwahl ändern","chart":"Grafik","clear_all":"Auswahl aufheben","clear_selections":"Auswahl aufheben","data_footnotes":"Fußnoten","data_not_available":"Diese Daten sind nicht verfügbar. Bitte wählen Sie alternative Daten aus, die angezeigt werden sollen.","dataset_size_warning":"Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden","download_chart":"Grafik im CSV-Format speichern","download_chart_image":"Grafik herunterladen","download_chart_image_title":"Grafik als Bild herunterladen","download_csv":"im CSV-Format speichern","download_csv_title":"im CSV-Format speichern","download_geojson":"im GeoJSON-Format speichern","download_geojson_title":"im GeoJSON-Format speichern","download_headline":"Speichern der Headline im CSV-Format","download_headline_title":"Speichern der Headline im CSV-Format","download_source":"Daten im CSV-Format speichern","download_source_title":"Daten im CSV-Format speichern","download_table":"Tabelle im CSV-Format speichern","edit":"Bearbeiten","edit_data":"Daten bearbeiten","edit_metadata":"Metadaten bearbeite","footnote":"Fußnote","geographical_area":"Geographische Abdeckung","global_metadata":"Tabellen zum Download","global_metadata_blurb":"Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.","legend_help":"Klicken Sie auf die Legende um Zeitreihen aus der Grafik zu entfernen.","loading":"Laden","loading_map":"Karte wird geladen","map":"Karte","national_metadata":"Indikator Beschreibung","national_metadata_blurb":null,"no_data_hint":"Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.","note":"Methodischer Hinweis","select_all":"Alle auswählen","series":"Reihe","series_help":"Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.","source":"Datenquelle","sources":"Datenquellen","sub_categories":"Kategorien","table":"Tabelle","unit":"Einheit","unit_of_measurement":"Einheit","units_type":"Einheit","variable_hint":"Verfügbar","view_indicator_list":"Zeigt die Indikatorenliste zum SDG-Ziel an."};</script>
+
+<script>translations['data'] = {"Year":"Jahr","year":"Jahr"};</script>
+
+
 <div class="container">
   
 <nav>
     <ol aria-label="breadcrumb" class="breadcrumb" style="--bs-breadcrumb-divider: '&rsaquo;';">
-    <li class="breadcrumb-item">
+        
+        <li class="breadcrumb-item">
             <a href="/MT_Site/">Home</a>
         </li>
-    <li class="breadcrumb-item">
-            <a href="/MT_Site/news"></a>
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/goals">Themenbereiche</a>
         </li>
-    
+        
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/1/"
+               title="Themenbereich 1 - Bevölkerung &amp; Demografie"
+               aria-label="Themenbereich  - ">
+               Themenbereich 1
+            </a>
+        </li>
+        
     </ol>
 </nav>
 
 
+  
+    
+<div class="previous-next-links d-flex justify-content-between">
+    <div class="text-left">
+        <a class="btn btn-primary" href="/MT_Site/1-3-3/" aria-labelledby="previous-link">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            <span id="previous-link" class="d-none d-md-inline"></span>
+        </a>
+    </div>
+    <div class="text-right">
+        <a class="btn btn-primary" href="/MT_Site/1-4-1/" aria-labelledby="next-link">
+            <span id="next-link" class="d-none d-md-inline"></span>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
 </div>
 
 
-<div id="main-content" class="container" role="main">
-  <div class="row">
-    <div class="col-md-12">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-        <h1 class="post-title" itemprop="name headline">Test Post 1</h1>
-        <div class="post-header">
-          <time class="post-date" datetime="2020-01-10T00:00:00+00:00" itemprop="datePublished">10.01.2020</time><ul class="post-categories"><li>International</li></ul><span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">SDG Team</span></span></div>
-
-        <div class="post-content" itemprop="articleBody">
-          
-
-
-    <p>Translation needed.</p>
-
-
-
+  
+</div>
+<div class="heading goal-banner indicator goal-1">
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-4 col-md-3 col-lg-2 goal-icon goal-tiles">
+                <a href="/MT_Site/1/" aria-label=" 1" title=" 1">
+                    <img src="https://christoph-lsn.github.io/IM-translations/assets/img/goals//de/1.png"
+                        alt="Bevölkerung &amp; Demografie - Themenbereich 1"
+                        id="goal-1"
+                        class="goal-icon-image goal-icon-image-" />
+                </a>
+            </div>
+            <div class="col-8 col-md-9 col-lg-10 indicator-details">
+            
+                <div>
+                    <h1>
+                        
+                        Indikator 1.3.4
+                        
+                        <span class="lead-copy">Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000)</span>
+                    </h1>
+                </div>
+            </div>
         </div>
-      </article>
+    </div>
+</div>
+<div id="main-content" class="container goal-1" role="main">
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+<div class="row"
+  id="indicatorData"
+  data-indicatorid='indicator_1-3-4'
+  data-id="1-3-4"
+  data-country="Australia"
+  data-charttitle="Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000)"
+  data-charttitles="null"
+  data-measurementunit=""
+  data-xaxislabel=""
+  data-showdata="false"
+  data-graphtype="bar"
+  data-graphtypes="null"
+  data-geocoderegex=""
+  data-showmap="false"
+  data-startvalues="[{&quot;field&quot;:&quot;Herkunftsland&quot;,&quot;value&quot;:&quot;Europa&quot;},{&quot;field&quot;:&quot;Herkunftsland&quot;,&quot;value&quot;:&quot;Amerika&quot;},{&quot;field&quot;:&quot;Herkunftsland&quot;,&quot;value&quot;:&quot;Afrika&quot;},{&quot;field&quot;:&quot;Herkunftsland&quot;,&quot;value&quot;:&quot;Asien Australien und Ozeanien&quot;},{&quot;field&quot;:&quot;Geschlecht&quot;,&quot;value&quot;:&quot;Insgesamt&quot;}]"
+  data-graphlimits="null"
+  data-stackeddisaggregation=""
+  data-graphannotations="null"
+  data-graphtargetlines="null"
+  data-graphseriesbreaks="null"
+  data-indicatordownloads="null"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Herkunftsland&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Europa&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Herkunftsland&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;in 1000&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;COMMENT_OBS&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Aussagewert eingeschränkt, da der Zahlenwert statistisch relativ unsicher ist.&quot;,&quot;Nicht veröffentlicht, weil nicht ausreichend genau oder nicht repräsentativ.&quot;,&quot;&quot;]},&quot;title&quot;:&quot;COMMENT_OBS&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
+  data-compositebreakdownlabel=""
+  data-precision="[{&quot;decimals&quot;:1}]"
+  data-proxy=""
+  data-proxyseries="null"
+>
+  
+  <div id="indicator-main" class="indicator-main col-md-12">
+  
+  <div class="mt-4">
+<ul class="nav nav-tabs" role="tablist">
+    
+        <li role="presentation" class="nav-item">
+    <button type="button" class="nav-link active" data-bs-toggle="tab" id="tab-national" data-bs-target="#national" aria-controls="national" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change metadata view"
+data-event-label="Change to National Metadata tab"
+>Indikator Beschreibung</button>
+</li>
+
+<li role="presentation" class="nav-item">
+    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-global" data-bs-target="#global" aria-controls="global" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change metadata view"
+data-event-label="Change to Global Metadata tab"
+>Tabellen zum Download</button>
+</li>
+
+<li role="presentation" class="nav-item">
+    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-sources" data-bs-target="#sources" aria-controls="sources" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change metadata view"
+data-event-label="Change to Sources tab"
+>Datenquellen</button>
+</li>
+  
+    
+    
+        <li role="presentation" class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
+        </li>
+    
+</ul>
+
+<div class="tab-content">
+    
+        <div role="tabpanel" class="tab-pane active" id="national">
+    <!-- National Metadata -->
+    <div>
+        <article>
+            <p>
+                
+                
+                
+            </p>
+            <table class="table metadata-content">
+  <tbody>
+  
+  
+  
+  
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Definition des Indikators </th>
+        <td>
+          
+            <p>Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br />  1. zugewanderte und nicht zugewanderte Ausländer;<br />  2. zugewanderte und nicht zugewanderte Eingebürgerte;<br />  3. (Spät-)Aussiedler;<br />  4. mit deutscher Staatsangehörigkeit geborene Nachkommen<br />  Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. Dargestellt wird die Zahl der Menschen mit Zuwanderungsgeschichte nach ausgewählten Herkunftsländern und Geschlecht.</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Methodische Hinweise </th>
+        <td>
+          
+            <p>In der amtlichen Statistik wurde ein umfassendes Konzept zur Erfassung des Migrationshintergrundes erstmals mit dem Mikrozensus 2005 eingeführt. Dazu wurde zusätzlich eine Reihe von Fragen zur Migration aufgenommen, aus denen der Migrationshintergrund abgeleitet wird. Eine vollständige Übertragung auf andere Statistiken außerhalb des Mikrozensus ist aufgrund der Komplexität der Definition nicht möglich. Zur Bestimmung des Migrationshintergrundes wird (1.) nur die Zuwanderung auf das Gebiet der heutigen Bundesrepublik ab 1950 berücksichtigt, um den Großteil der Zuwanderung durch kriegsbedingte Vertreibung nicht einzubeziehen. Zudem werden (2.) auch die Nachkommen der Zugewanderten berücksichtigt, die bereits in der Bundesrepublik geboren wurden und (3.) wird für alle Ausländerinnen und Ausländer sowie für alle Eingebürgerten ein Migrationshintergrund unterstellt. In diesem Bericht wird für die dargestellten Jahre vor 2017 der Migrationshintergrund im engeren Sinne verwendet: Von den Deutschen mit Migrationshintergrund, die seit Geburt Deutsche sind, werden nur jene hinzugezählt, die mit ihren Eltern oder einem Elternteil im selben Haushalt leben. Nur dann liegt die für die Zuordnung entscheidende Elterninformation vor. Für alle Jahre nach 2016 wird der Migrationshintergrund im weiteren Sinne dargestellt: Der Migrationshintergrund im weiteren Sinne kann anhand der Zusatzfragen zum Migrationsstatus der nicht im Haushalt lebenden Eltern ab 2005 in vierjährigem Rhythmus und ab dem Jahr 2017 jährlich dargestellt werden. Im Vergleich zu früheren Veröffentlichungen kann es hier zu Abweichungen kommen, die nicht zwangsläufig auf einen absoluten Bevölkerungsrückgang zurückzuführen sind, sondern auch aufgrund eines statistischen Effektes entstehen können.</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Weiterführende Informationen </th>
+        <td>
+          
+            <p>Bundesweite Ergebnisse sind zu finden in: <a href="https://www.destatis.de" target="_blank">Statistisches Bundesamt</a>: Fachserie 1 Reihe 2.2, Bevölkerung und Erwerbstätigkeit, Bevölkerung mit Migrationshintergrund (erscheint jährlich).</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+        </article>
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="global">
+    <!-- Global Metadata -->
+    <div>
+        <article>
+            <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
+            <table class="table metadata-content">
+  <tbody>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Tabelle zum Download </th>
+        <td>
+          
+            
+            
+            
+            
+            
+              
+              
+              
+              <a href="/MT_Site/assets/excel/2021_1-3-4.xlsx">
+                Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000)
+              </a>
+            
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+        </article>
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="sources">
+    <!-- Count the non-empty sources (up to 5) -->
+
+
+
+
+  <div class="row">
+  
+    
+    
+<!--    <div class="col-md-6"> -->
+      
+      <table class="table metadata-content">
+  <tbody>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      
+      
+      
+        
+          
+  
+  
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Datenquelle </th>
+        <td>
+          
+            <p>Mikrozensus</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+  
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+  </tbody>
+</table>
+
     </div>
     
   </div>
+
+
+</div>
+    
+    
+        <div role="tabpanel" class="tab-pane" id="edit">
+            <div class="edit-container">
+  
+  
+
+  
+  
+
+
+  <a class="btn btn-primary" href="data">Daten bearbeiten</a>
+  
+
+  
+  <a class="btn btn-primary" href="metadata">Metadaten bearbeite</a>
+  
+
+  
+
 </div>
 
+        </div>
+    
+</div>
 
+</div>
+  </div>
+</div>
 
+  <a href="#top"></a>
+</div>
 
 <footer role="contentinfo">
     <div class="container">

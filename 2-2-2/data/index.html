@@ -117,7 +117,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>Test Post 1 - Migration und Teilhabe in Niedersachsen</title>
+    <title>Daten bearbeiten: 2.2.2 - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -163,7 +163,7 @@ var translations = {
 
     </head>
 <body class="language-de
-layout-post
+layout-data-editor
 ">
 <!-- <div class="container"> -->
 
@@ -237,50 +237,135 @@ data-event-label="high"
 <div id="top" tabindex=-1></div>
 
 
-<div class="container">
-  
-<nav>
-    <ol aria-label="breadcrumb" class="breadcrumb" style="--bs-breadcrumb-divider: '&rsaquo;';">
-    <li class="breadcrumb-item">
-            <a href="/MT_Site/">Home</a>
-        </li>
-    <li class="breadcrumb-item">
-            <a href="/MT_Site/news"></a>
-        </li>
-    
-    </ol>
-</nav>
-
-
-</div>
-
-
 <div id="main-content" class="container" role="main">
-  <div class="row">
-    <div class="col-md-12">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-        <h1 class="post-title" itemprop="name headline">Test Post 1</h1>
-        <div class="post-header">
-          <time class="post-date" datetime="2020-01-10T00:00:00+00:00" itemprop="datePublished">10.01.2020</time><ul class="post-categories"><li>International</li></ul><span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">SDG Team</span></span></div>
-
-        <div class="post-content" itemprop="articleBody">
-          
-
-
-    <p>Translation needed.</p>
-
-
-
-        </div>
-      </article>
-    </div>
-    
+  <div class="row no-gutters">
+    <div class="col-md-12"><h1>Daten bearbeiten: 2.2.2</h1></div>
   </div>
+  <div class="row config-widgets">
+    <div class="col-md-6 data-grid-buttons">
+      <label for="add-column-name">Column name</label>
+      <input id="add-column-name" />
+      <button class="btn btn-primary btn-download" id="add-column">Add column</a>
+    </div>
+    <div class="col-md-6 data-download-buttons">
+      <button class="config-download-button btn btn-primary btn-download" id="export">Download data</button>
+      
+      
+      
+      
+      <a class="config-repository-button btn btn-primary btn-download" target="_blank" href="https://github.com/christoph-LSN/IM_Data/tree/develop/data">
+        Go to repository
+      </a>
+      
+    </div>
+  </div>
+  <div class="row no-gutters">
+    <div class="editor-wrapper col-md-12">
+      <div id="editor-holder" style="height: 900px; width: 100%;" class="ag-theme-alpine"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="https://unpkg.com/ag-grid-community@28.2.1/dist/ag-grid-community.min.noStyle.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community@28.2.1/dist/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community@28.2.1/dist/styles/ag-theme-alpine.css">
+
+  <script>
+  var httpRequest;
+  var gridOptions;
+  function makeRequest() {
+    httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+      alert('Giving up :( Cannot create an XMLHTTP instance');
+      return false;
+    }
+    httpRequest.onreadystatechange = displaySpreadsheet;
+    httpRequest.open('GET', 'https://christoph-lsn.github.io/IM_Data/untranslated/data/2-2-2.csv');
+    httpRequest.send();
+  }
+
+  function displaySpreadsheet() {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        var csvString = httpRequest.responseText;
+        var csvData = Papa.parse(csvString, {header: true});
+        var columnDefs = [],
+            rowData = [];
+        if (csvData.data.length > 0) {
+          rowData = csvData.data;
+          columnDefs = Object.keys(rowData[0]).map(function(key) {
+            var columnDef = { field: key, headerName: key };
+            if (key === 'Value') {
+              columnDef['type'] = 'rightAligned';
+            }
+            return columnDef;
+          });
+        }
+        var container = document.getElementById('editor-holder');
+        gridOptions = {
+          defaultColDef: {
+            editable: true,
+            resizable: true,
+            minWidth: 100,
+            flex: 1,
+          },
+          columnDefs: columnDefs,
+          rowData: rowData,
+          undoRedoCellEditing: true,
+          undoRedoCellEditingLimit: 5,
+          enableCellChangeFlash: true,
+          enterMovesDownAfterEdit: true,
+          suppressDragLeaveHidesColumns: true,
+          applyColumnDefOrder: true,
+          onCellValueChanged: function(info) {
+            if (info.rowIndex + 1 === this.api.getDisplayedRowCount()) {
+              this.api.applyTransaction({
+                add: [{}],
+              });
+            }
+          }
+        };
+
+        new agGrid.Grid(container, gridOptions);
+      } else {
+        alert('There was a problem when loading the data. Please edit the data in some other way (such as in Github).');
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    makeRequest();
+  });
+
+  document.getElementById('export').onclick = function() {
+    gridOptions.api.stopEditing();
+    gridOptions.api.exportDataAsCsv({
+      fileName: 'indicator_2-2-2',
+    });
+  }
+
+  document.getElementById('add-column').onclick = function() {
+    var columnName = document.getElementById('add-column-name').value;
+    if (columnName && columnName !== '') {
+      var columnDefs = gridOptions.columnDefs;
+      var newColumn = { field: columnName, headerName: columnName };
+      if (columnDefs.length > 1) {
+        // Put it second-to-last if possible.
+        columnDefs.splice(columnDefs.length - 1, 0, newColumn);
+      }
+      else {
+        // Otherwise just last.
+        columnDefs.push(newColumn);
+      }
+      gridOptions.api.setColumnDefs(columnDefs);
+    }
+    else {
+      alert('Please enter a column name first and then try again.');
+    }
+  }
+  </script>
 </div>
-
-
-
-
 <footer role="contentinfo">
     <div class="container">
         <div class="row">

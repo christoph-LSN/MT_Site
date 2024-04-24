@@ -117,7 +117,12 @@ var translations = {
         ================================================== -->
 
         
-    <title>Test Post 1 - Migration und Teilhabe in Niedersachsen</title>
+    <title>
+        
+        Indikator 2.2.4 -
+        
+        In Niedersachsen gestellte Asylanträge - Migration und Teilhabe in Niedersachsen
+    </title>
 
 
 
@@ -163,7 +168,7 @@ var translations = {
 
     </head>
 <body class="language-de
-layout-post
+layout-indicator
 ">
 <!-- <div class="container"> -->
 
@@ -237,49 +242,838 @@ data-event-label="high"
 <div id="top" tabindex=-1></div>
 
 
+
+<script type="text/template" id="item_template">
+  <% _.each(fields, function(fieldItem) { %>
+    <div class="variable-selector
+      <% if(allowedFields.indexOf(fieldItem.field) == -1) { %> disallowed <% }%>
+      <% if (typeof childFields !== 'undefined' && childFields.indexOf(fieldItem.field) !== -1) { %> child <% }%>
+      "
+      data-field="<%=fieldItem.field%>"
+    >
+      <button class='accessBtn' tabindex='0' aria-expanded='false'
+        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
+        aria-describedby='variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>'
+        <% }%>
+      >
+        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %><h6><% } else { %><h5><% } %>
+          <span aria-hidden="true"><%=translations.t(fieldItem.label)%><i class="fa fa-chevron-down"></i></span>
+          <span class="sr-only"> <%=translations.t(fieldItem.label)%></span>
+        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %></h6><% } else { %></h5><% } %>
+      </button>
+      <div class="variable-options">
+        <fieldset>
+          <legend class="sr-only">Kategorien - <%=translations.t(fieldItem.field)%></legend>
+          <div>
+            <button data-type="select">Alle auswählen</button>
+            <button data-type="clear">Auswahl aufheben</button>
+          </div>
+          <% _.each(fieldItem.values, function(item) { %>
+            <label>
+              <input type="checkbox" <%=item.checked ? 'checked' : ''%> value="<%=item.value%>" data-field="<%=fieldItem.field%>" /><%=translations.t(item.value)%>
+            </label>
+          <% }); %>
+        </fieldset>
+      </div>
+
+      <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
+        <div class="variable-hint" id="variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>">Verfügbar
+        </div>
+        <div class="no-data-hint" id="no-data-hint-<%=fieldItem.field.replace(/ /g, '-')%>">
+          Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.
+        </div>
+      <% }%>
+
+    </div>
+  <% }); %>
+</script>
+
+<script type="text/template" id="units_template">
+  
+  <% if(units.length > 1) { %>
+  
+    <h4>Einheit</h4>
+    <fieldset>
+      <legend class="sr-only">Einheit</legend>
+      <% _.each(units, function(unitsItem, index) { %>
+        <% var checked = (selectedUnit) ? (selectedUnit==unitsItem) : (index==0); %>
+        <label><input type="radio" name="unit" value="<%=unitsItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(unitsItem)%></label>
+      <% }); %>
+    </fieldset>
+  
+  <% } %>
+  
+</script>
+
+<script type="text/template" id="series_template">
+  
+  <% if(serieses.length > 1) { %>
+  
+    <h4>Reihe</h4>
+    <fieldset>
+      <legend class="sr-only">Reihe</legend>
+      <% _.each(serieses, function(seriesItem, index) { %>
+        <% var isProxy = (proxySerieses.includes(seriesItem)) %>
+        <% var checked = (selectedSeries) ? (selectedSeries==seriesItem) : (index==0); %>
+        <label><input type="radio" name="series" value="<%=seriesItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(seriesItem)%> <%=isProxy ? proxyPill : ''%></label>
+      <% }); %>
+    </fieldset>
+  
+  <% } %>
+  
+</script>
+
+<script>translations['indicator'] = {"apply":"Ok","cancel":"Abbrechen","change_breakdowns":"Auwahl ändern","chart":"Grafik","clear_all":"Auswahl aufheben","clear_selections":"Auswahl aufheben","data_footnotes":"Fußnoten","data_not_available":"Diese Daten sind nicht verfügbar. Bitte wählen Sie alternative Daten aus, die angezeigt werden sollen.","dataset_size_warning":"Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden","download_chart":"Grafik im CSV-Format speichern","download_chart_image":"Grafik herunterladen","download_chart_image_title":"Grafik als Bild herunterladen","download_csv":"im CSV-Format speichern","download_csv_title":"im CSV-Format speichern","download_geojson":"im GeoJSON-Format speichern","download_geojson_title":"im GeoJSON-Format speichern","download_headline":"Speichern der Headline im CSV-Format","download_headline_title":"Speichern der Headline im CSV-Format","download_source":"Daten im CSV-Format speichern","download_source_title":"Daten im CSV-Format speichern","download_table":"Tabelle im CSV-Format speichern","edit":"Bearbeiten","edit_data":"Daten bearbeiten","edit_metadata":"Metadaten bearbeite","footnote":"Fußnote","geographical_area":"Geographische Abdeckung","global_metadata":"Tabellen zum Download","global_metadata_blurb":"Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.","legend_help":"Klicken Sie auf die Legende um Zeitreihen aus der Grafik zu entfernen.","loading":"Laden","loading_map":"Karte wird geladen","map":"Karte","national_metadata":"Indikator Beschreibung","national_metadata_blurb":null,"no_data_hint":"Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.","note":"Methodischer Hinweis","select_all":"Alle auswählen","series":"Reihe","series_help":"Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.","source":"Datenquelle","sources":"Datenquellen","sub_categories":"Kategorien","table":"Tabelle","unit":"Einheit","unit_of_measurement":"Einheit","units_type":"Einheit","variable_hint":"Verfügbar","view_indicator_list":"Zeigt die Indikatorenliste zum SDG-Ziel an."};</script>
+
+<script>translations['data'] = {"Year":"Jahr","year":"Jahr"};</script>
+
+
 <div class="container">
   
 <nav>
     <ol aria-label="breadcrumb" class="breadcrumb" style="--bs-breadcrumb-divider: '&rsaquo;';">
-    <li class="breadcrumb-item">
+        
+        <li class="breadcrumb-item">
             <a href="/MT_Site/">Home</a>
         </li>
-    <li class="breadcrumb-item">
-            <a href="/MT_Site/news"></a>
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/goals">Themenbereiche</a>
         </li>
-    
+        
+        <li class="breadcrumb-item">
+            <a href="/MT_Site/2/"
+               title="Themenbereich 2 - Rechtliche Integration &amp; Asyl"
+               aria-label="Themenbereich  - ">
+               Themenbereich 2
+            </a>
+        </li>
+        
     </ol>
 </nav>
 
 
+  
+    
+<div class="previous-next-links d-flex justify-content-between">
+    <div class="text-left">
+        <a class="btn btn-primary" href="/MT_Site/2-2-3/" aria-labelledby="previous-link">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            <span id="previous-link" class="d-none d-md-inline"></span>
+        </a>
+    </div>
+    <div class="text-right">
+        <a class="btn btn-primary" href="/MT_Site/2-3-1/" aria-labelledby="next-link">
+            <span id="next-link" class="d-none d-md-inline"></span>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
 </div>
 
 
-<div id="main-content" class="container" role="main">
-  <div class="row">
-    <div class="col-md-12">
-      <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-        <h1 class="post-title" itemprop="name headline">Test Post 1</h1>
-        <div class="post-header">
-          <time class="post-date" datetime="2020-01-10T00:00:00+00:00" itemprop="datePublished">10.01.2020</time><ul class="post-categories"><li>International</li></ul><span class="post-author" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">SDG Team</span></span></div>
+  
+</div>
+<div class="heading goal-banner indicator goal-2">
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-4 col-md-3 col-lg-2 goal-icon goal-tiles">
+                <a href="/MT_Site/2/" aria-label=" 2" title=" 2">
+                    <img src="https://christoph-lsn.github.io/IM-translations/assets/img/goals//de/2.png"
+                        alt="Rechtliche Integration &amp; Asyl - Themenbereich 2"
+                        id="goal-2"
+                        class="goal-icon-image goal-icon-image-" />
+                </a>
+            </div>
+            <div class="col-8 col-md-9 col-lg-10 indicator-details">
+            
+                <div>
+                    <h1>
+                        
+                        Indikator 2.2.4
+                        
+                        <span class="lead-copy">In Niedersachsen gestellte Asylanträge</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main-content" class="container goal-2" role="main">
+  
 
-        <div class="post-content" itemprop="articleBody">
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+<div class="row"
+  id="indicatorData"
+  data-indicatorid='indicator_2-2-4'
+  data-id="2-2-4"
+  data-country="Australia"
+  data-charttitle="In Niedersachsen gestellte Asylanträge"
+  data-charttitles="null"
+  data-measurementunit=""
+  data-xaxislabel=""
+  data-showdata="true"
+  data-graphtype="line"
+  data-graphtypes="null"
+  data-geocoderegex=""
+  data-showmap="false"
+  data-startvalues="null"
+  data-graphlimits="null"
+  data-stackeddisaggregation=""
+  data-graphannotations="null"
+  data-graphtargetlines="null"
+  data-graphseriesbreaks="null"
+  data-indicatordownloads="null"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Asylanträge&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Asylanträge&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Asylanträge&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
+  data-compositebreakdownlabel=""
+  data-precision="null"
+  data-proxy=""
+  data-proxyseries="null"
+>
+  
+  <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
+  <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
+    <div id="serieses"></div>
+<div id="units"></div>
+<div id="toolbar">
+  <span id="series-help">
+    <h4>Kategorien</h4>
+    <p>Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.</p>
+  </span>
+  <div id="fields">
+    <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
+  </div>
+</div>
+
+  </div>
+  <div id="indicator-main" class="indicator-main col-md-9">
+    
+
+
+
+
+<div id="headlineTable">
+
+  <div id="datatables">
+
+    
+    <a href="https://christoph-lsn.github.io/IM_Data/de/data/2-2-4.csv" class="btn btn-primary btn-download" download='indicator_2-2-4.csv' tabindex='0' role='button'>Daten im CSV-Format speichern</a>
+
+    <p class="no-js-disaggregation-hint"></p>
+
+    
+    <h3></h3>
+    
+  </div>
+
+  
+
+</div>
+
+
+<section>
+
+  <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
+
+  <div class="async-loaded mt-4" style="display:none;">
+
+    <div style="display: none;">
+    <span id="table-alternative"></span>
+  </div>
+  <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
+    
+    <li role="presentation"
+      class="
+        nav-item
+        
+        
+      ">
+      <button
+        class="nav-link active"
+        data-bs-toggle="tab"
+        role="tab"
+        type="button"
+        
+          id="tab-chartview"
+          data-bs-target="#chartview"
+          aria-controls="chartview"
+          aria-describedby="table-alternative"
+          data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Chart tab"
+
+        
+      >Grafik</button>
+    </li>
+    
+    <li role="presentation"
+      class="
+        nav-item
+        
+        
+      ">
+      <button
+        class="nav-link "
+        data-bs-toggle="tab"
+        role="tab"
+        type="button"
+        
+          id="tab-tableview"
+          data-bs-target="#tableview"
+          aria-controls="tableview"
+          data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Table tab"
+
+        
+      >Tabelle</button>
+    </li>
+    
+  </ul>
+  
+    <div class="tab-content data-view">
+    
+      
+        <div role="tabpanel" class="tab-pane active" id="chartview">
+          
+
+    <div id="dataset-size-warning" style="display:none" role="alert">
+      <i class="fa fa-bolt"><span class="sr-only"></span></i>
+      Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden
+    </div>
+
+    
+    <div id="selectionsChart">
+      <figure role="group">
+        <div id="chart-canvas">
+          <h4 id="chart-heading" class="chart-title">
+            In Niedersachsen gestellte Asylanträge
+          </h4>
+          <div id="chart" class="plot-container">
+            <canvas
+    role="img"
+    aria-labelledby="chart-heading"
+    aria-describedby="table-alternative chart-annotations"
+    tabindex="0"
+ ></canvas>
+
+          </div>
+          <div id="plotLegend"></div>
           
 
 
-    <p>Translation needed.</p>
+
+<div id="selectionChartFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        >Fußnote:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        ></dd>
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        >Daten zuletzt aktualisiert am:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        ></dd>
+        
+        
+    </dl>
+    
+    <dl class="observation-attribute-list"></dl>
+    
+  
+  </div>
+
+        </div>
+      </figure>
+      <div id="chartSelectionDownload" class="clearfix">
+        <button
+          id="btnSave"
+          title="Grafik als Bild herunterladen"
+          aria-label="Grafik als Bild herunterladen"
+          class='btn btn-primary btn-download'>
+          Grafik herunterladen
+        </button><!--
+   --></div>
+    </div>
 
 
 
         </div>
-      </article>
+      
+    
+      
+        <div role="tabpanel" class="tab-pane " id="tableview">
+          <div style="display: none;">
+            <span id="column-sort-info"></span>
+          </div>
+          <div id="selectionsTable"></div>
+<dl id="tableTargetLines" class="clearfix"></dl>
+
+
+
+
+<div id="selectionTableFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        >Fußnote:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        ></dd>
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        >Daten zuletzt aktualisiert am:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        ></dd>
+        
+        
+    </dl>
+    
+    <dl class="observation-attribute-list"></dl>
+    
+  
+  </div>
+
+<div id="tableSelectionDownload" class="clearfix"></div>
+
+        </div>
+      
+    
+  </div>
+  
+
+  </div>
+
+</section>
+
+  
+  <div class="mt-4">
+<ul class="nav nav-tabs" role="tablist">
+    
+        <li role="presentation" class="nav-item">
+    <button type="button" class="nav-link active" data-bs-toggle="tab" id="tab-national" data-bs-target="#national" aria-controls="national" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change metadata view"
+data-event-label="Change to National Metadata tab"
+>Indikator Beschreibung</button>
+</li>
+
+<li role="presentation" class="nav-item">
+    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-global" data-bs-target="#global" aria-controls="global" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change metadata view"
+data-event-label="Change to Global Metadata tab"
+>Tabellen zum Download</button>
+</li>
+
+<li role="presentation" class="nav-item">
+    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-sources" data-bs-target="#sources" aria-controls="sources" role="tab" data-on="click"
+data-event-category="Tab change"
+data-event-action="Change metadata view"
+data-event-label="Change to Sources tab"
+>Datenquellen</button>
+</li>
+  
+    
+    
+        <li role="presentation" class="nav-item">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
+        </li>
+    
+</ul>
+
+<div class="tab-content">
+    
+        <div role="tabpanel" class="tab-pane active" id="national">
+    <!-- National Metadata -->
+    <div>
+        <article>
+            <p>
+                
+                
+                
+            </p>
+            <table class="table metadata-content">
+  <tbody>
+  
+  
+  
+  
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Definition des Indikators </th>
+        <td>
+          
+            <p>Der Indikator zeigt die Anzahl der in Niedersachsen gestellten Asylanträge  (Erst- und Folgeanträge). Das Bundesamt für Migration und Flüchtlinge entscheidet über die Asylanträge. Die Aufenthaltsregelung während und nach dem Abschluss des Asylverfahrens fällt in die Zuständigkeit der Ausländerbehörden.</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Methodische Hinweise </th>
+        <td>
+          
+            <p>Es ist zu beachten, dass die Anzahl der gestellten Asylanträge der Jahre 2020 und 2021 unter den Bedingungen der Corona Pandemie zu sehen sind.</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Weiterführende Informationen </th>
+        <td>
+          
+            <p>Weitere Informationen zu Erst- und Folgeanträgen finden Sie beim <a href="https://www.bamf.de">Bundesamt für Migration und Flüchtlinge</a>. <br /> Zum Thema Ausländer- und Flüchtlingsangelegenheiten stellt das Nds. Ministerium für Inneres und Sport an <a href="https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html">dieser Stelle</a> monatlich statistische Auswertungen zur Verfügung, aus denen sich aktuelle Zahlen und Entwicklungen der Asyl-und Flüchlingssituation ablesen lassen.</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+        </article>
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="global">
+    <!-- Global Metadata -->
+    <div>
+        <article>
+            <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
+            <table class="table metadata-content">
+  <tbody>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Tabelle zum Download </th>
+        <td>
+          
+            
+            
+            
+            
+            
+              <a href="https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html" target="_blank">
+                Hier finden Sie weitere Daten zu Flüchtlings- und Ausländerangelegenheiten <span class="visuallyhidden">in neuem Fenster öffnen</span>
+              </a>
+            
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+        </article>
+    </div>
+</div>
+<div role="tabpanel" class="tab-pane" id="sources">
+    <!-- Count the non-empty sources (up to 5) -->
+
+
+
+
+  <div class="row">
+  
+    
+    
+<!--    <div class="col-md-6"> -->
+      
+      <table class="table metadata-content">
+  <tbody>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      
+      
+      
+        
+          
+  
+  
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Datenquelle </th>
+        <td>
+          
+            <p>Niedersächisches Miniterium für Inneres und Sport, Statistische Daten zur Flüchtlingssituation</p>
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+        
+          
+      
+      
+      
+        
+          
+  
+      
+      
+      
+      
+      <tr>
+        <th scope="row">Link zur Datenquelle </th>
+        <td>
+          
+            
+            
+            
+            
+            
+              <a href="https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html" target="_blank">
+                Statistische Daten zur Flüchtlingssituation <span class="visuallyhidden">in neuem Fenster öffnen</span>
+              </a>
+            
+
+          
+        </td>
+        </tr>
+        
+      
+  
+      
+      
+      
+      
+      
+  
+  </tbody>
+</table>
+
     </div>
     
   </div>
+
+
+</div>
+    
+    
+        <div role="tabpanel" class="tab-pane" id="edit">
+            <div class="edit-container">
+  
+  
+
+  
+  
+
+
+  <a class="btn btn-primary" href="data">Daten bearbeiten</a>
+  
+
+  
+  <a class="btn btn-primary" href="metadata">Metadaten bearbeite</a>
+  
+
+  
+
 </div>
 
+        </div>
+    
+</div>
 
+</div>
+  </div>
+</div>
 
+  <a href="#top"></a>
+</div>
 
 <footer role="contentinfo">
     <div class="container">
