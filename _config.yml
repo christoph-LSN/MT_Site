@@ -5,7 +5,7 @@
 
 
 #remote_theme: open-sdg/open-sdg@2.3.0-dev
-remote_theme: open-sdg/open-sdg@2.3.0
+remote_theme: open-sdg/open-sdg@2.3.2
 
 # Replace this title as needed.
 title: general.site_title
