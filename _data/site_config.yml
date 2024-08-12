@@ -199,6 +199,11 @@ map_layers:
   staticBorders: false
   subfolder: NI_Hannover_Region
   label: indicator.map
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: World
+  label: World.map
 
 map_options:
   disaggregation_controls: true
