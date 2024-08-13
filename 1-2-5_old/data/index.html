@@ -117,12 +117,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>
-        
-        Indikator 1.2.5older -
-        
-        global_indicators.1-2-5older-title - Migration und Teilhabe in Niedersachsen
-    </title>
+    <title>Daten bearbeiten: 1.2.5_old - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -146,7 +141,7 @@ var translations = {
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
         <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.3/css/fixedColumns.dataTables.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20240812154552">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20240813071845">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -168,7 +163,7 @@ var translations = {
 
     </head>
 <body class="language-de
-layout-indicator
+layout-data-editor
 ">
 <!-- <div class="container"> -->
 
@@ -242,662 +237,135 @@ data-event-label="high"
 <div id="top" tabindex=-1></div>
 
 
-
-<script type="text/template" id="item_template">
-  <% _.each(fields, function(fieldItem) { %>
-    <div class="variable-selector
-      <% if(allowedFields.indexOf(fieldItem.field) == -1) { %> disallowed <% }%>
-      <% if (typeof childFields !== 'undefined' && childFields.indexOf(fieldItem.field) !== -1) { %> child <% }%>
-      "
-      data-field="<%=fieldItem.field%>"
-    >
-      <button class='accessBtn' tabindex='0' aria-expanded='false'
-        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
-        aria-describedby='variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>'
-        <% }%>
-      >
-        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %><h6><% } else { %><h5><% } %>
-          <span aria-hidden="true"><%=translations.t(fieldItem.label)%><i class="fa fa-chevron-down"></i></span>
-          <span class="sr-only"> <%=translations.t(fieldItem.label)%></span>
-        <% if(allowedFields.indexOf(fieldItem.field) == -1) { %></h6><% } else { %></h5><% } %>
-      </button>
-      <div class="variable-options">
-        <fieldset>
-          <legend class="sr-only">Kategorien - <%=translations.t(fieldItem.field)%></legend>
-          <div>
-            <button data-type="select">Alle auswählen</button>
-            <button data-type="clear">Auswahl aufheben</button>
-          </div>
-          <% _.each(fieldItem.values, function(item) { %>
-            <label>
-              <input type="checkbox" <%=item.checked ? 'checked' : ''%> value="<%=item.value%>" data-field="<%=fieldItem.field%>" /><%=translations.t(item.value)%>
-            </label>
-          <% }); %>
-        </fieldset>
-      </div>
-
-      <% if(allowedFields.indexOf(fieldItem.field) == -1) { %>
-        <div class="variable-hint" id="variable-hint-<%=fieldItem.field.replace(/ /g, '-')%>">Verfügbar
-        </div>
-        <div class="no-data-hint" id="no-data-hint-<%=fieldItem.field.replace(/ /g, '-')%>">
-          Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.
-        </div>
-      <% }%>
-
+<div id="main-content" class="container" role="main">
+  <div class="row no-gutters">
+    <div class="col-md-12"><h1>Daten bearbeiten: 1.2.5_old</h1></div>
+  </div>
+  <div class="row config-widgets">
+    <div class="col-md-6 data-grid-buttons">
+      <label for="add-column-name">Column name</label>
+      <input id="add-column-name" />
+      <button class="btn btn-primary btn-download" id="add-column">Add column</a>
     </div>
-  <% }); %>
-</script>
-
-<script type="text/template" id="units_template">
-  
-  <% if(units.length > 1) { %>
-  
-    <h4>Einheit</h4>
-    <fieldset>
-      <legend class="sr-only">Einheit</legend>
-      <% _.each(units, function(unitsItem, index) { %>
-        <% var checked = (selectedUnit) ? (selectedUnit==unitsItem) : (index==0); %>
-        <label><input type="radio" name="unit" value="<%=unitsItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(unitsItem)%></label>
-      <% }); %>
-    </fieldset>
-  
-  <% } %>
-  
-</script>
-
-<script type="text/template" id="series_template">
-  
-  <% if(serieses.length > 1) { %>
-  
-    <h4>Reihe</h4>
-    <fieldset>
-      <legend class="sr-only">Reihe</legend>
-      <% _.each(serieses, function(seriesItem, index) { %>
-        <% var isProxy = (proxySerieses.includes(seriesItem)) %>
-        <% var checked = (selectedSeries) ? (selectedSeries==seriesItem) : (index==0); %>
-        <label><input type="radio" name="series" value="<%=seriesItem%>" tabindex=0 <%=checked ? 'checked' : ''%> /> <%=translations.t(seriesItem)%> <%=isProxy ? proxyPill : ''%></label>
-      <% }); %>
-    </fieldset>
-  
-  <% } %>
-  
-</script>
-
-<script>translations['indicator'] = {"apply":"Ok","cancel":"Abbrechen","change_breakdowns":"Auwahl ändern","chart":"Grafik","clear_all":"Auswahl aufheben","clear_selections":"Auswahl aufheben","data_footnotes":"Fußnoten","data_not_available":"Diese Daten sind nicht verfügbar. Bitte wählen Sie alternative Daten aus, die angezeigt werden sollen.","dataset_size_warning":"Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden","download_chart":"Grafik im CSV-Format speichern","download_chart_image":"Grafik herunterladen","download_chart_image_title":"Grafik als Bild herunterladen","download_csv":"im CSV-Format speichern","download_csv_title":"im CSV-Format speichern","download_geojson":"im GeoJSON-Format speichern","download_geojson_title":"im GeoJSON-Format speichern","download_headline":"Speichern der Headline im CSV-Format","download_headline_title":"Speichern der Headline im CSV-Format","download_source":"Daten im CSV-Format speichern","download_source_title":"Daten im CSV-Format speichern","download_table":"Tabelle im CSV-Format speichern","edit":"Bearbeiten","edit_data":"Daten bearbeiten","edit_metadata":"Metadaten bearbeite","footnote":"Fußnote","geographical_area":"Geographische Abdeckung","global_metadata":"Tabellen zum Download","global_metadata_blurb":"Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.","legend_help":"Klicken Sie auf die Legende um Zeitreihen aus der Grafik zu entfernen.","loading":"Laden","loading_map":"Karte wird geladen","map":"Karte","national_metadata":"Indikator Beschreibung","national_metadata_blurb":null,"no_data_hint":"Aufgrund der bereits getroffenen Auswahl sind keine weiteren Auswahlmöglichkeiten verfügbar.","note":"Methodischer Hinweis","select_all":"Alle auswählen","series":"Reihe","series_help":"Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.","source":"Datenquelle","sources":"Datenquellen","sub_categories":"Kategorien","table":"Tabelle","unit":"Einheit","unit_of_measurement":"Einheit","units_type":"Einheit","variable_hint":"Verfügbar","view_indicator_list":"Zeigt die Indikatorenliste zum SDG-Ziel an."};</script>
-
-<script>translations['data'] = {"Year":"Jahr","year":"Jahr"};</script>
-
-
-<div class="container">
-  
-<nav>
-    <ol aria-label="breadcrumb" class="breadcrumb" style="--bs-breadcrumb-divider: '&rsaquo;';">
-        
-        <li class="breadcrumb-item">
-            <a href="/MT_Site/">Home</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a href="/MT_Site/goals">Themenbereiche</a>
-        </li>
-        
-        <li class="breadcrumb-item">
-            <a href="/MT_Site/1/"
-               title="Themenbereich 1 - Bevölkerung &amp; Demografie"
-               aria-label="Themenbereich  - ">
-               Themenbereich 1
-            </a>
-        </li>
-        
-    </ol>
-</nav>
-
-
-  
-    
-<div class="previous-next-links d-flex justify-content-between">
-    <div class="text-left">
-        <a class="btn btn-primary" href="/MT_Site/1-2-8/" aria-labelledby="previous-link">
-            <i class="fa fa-chevron-left" aria-hidden="true"></i>
-            <span id="previous-link" class="d-none d-md-inline"></span>
-        </a>
+    <div class="col-md-6 data-download-buttons">
+      <button class="config-download-button btn btn-primary btn-download" id="export">Download data</button>
+      
+      
+      
+      
+      <a class="config-repository-button btn btn-primary btn-download" target="_blank" href="https://github.com/christoph-LSN/IM_Data/tree/develop/data">
+        Go to repository
+      </a>
+      
     </div>
-    <div class="text-right">
-        <a class="btn btn-primary" href="/MT_Site/1-3-1/" aria-labelledby="next-link">
-            <span id="next-link" class="d-none d-md-inline"></span>
-            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-        </a>
+  </div>
+  <div class="row no-gutters">
+    <div class="editor-wrapper col-md-12">
+      <div id="editor-holder" style="height: 900px; width: 100%;" class="ag-theme-alpine"></div>
     </div>
-</div>
-
-
-  
-</div>
-<div class="heading goal-banner indicator goal-1">
-    <div class="container">
-        <div class="row">
-            
-            <div class="col-4 col-md-3 col-lg-2 goal-icon goal-tiles">
-                <a href="/MT_Site/1/" aria-label=" 1" title=" 1">
-                    <img src="https://christoph-lsn.github.io/IM-translations/assets/img/goals//de/1.png"
-                        alt="Bevölkerung &amp; Demografie - Themenbereich 1"
-                        id="goal-1"
-                        class="goal-icon-image goal-icon-image-" />
-                </a>
-            </div>
-            <div class="col-8 col-md-9 col-lg-10 indicator-details">
-            
-                <div>
-                    <h1>
-                        
-                        Indikator 1.2.5older
-                        
-                        <span class="lead-copy">global_indicators.1-2-5older-title</span>
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="main-content" class="container goal-1" role="main">
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-
-
-<div class="row"
-  id="indicatorData"
-  data-indicatorid='indicator_1-2-5older'
-  data-id="1-2-5older"
-  data-country="Australia"
-  data-charttitle="global_indicators.1-2-5older-title"
-  data-charttitles="null"
-  data-measurementunit=""
-  data-xaxislabel=""
-  data-showdata="true"
-  data-graphtype="line"
-  data-graphtypes="null"
-  data-geocoderegex=""
-  data-showmap=""
-  data-startvalues="null"
-  data-graphlimits="null"
-  data-stackeddisaggregation=""
-  data-graphannotations="null"
-  data-graphtargetlines="null"
-  data-graphseriesbreaks="null"
-  data-indicatordownloads="null"
-  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Gebiet&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Albanien&quot;,&quot;Belgien&quot;,&quot;Bosnien-Herzegowina&quot;,&quot;Bulgarien&quot;,&quot;Dänemark&quot;,&quot;Estland&quot;,&quot;Finnland&quot;,&quot;Frankreich&quot;,&quot;Griechenland&quot;,&quot;Irland&quot;,&quot;Island&quot;,&quot;Italien&quot;,&quot;Serbien u.Montenegro, Ehem.Jugoslawien&quot;,&quot;Serbien (2006,2007)&quot;,&quot;Serbien &quot;,&quot;Montenegro&quot;,&quot;Kroatien&quot;,&quot;Kosovo&quot;,&quot;Lettland&quot;,&quot;Litauen&quot;,&quot;Luxemburg&quot;,&quot;Malta&quot;,&quot;Mazedonien&quot;,&quot;Moldau, Republik&quot;,&quot;Monaco&quot;,&quot;Niederlande&quot;,&quot;Norwegen&quot;,&quot;Österreich&quot;,&quot;Polen&quot;,&quot;Portugal&quot;,&quot;Rumänien&quot;,&quot;Russische Föderation&quot;,&quot;Schweden&quot;,&quot;Schweiz&quot;,&quot;Slowakei&quot;,&quot;Slowenien&quot;,&quot;Sowjetunion&quot;,&quot;Spanien&quot;,&quot;Tschechoslowakei&quot;,&quot;Tschechische Republik&quot;,&quot;Türkei&quot;,&quot;Ukraine&quot;,&quot;Ungarn&quot;,&quot;Vereinigtes Königreich und Nordirland&quot;,&quot;Weißrußland (Belarus)&quot;,&quot;Zypern&quot;,&quot;übrige Europäische Staaten&quot;,&quot;Europa insgesamt&quot;,&quot;Algerien&quot;,&quot;Angola&quot;,&quot;Ägypten&quot;,&quot;Äthiopien&quot;,&quot;Benin&quot;,&quot;Burkina-Faso&quot;,&quot;Cote D´Ivoire&quot;,&quot;Eritrea&quot;,&quot;Gambia&quot;,&quot;Ghana&quot;,&quot;Kamerun&quot;,&quot;Kenia&quot;,&quot;Liberia&quot;,&quot;Marokko&quot;,&quot;Nigeria&quot;,&quot;Senegal&quot;,&quot;Sierra Leone&quot;,&quot;Somalia&quot;,&quot;Südafrika&quot;,&quot;Sudan (einschl. Südsudan)&quot;,&quot;Sudan&quot;,&quot;Südsudan&quot;,&quot;Togo&quot;,&quot;Tunesien&quot;,&quot;Kongo, Demokratische Volksrepublik&quot;,&quot;übrige afrikanische Staaten&quot;,&quot;Afrika insgesamt&quot;,&quot;Argentinien&quot;,&quot;Bolivien&quot;,&quot;Brasilien&quot;,&quot;Chile&quot;,&quot;Dominikanische Republik&quot;,&quot;Kanada&quot;,&quot;Kolumbien&quot;,&quot;Kuba&quot;,&quot;Mexiko&quot;,&quot;Peru&quot;,&quot;Venezuela&quot;,&quot;Vereinigte Staaten&quot;,&quot;übrige amerikanische Staaten&quot;,&quot;Amerika insgesamt&quot;,&quot;Afghanistan&quot;,&quot;Armenien&quot;,&quot;Aserbaidschan&quot;,&quot;Bangladesch&quot;,&quot;China&quot;,&quot;Georgien&quot;,&quot;Indien&quot;,&quot;Indonesien&quot;,&quot;Israel&quot;,&quot;Irak&quot;,&quot;Iran, Islam. Republik&quot;,&quot;Japan&quot;,&quot;Jordanien&quot;,&quot;Kasachstan&quot;,&quot;Korea, Republik&quot;,&quot;Libanon&quot;,&quot;Malaysia&quot;,&quot;Nepal&quot;,&quot;Pakistan&quot;,&quot;Die Palästinensischen Gebiete&quot;,&quot;Philippinen&quot;,&quot;Sri Lanka&quot;,&quot;Syrien, Arabische Republik&quot;,&quot;Taiwan&quot;,&quot;Thailand&quot;,&quot;Vietnam&quot;,&quot;übrige asiatische Staaten&quot;,&quot;Asien insgesamt&quot;,&quot;Australien und Ozieanien&quot;,&quot;staatenlos&quot;,&quot;ungeklärt &quot;,&quot;Britische Überseegebiete&quot;,&quot;Ausländerinnen und Ausläänder insgesamt&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Gebiet&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;GeoCode&quot;,&quot;type&quot;:&quot;string&quot;,&quot;title&quot;:&quot;GeoCode&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
-  data-compositebreakdownlabel=""
-  data-precision="null"
-  data-proxy=""
-  data-proxyseries="null"
->
-  
-  <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
-  <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
-    <div id="serieses"></div>
-<div id="units"></div>
-<div id="toolbar">
-  <span id="series-help">
-    <h4>Kategorien</h4>
-    <p>Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.</p>
-  </span>
-  <div id="fields">
-    <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
-  </div>
-</div>
-
-  </div>
-  <div id="indicator-main" class="indicator-main col-md-9">
-    
-
-
-
-
-<div id="headlineTable">
-
-  <div id="datatables">
-
-    
-    <a href="https://christoph-lsn.github.io/IM_Data/de/data/1-2-5older.csv" class="btn btn-primary btn-download" download='indicator_1-2-5older.csv' tabindex='0' role='button'>Daten im CSV-Format speichern</a>
-
-    <p class="no-js-disaggregation-hint"></p>
-
-    
-    <h3></h3>
-    
   </div>
 
-  
+  <script src="https://unpkg.com/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="https://unpkg.com/ag-grid-community@28.2.1/dist/ag-grid-community.min.noStyle.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community@28.2.1/dist/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community@28.2.1/dist/styles/ag-theme-alpine.css">
 
+  <script>
+  var httpRequest;
+  var gridOptions;
+  function makeRequest() {
+    httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+      alert('Giving up :( Cannot create an XMLHTTP instance');
+      return false;
+    }
+    httpRequest.onreadystatechange = displaySpreadsheet;
+    httpRequest.open('GET', 'https://christoph-lsn.github.io/IM_Data/untranslated/data/1-2-5_old.csv');
+    httpRequest.send();
+  }
+
+  function displaySpreadsheet() {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        var csvString = httpRequest.responseText;
+        var csvData = Papa.parse(csvString, {header: true});
+        var columnDefs = [],
+            rowData = [];
+        if (csvData.data.length > 0) {
+          rowData = csvData.data;
+          columnDefs = Object.keys(rowData[0]).map(function(key) {
+            var columnDef = { field: key, headerName: key };
+            if (key === 'Value') {
+              columnDef['type'] = 'rightAligned';
+            }
+            return columnDef;
+          });
+        }
+        var container = document.getElementById('editor-holder');
+        gridOptions = {
+          defaultColDef: {
+            editable: true,
+            resizable: true,
+            minWidth: 100,
+            flex: 1,
+          },
+          columnDefs: columnDefs,
+          rowData: rowData,
+          undoRedoCellEditing: true,
+          undoRedoCellEditingLimit: 5,
+          enableCellChangeFlash: true,
+          enterMovesDownAfterEdit: true,
+          suppressDragLeaveHidesColumns: true,
+          applyColumnDefOrder: true,
+          onCellValueChanged: function(info) {
+            if (info.rowIndex + 1 === this.api.getDisplayedRowCount()) {
+              this.api.applyTransaction({
+                add: [{}],
+              });
+            }
+          }
+        };
+
+        new agGrid.Grid(container, gridOptions);
+      } else {
+        alert('There was a problem when loading the data. Please edit the data in some other way (such as in Github).');
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    makeRequest();
+  });
+
+  document.getElementById('export').onclick = function() {
+    gridOptions.api.stopEditing();
+    gridOptions.api.exportDataAsCsv({
+      fileName: 'indicator_1-2-5_old',
+    });
+  }
+
+  document.getElementById('add-column').onclick = function() {
+    var columnName = document.getElementById('add-column-name').value;
+    if (columnName && columnName !== '') {
+      var columnDefs = gridOptions.columnDefs;
+      var newColumn = { field: columnName, headerName: columnName };
+      if (columnDefs.length > 1) {
+        // Put it second-to-last if possible.
+        columnDefs.splice(columnDefs.length - 1, 0, newColumn);
+      }
+      else {
+        // Otherwise just last.
+        columnDefs.push(newColumn);
+      }
+      gridOptions.api.setColumnDefs(columnDefs);
+    }
+    else {
+      alert('Please enter a column name first and then try again.');
+    }
+  }
+  </script>
 </div>
-
-
-<section>
-
-  <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
-
-  <div class="async-loaded mt-4" style="display:none;">
-
-    <div style="display: none;">
-    <span id="table-alternative"></span>
-  </div>
-  <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
-    
-    <li role="presentation"
-      class="
-        nav-item
-        
-        
-      ">
-      <button
-        class="nav-link active"
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-chartview"
-          data-bs-target="#chartview"
-          aria-controls="chartview"
-          aria-describedby="table-alternative"
-          data-on="click"
-data-event-category="Tab change"
-data-event-action="Change data view"
-data-event-label="Change to Chart tab"
-
-        
-      >Grafik</button>
-    </li>
-    
-    <li role="presentation"
-      class="
-        nav-item
-        
-        
-      ">
-      <button
-        class="nav-link "
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-tableview"
-          data-bs-target="#tableview"
-          aria-controls="tableview"
-          data-on="click"
-data-event-category="Tab change"
-data-event-action="Change data view"
-data-event-label="Change to Table tab"
-
-        
-      >Tabelle</button>
-    </li>
-    
-  </ul>
-  
-    <div class="tab-content data-view">
-    
-      
-        <div role="tabpanel" class="tab-pane active" id="chartview">
-          
-
-    <div id="dataset-size-warning" style="display:none" role="alert">
-      <i class="fa fa-bolt"><span class="sr-only"></span></i>
-      Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden
-    </div>
-
-    
-    <div id="selectionsChart">
-      <figure role="group">
-        <div id="chart-canvas">
-          <h4 id="chart-heading" class="chart-title">
-            global_indicators.1-2-5older-title
-          </h4>
-          <div id="chart" class="plot-container">
-            <canvas
-    role="img"
-    aria-labelledby="chart-heading"
-    aria-describedby="table-alternative chart-annotations"
-    tabindex="0"
- ></canvas>
-
-          </div>
-          <div id="plotLegend"></div>
-          
-
-
-
-<div id="selectionChartFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        >Fußnote:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        ></dd>
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        >Daten zuletzt aktualisiert am:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        ></dd>
-        
-        
-    </dl>
-    
-    <dl class="observation-attribute-list"></dl>
-    
-  
-  </div>
-
-        </div>
-      </figure>
-      <div id="chartSelectionDownload" class="clearfix">
-        <button
-          id="btnSave"
-          title="Grafik als Bild herunterladen"
-          aria-label="Grafik als Bild herunterladen"
-          class='btn btn-primary btn-download'>
-          Grafik herunterladen
-        </button><!--
-   --></div>
-    </div>
-
-
-
-        </div>
-      
-    
-      
-        <div role="tabpanel" class="tab-pane " id="tableview">
-          <div style="display: none;">
-            <span id="column-sort-info"></span>
-          </div>
-          <div id="selectionsTable"></div>
-<dl id="tableTargetLines" class="clearfix"></dl>
-
-
-
-
-<div id="selectionTableFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        >Fußnote:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        ></dd>
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        >Daten zuletzt aktualisiert am:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        ></dd>
-        
-        
-    </dl>
-    
-    <dl class="observation-attribute-list"></dl>
-    
-  
-  </div>
-
-<div id="tableSelectionDownload" class="clearfix"></div>
-
-        </div>
-      
-    
-  </div>
-  
-
-  </div>
-
-</section>
-
-  
-  <div class="mt-4">
-<ul class="nav nav-tabs" role="tablist">
-    
-        <li role="presentation" class="nav-item">
-    <button type="button" class="nav-link active" data-bs-toggle="tab" id="tab-national" data-bs-target="#national" aria-controls="national" role="tab" data-on="click"
-data-event-category="Tab change"
-data-event-action="Change metadata view"
-data-event-label="Change to National Metadata tab"
->Indikator Beschreibung</button>
-</li>
-
-<li role="presentation" class="nav-item">
-    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-global" data-bs-target="#global" aria-controls="global" role="tab" data-on="click"
-data-event-category="Tab change"
-data-event-action="Change metadata view"
-data-event-label="Change to Global Metadata tab"
->Tabellen zum Download</button>
-</li>
-
-<li role="presentation" class="nav-item">
-    <button type="button" class="nav-link" data-bs-toggle="tab" id="tab-sources" data-bs-target="#sources" aria-controls="sources" role="tab" data-on="click"
-data-event-category="Tab change"
-data-event-action="Change metadata view"
-data-event-label="Change to Sources tab"
->Datenquellen</button>
-</li>
-  
-    
-    
-        <li role="presentation" class="nav-item">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" aria-controls="edit" role="tab">Bearbeiten</a>
-        </li>
-    
-</ul>
-
-<div class="tab-content">
-    
-        <div role="tabpanel" class="tab-pane active" id="national">
-    <!-- National Metadata -->
-    <div>
-        <article>
-            <p>
-                
-                
-                
-            </p>
-            <table class="table metadata-content">
-  <tbody>
-  
-  
-  
-  
-  
-      
-      
-      
-        
-          
-      
-      
-      
-        
-          
-      
-      
-      
-        
-          
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  </tbody>
-</table>
-
-        </article>
-    </div>
-</div>
-<div role="tabpanel" class="tab-pane" id="global">
-    <!-- Global Metadata -->
-    <div>
-        <article>
-            <p>Hier finden Sie die dargestellten Daten und weitere Tabellen als Excel Datei.</p>
-            <table class="table metadata-content">
-  <tbody>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      
-      
-      
-        
-          
-      
-      
-      
-        
-          
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  </tbody>
-</table>
-
-        </article>
-    </div>
-</div>
-<div role="tabpanel" class="tab-pane" id="sources">
-    <!-- Count the non-empty sources (up to 5) -->
-
-
-
-
-
-</div>
-    
-    
-        <div role="tabpanel" class="tab-pane" id="edit">
-            <div class="edit-container">
-  
-  
-
-  
-  
-
-
-  <a class="btn btn-primary" href="data">Daten bearbeiten</a>
-  
-
-  
-  <a class="btn btn-primary" href="metadata">Metadaten bearbeite</a>
-  
-
-  
-
-</div>
-
-        </div>
-    
-</div>
-
-</div>
-  </div>
-</div>
-
-  <a href="#top"></a>
-</div>
-
 <footer role="contentinfo">
     <div class="container">
         <div class="row">
@@ -1107,7 +575,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20240812154552'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20240813071845'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1273,7 +741,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20240812154552"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20240813071845"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
