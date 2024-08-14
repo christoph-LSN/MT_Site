@@ -207,7 +207,7 @@ map_layers:
 
 map_options:
   disaggregation_controls: true
-  minZoom: 0
+  minZoom: 2
   maxZoom: 10
 #  limits: chroma.limits(data, 'e', 5)
   tileURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
