@@ -199,10 +199,15 @@ map_layers:
   staticBorders: false
   subfolder: NI_Hannover_Region
   label: indicator.map
+- min_zoom: 0
+  max_zoom: 20
+  staticBorders: false
+  subfolder: World
+  label: World.map
 
 map_options:
   disaggregation_controls: true
-  minZoom: 5
+  minZoom: 2
   maxZoom: 10
 #  limits: chroma.limits(data, 'e', 5)
   tileURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
