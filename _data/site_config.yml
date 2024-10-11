@@ -5,7 +5,7 @@ decimal_separator: ','
 ##Qualitätskennzeichen
 observation_attributes:
   - field: COMMENT_OBS
-    label: ''
+    label: 'Hinweis'
 
 accessible_charts: true
 accessible_tabs: true
