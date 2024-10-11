@@ -128,7 +128,7 @@ opensdg.autotrack = function(preset, category, action, label) {
     this.proxy = options.proxy;
     this.proxySerieses = options.proxySerieses;
     this.startValues = options.startValues;
-    this.configObsAttributes = [{"field":"COMMENT_OBS","label":"Hinweis"}];
+    this.configObsAttributes = [{"field":"COMMENT_OBS","label":""}];
     this.allObservationAttributes = options.allObservationAttributes;
 
     // Require at least one geoLayer.
@@ -1367,7 +1367,7 @@ function nonFieldColumns() {
       columns.push(tsAttribute.field);
     });
   }
-  var observationAttributes = [{"field":"COMMENT_OBS","label":"Hinweis"}];
+  var observationAttributes = [{"field":"COMMENT_OBS","label":""}];
   if (observationAttributes && observationAttributes.length > 0) {
     observationAttributes.forEach(function(oAttribute) {
       columns.push(oAttribute.field);
@@ -2556,7 +2556,7 @@ function prepareDataForDataset(years, rows, allObservationAttributes) {
     data: [],
     observationAttributes: [],
   };
-  var configObsAttributes = [{"field":"COMMENT_OBS","label":"Hinweis"}];
+  var configObsAttributes = [{"field":"COMMENT_OBS","label":""}];
   if (configObsAttributes && configObsAttributes.length > 0) {
     configObsAttributes = configObsAttributes.map(function(obsAtt) {
       return obsAtt.field;
@@ -2785,7 +2785,7 @@ function inputEdges(edges) {
       return true;
     });
   }
-  var configuredObservationAttributes = [{"field":"COMMENT_OBS","label":"Hinweis"}];
+  var configuredObservationAttributes = [{"field":"COMMENT_OBS","label":""}];
   if (configuredObservationAttributes && configuredObservationAttributes.length > 0) {
     configuredObservationAttributesFlat = configuredObservationAttributes.map(function(att) { return att.field; });
     edgesData = edgesData.filter(function(edge) {
@@ -2829,7 +2829,7 @@ function getAllObservationAttributes(rows) {
   }
   var obsAttributeHash = {},
       footnoteNumber = 0,
-      configObsAttributes = [{"field":"COMMENT_OBS","label":"Hinweis"}];
+      configObsAttributes = [{"field":"COMMENT_OBS","label":""}];
   if (configObsAttributes && configObsAttributes.length > 0) {
     configObsAttributes = configObsAttributes.map(function(obsAtt) {
       return obsAtt.field;
@@ -3439,7 +3439,7 @@ function updateObservationAttributes(obsAttributes) {
  * Gets the text of an observation attribute for display to the end user.
  */
 function getObservationAttributeText(obsAttribute) {
-    var configuredObsAttributes = [{"field":"COMMENT_OBS","label":"Hinweis"}];
+    var configuredObsAttributes = [{"field":"COMMENT_OBS","label":""}];
     var attributeConfig = _.find(configuredObsAttributes, function(configuredObsAttribute) {
         return configuredObsAttribute.field === obsAttribute.field;
     });
