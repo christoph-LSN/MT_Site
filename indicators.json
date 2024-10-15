@@ -254,6 +254,14 @@
           "status": "complete"
         },
         {
+          "id": "2-2-5",
+          "title": "global_indicators.2-2-5-title",
+          "description": "Der Indikator zeigt ...",
+          "keywords": "",
+          "href": "/MT_Site/2-2-5/",
+          "status": "complete"
+        },
+        {
           "id": "2-3-1",
           "title": "Einbürgerungen nach Niedersachsen (Anzahl)",
           "description": "Der Indikator gibt die Zahl aller im jeweiligen Berichtsjahr eingebürgerten Personen wieder. Als Einbürgerung wird der Erwerb der deutschen Staatsangehörigkeit durch einen ausländischen Staatsangehörigen auf Grundlage eines Antrages bezeichnet.",
@@ -528,7 +536,7 @@
         {
           "id": "6-3-2",
           "title": "Haushalte nach Haushaltsgröße, Migrationsstatus und Haushaltsnettoeinkommen",
-          "description": "Der Indikator zeigt das Haushaltnettoeinkommen nach Migrationshintergrund und Haushaltsgröße. Das Haushalts­netto­einkommen ergibt sich rechnerisch, indem vom Haushalts­brutto­einkommen (alle Einnahmen des Haushalts aus Erwerbs­tätigkeit, aus Vermögen, aus öffentlichen und nicht öffentlichen Transfer­zahlungen sowie aus Unter­vermietung) Ein­kommen-/Lohn­steuer, Kirchen­steuer und Soli­daritäts­zuschlag sowie die Pflicht­beiträge zur Sozial­versicherung abge­zogen werden. Zu den Pflichtbeiträgen zur Sozial­versicherung zählen die Beiträge zur Arbeits­losen­versicherung, zur gesetzlichen Renten­versicherung, zur gesetz­lichen und die Beiträge zur frei­willigen und privaten Kranken­versicherung sowie zur sozialen und privaten Pflege­versicherung.",
+          "description": "Der Indikator zeigt das Haushaltsnettoeinkommen nach Migrationshintergrund und Haushaltsgröße. Das Haushalts­netto­einkommen ergibt sich rechnerisch, indem vom Haushalts­brutto­einkommen (alle Einnahmen des Haushalts aus Erwerbs­tätigkeit, aus Vermögen, aus öffentlichen und nicht öffentlichen Transfer­zahlungen sowie aus Unter­vermietung) Ein­kommen-/Lohn­steuer, Kirchen­steuer und Soli­daritäts­zuschlag sowie die Pflicht­beiträge zur Sozial­versicherung abge­zogen werden. Zu den Pflichtbeiträgen zur Sozial­versicherung zählen die Beiträge zur Arbeits­losen­versicherung, zur gesetzlichen Renten­versicherung und die Beiträge zur frei­willigen und privaten Kranken­versicherung sowie zur sozialen und privaten Pflege­versicherung.",
           "keywords": "",
           "href": "/MT_Site/6-3-2/",
           "status": "complete"
