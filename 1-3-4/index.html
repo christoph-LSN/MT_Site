@@ -145,7 +145,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20241104094705">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20241104172224">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -422,7 +422,7 @@ data-event-label="high"
   data-charttitles="null"
   data-measurementunit=""
   data-xaxislabel=""
-  data-showdata="false"
+  data-showdata="true"
   data-graphtype="bar"
   data-graphtypes="null"
   data-geocoderegex=""
@@ -434,14 +434,280 @@ data-event-label="high"
   data-graphtargetlines="null"
   data-graphseriesbreaks="null"
   data-indicatordownloads="null"
-  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;string&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Herkunftsland&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;&quot;]},&quot;title&quot;:&quot;Herkunftsland&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;COMMENT_OBS&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;&quot;]},&quot;title&quot;:&quot;COMMENT_OBS&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;string&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
+  data-dataschema="{&quot;fields&quot;:[{&quot;name&quot;:&quot;Year&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;title&quot;:&quot;Jahr&quot;},{&quot;name&quot;:&quot;Herkunftsland&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Europa&quot;,&quot;Bulgarien&quot;,&quot;Italien&quot;,&quot;Kroatien&quot;,&quot;Polen&quot;,&quot;Rumänien&quot;,&quot;Spanien&quot;,&quot;Sonstiges Europa&quot;,&quot;Kosovo&quot;,&quot;Russische Förderation&quot;,&quot;Serbien&quot;,&quot;Türkei&quot;,&quot;Ukraine&quot;,&quot;EU-27&quot;,&quot;Afrika&quot;,&quot;Marokko&quot;,&quot;Amerika&quot;,&quot;Asien, Australien und Ozeanien&quot;,&quot;Afghanistan&quot;,&quot;Irak&quot;,&quot;Kasachstan&quot;,&quot;Syrien&quot;,&quot;Vietnam&quot;,&quot;Ohne Angaben, unbestimmt&quot;,&quot;Gebiet des ehemaligen Jugoslawien (nachrichtlich)&quot;,&quot;Gebiet der ehemaligen Sowjetunion (nachrichtlich)&quot;,&quot;Insgesamt  &quot;,&quot;Europa &quot;,&quot;talien &quot;,&quot;Polen &quot;,&quot;Rumänien &quot;,&quot;Sonstiges Europa &quot;,&quot;Russische Föderation &quot;,&quot;Türkei &quot;,&quot;EU-27  &quot;,&quot;Afrika &quot;,&quot;Amerika &quot;,&quot;Ohne Angabe, unbestimmt &quot;,&quot;Gebiet des ehemaligen Jugoslawien  (nachrichtlich)&quot;,&quot;Gebiet der ehemaligen Sowjetunion  (nachrichtlich)&quot;,&quot;Insgesamt&quot;,&quot;Bulgarien &quot;,&quot;Frankreich &quot;,&quot;Griechenland &quot;,&quot;Italien &quot;,&quot;Kroatien &quot;,&quot;Niederlande &quot;,&quot;Österreich &quot;,&quot;Portugal &quot;,&quot;Spanien &quot;,&quot;Vereinigtes Königreich &quot;,&quot;Bosnien und Herzegowina &quot;,&quot;Kosovo &quot;,&quot;Serbien &quot;,&quot;Ukraine &quot;,&quot;EU-Staaten&quot;,&quot;Marokko &quot;,&quot;Ägypten, Algerien, Libyen, Tunesien &quot;,&quot;Asien, Australien und Ozeanien &quot;,&quot;Irak &quot;,&quot;Iran &quot;,&quot;Kasachstan &quot;,&quot;Syrien &quot;,&quot;Afghanistan &quot;,&quot;Vietnam &quot;,&quot;Ohne Angabe&quot;,&quot;Griechenland&quot;,&quot;Niederlande&quot;,&quot;Vereinigtes Königreich&quot;,&quot;Russische Föderation&quot;,&quot;Ägypten, Algerien, Libyen, Tunesien&quot;,&quot;Iran&quot;,&quot;Sowjetunion&quot;,&quot;Österreich&quot;,&quot;Libanon&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Herkunftsland&quot;},{&quot;name&quot;:&quot;Geschlecht&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Insgesamt&quot;,&quot;männlich&quot;,&quot;weiblich&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Geschlecht&quot;},{&quot;name&quot;:&quot;Units&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;in 1000&quot;,&quot;&quot;]},&quot;title&quot;:&quot;Units&quot;},{&quot;name&quot;:&quot;COMMENT_OBS&quot;,&quot;type&quot;:&quot;string&quot;,&quot;constraints&quot;:{&quot;enum&quot;:[&quot;Aussagewert eingeschränkt, da der Zahlenwert statistisch relativ unsicher ist.&quot;,&quot;Nicht veröffentlicht, weil nicht ausreichend genau oder nicht repräsentativ.&quot;,&quot;&quot;]},&quot;title&quot;:&quot;COMMENT_OBS&quot;},{&quot;name&quot;:&quot;Value&quot;,&quot;type&quot;:&quot;number&quot;,&quot;title&quot;:&quot;Value&quot;}]}"
   data-compositebreakdownlabel=""
   data-precision="[{&quot;decimals&quot;:1}]"
   data-proxy=""
   data-proxyseries="null"
 >
   
-  <div id="indicator-main" class="indicator-main col-md-12">
+  <span role="status" class="visually-hidden" id="indicator-data-view-status"></span>
+  <span role="status" class="visually-hidden" id="indicator-data-unit-status"></span>
+  <span role="status" class="visually-hidden" id="indicator-data-series-status"></span>
+  <div id="indicator-sidebar" class="indicator-sidebar col-md-3">
+    <div id="serieses"></div>
+<div id="units"></div>
+<div id="toolbar">
+  <span id="series-help">
+    <h4>Kategorien</h4>
+    <p>Wählen Sie eine oder mehrere Kategorien aus, um die Tabelle/Grafik anzupassen.</p>
+  </span>
+  <div id="fields">
+    <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
+  </div>
+</div>
+
+  </div>
+  <div id="indicator-main" class="indicator-main col-md-9">
+    
+
+
+
+
+<div id="headlineTable">
+
+  <div id="datatables">
+
+    
+    <a role="button" href="https://christoph-lsn.github.io/IM_Data/de/data/1-3-4.csv" class="btn btn-primary btn-download" download='indicator_1-3-4.csv' tabindex='0' role='button'>Daten im CSV-Format speichern</a>
+
+    <p class="no-js-disaggregation-hint"></p>
+
+    
+    <h3></h3>
+    
+  </div>
+
+  
+
+</div>
+
+
+<section>
+
+  <p class="async-loading" data-img="/MT_Site/assets/img/loading-small.gif"></p>
+
+  <div class="async-loaded mt-4" style="display:none;">
+
+    <div style="display: none;">
+    <span id="table-alternative"></span>
+  </div>
+  <ul class="nav nav-tabs non-stacking-tabs data-view" role="tablist">
+    
+    <li role="presentation"
+      class="
+        nav-item
+        
+        
+      ">
+      <button
+        class="nav-link active"
+        data-bs-toggle="tab"
+        role="tab"
+        type="button"
+        
+          id="tab-chartview"
+          data-bs-target="#chartview"
+          aria-controls="chartview"
+          aria-describedby="table-alternative"
+          data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Chart tab"
+
+        
+      >Grafik</button>
+    </li>
+    
+    <li role="presentation"
+      class="
+        nav-item
+        
+        
+      ">
+      <button
+        class="nav-link "
+        data-bs-toggle="tab"
+        role="tab"
+        type="button"
+        
+          id="tab-tableview"
+          data-bs-target="#tableview"
+          aria-controls="tableview"
+          data-on="click"
+data-event-category="Tab change"
+data-event-action="Change data view"
+data-event-label="Change to Table tab"
+
+        
+      >Tabelle</button>
+    </li>
+    
+  </ul>
+  
+    <div class="tab-content data-view">
+    
+      
+        <div role="tabpanel" class="tab-pane active" id="chartview">
+          
+
+    <div id="dataset-size-warning" style="display:none" role="alert">
+      <i class="fa fa-bolt"><span class="sr-only"></span></i>
+      Zu viele Zeitreihen ausgewählt um diese in einer Grafik darzustellen. Es können nicht alle Zeitreihen dargestellt werden
+    </div>
+
+    
+    <div id="selectionsChart">
+      <figure role="group">
+        <div id="chart-canvas">
+          <h4 id="chart-heading" class="chart-title">
+            Menschen mit Migrationshintergrund nach Herkunftsland und Geschlecht (in 1000)
+          </h4>
+          <div id="chart" class="plot-container">
+            <canvas
+    role="img"
+    aria-labelledby="chart-heading"
+    aria-describedby="table-alternative chart-annotations"
+    tabindex="0"
+ ></canvas>
+
+          </div>
+          <div id="plotLegend"></div>
+          
+
+
+
+<div id="selectionChartFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        <dt>Fußnoten:</dt>
+        <dd><br>1) Hochrechnung anhand der Bevölkerungsfortschreibung auf Basis des Zensus 2011. Die Hochrechnung für die Jahre vor 2011 sowie für bislang veröffentlichte Ergebnisse des Mikrozensus 2011-2013 basiert auf den fortgeschriebenen Ergebnissen der Volkszählung 1987. In 2016 erfolgte die Umstellung auf eine neue Mikrozensus-Stichprobe. Ab 2017 wird nur noch die Bevölkerung in Privathaushalten (ohne Gemeinschaftsunterkünfte) ausgewiesen. Dadurch ergibt sich jeweils eine eingeschränkte Vergleichbarkeit mit den Vorjahren. <br>2) Aufgeführt sind die 20 häufigsten Herkunftsländer der Frauen und Männer mit Migrationshintergrund im ausgewählten Jahr in Niedersachsen. <br>3) Seit dem Jahr 2018 wird im Mikrozensus der Migrationshintergrund im weiteren Sinne jährlich berichtet. Die in der Tabelle ab dem Jahr 2018 abgebildeten Daten zum Migrationshintergrund entsprechen dem Migrationshintergrund im weiteren Sinne, bis 2017 wird der Migrationshintergrund im engeren Sinne abgebildet. Die Vergleichbarkeit ist dadurch eingeschränkt. <br>4) Die Ergebnisse des Mikrozensus 2020 sind unter anderem aufgrund methodischer Effekte im Rahmen einer Neugestaltung der Erhebung sowie insbesondere aufgrund der Folgen der Corona-Pandemie in Ihrer Datenqualität eingeschränkt. Auf die Verwendung dieser Ergebnisse wird daher verzichtet. Weitere Informationen zur methodischen Neugestaltung des Mikrozensus ab 2020 und zu den Auswirkungen der Neugestaltung und der Corona-Krise auf die Ergebnisse des Jahres 2020 finden Sie auf der  <a href="https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Methoden/mikrozensus-2020.html" target="_blank">Informationsseite des Statistischen Bundesamtes</a></dd>
+        
+        
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        >Fußnote:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        ></dd>
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        >Daten zuletzt aktualisiert am:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        ></dd>
+        
+        
+    </dl>
+    
+    <dl class="observation-attribute-list"></dl>
+    
+  
+  </div>
+
+        </div>
+      </figure>
+      <div id="chartSelectionDownload" class="clearfix">
+        <button
+          id="btnSave"
+          title="Grafik als Bild herunterladen"
+          aria-label="Grafik als Bild herunterladen"
+          class='btn btn-primary btn-download'>
+          Grafik herunterladen
+        </button><!--
+   --></div>
+    </div>
+
+
+
+        </div>
+      
+    
+      
+        <div role="tabpanel" class="tab-pane " id="tableview">
+          <div style="display: none;">
+            <span id="column-sort-info"></span>
+          </div>
+          <div id="selectionsTable"></div>
+<dl id="tableTargetLines" class="clearfix"></dl>
+
+
+
+
+<div id="selectionTableFooter" class="table-footer-text">
+  <h5 class="sr-only">Chart details</h5>
+    <dl>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        <dt>Fußnoten:</dt>
+        <dd><br>1) Hochrechnung anhand der Bevölkerungsfortschreibung auf Basis des Zensus 2011. Die Hochrechnung für die Jahre vor 2011 sowie für bislang veröffentlichte Ergebnisse des Mikrozensus 2011-2013 basiert auf den fortgeschriebenen Ergebnissen der Volkszählung 1987. In 2016 erfolgte die Umstellung auf eine neue Mikrozensus-Stichprobe. Ab 2017 wird nur noch die Bevölkerung in Privathaushalten (ohne Gemeinschaftsunterkünfte) ausgewiesen. Dadurch ergibt sich jeweils eine eingeschränkte Vergleichbarkeit mit den Vorjahren. <br>2) Aufgeführt sind die 20 häufigsten Herkunftsländer der Frauen und Männer mit Migrationshintergrund im ausgewählten Jahr in Niedersachsen. <br>3) Seit dem Jahr 2018 wird im Mikrozensus der Migrationshintergrund im weiteren Sinne jährlich berichtet. Die in der Tabelle ab dem Jahr 2018 abgebildeten Daten zum Migrationshintergrund entsprechen dem Migrationshintergrund im weiteren Sinne, bis 2017 wird der Migrationshintergrund im engeren Sinne abgebildet. Die Vergleichbarkeit ist dadurch eingeschränkt. <br>4) Die Ergebnisse des Mikrozensus 2020 sind unter anderem aufgrund methodischer Effekte im Rahmen einer Neugestaltung der Erhebung sowie insbesondere aufgrund der Folgen der Corona-Pandemie in Ihrer Datenqualität eingeschränkt. Auf die Verwendung dieser Ergebnisse wird daher verzichtet. Weitere Informationen zur methodischen Neugestaltung des Mikrozensus ab 2020 und zu den Auswirkungen der Neugestaltung und der Corona-Krise auf die Ergebnisse des Jahres 2020 finden Sie auf der  <a href="https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Methoden/mikrozensus-2020.html" target="_blank">Informationsseite des Statistischen Bundesamtes</a></dd>
+        
+        
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        >Fußnote:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="COMMENT_TS"
+        ></dd>
+        
+        <dt
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        >Daten zuletzt aktualisiert am:</dt>
+        <dd
+          class="data-controlled-footer-field"
+          data-ts-attribute="DATA_LAST_UPDATE"
+        ></dd>
+        
+        
+    </dl>
+    
+    <dl class="observation-attribute-list"></dl>
+    
+  
+  </div>
+
+<div id="tableSelectionDownload" class="clearfix"></div>
+
+        </div>
+      
+    
+  </div>
+  
+
+  </div>
+
+</section>
+
   
   <div class="mt-4">
 <ul class="nav nav-tabs" role="tablist">
@@ -1007,7 +1273,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20241104094705'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20241104172224'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1173,7 +1439,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20241104094705"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20241104172224"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
