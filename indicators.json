@@ -22,14 +22,6 @@
           "status": "complete"
         },
         {
-          "id": "1-1-3",
-          "title": "Bevölkerungsentwicklung in Niedersachsen (Veränderung in Prozent gegenüber dem Vorjahr)",
-          "description": "Zur Bevölkerung zählen alle Menschen, die in einem definierten Gebiet dauerhaft wohnen. Diese werden der Gemeinde zugerechnet, in der sie ihre alleinige Wohnung oder bei mehreren Wohnungen in verschiedenen Gemeinden ihren Erstwohnsitz haben („Bevölkerung am Ort der Hauptwohnung“). Zur Bevölkerung zählen auch die im Bundesgebiet gemeldeten Ausländerinnen und Ausländer (einschließlich Staatenlose). Nicht zur Bevölkerung gehören hingegen die Angehörigen der Stationierungsstreitkräfte sowie Angehörigen der ausländischen diplomatischen und konsularischen Vertretungen mit ihren Familienmitgliedern.",
-          "keywords": "",
-          "href": "/MT_Site/1-1-3/",
-          "status": "complete"
-        },
-        {
           "id": "1-2-1",
           "title": "Ausländerinnen und Ausländer in Niedersachsen",
           "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Dazu gehören auch Staatenlose und Personen mit ungeklärter Staatsangehörigkeit. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung. Der Ausländeranteil stellt den Anteil der Ausländerinnen und Ausländer (Quelle: Ausländerzentralregister) je 100 Einwohnerinnen und Einwohner (Quelle: Bevölkerungsfortschreibung) jeweils zum 31.12. eines Jahres dar. Prozesse der gesellschaftlichen Teilhabe gestalten sich insbesondere auch vor dem Hintergrund des Ausländeranteils an der Bevölkerung regional sehr unterschiedlich. Zum Anteil der Menschen mit Zuwanderungsgeschichte vgl. Indikator 1.3.1.",
@@ -443,14 +435,6 @@
           "description": "Sozialversicherungspflichtig Beschäftigte umfassen alle Arbeitnehmerinnen und Arbeitnehmer, die krankenversicherungspflichtig, rentenversicherungspflichtig oder beitragspflichtig nach dem SGB III sind oder für die Beitragsanteile zu den gesetzlichen Rentenversicherungen zu leisten sind. Dazu gehören unter anderem auch Auszubildende.",
           "keywords": "",
           "href": "/MT_Site/5-2-1/",
-          "status": "complete"
-        },
-        {
-          "id": "5-2-2",
-          "title": "Sozialversicherungspflichtig beschäftigte Ausländerinnen und Ausländer nach Art der Ausbildung",
-          "description": "Sozialversicherungspflichtig Beschäftigte umfassen alle Arbeitnehmerinnen und Arbeitnehmer, die krankenversicherungspflichtig, rentenversicherungspflichtig oder beitragspflichtig nach dem SGB III sind oder für die Beitragsanteile zu den gesetzlichen Rentenversicherungen zu leisten sind. Dazu gehören unter anderem auch Auszubildende. Die Beschäftigten werden nach Art ihrer beruflichen Qualifikation in drei Gruppen aufgegliedert: Als hohe Qualifikation gelten Fachhochschul- und Hochschulabschlüsse. Als mittlere Qualifikation gilt der Abschluss einer anerkannten Berufsausbildung sowie ein Meister-/Techniker- oder gleichwertiger Fachschulabschluss. Als niedrige Qualifikation gelten alle Fälle, in denen keine abgeschlossene Berufsausbildung vorliegt. Die statistischen Ergebnisse können differenziert nach Deutschen und Ausländerinnen und Ausländern ausgewiesen werden.",
-          "keywords": "",
-          "href": "/MT_Site/5-2-2/",
           "status": "complete"
         },
         {
