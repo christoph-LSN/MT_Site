@@ -6,7 +6,7 @@ layout: page
 ---
 
 
-Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen eine Vielzahl Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung & Qualifikation (4), Erwerbstätigkeit & Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie & Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
+Der vorliegende Bericht liefert eine Bestandsaufnahme zur Teilhabe von Migrantinnen und Migranten im Land Niedersachsen in Form eines datengestützten Monitorings. Auf Basis von Tabellen der amtlichen Statistik und der Bundesagentur für Arbeit schaffen die zahlreichen  Indikatoren einen Überblick zu den Themenbereichen Bevölkerung & Demografie (1), Rechtliche Integration (2), Kinderbetreuung (3), Bildung & Qualifikation (4), Erwerbstätigkeit & Arbeitsmarkt (5), Lebensunterhalt & Soziale Sicherung (6), Familie & Wohnen (7) sowie Politische & Gesellschaftliche Teilhabe (8).
 <br>
 <br>
 <b>Tabellen, Grafiken und beschreibende Texte</b>
