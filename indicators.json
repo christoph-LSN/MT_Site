@@ -59,7 +59,7 @@
           "description": "Zu den in Deutschland lebenden Ausländerinnen und Ausländern zählen alle Personen, die nicht die deutsche Staatsangehörigkeit besitzen und die sich nicht nur für einen kurzen Zeitraum in Deutschland aufhalten. Die Staatsangehörigkeit ist eine besondere Rechtsbeziehung, die eine Person einem bestimmten Staat zuordnet. In allen anderen Staaten ist diese Person Ausländerin bzw. Ausländer. Personen, die keine Staatsangehörigkeit besitzen, sind staatenlos. Deutsche, die zugleich eine fremde Staatsangehörigkeit besitzen, zählen nicht zur ausländischen Bevölkerung.",
           "keywords": "",
           "href": "/MT_Site/1-2-5/",
-          "status": "complete"
+          "status": "notstarted"
         },
         {
           "id": "1-2-6",
@@ -115,7 +115,7 @@
           "description": "Als eine der wichtigsten Basisinformationen zur gesellschaftlichen Teilhabe beschreibt dieser Indikator den Einfluss der Migration auf die Gesellschaft. Das Konzept der „Bevölkerung mit Migrationshintergrund“ umfasst nicht nur die eigentliche Migration nach Deutschland, sondern schließt auch die Nachkommen der Zugewanderten ein. Die Unterscheidung nach Deutschen und Nichtdeutschen (vgl. Indikator 1.2.1) wird damit erweitert: Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen:<br>  1. zugewanderte und nicht zugewanderte Ausländer;<br>  2. zugewanderte und nicht zugewanderte Eingebürgerte;<br>  3. (Spät-)Aussiedler;<br>  4. mit deutscher Staatsangehörigkeit geborene Nachkommen<br>  Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. Dargestellt wird die Zahl der Menschen mit Zuwanderungsgeschichte nach ausgewählten Herkunftsländern und Geschlecht.",
           "keywords": "",
           "href": "/MT_Site/1-3-4/",
-          "status": "complete"
+          "status": "notstarted"
         },
         {
           "id": "1-4-1",
@@ -515,7 +515,7 @@
           "description": "Der Indikator zeigt das Haushaltsnettoeinkommen nach Migrationshintergrund und Haushaltsgröße. Das Haushalts­netto­einkommen ergibt sich rechnerisch, indem vom Haushalts­brutto­einkommen (alle Einnahmen des Haushalts aus Erwerbs­tätigkeit, aus Vermögen, aus öffentlichen und nicht öffentlichen Transfer­zahlungen sowie aus Unter­vermietung) Ein­kommen-/Lohn­steuer, Kirchen­steuer und Soli­daritäts­zuschlag sowie die Pflicht­beiträge zur Sozial­versicherung abge­zogen werden. Zu den Pflichtbeiträgen zur Sozial­versicherung zählen die Beiträge zur Arbeits­losen­versicherung, zur gesetzlichen Renten­versicherung und die Beiträge zur frei­willigen und privaten Kranken­versicherung sowie zur sozialen und privaten Pflege­versicherung.",
           "keywords": "",
           "href": "/MT_Site/6-3-2/",
-          "status": "complete"
+          "status": "notstarted"
         }]
     }
   },
@@ -539,7 +539,7 @@
           "description": "Der Indikator stellt Kennzahlen zur Wohnsituation der Bevölkerung mit und ohne Zuwanderungsgeschichte dar. Die Wohnfläche wird als mittlere Wohnungsgröße je Person in Quadratmetern (m²) angegeben. Die mittlere Bruttokaltmiete pro Quadratmeter in Euro gibt Aufschluss über die Mietbelastung der jeweiligen Bevölkerungsgruppe. Die Menschen mit Zuwanderungsgeschichte werden zusätzlich unterschieden in Personen mit eigener Migrationserfahrung (Zugewanderte) und ohne eigene Migrationserfahrung (in Deutschland Geborene). Die Miete als monatliche Fixkosten und die zur Verfügung stehende Wohnfläche beschreiben grundlegende Bedingungen des täglichen Lebens.",
           "keywords": "",
           "href": "/MT_Site/7-2-1/",
-          "status": "complete"
+          "status": "notstarted"
         },
         {
           "id": "7-2-2",
