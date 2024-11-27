@@ -539,7 +539,7 @@
           "description": "Der Indikator stellt Kennzahlen zur Wohnsituation der Bevölkerung mit und ohne Zuwanderungsgeschichte dar. Die Wohnfläche wird als mittlere Wohnungsgröße je Person in Quadratmetern (m²) angegeben. Die mittlere Bruttokaltmiete pro Quadratmeter in Euro gibt Aufschluss über die Mietbelastung der jeweiligen Bevölkerungsgruppe. Die Menschen mit Zuwanderungsgeschichte werden zusätzlich unterschieden in Personen mit eigener Migrationserfahrung (Zugewanderte) und ohne eigene Migrationserfahrung (in Deutschland Geborene). Die Miete als monatliche Fixkosten und die zur Verfügung stehende Wohnfläche beschreiben grundlegende Bedingungen des täglichen Lebens.",
           "keywords": "",
           "href": "/MT_Site/7-2-1/",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "7-2-2",
