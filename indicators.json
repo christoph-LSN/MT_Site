@@ -83,7 +83,7 @@
           "description": "Die Anzahl der Lebendgeborenen liefert eine demographische Basisinformation über das Geburtenverhalten der Bevölkerung. Eine Lebendgeburt liegt vor, wenn bei einem Kind nach der Scheidung vom Mutterleib entweder das Herz geschlagen oder die Nabelschnur pulsiert oder die natürliche Lungenatmung eingesetzt hat. Der Indikator gibt an, wie viele Kinder mit deutscher und wie viele mit ausländischer Staatsangehörigkeit im jeweiligen Berichtsjahr geboren wurden.",
           "keywords": "",
           "href": "/MT_Site/1-2-8/",
-          "status": "notstarted"
+          "status": "complete"
         },
         {
           "id": "1-3-1",
