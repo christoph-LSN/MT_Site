@@ -18,7 +18,7 @@ Staatssekretärin Dr. Christine Arbogast
 
 <b>Verantwortlich</b>
 
-Oliver Grimm
+Lea Karrasch
 
 <b>Hosting:</b>
 
