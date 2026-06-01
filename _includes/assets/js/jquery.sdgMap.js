@@ -724,63 +724,104 @@
           }
 
           // ========== MAP IMAGE DOWNLOAD ==========
+          // Entferne alte Click-Handler um Duplizierung zu vermeiden
+          $(document).off('click', '#btnSaveMap');
+          
+          // Registriere neuen Click-Handler für den "Download Map Image" Button
           $(document).on('click', '#btnSaveMap', function (e) {
             e.preventDefault();
+            e.stopPropagation();
             
+            console.log('Button clicked!');
+            
+            // 1. Finde das Map-Element im DOM
             var mapElement = document.getElementById('map');
             if (!mapElement) {
               console.error('Map element not found');
               return;
             }
 
-            // Prüfe ob Libraries vorhanden sind
+            // 2. Prüfe ob die erforderlichen Bibliotheken geladen sind
+            // html2canvas: Konvertiert HTML zu Canvas (Pixelgrafik)
             if (typeof html2canvas === 'undefined') {
-              alert('html2canvas is not loaded');
+              console.error('html2canvas is not loaded');
+              alert('html2canvas ist nicht geladen. Bitte Seite neu laden.');
               return;
             }
+            // saveAs: Speichert Dateien auf dem Computer
             if (typeof saveAs === 'undefined') {
-              alert('saveAs is not loaded');
+              console.error('saveAs is not loaded');
+              alert('FileSaver (saveAs) ist nicht geladen. Bitte Seite neu laden.');
               return;
             }
 
+            // 3. Erstelle Dateinamen mit Indikator-ID
             var filename = plugin.indicatorId + '_map.png';
 
+            // 4. Konfiguriere html2canvas Optionen
             var options = {
+              // Dimensionen: Verwende die aktuelle Größe der Map
               width: $(mapElement).width(),
               height: $(mapElement).height(),
               windowWidth: $(mapElement).width(),
               windowHeight: $(mapElement).height(),
+              
+              // Position: Screenshot an Position 0,0
               x: 0,
               y: 0,
               scrollX: 0,
               scrollY: 0,
+              
+              // Qualität: 2x Skalierung für hochauflösende Bilder (Retina)
               scale: 2,
+              
+              // Hintergrundfarbe: Weiß normal, Schwarz bei High-Contrast Mode
               backgroundColor: '#FFFFFF',
+              
+              // onclone: Hook zum Modifizieren des geklonten Elements VOR dem Screenshot
               onclone: function (clone) {
+                // Markiere das Element als "im Download" für speziales CSS
                 clone.body.classList.add('map-download-in-progress');
+                // Verstecke Leaflet-Kontrollen (Zoom-Buttons, etc.) im Screenshot
                 $(clone).find('.leaflet-control').hide();
               },
+              
+              // ignoreElements: Bestimme welche Elemente in den Screenshot kommen
               ignoreElements: function (el) {
+                // 1. Behalte STYLE, HEAD, LINK tags bei (für CSS-Regeln)
                 var keepTags = ['STYLE', 'HEAD', 'LINK'];
                 if (keepTags.indexOf(el.tagName) !== -1) {
-                  return false;
+                  return false;  // false = NICHT ignorieren = beibehalten
                 }
+                
+                // 2. Behalte das Map-Element und seine Inhalte
                 if (mapElement.contains(el) || el.contains(mapElement)) {
                   return false;
                 }
+                
+                // 3. Ignoriere alles andere (Navigation, Sidebar, etc.)
                 return true;
               }
             };
 
             console.log('Starting map download...');
+            console.log('Map size:', options.width, 'x', options.height);
+            console.log('File name:', filename);
             
+            // 5. Konvertiere HTML zu Canvas
             html2canvas(mapElement, options).then(function (canvas) {
-              console.log('Canvas created, size:', canvas.width, 'x', canvas.height);
+              console.log('Canvas created successfully, size:', canvas.width, 'x', canvas.height);
+              
+              // 6. Konvertiere Canvas zu Blob (Binary Large Object)
               canvas.toBlob(function (blob) {
-                console.log('Blob created, downloading file...');
+                console.log('Blob created successfully, size:', blob.size, 'bytes');
+                console.log('Downloading file:', filename);
+                
+                // 7. Speichere Blob als Datei auf dem Computer
                 saveAs(blob, filename);
               });
             }).catch(function(error) {
+              // Fehlerbehandlung
               console.error('Error during map download:', error);
               alert('Fehler beim Herunterladen der Karte: ' + error.message);
             });
