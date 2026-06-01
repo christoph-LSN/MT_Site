@@ -725,46 +725,61 @@
          }, 500);
       };
       
-  // ========== NEUER CODE: MAP IMAGE DOWNLOAD ==========
-  // Registriere den Download-Handler AUSSERHALB von finalMapPreparation
-  $(document).on('click', '#btnSaveMap', function () {
-    var filename = plugin.indicatorId + '_map.png';
-    var mapElement = plugin.element;
+  // ========== MAP IMAGE DOWNLOAD ==========
+$(document).on('click', '#btnSaveMap', function (e) {
+  e.preventDefault();
+  
+  // Finde das Map-Element
+  var mapElement = document.getElementById('map');
+  if (!mapElement) {
+    console.error('Map element not found');
+    return;
+  }
 
-    var options = {
-      width: $(mapElement).width(),
-      height: $(mapElement).height(),
-      windowWidth: $(mapElement).width(),
-      windowHeight: $(mapElement).height(),
-      x: 0,
-      y: 0,
-      scrollX: 0,
-      scrollY: 0,
-      scale: 2,
-      backgroundColor: '#FFFFFF',
-      onclone: function (clone) {
-        clone.body.classList.add('map-download-in-progress');
-        $(clone).find('.leaflet-control').hide();
-      },
-      ignoreElements: function (el) {
-        var keepTags = ['STYLE', 'HEAD', 'LINK'];
-        if (keepTags.indexOf(el.tagName) !== -1) {
-          return false;
-        }
-        if (mapElement.contains(el) || el.contains(mapElement)) {
-          return false;
-        }
-        return true;
+  var filename = 'map_' + new Date().getTime() + '.png';
+
+  var options = {
+    width: $(mapElement).width(),
+    height: $(mapElement).height(),
+    windowWidth: $(mapElement).width(),
+    windowHeight: $(mapElement).height(),
+    x: 0,
+    y: 0,
+    scrollX: 0,
+    scrollY: 0,
+    scale: 2,
+    backgroundColor: '#FFFFFF',
+    onclone: function (clone) {
+      clone.body.classList.add('map-download-in-progress');
+      $(clone).find('.leaflet-control').hide();
+    },
+    ignoreElements: function (el) {
+      var keepTags = ['STYLE', 'HEAD', 'LINK'];
+      if (keepTags.indexOf(el.tagName) !== -1) {
+        return false;
       }
-    };
+      if (mapElement.contains(el) || el.contains(mapElement)) {
+        return false;
+      }
+      return true;
+    }
+  };
 
-    html2canvas(mapElement, options).then(function (canvas) {
-      canvas.toBlob(function (blob) {
-        saveAs(blob, filename);
-      });
+  console.log('Starting map download...');
+  
+  html2canvas(mapElement, options).then(function (canvas) {
+    console.log('Canvas created');
+    canvas.toBlob(function (blob) {
+      console.log('Blob created, saving file...');
+      saveAs(blob, filename);
     });
+  }).catch(function(error) {
+    console.error('Error during map download:', error);
+    alert('Fehler beim Herunterladen der Karte: ' + error.message);
   });
-  // ========== END: MAP IMAGE DOWNLOAD ==========
+});
+// ========== END: MAP IMAGE DOWNLOAD ==========
+
 
     },
 
