@@ -722,51 +722,50 @@
           if ($('#map').height() > maxHeight) {
             $('#map').height(maxHeight);
           }
-          // ========== NEUER CODE: MAP IMAGE DOWNLOAD ==========
-      $("#btnSaveMap").click(function () {
-        var filename = plugin.indicatorId + '_map.png';
-        var mapElement = plugin.element;
-
-        var options = {
-          width: $(mapElement).width(),
-          height: $(mapElement).height(),
-          windowWidth: $(mapElement).width(),
-          windowHeight: $(mapElement).height(),
-          x: 0,
-          y: 0,
-          scrollX: 0,
-          scrollY: 0,
-          scale: 2,
-          backgroundColor: '#FFFFFF',
-          onclone: function (clone) {
-            clone.body.classList.add('map-download-in-progress');
-            $(clone).find('.leaflet-control').hide();
-          },
-          ignoreElements: function (el) {
-            var keepTags = ['STYLE', 'HEAD', 'LINK'];
-            if (keepTags.indexOf(el.tagName) !== -1) {
-              return false;
-            }
-            if (mapElement.contains(el) || el.contains(mapElement)) {
-              return false;
-            }
-            return true;
-          }
-        };
-
-        html2canvas(mapElement, options).then(function (canvas) {
-          canvas.toBlob(function (blob) {
-            saveAs(blob, filename);
-          });
-        });
-      });
-      // ========== END: MAP IMAGE DOWNLOAD ==========
-
-    
-
-
-        }, 500);
+         }, 500);
       };
+      
+  // ========== NEUER CODE: MAP IMAGE DOWNLOAD ==========
+  // Registriere den Download-Handler AUSSERHALB von finalMapPreparation
+  $(document).on('click', '#btnSaveMap', function () {
+    var filename = plugin.indicatorId + '_map.png';
+    var mapElement = plugin.element;
+
+    var options = {
+      width: $(mapElement).width(),
+      height: $(mapElement).height(),
+      windowWidth: $(mapElement).width(),
+      windowHeight: $(mapElement).height(),
+      x: 0,
+      y: 0,
+      scrollX: 0,
+      scrollY: 0,
+      scale: 2,
+      backgroundColor: '#FFFFFF',
+      onclone: function (clone) {
+        clone.body.classList.add('map-download-in-progress');
+        $(clone).find('.leaflet-control').hide();
+      },
+      ignoreElements: function (el) {
+        var keepTags = ['STYLE', 'HEAD', 'LINK'];
+        if (keepTags.indexOf(el.tagName) !== -1) {
+          return false;
+        }
+        if (mapElement.contains(el) || el.contains(mapElement)) {
+          return false;
+        }
+        return true;
+      }
+    };
+
+    html2canvas(mapElement, options).then(function (canvas) {
+      canvas.toBlob(function (blob) {
+        saveAs(blob, filename);
+      });
+    });
+  });
+  // ========== END: MAP IMAGE DOWNLOAD ==========
+
     },
 
     featureShouldDisplay: function(feature) {
