@@ -1,0 +1,19 @@
+{% assign graph_title = page.indicator.graph_titles.first.title | default: page.indicator.graph_title %}
+<h4 id="map-heading" class="map-title">{{ graph_title }}</h4>
+<div id="map" aria-describedby="table-alternative">
+  <img class="map-loading-image" src="{{ site.baseurl }}/assets/img/loading.gif" alt="{{ page.t.indicator.loading_map }}" />
+</div>
+{% include components/indicator/data-footer.html footerId='mapFooter' %}
+
+<!-- ========== NEUER CODE: DOWNLOAD BUTTON ========== -->
+<div id="mapSelectionDownload" class="clearfix">
+  <button
+    id="btnSaveMap"
+    title="{{ page.t.indicator.download_chart_image_title }}"
+    aria-label="{{ page.t.indicator.download_chart_image_title }}"
+    class='btn btn-primary btn-download'>
+    {{ page.t.indicator.download_chart_image }}
+  </button>
+</div>
+<!-- ========== END: DOWNLOAD BUTTON ========== -->
+
