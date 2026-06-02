@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602084744">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602084827">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -667,7 +667,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260602084744'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260602084827'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -711,10 +711,31 @@ function printDiv()
 
 
   
-</script>
-
-<!-- html2canvas laden -->
+<!-- html2canvas für DOM-/Container-Export laden -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+  /*
+    Der Exportbereich bekommt einen weißen Hintergrund und etwas Innenabstand,
+    damit das Ergebnis optisch eher dem Grafik-Download entspricht.
+  */
+  #map-export-wrapper {
+    background: #ffffff;
+    padding: 20px;
+  }
+
+  #map-export-wrapper .map-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  /*
+    Optional: sorgt dafür, dass der Download-Button etwas Abstand hat.
+  */
+  #map-image-download {
+    margin-top: 1rem;
+  }
+</style>
 
 <script>
 (function () {
@@ -722,7 +743,7 @@ function printDiv()
 
   /*
     ============================================================
-    1) DATEINAMEN AUS DEM TITEL ERZEUGEN
+    1) DATEINAMEN AUS DEM KARTENTITEL ERZEUGEN
     ============================================================
   */
   function getMapFileName() {
@@ -735,8 +756,8 @@ function printDiv()
     const cleanName = heading.textContent
       .trim()
       .toLowerCase()
-      .replace(/[^\wäöüß\- ]/gi, '')
-      .replace(/\s+/g, '-');
+      .replace(/[^\wäöüß\- ]/gi, '') // viele Sonderzeichen entfernen
+      .replace(/\s+/g, '-');         // Leerzeichen durch Bindestriche ersetzen
 
     return cleanName + '.png';
   }
@@ -769,10 +790,10 @@ function printDiv()
 
   /*
     ============================================================
-    3) KURZ WARTEN
+    3) KLEINE WARTEFUNKTION
     ============================================================
-    Kleine Hilfsfunktion, damit wir dem Browser Zeit geben können,
-    z. B. wenn wir vor dem Export kurz Elemente ausblenden.
+    Hilft, damit der Browser Zeit hat, Änderungen im DOM sichtbar
+    umzusetzen, bevor html2canvas den Bereich rendert.
   */
   function wait(ms) {
     return new Promise(function (resolve) {
@@ -782,10 +803,10 @@ function printDiv()
 
   /*
     ============================================================
-    4) PRÜFEN, OB LEAFLET-TILES GELADEN SIND
+    4) WARTEN, BIS LEAFLET-TILES GELADEN SIND
     ============================================================
-    Damit der Kartenhintergrund möglichst vollständig im Export landet,
-    warten wir kurz darauf, dass die Kachelbilder geladen sind.
+    Damit der Hintergrund der Karte möglichst vollständig erscheint,
+    warten wir kurz auf die Kartenkacheln.
   */
   async function waitForLeafletTiles(container, timeoutMs) {
     const start = Date.now();
@@ -793,8 +814,8 @@ function printDiv()
     while (Date.now() - start < timeoutMs) {
       const images = container.querySelectorAll('.leaflet-tile');
 
+      // Falls noch keine Tiles vorhanden sind, kurz weiter warten
       if (images.length === 0) {
-        // Noch keine Tiles gefunden -> kurz weiter warten
         await wait(200);
         continue;
       }
@@ -819,10 +840,15 @@ function printDiv()
 
   /*
     ============================================================
-    5) INTERAKTIVE MAP-CONTROLS VORÜBERGEHEND AUSBLENDEN
+    5) INTERAKTIVE LEAFLET-STEUERELEMENTE AUSBLENDEN
     ============================================================
-    Die Legende soll bleiben, Zoom/Search/Attribution/Time-Control
-    dagegen möglichst nicht im Export erscheinen.
+    Diese Elemente sollen beim Export möglichst nicht erscheinen:
+    - Zoom
+    - Suche
+    - Fullscreen
+    - Attribution
+    - Time-Control / Slider / Playback
+    Die Legende soll möglichst stehen bleiben.
   */
   function hideMapControlsForExport() {
     const selectors = [
@@ -832,7 +858,6 @@ function printDiv()
       '.leaflet-control-attribution',
       '.leaflet-bar.timecontrol',
       '.leaflet-control-timecontrol',
-      '.leaflet-control-container .leaflet-top.leaflet-left .leaflet-control:not(.legend)',
       '.leaflet-control-container .leaflet-bottom.leaflet-left .leaflet-control',
       '.leaflet-control-container .leaflet-bottom.leaflet-right .leaflet-control'
     ];
@@ -841,9 +866,17 @@ function printDiv()
 
     selectors.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (el) {
-        // Elemente mit echter Legendenklasse nicht verstecken
+        /*
+          Elemente mit Klassen, die wahrscheinlich eine Legende darstellen,
+          NICHT ausblenden.
+          Falls deine Legende andere Klassen hat, kannst du diese Bedingungen
+          später erweitern.
+        */
         if (el.classList.contains('legend')) return;
+        if (el.classList.contains('map-legend')) return;
+        if (el.classList.contains('info')) return;
         if (el.closest('.legend')) return;
+        if (el.closest('.map-legend')) return;
 
         hiddenElements.push({
           element: el,
@@ -859,7 +892,7 @@ function printDiv()
 
   /*
     ============================================================
-    6) AUSGEBLENDETE CONTROLS WIEDER SICHTBAR MACHEN
+    6) AUSGEBLENDETE ELEMENTE WIEDER SICHTBAR MACHEN
     ============================================================
   */
   function restoreHiddenElements(hiddenElements) {
@@ -870,10 +903,10 @@ function printDiv()
 
   /*
     ============================================================
-    7) TILE-BILDER FÜR CORS VORBEREITEN
+    7) TILE-BILDER FÜR DEN EXPORT VORBEREITEN
     ============================================================
-    Das hilft html2canvas dabei, externe Kartenkacheln mit zu rendern.
-    Wichtig: Das funktioniert nur, wenn der Tile-Server CORS erlaubt.
+    Das kann html2canvas helfen, externe Kartenbilder mitzunehmen.
+    Wichtig: Das klappt nur, wenn der Tile-Server CORS erlaubt.
   */
   function prepareTileImagesForExport(container) {
     const tileImages = container.querySelectorAll('.leaflet-tile');
@@ -882,14 +915,14 @@ function printDiv()
       try {
         img.setAttribute('crossorigin', 'anonymous');
       } catch (e) {
-        // Falls das Setzen fehlschlägt, ignorieren wir es
+        // Falls das Setzen fehlschlägt, ignorieren wir das still
       }
     });
   }
 
   /*
     ============================================================
-    8) HAUPTFUNKTION: GESAMTEN KARTENBLOCK EXPORTIEREN
+    8) HAUPTFUNKTION: GESAMTEN KARTENBLOCK ALS PNG EXPORTIEREN
     ============================================================
   */
   async function downloadMapBlockAsPng() {
@@ -911,26 +944,30 @@ function printDiv()
       return;
     }
 
-    // Vorbereiten
+    // Externe Tile-Bilder für den Export vorbereiten
     prepareTileImagesForExport(mapContainer);
 
-    // Warten, bis Kartenkacheln möglichst geladen sind
+    // Kurz warten, bis Kartenkacheln geladen sind
     await waitForLeafletTiles(mapContainer, 4000);
 
-    // Interaktive Controls ausblenden
+    // Interaktive Bedienelemente ausblenden
     const hiddenElements = hideMapControlsForExport();
 
-    // Dem Browser kurz Zeit geben, damit die Anzeige aktualisiert wird
+    // Dem Browser kurz Zeit geben, die Änderungen sichtbar zu machen
     await wait(250);
 
     try {
       const canvas = await html2canvas(exportWrapper, {
         backgroundColor: '#ffffff',
-        scale: 2,
-        useCORS: true,
+        scale: 2,              // höhere Auflösung
+        useCORS: true,         // wichtig für externe Bilder / Tiles
         allowTaint: false,
         logging: false,
-        foreignObjectRendering: false
+        foreignObjectRendering: false,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight
       });
 
       downloadCanvas(canvas, getMapFileName());
@@ -938,7 +975,7 @@ function printDiv()
       console.error(error);
       alert('Der Kartenbereich konnte nicht als Bild exportiert werden.');
     } finally {
-      // Controls wieder einblenden
+      // Danach die Controls wieder sichtbar machen
       restoreHiddenElements(hiddenElements);
     }
   }
@@ -956,7 +993,16 @@ function printDiv()
       return;
     }
 
+    /*
+      Schutz davor, dass mehrfach dieselbe Event-Logik registriert wird,
+      falls das Skript versehentlich mehr als einmal geladen wird.
+    */
+    if (button.dataset.exportBound === 'true') {
+      return;
+    }
+
     button.addEventListener('click', downloadMapBlockAsPng);
+    button.dataset.exportBound = 'true';
   }
 
   /*
@@ -972,11 +1018,9 @@ function printDiv()
 })();
 </script>
 
-
-
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260602084744"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260602084827"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
