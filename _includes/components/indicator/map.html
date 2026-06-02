@@ -1,25 +1,31 @@
 {% assign graph_title = page.indicator.graph_titles.first.title | default: page.indicator.graph_title %}
-<h4 id="map-heading" class="map-title">{{ graph_title }}</h4>
-<div id="map" aria-describedby="table-alternative">
-  <img class="map-loading-image" src="{{ site.baseurl }}/assets/img/loading.gif" alt="{{ page.t.indicator.loading_map }}" />
-</div>
 
-
-
-<!-- Alles innerhalb dieses Wrappers wird exportiert -->
+<!--
+  Alles innerhalb von #map-export-wrapper wird später als PNG exportiert:
+  - Titel
+  - Karte
+  - Legende (wenn sie im Kartenbereich liegt)
+  - Fußnote
+-->
 <div id="map-export-wrapper">
 
   <h4 id="map-heading" class="map-title">{{ graph_title }}</h4>
 
   <div id="map" aria-describedby="table-alternative">
-    <img class="map-loading-image" src="{{ site.baseurl }}/assets/img/loading.gif" alt="{{ page.t.indicator.loading_map }}" />
+    <img
+      class="map-loading-image"
+      src="{{ site.baseurl }}/assets/img/loading.gif"
+      alt="{{ page.t.indicator.loading_map }}" />
   </div>
 
   {% include components/indicator/data-footer.html footerId='mapFooter' %}
 
 </div>
 
-<!-- Button liegt AUSSERHALB des Export-Wrappers, damit er nicht mit exportiert wird -->
+<!--
+  Der Download-Button liegt AUSSERHALB des Export-Wrappers,
+  damit er nicht mit in das Bild exportiert wird.
+-->
 <div id="map-image-download" class="clearfix" style="margin-top: 1rem;">
   <button
     id="btnSaveMapImage"
@@ -28,4 +34,3 @@
     Karte als PNG herunterladen
   </button>
 </div>
-
