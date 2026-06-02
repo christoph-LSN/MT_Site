@@ -44,82 +44,198 @@ function printDiv()
 </script>
 
 <script>
-/*
-  ============================================================
-  KARTEN-DOWNLOAD ALS PNG
-  ============================================================
-
-  Idee:
-  - Wir suchen auf der Seite nach dem Kartenbereich (#map)
-  - Sobald dort eine SVG-Karte vorhanden ist, fügen wir einen Button ein
-  - Beim Klick auf den Button wird die SVG-Karte ausgelesen
-  - Die SVG wird in ein Canvas gezeichnet
-  - Aus dem Canvas wird dann eine PNG-Datei erzeugt und heruntergeladen
-
-  Vorteil:
-  - Wir müssen sgg.map.js nicht direkt verändern
-  - Alles bleibt sauber in scripts-custom.html getrennt
-*/
-
 (function () {
-  /*
-    ============================================================
-    1) "IIFE" = Sofort ausgeführte Funktion
-    ============================================================
-
-    (function () { ... })();
-
-    Das ist eine Funktion, die direkt beim Laden des Skripts ausgeführt wird.
-
-    Warum macht man das?
-    - Damit unsere Variablen nicht "global" auf der ganzen Seite herumliegen
-    - So vermeiden wir Konflikte mit anderem JavaScript auf der Seite
-
-    Man kann sich das wie einen abgeschlossenen Arbeitsbereich vorstellen.
-  */
-
   'use strict';
 
   /*
-    "use strict" aktiviert einen strengeren JavaScript-Modus.
-
-    Vorteil:
-    - Hilft, typische Fehler früher zu erkennen
-    - Verhindert einige unsaubere Schreibweisen
-    - Ist besonders für größere Projekte sinnvoll
+    ============================================================
+    HILFSFUNKTION: Dateinamen aus dem Kartentitel bauen
+    ============================================================
   */
+  function getMapFileName() {
+    const heading = document.getElementById('map-heading');
 
+    // Falls kein Titel gefunden wird, Standardname verwenden
+    if (!heading) {
+      return 'karte.png';
+    }
+
+    // Titel in Dateinamen umwandeln
+    const cleanName = heading.textContent
+      .trim()
+      .toLowerCase()
+      .replace(/[^\wäöüß\- ]/gi, '') // viele Sonderzeichen entfernen
+      .replace(/\s+/g, '-');         // Leerzeichen durch Bindestriche ersetzen
+
+    return cleanName + '.png';
+  }
 
   /*
     ============================================================
-    2) KONFIGURATION
+    HILFSFUNKTION: Download starten
     ============================================================
-
-    Hier legen wir zentrale Namen einmal fest.
-    Wenn du später etwas ändern willst, musst du oft nur hier arbeiten.
   */
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
 
-  // Die ID des HTML-Elements, in dem die Karte angezeigt wird
-  const MAP_CONTAINER_ID = 'map';
+    link.href = url;
+    link.download = filename;
 
-  // Die ID der Überschrift über der Karte
-  const MAP_HEADING_ID = 'map-heading';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
 
-  // Die ID unseres Download-Buttons
-  const BUTTON_ID = 'map-download-btn';
-
+    URL.revokeObjectURL(url);
+  }
 
   /*
     ============================================================
-    3) BUTTON ERZEUGEN
+    HAUPTFUNKTION: Leaflet-Karte als PNG speichern
     ============================================================
 
-    Diese Funktion erstellt den Download-Button und fügt ihn in die Seite ein.
-    Sie sorgt auch dafür, dass der Button nicht mehrfach erstellt wird.
+    WICHTIG:
+    Diese Funktion sucht innerhalb von #map nach einem SVG.
+    Viele thematische Leaflet-Layer werden als SVG gerendert.
   */
-  function createDownloadButton() {
+  function downloadMapAsPng() {
+    const mapContainer = document.getElementById('map');
 
-    // Prüfen: Gibt es den Button schon?
+    if (!mapContainer) {
+      alert('Der Kartencontainer mit der ID "map" wurde nicht gefunden.');
+      return;
+    }
+
+    /*
+      Wir suchen nicht nur direkt in #map nach SVG,
+      sondern im gesamten Unterbaum.
+    */
+    const svg = mapContainer.querySelector('svg');
+
+    if (!svg) {
+      alert('Es wurde keine SVG-Karte gefunden. Die Karte ist eventuell noch nicht vollständig geladen.');
+      return;
+    }
+
+    // SVG klonen, damit das Original nicht verändert wird
+    const clone = svg.cloneNode(true);
+
+    // Wichtige Namespaces setzen
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+
+    /*
+      Breite und Höhe ermitteln
+    */
+    let width = svg.clientWidth || parseInt(svg.getAttribute('width'), 10);
+    let height = svg.clientHeight || parseInt(svg.getAttribute('height'), 10);
+
+    if ((!width || !height) && svg.viewBox && svg.viewBox.baseVal) {
+      width = svg.viewBox.baseVal.width;
+      height = svg.viewBox.baseVal.height;
+    }
+
+    if (!width || !height) {
+      const bbox = svg.getBBox();
+      width = bbox.width || 1200;
+      height = bbox.height || 800;
+    }
+
+    clone.setAttribute('width', width);
+    clone.setAttribute('height', height);
+
+    /*
+      SVG in Text umwandeln
+    */
+    const serializer = new XMLSerializer();
+    let svgString = serializer.serializeToString(clone);
+
+    if (!svgString.match(/^<\?xml/)) {
+      svgString = '<?xml version="1.0" standalone="no"?>\r\n' + svgString;
+    }
+
+    /*
+      SVG als Blob vorbereiten
+    */
+    const svgBlob = new Blob([svgString], {
+      type: 'image/svg+xml;charset=utf-8'
+    });
+
+    const svgUrl = URL.createObjectURL(svgBlob);
+
+    /*
+      SVG als Bild laden
+    */
+    const img = new Image();
+
+    img.onload = function () {
+      const canvas = document.createElement('canvas');
+      const scale = 2; // bessere Auflösung
+
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+
+      const ctx = canvas.getContext('2d');
+
+      // Zeichenfläche skalieren
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+
+      // Weißer Hintergrund
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+
+      // SVG-Bild auf Canvas zeichnen
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Canvas als PNG exportieren
+      canvas.toBlob(function (blob) {
+        if (!blob) {
+          alert('Das PNG konnte nicht erzeugt werden.');
+          return;
+        }
+
+        downloadBlob(blob, getMapFileName());
+      }, 'image/png');
+
+      URL.revokeObjectURL(svgUrl);
+    };
+
+    img.onerror = function () {
+      URL.revokeObjectURL(svgUrl);
+      alert('Die SVG-Karte konnte nicht in ein Bild umgewandelt werden.');
+    };
+
+    img.src = svgUrl;
+  }
+
+  /*
+    ============================================================
+    BUTTON MIT FUNKTION VERBINDEN
+    ============================================================
+  */
+  function initMapImageButton() {
+    const button = document.getElementById('btnSaveMapImage');
+
+    if (!button) {
+      console.warn('Button #btnSaveMapImage wurde nicht gefunden.');
+      return;
+    }
+
+    button.addEventListener('click', downloadMapAsPng);
+  }
+
+  /*
+    ============================================================
+    STARTEN, WENN DAS DOM GELADEN IST
+    ============================================================
+  */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMapImageButton);
+  } else {
+    initMapImageButton();
+  }
+})();
+</script>
 
 
 
