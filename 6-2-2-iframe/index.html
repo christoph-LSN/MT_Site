@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260601102759">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602053156">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -891,7 +891,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260601102759'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260602053156'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1054,11 +1054,91 @@ if (element) {
   
 </script>
 
+<script>
+/*
+  ============================================================
+  KARTEN-DOWNLOAD ALS PNG
+  ============================================================
+
+  Idee:
+  - Wir suchen auf der Seite nach dem Kartenbereich (#map)
+  - Sobald dort eine SVG-Karte vorhanden ist, fügen wir einen Button ein
+  - Beim Klick auf den Button wird die SVG-Karte ausgelesen
+  - Die SVG wird in ein Canvas gezeichnet
+  - Aus dem Canvas wird dann eine PNG-Datei erzeugt und heruntergeladen
+
+  Vorteil:
+  - Wir müssen sgg.map.js nicht direkt verändern
+  - Alles bleibt sauber in scripts-custom.html getrennt
+*/
+
+(function () {
+  /*
+    ============================================================
+    1) "IIFE" = Sofort ausgeführte Funktion
+    ============================================================
+
+    (function () { ... })();
+
+    Das ist eine Funktion, die direkt beim Laden des Skripts ausgeführt wird.
+
+    Warum macht man das?
+    - Damit unsere Variablen nicht "global" auf der ganzen Seite herumliegen
+    - So vermeiden wir Konflikte mit anderem JavaScript auf der Seite
+
+    Man kann sich das wie einen abgeschlossenen Arbeitsbereich vorstellen.
+  */
+
+  'use strict';
+
+  /*
+    "use strict" aktiviert einen strengeren JavaScript-Modus.
+
+    Vorteil:
+    - Hilft, typische Fehler früher zu erkennen
+    - Verhindert einige unsaubere Schreibweisen
+    - Ist besonders für größere Projekte sinnvoll
+  */
+
+
+  /*
+    ============================================================
+    2) KONFIGURATION
+    ============================================================
+
+    Hier legen wir zentrale Namen einmal fest.
+    Wenn du später etwas ändern willst, musst du oft nur hier arbeiten.
+  */
+
+  // Die ID des HTML-Elements, in dem die Karte angezeigt wird
+  const MAP_CONTAINER_ID = 'map';
+
+  // Die ID der Überschrift über der Karte
+  const MAP_HEADING_ID = 'map-heading';
+
+  // Die ID unseres Download-Buttons
+  const BUTTON_ID = 'map-download-btn';
+
+
+  /*
+    ============================================================
+    3) BUTTON ERZEUGEN
+    ============================================================
+
+    Diese Funktion erstellt den Download-Button und fügt ihn in die Seite ein.
+    Sie sorgt auch dafür, dass der Button nicht mehrfach erstellt wird.
+  */
+  function createDownloadButton() {
+
+    // Prüfen: Gibt es den Button schon?
+
+
+
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260601102759"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260602053156"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
