@@ -3,5 +3,17 @@
 <div id="map" aria-describedby="table-alternative">
   <img class="map-loading-image" src="{{ site.baseurl }}/assets/img/loading.gif" alt="{{ page.t.indicator.loading_map }}" />
 </div>
+
+
+<!-- Neuer PNG-Download-Button -->
+<div id="map-image-download" class="clearfix" style="margin-top: 1rem;">
+  <button
+    id="btnSaveMapImage"
+    type="button"
+    class="btn btn-primary">
+    Karte als PNG herunterladen
+  </button>
+</div>
+<!-- Neuer PNG-Download-Button -->
 {% include components/indicator/data-footer.html footerId='mapFooter' %}
 
