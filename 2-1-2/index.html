@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602060509">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602084744">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -725,20 +725,23 @@ data-event-label="Change to Map tab"
       
         <div role="tabpanel" class="tab-pane " id="mapview" class="map">
           
-<h4 id="map-heading" class="map-title">Anteil der Ausländerinnen und Ausländer an allen Ausländerinnen und Ausländern nach Aufenthaltsstatus - kein Aufenthalstitel erforderlich (Prozent)</h4>
-<div id="map" aria-describedby="table-alternative">
-  <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
-</div>
 
-
-
-<!-- Alles innerhalb dieses Wrappers wird exportiert -->
+<!--
+  Alles innerhalb von #map-export-wrapper wird später als PNG exportiert:
+  - Titel
+  - Karte
+  - Legende (wenn sie im Kartenbereich liegt)
+  - Fußnote
+-->
 <div id="map-export-wrapper">
 
   <h4 id="map-heading" class="map-title">Anteil der Ausländerinnen und Ausländer an allen Ausländerinnen und Ausländern nach Aufenthaltsstatus - kein Aufenthalstitel erforderlich (Prozent)</h4>
 
   <div id="map" aria-describedby="table-alternative">
-    <img class="map-loading-image" src="/MT_Site/assets/img/loading.gif" alt="Karte wird geladen" />
+    <img
+      class="map-loading-image"
+      src="/MT_Site/assets/img/loading.gif"
+      alt="Karte wird geladen" />
   </div>
 
   
@@ -790,7 +793,10 @@ data-event-label="Change to Map tab"
 
 </div>
 
-<!-- Button liegt AUSSERHALB des Export-Wrappers, damit er nicht mit exportiert wird -->
+<!--
+  Der Download-Button liegt AUSSERHALB des Export-Wrappers,
+  damit er nicht mit in das Bild exportiert wird.
+-->
 <div id="map-image-download" class="clearfix" style="margin-top: 1rem;">
   <button
     id="btnSaveMapImage"
@@ -799,7 +805,6 @@ data-event-label="Change to Map tab"
     Karte als PNG herunterladen
   </button>
 </div>
-
 
         </div>
       
@@ -1405,7 +1410,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260602060509'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260602084744'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1714,7 +1719,7 @@ function printDiv()
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260602060509"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260602084744"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
