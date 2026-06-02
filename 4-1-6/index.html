@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602053724">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602054812">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1264,7 +1264,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260602053724'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260602054812'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1307,123 +1307,6 @@ function printDiv()
 </script>
 
 
-<script>
-function deleteStuffFromIndicatorPagesForIframe(indicator) {
-  var iframeId = 'myIframe_' + indicator;
-  var goal = indicator.substring(0, indicator.search('-'));
-  var iframe = document.getElementById(iframeId);
-  var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-  
-  // Header ausblenden
-  var header = iframeDocument.querySelector("header[role='banner']");
-  if (header) {
-    header.style.display = "none";
-  }
-  
-  // Element mit Klasse "heading goal-banner indicator goal-2" ausblenden
-  var goal_banner = iframeDocument.querySelector(".heading.goal-banner.indicator.goal-" + goal);
-  if (goal_banner) {
-    goal_banner.style.display = "none";
-  }
-  
-  // Disclaimer ausblenden
-  var disclaimer = iframeDocument.getElementById("disclaimer");
-  if (disclaimer) {
-    disclaimer.style.display = "none";
-  }
-
-  // footer ausblenden
-        var footer = iframeDocument.querySelector("footer[role='contentinfo']");
-        if (footer) {
-            footer.style.display = "none";
-        }
-
-// Element mit ID "national" ausblenden
-  var element = iframeDocument.getElementById("national");
-  if (element) {
-    element.style.display = "none";
-  }
-
-  // Element mit ID "tab-national" ausblenden
-  var tabnational = iframeDocument.getElementById("tab-national");
-  if (tabnational) {
-    tabnational.style.display = "none";
-  }
-
-   // Das div-Element mit der Klasse "tab-global" ausblenden
-  var tabglobal = iframeDocument.getElementById("tab-global");
-  if (tabglobal) {
-    tabglobal.style.display = 'none';
-  }
-
- // Das div-Element mit der Klasse "mt-4" ausblenden
-  var tabcontent = iframeDocument.getElementById("tab-content");
-  if (tabcontent) {
-    tabcontent.style.display = 'none';
-  }
-
-
-  
-var sources = iframeDocument.querySelector("#tab-sources");
-if (sources) {
-  sources.disabled = true;
-}
-
-// Element metadaten ausblenden
-  var edit = iframeDocument.querySelector("#tab-edit");
-  if (edit) {
-   edit.style.display = "none";
-  }
-
-var national = document.getElementById('tab-national');
-if (national) {
-  national.disabled = true;
-}
-
-var element = document.querySelector('ul.nav.nav-tabs li.nav-item.active');
-if (element) {
-  element.style.display = 'none';
-}
-  
-// Next Button  ausblenden
-//  var next_btn = iframeDocument.querySelector("div.text-right");
-//  if (next_btn) {
-//    next_btn.style.display = "none";
-//  }
-  
-  // Previous Button  ausblenden
-//  var previous_btn = iframeDocument.querySelector(".nav-item.active");
-//  if (previous_btn) {
-//    previous_btn.style.display = "none";
-//  }
-
-
-  
-  // Breadcrumbs ausblenden
-  iframeDocument.querySelectorAll(".breadcrumb").forEach(a => a.style.display = "none");
-
-  // Elemente mit Klasse "btn btn-primary" ausblenden
-  iframeDocument.querySelectorAll("a.btn.btn-primary").forEach(a => a.style.display = "none");
-
-  // Elemente mit Klasse "Metadaten tabs" ausblenden
- // iframeDocument.querySelectorAll("ul.nav.nav-tabs").forEach(a => a.style.display = "none");
-
-  // Elemente mit Klasse "table metadata-content" ausblenden
-  iframeDocument.querySelectorAll("table metadata-content").forEach(a => a.style.display = "none");
-
-  // Buttons ausblenden
-  //iframeDocument.getElementById("navigationbuttons").style.display = 'none';
-  
-  // Buttons ausblenden
-  iframeDocument.querySelectorAll(".app-c-back-to-top__icon").forEach(a => a.style.display = "none");
-  
-  // Footer ausblenden
-  iframeDocument.querySelectorAll('[role="contentinfo"]').forEach(a => a.style.display = "none");
-}
-
-
-
-  
   
 </script>
 
@@ -1511,7 +1394,7 @@ if (element) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260602053724"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260602054812"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
