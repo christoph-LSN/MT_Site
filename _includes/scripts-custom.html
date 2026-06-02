@@ -160,6 +160,86 @@ if (element) {
   
 </script>
 
+<script>
+/*
+  ============================================================
+  KARTEN-DOWNLOAD ALS PNG
+  ============================================================
+
+  Idee:
+  - Wir suchen auf der Seite nach dem Kartenbereich (#map)
+  - Sobald dort eine SVG-Karte vorhanden ist, fügen wir einen Button ein
+  - Beim Klick auf den Button wird die SVG-Karte ausgelesen
+  - Die SVG wird in ein Canvas gezeichnet
+  - Aus dem Canvas wird dann eine PNG-Datei erzeugt und heruntergeladen
+
+  Vorteil:
+  - Wir müssen sgg.map.js nicht direkt verändern
+  - Alles bleibt sauber in scripts-custom.html getrennt
+*/
+
+(function () {
+  /*
+    ============================================================
+    1) "IIFE" = Sofort ausgeführte Funktion
+    ============================================================
+
+    (function () { ... })();
+
+    Das ist eine Funktion, die direkt beim Laden des Skripts ausgeführt wird.
+
+    Warum macht man das?
+    - Damit unsere Variablen nicht "global" auf der ganzen Seite herumliegen
+    - So vermeiden wir Konflikte mit anderem JavaScript auf der Seite
+
+    Man kann sich das wie einen abgeschlossenen Arbeitsbereich vorstellen.
+  */
+
+  'use strict';
+
+  /*
+    "use strict" aktiviert einen strengeren JavaScript-Modus.
+
+    Vorteil:
+    - Hilft, typische Fehler früher zu erkennen
+    - Verhindert einige unsaubere Schreibweisen
+    - Ist besonders für größere Projekte sinnvoll
+  */
+
+
+  /*
+    ============================================================
+    2) KONFIGURATION
+    ============================================================
+
+    Hier legen wir zentrale Namen einmal fest.
+    Wenn du später etwas ändern willst, musst du oft nur hier arbeiten.
+  */
+
+  // Die ID des HTML-Elements, in dem die Karte angezeigt wird
+  const MAP_CONTAINER_ID = 'map';
+
+  // Die ID der Überschrift über der Karte
+  const MAP_HEADING_ID = 'map-heading';
+
+  // Die ID unseres Download-Buttons
+  const BUTTON_ID = 'map-download-btn';
+
+
+  /*
+    ============================================================
+    3) BUTTON ERZEUGEN
+    ============================================================
+
+    Diese Funktion erstellt den Download-Button und fügt ihn in die Seite ein.
+    Sie sorgt auch dafür, dass der Button nicht mehrfach erstellt wird.
+  */
+  function createDownloadButton() {
+
+    // Prüfen: Gibt es den Button schon?
+
+
+
 {% comment %}
 This space intended for custom third-party javascript.
 {% endcomment %}
