@@ -5,7 +5,21 @@
 </div>
 
 
-<!-- Neuer PNG-Download-Button -->
+
+<!-- Alles innerhalb dieses Wrappers wird exportiert -->
+<div id="map-export-wrapper">
+
+  <h4 id="map-heading" class="map-title">{{ graph_title }}</h4>
+
+  <div id="map" aria-describedby="table-alternative">
+    <img class="map-loading-image" src="{{ site.baseurl }}/assets/img/loading.gif" alt="{{ page.t.indicator.loading_map }}" />
+  </div>
+
+  {% include components/indicator/data-footer.html footerId='mapFooter' %}
+
+</div>
+
+<!-- Button liegt AUSSERHALB des Export-Wrappers, damit er nicht mit exportiert wird -->
 <div id="map-image-download" class="clearfix" style="margin-top: 1rem;">
   <button
     id="btnSaveMapImage"
@@ -14,6 +28,4 @@
     Karte als PNG herunterladen
   </button>
 </div>
-<!-- Neuer PNG-Download-Button -->
-{% include components/indicator/data-footer.html footerId='mapFooter' %}
 
