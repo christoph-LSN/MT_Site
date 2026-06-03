@@ -4,7 +4,7 @@
 
 <!-- =========================================================
      EXPORTBEREICH
-     Alles in diesem Block ist für den Bildexport relevant
+     Nur dieser Block wird für den JPEG-Export verwendet
      ========================================================= -->
 <div id="map-export-wrapper">
 
@@ -19,7 +19,7 @@
     </h4>
   </div>
 
-  <!-- Leaflet-Kartencontainer -->
+  <!-- Kartenbereich -->
   <div id="map" aria-describedby="table-alternative">
     <img
       class="map-loading-image"
@@ -27,23 +27,25 @@
       alt="{{ page.t.indicator.loading_map }}" />
   </div>
 
-  <!-- Standard-Fußnote -->
+  <!-- Standard-Fußnote / Datenfuß -->
   {% include components/indicator/data-footer.html footerId='mapFooter' %}
 
-  <!-- Zusätzliche Quellenangabe -->
+  <!-- Zusätzliche Quellenangabe im Export -->
   <div id="map-export-source" class="map-export-source">
     <strong>Quelle:</strong>
     <span id="map-source-text">{{ source_url }}</span>
   </div>
+
 </div>
 
 <!-- =========================================================
-     BUTTON-LEISTE
+     AKTIONSLEISTE
      Liegt AUSSERHALB des Exportbereichs und wird daher
-     nicht mit in das Bild aufgenommen
+     nicht in das Bild übernommen
      ========================================================= -->
 <div id="map-action-row" class="no-export">
-  <!-- Unser JPG-Button -->
+
+  <!-- JPEG-Download -->
   <button
     id="btnSaveMapImage"
     type="button"
@@ -51,8 +53,16 @@
     Karte als JPEG herunterladen
   </button>
 
-  <!--
-    Der vorhandene GeoJSON-Button wird per JavaScript in diese
-    Aktionsleiste verschoben, sobald er auf der Seite vorhanden ist.
-  -->
+  <!-- GeoJSON-Download -->
+  <div id="mapSelectionDownload" class="clearfix">
+    <button
+      id="btnSaveMap"
+      type="button"
+      title="{{ page.t.indicator.download_chart_image_title }}"
+      aria-label="{{ page.t.indicator.download_chart_image_title }}"
+      class="btn btn-primary btn-download map-action-btn">
+      {{ page.t.indicator.download_chart_image }}
+    </button>
+  </div>
+
 </div>
