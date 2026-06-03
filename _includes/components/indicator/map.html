@@ -4,7 +4,7 @@
 
 <div id="map-export-wrapper">
 
-  <!-- Export-Titel: Indikator-Nummer + Titel -->
+  <!-- Titel für den Export -->
   <div id="map-export-header">
     <h4 id="map-heading" class="map-title">
       {% if indicator_number %}
@@ -23,10 +23,10 @@
       alt="{{ page.t.indicator.loading_map }}" />
   </div>
 
-  <!-- Standard-Fußnote / Datenfuß -->
+  <!-- Standard-Fußbereich -->
   {% include components/indicator/data-footer.html footerId='mapFooter' %}
 
-  <!-- Zusätzliche Quelle im Export -->
+  <!-- Zusätzliche Quellenangabe im Export -->
   <div id="map-export-source" class="map-export-source">
     <strong>Quelle:</strong>
     <span id="map-source-text">{{ source_url }}</span>
@@ -34,8 +34,8 @@
 
 </div>
 
-<!-- Download-Button außerhalb des Exportbereichs -->
-<div id="map-image-download" class="clearfix" style="margin-top: 1rem;">
+<!-- Export-Button: außerhalb des Exportbereichs -->
+<div id="map-image-download" class="clearfix no-export" style="margin-top: 1rem;">
   <button
     id="btnSaveMapImage"
     type="button"
