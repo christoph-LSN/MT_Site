@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603144024">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603144246">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1389,100 +1389,486 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260603144024'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603144246'></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
+<style>
+  /* =========================================================
+     EXPORTBLOCK
+     ========================================================= */
+  #map-export-wrapper {
+    background: #ffffff;
+    padding: 20px;
+  }
 
+  #map-export-header {
+    margin-bottom: 20px;
+  }
 
+  #map-export-wrapper .map-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    line-height: 1.3;
+  }
 
-<!-- =========================================================
-     EXPORTBEREICH
-     Nur dieser Block wird für den JPEG-Export verwendet
-     ========================================================= -->
-<div id="map-export-wrapper">
+  #map-export-source {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-break: break-word;
+  }
 
-  <!-- Titel -->
-  <div id="map-export-header">
-    <h4 id="map-heading" class="map-title">
-      
-        Indikator 3.1.2: Anteil der betreuten Kinder bis unter 6 Jahren mit Zuwanderungsgeschichte in Tageseinrichtungen
-      
-    </h4>
-  </div>
+  /* =========================================================
+     BUTTON-LEISTE DIREKT AM VORHANDENEN GEOJSON-BUTTON
+     ========================================================= */
+  #map-inline-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+    align-items: center;
+  }
 
-  <!-- Kartenbereich -->
-  <div id="map" aria-describedby="table-alternative">
-    <img
-      class="map-loading-image"
-      src="/MT_Site/assets/img/loading.gif"
-      alt="Karte wird geladen" />
-  </div>
+  #map-inline-action-row .btn,
+  #map-inline-action-row button,
+  #map-inline-action-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 8px 16px;
+    border: 1px solid #00843d;
+    background-color: #00843d;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
 
-  <!-- Standard-Fußnote / Datenfuß -->
-  
+  #map-inline-action-row .btn:hover,
+  #map-inline-action-row button:hover,
+  #map-inline-action-row a:hover {
+    background-color: #006c32;
+    border-color: #006c32;
+    color: #ffffff !important;
+  }
 
+  #map-inline-action-row .btn:disabled,
+  #map-inline-action-row button:disabled {
+    opacity: 0.75;
+    cursor: wait;
+  }
+</style>
 
+<script>
+(function () {
+  'use strict';
 
-<div id="mapFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
+  var JPEG_QUALITY = 0.90;
 
-        
+  /* ============================================================
+     HILFSFUNKTIONEN
+     ============================================================ */
+  function wait(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
 
-        
+  function getMapFileName() {
+    var heading = document.getElementById('map-heading');
 
-        
+    if (!heading) {
+      return 'karte.jpg';
+    }
 
-        
+    var cleanName = heading.textContent
+      .trim()
+      .toLowerCase()
+      .replace(/[^\wäöüß\- ]/gi, '')
+      .replace(/\s+/g, '-');
 
-        
-        
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        >Fußnote:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        ></dd>
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        >Daten zuletzt aktualisiert am:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        ></dd>
-        
-        
-    </dl>
+    return cleanName + '.jpg';
+  }
+
+  function downloadBlob(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1000);
+  }
+
+  /* ============================================================
+     VORHANDENEN GEOJSON-BUTTON FINDEN
+     ============================================================
+     Wir suchen bewusst breit, weil der Button je nach Renderlogik
+     leicht unterschiedlich eingebunden sein kann.
+  */
+  function findExistingGeoJsonButton() {
+    return (
+      document.querySelector('#map-export-wrapper a[download].btn-download') ||
+      document.querySelector('#map-export-wrapper a[download]') ||
+      document.querySelector('a[download].btn-download[title*="GeoJSON"]') ||
+      document.querySelector('a[download][title*="GeoJSON"]') ||
+      document.querySelector('a[download][aria-label*="GeoJSON"]')
+    );
+  }
+
+  /* ============================================================
+     JPEG-BUTTON ERZEUGEN
+     ============================================================ */
+  function createJpegButton() {
+    var existing = document.getElementById('btnSaveMapImage');
+    if (existing) {
+      return existing;
+    }
+
+    var button = document.createElement('button');
+    button.id = 'btnSaveMapImage';
+    button.type = 'button';
+    button.className = 'btn btn-primary map-jpeg-export-btn';
+    button.textContent = 'Karte als JPEG herunterladen';
+
+    return button;
+  }
+
+  /* ============================================================
+     GEOJSON-BUTTON + JPEG-BUTTON IN EINE LEISTE SETZEN
+     ============================================================ */
+  function placeButtonsInline() {
+    var geoJsonButton = findExistingGeoJsonButton();
+    if (!geoJsonButton) {
+      return null;
+    }
+
+    var actionRow = document.getElementById('map-inline-action-row');
+    if (!actionRow) {
+      actionRow = document.createElement('div');
+      actionRow.id = 'map-inline-action-row';
+    }
+
+    /*
+      Falls die Leiste noch nicht im DOM ist:
+      genau an die Stelle des vorhandenen GeoJSON-Buttons setzen.
+    */
+    if (!actionRow.parentNode && geoJsonButton.parentNode) {
+      geoJsonButton.parentNode.insertBefore(actionRow, geoJsonButton);
+    }
+
+    /*
+      Vorhandenen GeoJSON-Button in die Leiste verschieben
+    */
+    if (!actionRow.contains(geoJsonButton)) {
+      actionRow.appendChild(geoJsonButton);
+    }
+
+    /*
+      JPEG-Button daneben setzen
+    */
+    var jpegButton = createJpegButton();
+    if (!actionRow.contains(jpegButton)) {
+      actionRow.appendChild(jpegButton);
+    }
+
+    return {
+      actionRow: actionRow,
+      geoJsonButton: geoJsonButton,
+      jpegButton: jpegButton
+    };
+  }
+
+  /* ============================================================
+     STÖRENDE ELEMENTE FÜR DEN SCREENSHOT AUSBLENDEN
+     ============================================================ */
+  function hideElementsForCapture() {
+    var selectors = [
+      '#map-inline-action-row',
+      '#map-export-wrapper .leaflet-control-fullscreen',
+      '#map-export-wrapper .leaflet-control-search',
+      '#map-export-wrapper .leaflet-control-attribution',
+      '#map-export-wrapper .disaggregation-controls',
+      '#map-export-wrapper .leaflet-bar-timecontrol'
+    ];
+
+    var changed = [];
+
+    selectors.forEach(function (selector) {
+      document.querySelectorAll(selector).forEach(function (el) {
+        changed.push({
+          element: el,
+          oldDisplay: el.style.display
+        });
+
+        el.style.display = 'none';
+      });
+    });
+
+    return function restore() {
+      changed.forEach(function (entry) {
+        entry.element.style.display = entry.oldDisplay;
+      });
+    };
+  }
+
+  /* ============================================================
+     EXPORTBEREICH IN EINE STABILE POSITION SCROLLEN
+     ============================================================ */
+  async function scrollElementIntoStableCapturePosition(element) {
+    var oldScrollX = window.scrollX;
+    var oldScrollY = window.scrollY;
+
+    var targetTop = window.scrollY + element.getBoundingClientRect().top - 20;
+    if (targetTop < 0) {
+      targetTop = 0;
+    }
+
+    window.scrollTo({
+      top: targetTop,
+      left: 0,
+      behavior: 'auto'
+    });
+
+    await wait(350);
+    await wait(250);
+
+    return function restoreScrollPosition() {
+      window.scrollTo({
+        top: oldScrollY,
+        left: oldScrollX,
+        behavior: 'auto'
+      });
+    };
+  }
+
+  /* ============================================================
+     SCREENSHOT DES AKTUELLEN TABS UND CROP AUF
+     #map-export-wrapper
+     ============================================================ */
+  async function captureExactElement(selector) {
+    var element = document.querySelector(selector);
+
+    if (!element) {
+      throw new Error('Element "' + selector + '" wurde nicht gefunden.');
+    }
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+      throw new Error('Die Bildschirmfreigabe wird von diesem Browser nicht unterstützt.');
+    }
+
+    var restoreHiddenElements = hideElementsForCapture();
+    var restoreScrollPosition = null;
+
+    try {
+      restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
+      await wait(200);
+
+      var stream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          frameRate: 1
+        },
+        audio: false,
+        preferCurrentTab: true,
+        selfBrowserSurface: 'include'
+      });
+
+      var video = document.createElement('video');
+      video.style.position = 'fixed';
+      video.style.left = '-10000px';
+      video.style.top = '-10000px';
+      video.muted = true;
+      video.playsInline = true;
+      video.srcObject = stream;
+
+      document.body.appendChild(video);
+
+      try {
+        await video.play();
+        await wait(400);
+
+        var frameWidth = video.videoWidth;
+        var frameHeight = video.videoHeight;
+
+        if (!frameWidth || !frameHeight) {
+          throw new Error('Es konnte kein Videoframe aus dem Tab gelesen werden.');
+        }
+
+        var fullCanvas = document.createElement('canvas');
+        fullCanvas.width = frameWidth;
+        fullCanvas.height = frameHeight;
+
+        var fullCtx = fullCanvas.getContext('2d');
+        fullCtx.drawImage(video, 0, 0, frameWidth, frameHeight);
+
+        var rect = element.getBoundingClientRect();
+
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+
+        if (window.visualViewport) {
+          viewportWidth = window.visualViewport.width;
+          viewportHeight = window.visualViewport.height;
+        }
+
+        var scaleX = frameWidth / viewportWidth;
+        var scaleY = frameHeight / viewportHeight;
+
+        var viewportOffsetLeft = window.visualViewport ? window.visualViewport.offsetLeft : 0;
+        var viewportOffsetTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
+
+        var cropX = Math.round((rect.left - viewportOffsetLeft) * scaleX);
+        var cropY = Math.round((rect.top - viewportOffsetTop) * scaleY);
+        var cropWidth = Math.round(rect.width * scaleX);
+        var cropHeight = Math.round(rect.height * scaleY);
+
+        cropX = Math.max(0, cropX);
+        cropY = Math.max(0, cropY);
+        cropWidth = Math.max(1, Math.min(cropWidth, frameWidth - cropX));
+        cropHeight = Math.max(1, Math.min(cropHeight, frameHeight - cropY));
+
+        var croppedCanvas = document.createElement('canvas');
+        croppedCanvas.width = cropWidth;
+        croppedCanvas.height = cropHeight;
+
+        var croppedCtx = croppedCanvas.getContext('2d');
+        croppedCtx.drawImage(
+          fullCanvas,
+          cropX, cropY, cropWidth, cropHeight,
+          0, 0, cropWidth, cropHeight
+        );
+
+        return croppedCanvas;
+
+      } finally {
+        if (stream) {
+          stream.getTracks().forEach(function (track) {
+            track.stop();
+          });
+        }
+
+        if (video && video.parentNode) {
+          video.parentNode.removeChild(video);
+        }
+      }
+
+    } finally {
+      restoreHiddenElements();
+
+      if (restoreScrollPosition) {
+        restoreScrollPosition();
+      }
+    }
+  }
+
+  /* ============================================================
+     EXPORT NUR VON #map-export-wrapper
+     ============================================================ */
+  async function downloadCurrentMapDivAsJpeg() {
+    var button = document.getElementById('btnSaveMapImage');
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Aktuellen Tab freigeben...';
+    }
+
+    try {
+      var canvas = await captureExactElement('#map-export-wrapper');
+
+      await new Promise(function (resolve, reject) {
+        canvas.toBlob(function (blob) {
+          if (!blob) {
+            reject(new Error('Das JPEG konnte nicht erzeugt werden.'));
+            return;
+          }
+
+          downloadBlob(blob, getMapFileName());
+          resolve(true);
+        }, 'image/jpeg', JPEG_QUALITY);
+      });
+
+    } catch (error) {
+      console.error('Screenshot-Exportfehler:', error);
+
+      alert(
+        'Der Export konnte nicht erstellt werden.\n\n' +
+        'Bitte im Freigabedialog den aktuellen Browser-Tab auswählen.'
+      );
+    } finally {
+      var buttonReset = document.getElementById('btnSaveMapImage');
+      if (buttonReset) {
+        buttonReset.disabled = false;
+        buttonReset.textContent = 'Karte als JPEG herunterladen';
+      }
+    }
+  }
+
+  /* ============================================================
+     INITIALISIERUNG
+     ============================================================
+     Falls der GeoJSON-Button später nachgeladen wird:
+     beobachten und dann die Leiste aufbauen.
+  */
+  function initMapExport() {
+    var placed = placeButtonsInline();
+
+    if (placed && placed.jpegButton) {
+      bindJpegButton(placed.jpegButton);
+      return;
+    }
+
+    var observer = new MutationObserver(function () {
+      var retryPlaced = placeButtonsInline();
+      if (retryPlaced && retryPlaced.jpegButton) {
+        bindJpegButton(retryPlaced.jpegButton);
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  function bindJpegButton(jpegButton) {
+    if (!jpegButton) {
+      return;
+    }
+
+    if (jpegButton.dataset.exportBound === 'true') {
+      return;
+    }
+
+    jpegButton.addEventListener('click', function () {
+      downloadCurrentMapDivAsJpeg();
+    });
+
+    jpegButton.dataset.exportBound = 'true';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMapExport);
+  } else {
+    initMapExport();
+  }
+})();
+</script>
+
     
-    <dl class="observation-attribute-list"></dl>
     
-  
-  </div>
-
-
-  <!-- Zusätzliche Quellenangabe im Export -->
-  <div id="map-export-source" class="map-export-source">
-    <strong>Quelle:</strong>
-    <span id="map-source-text">https://www.integrationsmonitoring.niedersachsen.de</span>
-  </div>
-
-  <!--
-    WICHTIG:
-    KEIN zweiter GeoJSON-Button und KEINE zweite Button-Leiste mehr.
-    Der bereits vorhandene obere GeoJSON-Button bleibt bestehen
-    und wird per JavaScript nur optisch mit dem JPEG-Button kombiniert.
-  -->
-
-</div>
-
-    
-    
-    <script src="/MT_Site/assets/js/custom.js?v=20260603144024"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603144246"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
