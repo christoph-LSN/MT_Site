@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603150959">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603154034">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1038,7 +1038,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260603150959'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603154034'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1062,7 +1062,12 @@ if (allRequired) {
     line-height: 1.3;
   }
 
+  /*
+    Quellenangabe standardmäßig ausblenden.
+    Sie wird nur während des Screenshots kurz eingeblendet.
+  */
   #map-export-source {
+    display: none;
     margin-top: 16px;
     font-size: 0.95rem;
     line-height: 1.4;
@@ -1165,10 +1170,7 @@ if (allRequired) {
 
   /* ============================================================
      VORHANDENEN GEOJSON-BUTTON FINDEN
-     ============================================================
-     Der Button kann je nach Renderlogik leicht unterschiedlich
-     erzeugt werden. Deshalb suchen wir bewusst etwas breiter.
-  */
+     ============================================================ */
   function findExistingGeoJsonButton() {
     return (
       document.querySelector('#map-export-wrapper a[download].btn-download') ||
@@ -1214,24 +1216,14 @@ if (allRequired) {
       actionRow.id = 'map-inline-action-row';
     }
 
-    /*
-      Die Leiste direkt an die bisherige Stelle des vorhandenen
-      GeoJSON-Buttons setzen.
-    */
     if (!actionRow.parentNode && geoJsonButton.parentNode) {
       geoJsonButton.parentNode.insertBefore(actionRow, geoJsonButton);
     }
 
-    /*
-      Vorhandenen GeoJSON-Button in die Leiste verschieben
-    */
     if (!actionRow.contains(geoJsonButton)) {
       actionRow.appendChild(geoJsonButton);
     }
 
-    /*
-      JPEG-Button daneben setzen
-    */
     var jpegButton = createJpegButton();
     if (!actionRow.contains(jpegButton)) {
       actionRow.appendChild(jpegButton);
@@ -1246,6 +1238,10 @@ if (allRequired) {
 
   /* ============================================================
      STÖRENDE ELEMENTE FÜR DEN SCREENSHOT AUSBLENDEN
+     HINWEIS:
+     Elemente oben rechts sollen sichtbar bleiben, daher werden
+     hier nur die Button-Leiste und einige bewusst störende Dinge
+     ausgeblendet.
      ============================================================ */
   function hideElementsForCapture() {
     var selectors = [
@@ -1278,7 +1274,27 @@ if (allRequired) {
   }
 
   /* ============================================================
+     QUELLE NUR FÜR DEN SCREENSHOT EINBLENDEN
+     ============================================================ */
+  function showSourceOnlyDuringCapture() {
+    var source = document.getElementById('map-export-source');
+
+    if (!source) {
+      return function restore() {};
+    }
+
+    var oldDisplay = source.style.display;
+    source.style.display = 'block';
+
+    return function restore() {
+      source.style.display = oldDisplay;
+    };
+  }
+
+  /* ============================================================
      HOVER-/TOOLTIP-ELEMENTE DER KARTE VORÜBERGEHEND UNTERDRÜCKEN
+     Elemente oben rechts (z. B. Selection-/Legendenanzeige)
+     sollen NICHT ausgeblendet werden.
      ============================================================ */
   function suppressMapHoverDuringCapture() {
     var mapElement = document.getElementById('map');
@@ -1288,17 +1304,13 @@ if (allRequired) {
 
     var changed = [];
 
-    /*
-      Sichtbare Tooltip-/Popup-/Info-Elemente ausblenden
-    */
-var hoverSelectors = [
-  '#map .leaflet-tooltip',
-  '#map .leaflet-popup',
-  '#map .info',
-  '#map .hover',
-  '#map .map-info'
-];
-
+    var hoverSelectors = [
+      '#map .leaflet-tooltip',
+      '#map .leaflet-popup',
+      '#map .info',
+      '#map .hover',
+      '#map .map-info'
+    ];
 
     hoverSelectors.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (el) {
@@ -1311,9 +1323,6 @@ var hoverSelectors = [
       });
     });
 
-    /*
-      Mouseout / Mouseleave künstlich auslösen
-    */
     try {
       var mouseOutEvent = new MouseEvent('mouseout', {
         view: window,
@@ -1338,9 +1347,6 @@ var hoverSelectors = [
       // ignorieren
     }
 
-    /*
-      Pointer-Events auf der Karte kurz deaktivieren
-    */
     changed.push({
       element: mapElement,
       oldPointerEvents: mapElement.style.pointerEvents
@@ -1359,9 +1365,6 @@ var hoverSelectors = [
       el.style.pointerEvents = 'none';
     });
 
-    /*
-      Cursor kurz ausblenden
-    */
     changed.push({
       element: document.body,
       oldCursor: document.body.style.cursor
@@ -1401,9 +1404,6 @@ var hoverSelectors = [
       behavior: 'auto'
     });
 
-    /*
-      Browser Zeit geben, neu zu zeichnen
-    */
     await wait(350);
     await wait(250);
 
@@ -1432,20 +1432,14 @@ var hoverSelectors = [
     }
 
     var restoreHiddenElements = hideElementsForCapture();
+    var restoreSourceVisibility = showSourceOnlyDuringCapture();
     var restoreHoverState = suppressMapHoverDuringCapture();
     var restoreScrollPosition = null;
 
     try {
       restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
 
-      /*
-        Nach Scrollen noch kurz warten, damit DOM + Leaflet stabil sind
-      */
       await wait(200);
-
-      /*
-        Hover-Zustände sicher verschwinden lassen
-      */
       await wait(250);
 
       var stream = await navigator.mediaDevices.getDisplayMedia({
@@ -1469,10 +1463,6 @@ var hoverSelectors = [
 
       try {
         await video.play();
-
-        /*
-          Warten, bis ein sauberer Frame vorliegt
-        */
         await wait(400);
 
         var frameWidth = video.videoWidth;
@@ -1541,11 +1531,8 @@ var hoverSelectors = [
       }
 
     } finally {
-      /*
-        Ganz wichtig:
-        Alles sauber wiederherstellen
-      */
       restoreHiddenElements();
+      restoreSourceVisibility();
       restoreHoverState();
 
       if (restoreScrollPosition) {
@@ -1652,7 +1639,7 @@ var hoverSelectors = [
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260603150959"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603154034"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
