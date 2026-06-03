@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603094933">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603100149">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1009,7 +1009,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260603094933'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603100149'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1036,9 +1036,14 @@ function printDiv()
 </script>
 
 
+<!-- Bibliotheken -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
 
 <style>
+  /* =========================================================
+     EXPORTBLOCK
+     ========================================================= */
   #map-export-wrapper {
     background: #ffffff;
     padding: 20px;
@@ -1062,16 +1067,47 @@ function printDiv()
     word-break: break-word;
   }
 
-  #map-image-download {
-    margin-top: 1rem;
+  /* =========================================================
+     BUTTONS: nebeneinander + grün
+     ========================================================= */
+  #map-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+    align-items: center;
   }
 
-  /*
-    Falls du irgendwo gezielt Elemente vom Export ausschließen willst,
-    kannst du ihnen die Klasse .no-export geben.
-  */
-  .no-export {
-    /* keine Layoutänderung auf der Seite selbst */
+  #map-action-row .btn,
+  #map-action-row button,
+  #map-action-row a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 8px 16px;
+    border: 1px solid #00843d;
+    background-color: #00843d;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  #map-action-row .btn:hover,
+  #map-action-row button:hover,
+  #map-action-row a:hover {
+    background-color: #006c32;
+    border-color: #006c32;
+    color: #ffffff !important;
+  }
+
+  #map-action-row .btn:disabled,
+  #map-action-row button:disabled {
+    opacity: 0.75;
+    cursor: wait;
   }
 </style>
 
@@ -1079,21 +1115,59 @@ function printDiv()
 (function () {
   'use strict';
 
-  /*
-    ============================================================
-    KONFIGURATION
-    ============================================================
-  */
-  const EXPORT_SCALE = 1.15;          // guter Kompromiss aus Qualität und Geschwindigkeit
-  const EXPORT_TYPE = 'image/jpeg';
-  const EXPORT_QUALITY = 0.84;
-  const TILE_WAIT_TIMEOUT = 1500;
+  /* =========================================================
+     KONFIGURATION
+     ========================================================= */
+  const EXPORT_SCALE = 1;            // bewusst moderat für schnelleren Export
+  const JPEG_QUALITY = 0.86;
+  const TILE_WAIT_TIMEOUT = 2500;    // nur kurz auf Kartenkacheln warten
+  const PAGE_PADDING = 20;
+  const TITLE_FONT = 'normal 28px Arial, sans-serif';
+  const BODY_FONT = 'normal 14px Arial, sans-serif';
+  const SOURCE_FONT = 'normal 14px Arial, sans-serif';
+  const TEXT_COLOR = '#222222';
+  const SOURCE_COLOR = '#1a5fb4';
 
-  /*
-    ============================================================
-    DATEINAME AUS TITEL ERZEUGEN
-    ============================================================
+  /* =========================================================
+     LEAFLET-MAP-REFERENZ EINFANGEN
+     =========================================================
+     Falls die Karte bereits global erreichbar ist, versuchen wir sie
+     zu finden. Falls nicht, fangen wir zukünftig erzeugte Karten ab.
   */
+  window.__capturedLeafletMaps = window.__capturedLeafletMaps || [];
+
+  function installLeafletMapCapture() {
+    if (!window.L || !window.L.map || window.__leafletMapCaptureInstalled) {
+      return;
+    }
+
+    const originalMapFactory = window.L.map;
+
+    window.L.map = function () {
+      const map = originalMapFactory.apply(this, arguments);
+      try {
+        window.__capturedLeafletMaps.push(map);
+      } catch (e) {
+        // absichtlich leer
+      }
+      return map;
+    };
+
+    window.__leafletMapCaptureInstalled = true;
+  }
+
+  installLeafletMapCapture();
+
+  /* =========================================================
+     HILFSFUNKTIONEN
+     ========================================================= */
+
+  function wait(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
   function getMapFileName() {
     const heading = document.getElementById('map-heading');
 
@@ -1110,22 +1184,39 @@ function printDiv()
     return cleanName + '.jpg';
   }
 
-  /*
-    ============================================================
-    KLEINE WARTEFUNKTION
-    ============================================================
-  */
-  function wait(ms) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, ms);
+  function getTextFromElement(selector) {
+    const el = document.querySelector(selector);
+    return el ? el.innerText.trim() : '';
+  }
+
+  function getFootnoteText() {
+    const footer = document.getElementById('mapFooter');
+    if (!footer) return '';
+
+    const clone = footer.cloneNode(true);
+
+    /*
+      Sicherheitshalber alle Buttons/Links/Formularelemente entfernen,
+      damit nichts wie "im GeoJSON-Format speichern" im Text landet.
+    */
+    clone.querySelectorAll('button, .btn, a.btn, input[type="button"], input[type="submit"]').forEach(function (el) {
+      el.remove();
+    });
+
+    return clone.innerText.trim();
+  }
+
+  function prepareTileImagesForExport(container) {
+    container.querySelectorAll('.leaflet-tile').forEach(function (img) {
+      try {
+        img.crossOrigin = 'anonymous';
+        img.setAttribute('crossorigin', 'anonymous');
+      } catch (e) {
+        // absichtlich leer
+      }
     });
   }
 
-  /*
-    ============================================================
-    AUF LEAFLET-TILES WARTEN
-    ============================================================
-  */
   async function waitForLeafletTiles(container, timeoutMs) {
     const start = Date.now();
 
@@ -1137,16 +1228,12 @@ function printDiv()
         continue;
       }
 
-      let loadedCount = 0;
-
+      let loaded = 0;
       images.forEach(function (img) {
-        if (img.complete) {
-          loadedCount++;
-        }
+        if (img.complete) loaded++;
       });
 
-      // Wenn der Großteil geladen ist, reicht das für den Export
-      if (loadedCount / images.length > 0.9) {
+      if (loaded / images.length > 0.9) {
         return true;
       }
 
@@ -1157,298 +1244,276 @@ function printDiv()
   }
 
   /*
-    ============================================================
-    TILE-BILDER FÜR EXPORT VORBEREITEN
-    ============================================================
+    Sucht eine sichtbare Legende innerhalb des Kartenbereichs.
+    Falls keine Legende existiert, gibt die Funktion null zurück.
   */
-  function prepareTileImagesForExport(container) {
-    const tileImages = container.querySelectorAll('.leaflet-tile');
+  function findLegendElement() {
+    const candidates = document.querySelectorAll(
+      '#map .legend, ' +
+      '#map .map-legend, ' +
+      '#map .leaflet-control.legend, ' +
+      '#map .leaflet-control .legend, ' +
+      '#map .info.legend, ' +
+      '#map .leaflet-top.leaflet-right .leaflet-control'
+    );
 
-    tileImages.forEach(function (img) {
+    for (let i = 0; i < candidates.length; i++) {
+      const el = candidates[i];
+      const rect = el.getBoundingClientRect();
+
+      if (
+        rect.width > 20 &&
+        rect.height > 20 &&
+        window.getComputedStyle(el).display !== 'none' &&
+        window.getComputedStyle(el).visibility !== 'hidden'
+      ) {
+        return el;
+      }
+    }
+
+    return null;
+  }
+
+  /*
+    Versucht, die Leaflet-Map-Instanz zu finden.
+    1) zuerst bereits eingefangene Maps
+    2) dann globale Window-Variablen
+    3) dann einfache Suche in globalen Objekten
+  */
+  function findLeafletMapInstance() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer || !window.L || !window.L.Map) {
+      return null;
+    }
+
+    // 1) bereits gespeicherte Maps bevorzugen
+    if (window.__capturedLeafletMaps.length) {
+      for (let i = window.__capturedLeafletMaps.length - 1; i >= 0; i--) {
+        const map = window.__capturedLeafletMaps[i];
+        if (map && map.getContainer && map.getContainer() === mapContainer) {
+          return map;
+        }
+      }
+      // falls Container-Vergleich fehlschlägt, letzte Karte als Fallback
+      return window.__capturedLeafletMaps[window.__capturedLeafletMaps.length - 1];
+    }
+
+    // 2) globale Variablen durchsuchen
+    for (const key in window) {
       try {
-        img.crossOrigin = 'anonymous';
-        img.setAttribute('crossorigin', 'anonymous');
+        const value = window[key];
+        if (value instanceof window.L.Map) {
+          if (value.getContainer && value.getContainer() === mapContainer) {
+            return value;
+          }
+        }
       } catch (e) {
-        // absichtlich leer
+        // absichtlich ignorieren
       }
-    });
+    }
+
+    // 3) flache Suche in globalen Objekten
+    for (const key in window) {
+      try {
+        const obj = window[key];
+        if (!obj || typeof obj !== 'object') continue;
+
+        for (const subKey in obj) {
+          try {
+            const value = obj[subKey];
+            if (value instanceof window.L.Map) {
+              if (value.getContainer && value.getContainer() === mapContainer) {
+                return value;
+              }
+            }
+          } catch (e) {
+            // absichtlich ignorieren
+          }
+        }
+      } catch (e) {
+        // absichtlich ignorieren
+      }
+    }
+
+    return null;
   }
 
   /*
-    ============================================================
-    TRANSFORM-MATRIX AUSLESEN
-    ============================================================
-    Leaflet nutzt häufig:
-    - matrix(...)
-    - matrix3d(...)
-    Daraus lesen wir die X-/Y-Verschiebung aus.
+    Text im Canvas sauber umbrechen
   */
-  function parseTranslateFromTransform(transformValue) {
-    if (!transformValue || transformValue === 'none') {
-      return { x: 0, y: 0 };
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    if (!text) {
+      return y;
     }
 
-    // matrix(a, b, c, d, tx, ty)
-    const matrix2d = transformValue.match(/^matrix\((.+)\)$/);
-    if (matrix2d) {
-      const values = matrix2d[1].split(',').map(function (v) {
-        return parseFloat(v.trim());
+    const paragraphs = text.split('\n');
+    let currentY = y;
+
+    paragraphs.forEach(function (paragraph, paragraphIndex) {
+      const words = paragraph.split(/\s+/);
+      let line = '';
+
+      words.forEach(function (word) {
+        const testLine = line ? line + ' ' + word : word;
+        const metrics = ctx.measureText(testLine);
+
+        if (metrics.width > maxWidth && line) {
+          ctx.fillText(line, x, currentY);
+          currentY += lineHeight;
+          line = word;
+        } else {
+          line = testLine;
+        }
       });
 
-      return {
-        x: values[4] || 0,
-        y: values[5] || 0
-      };
-    }
-
-    // matrix3d(...)
-    const matrix3d = transformValue.match(/^matrix3d\((.+)\)$/);
-    if (matrix3d) {
-      const values = matrix3d[1].split(',').map(function (v) {
-        return parseFloat(v.trim());
-      });
-
-      return {
-        x: values[12] || 0,
-        y: values[13] || 0
-      };
-    }
-
-    return { x: 0, y: 0 };
-  }
-
-  /*
-    ============================================================
-    LIVE-DOM: LEAFLET-POSITIONEN AUFNEHMEN
-    ============================================================
-    Wir merken uns die berechneten Positionen wichtiger Leaflet-Elemente,
-    damit wir sie im geklonten DOM stabil reproduzieren können.
-  */
-  function captureLeafletLayoutSnapshot(mapContainer) {
-    const selectors = [
-      '.leaflet-map-pane',
-      '.leaflet-tile-pane',
-      '.leaflet-overlay-pane',
-      '.leaflet-shadow-pane',
-      '.leaflet-marker-pane',
-      '.leaflet-tooltip-pane',
-      '.leaflet-popup-pane',
-      '.leaflet-tile-container'
-    ];
-
-    const snapshot = [];
-
-    selectors.forEach(function (selector) {
-      const nodes = mapContainer.querySelectorAll(selector);
-
-      nodes.forEach(function (node, index) {
-        const style = window.getComputedStyle(node);
-        const translate = parseTranslateFromTransform(style.transform);
-
-        snapshot.push({
-          selector: selector,
-          index: index,
-          x: translate.x,
-          y: translate.y,
-          width: style.width,
-          height: style.height,
-          left: style.left,
-          top: style.top
-        });
-      });
-    });
-
-    return snapshot;
-  }
-
-  /*
-    ============================================================
-    CLONE: LEAFLET-POSITIONEN WIEDER EINSETZEN
-    ============================================================
-    Im geklonten DOM entfernen wir transform und setzen dafür left/top.
-    Das reduziert den typischen Leaflet-Versatz in html2canvas.
-  */
-  function applyLeafletLayoutSnapshot(clonedMapContainer, snapshot) {
-    snapshot.forEach(function (entry) {
-      const nodes = clonedMapContainer.querySelectorAll(entry.selector);
-      const node = nodes[entry.index];
-
-      if (!node) return;
-
-      node.style.transform = 'none';
-      node.style.webkitTransform = 'none';
-      node.style.transition = 'none';
-      node.style.animation = 'none';
-      node.style.left = entry.x + 'px';
-      node.style.top = entry.y + 'px';
-
-      if (entry.width) {
-        node.style.width = entry.width;
+      if (line) {
+        ctx.fillText(line, x, currentY);
+        currentY += lineHeight;
       }
 
-      if (entry.height) {
-        node.style.height = entry.height;
+      // Absatzabstand
+      if (paragraphIndex < paragraphs.length - 1) {
+        currentY += 4;
       }
     });
 
-    // Auch einzelne Tiles stabilisieren
-    clonedMapContainer.querySelectorAll('.leaflet-tile').forEach(function (tile) {
-      tile.style.transform = 'none';
-      tile.style.webkitTransform = 'none';
-      tile.style.transition = 'none';
-      tile.style.animation = 'none';
-    });
+    return currentY;
+  }
 
-    // SVG-Overlay explizit oben halten
-    clonedMapContainer.querySelectorAll('.leaflet-overlay-pane svg').forEach(function (svg) {
-      svg.style.position = 'absolute';
-      svg.style.left = '0';
-      svg.style.top = '0';
-      svg.style.transform = 'none';
-      svg.style.webkitTransform = 'none';
+  /*
+    Legende separat als Canvas rendern
+  */
+  async function renderLegendCanvas(legendElement) {
+    if (!legendElement || typeof html2canvas === 'undefined') {
+      return null;
+    }
+
+    return await html2canvas(legendElement, {
+      backgroundColor: null,
+      scale: 1,
+      useCORS: true,
+      allowTaint: false,
+      logging: false
     });
   }
 
   /*
-    ============================================================
-    EXPORT-UNERWÜNSCHTE ELEMENTE AUSBLENDEN
-    ============================================================
-    Hier blenden wir im geklonten Export-DOM alles aus,
-    was NICHT mit ins Bild soll.
+    Karte exakt mit leaflet-image rendern
   */
-  function hideElementsInClone(clonedWrapper) {
-    const selectorsToHide = [
-      // Leaflet-Bedienelemente
-      '.leaflet-control-zoom',
-      '.leaflet-control-search',
-      '.leaflet-control-fullscreen',
-      '.leaflet-control-attribution',
-      '.leaflet-bar.timecontrol',
-      '.leaflet-control-timecontrol',
+  function renderLeafletMapCanvas(map) {
+    return new Promise(function (resolve, reject) {
+      if (!window.leafletImage) {
+        reject(new Error('leaflet-image wurde nicht geladen.'));
+        return;
+      }
 
-      // Export explizit ausschließen
-      '.no-export',
+      window.leafletImage(map, function (err, canvas) {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-      // GeoJSON-Download
-      '#mapSelectionDownload',
-      '#btnSaveMap',
-      '.btn-download',
-
-      // Sonstige Buttons/Links im Datenfuß
-      '#mapFooter button',
-      '#mapFooter .btn',
-      '#mapFooter a.btn',
-      '#mapFooter input[type="button"]',
-      '#mapFooter input[type="submit"]',
-
-      // Allgemein alle Buttons innerhalb des Exportbereichs ausblenden
-      'button',
-      '.btn'
-    ];
-
-    selectorsToHide.forEach(function (selector) {
-      clonedWrapper.querySelectorAll(selector).forEach(function (el) {
-        /*
-          Legende nicht ausblenden
-        */
-        if (el.classList.contains('legend')) return;
-        if (el.classList.contains('map-legend')) return;
-        if (el.classList.contains('info')) return;
-        if (el.closest('.legend')) return;
-        if (el.closest('.map-legend')) return;
-
-        el.style.display = 'none';
+        resolve(canvas);
       });
     });
   }
 
   /*
-    ============================================================
-    DOWNLOAD STARTEN
-    ============================================================
+    Download starten
   */
-  function downloadData(data, filename, isBlob) {
-    const link = document.createElement('a');
-
-    if (isBlob) {
-      const url = URL.createObjectURL(data);
-      link.href = url;
-      link.download = filename;
-
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-
-      setTimeout(function () {
-        URL.revokeObjectURL(url);
-      }, 1000);
-    } else {
-      link.href = data;
-      link.download = filename;
-
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    }
-  }
-
-  /*
-    ============================================================
-    CANVAS EXPORTIEREN
-    ============================================================
-  */
-  function exportCanvas(canvas, filename) {
+  function downloadCanvasAsJpeg(canvas, filename) {
     return new Promise(function (resolve, reject) {
       try {
         canvas.toBlob(function (blob) {
-          if (blob) {
-            downloadData(blob, filename, true);
-            resolve(true);
+          if (!blob) {
+            reject(new Error('Kein Blob erzeugt.'));
             return;
           }
 
-          try {
-            const dataUrl = canvas.toDataURL(EXPORT_TYPE, EXPORT_QUALITY);
-            downloadData(dataUrl, filename, false);
-            resolve(true);
-          } catch (error) {
-            reject(error);
-          }
-        }, EXPORT_TYPE, EXPORT_QUALITY);
-      } catch (error) {
-        try {
-          const dataUrl = canvas.toDataURL(EXPORT_TYPE, EXPORT_QUALITY);
-          downloadData(dataUrl, filename, false);
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+
+          link.href = url;
+          link.download = filename;
+
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 1000);
+
           resolve(true);
-        } catch (fallbackError) {
-          reject(fallbackError);
-        }
+        }, 'image/jpeg', JPEG_QUALITY);
+      } catch (error) {
+        reject(error);
       }
     });
   }
 
   /*
-    ============================================================
-    HAUPTFUNKTION: EXPORT
-    ============================================================
+    Bestehenden GeoJSON-Button in die Aktionsleiste verschieben
   */
-  async function downloadMapBlockAsImage() {
-    const exportWrapper = document.getElementById('map-export-wrapper');
-    const mapContainer = document.getElementById('map');
-    const button = document.getElementById('btnSaveMapImage');
+  function moveGeoJsonButtonIntoActionRow() {
+    const actionRow = document.getElementById('map-action-row');
+    if (!actionRow) return;
 
-    if (!exportWrapper) {
-      alert('Der Export-Bereich #map-export-wrapper wurde nicht gefunden.');
-      return;
-    }
+    // Mögliche Container/Buttons suchen
+    const geoJsonWrapper =
+      document.getElementById('mapSelectionDownload') ||
+      document.querySelector('.download_geojson') ||
+      document.querySelector('#map .btn-download') ||
+      document.querySelector('button#btnSaveMap')?.parentElement;
+
+    if (!geoJsonWrapper) return;
+
+    // Schon verschoben?
+    if (actionRow.contains(geoJsonWrapper)) return;
+
+    actionRow.appendChild(geoJsonWrapper);
+
+    // Grün formatieren
+    geoJsonWrapper.querySelectorAll('button, .btn, a').forEach(function (el) {
+      el.classList.add('map-action-btn');
+    });
+  }
+
+  /*
+    Falls der GeoJSON-Button später per JS eingefügt wird:
+    beobachten und dann verschieben.
+  */
+  function observeGeoJsonButton() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    moveGeoJsonButtonIntoActionRow();
+
+    const observer = new MutationObserver(function () {
+      moveGeoJsonButtonIntoActionRow();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  /* =========================================================
+     HAUPTEXPORT
+     ========================================================= */
+  async function downloadMapAsJpeg() {
+    const button = document.getElementById('btnSaveMapImage');
+    const mapContainer = document.getElementById('map');
 
     if (!mapContainer) {
-      alert('Der Kartenbereich #map wurde nicht gefunden.');
+      alert('Der Kartencontainer #map wurde nicht gefunden.');
       return;
     }
 
-    if (typeof html2canvas === 'undefined') {
-      alert('html2canvas wurde nicht geladen.');
+    const map = findLeafletMapInstance();
+    if (!map) {
+      alert('Die Leaflet-Karteninstanz konnte nicht gefunden werden.');
       return;
     }
 
@@ -1461,99 +1526,132 @@ function printDiv()
       prepareTileImagesForExport(mapContainer);
       await waitForLeafletTiles(mapContainer, TILE_WAIT_TIMEOUT);
 
-      // Leaflet-Layout der LIVE-Karte merken
-      const leafletSnapshot = captureLeafletLayoutSnapshot(mapContainer);
+      const mapRect = mapContainer.getBoundingClientRect();
+      const titleText = getTextFromElement('#map-heading');
+      const footnoteText = getFootnoteText();
+      const sourceText = getTextFromElement('#map-source-text');
+      const legendElement = findLegendElement();
 
-      const rect = exportWrapper.getBoundingClientRect();
+      // 1) Exakte Kartenrenderung
+      const mapCanvas = await renderLeafletMapCanvas(map);
 
-      const canvas = await html2canvas(exportWrapper, {
-        backgroundColor: '#ffffff',
-        scale: EXPORT_SCALE,
-        useCORS: true,
-        allowTaint: false,
-        logging: false,
-        imageTimeout: 2000,
-        foreignObjectRendering: false,
-        width: Math.ceil(rect.width),
-        height: Math.ceil(rect.height),
-        scrollX: 0,
-        scrollY: 0,
+      // 2) Legende separat rendern (wenn vorhanden)
+      let legendCanvas = null;
+      let legendRect = null;
+      if (legendElement) {
+        legendCanvas = await renderLegendCanvas(legendElement);
+        legendRect = legendElement.getBoundingClientRect();
+      }
 
-        onclone: function (clonedDocument) {
-          const clonedWrapper = clonedDocument.getElementById('map-export-wrapper');
-          const clonedMapContainer = clonedDocument.getElementById('map');
+      // 3) Finales Canvas zusammenbauen
+      const exportWidth = Math.max(1000, Math.round(mapRect.width));
+      const drawScale = exportWidth / mapCanvas.width;
+      const finalMapWidth = Math.round(mapCanvas.width * drawScale);
+      const finalMapHeight = Math.round(mapCanvas.height * drawScale);
 
-          if (!clonedWrapper) return;
+      // Hilfs-Canvas zum Höhenabschätzen
+      const measureCanvas = document.createElement('canvas');
+      const measureCtx = measureCanvas.getContext('2d');
 
-          // Unerwünschte Buttons / Controls ausblenden
-          hideElementsInClone(clonedWrapper);
+      measureCtx.font = TITLE_FONT;
+      const titleLineHeight = 36;
 
-          // Leaflet-Layout im Clone korrigieren
-          if (clonedMapContainer) {
-            applyLeafletLayoutSnapshot(clonedMapContainer, leafletSnapshot);
-          }
-        }
-      });
+      measureCtx.font = BODY_FONT;
+      const bodyLineHeight = 20;
 
-      await exportCanvas(canvas, getMapFileName());
+      measureCtx.font = SOURCE_FONT;
+      const sourceLineHeight = 20;
+
+      // Grobe Höhenberechnung
+      const contentWidth = exportWidth - PAGE_PADDING * 2;
+      let estimatedHeight = 0;
+      estimatedHeight += PAGE_PADDING;           // oben
+      estimatedHeight += titleLineHeight + 12;   // Titelblock
+      estimatedHeight += finalMapHeight;         // Karte
+      estimatedHeight += 24;                     // Abstand zur Fußnote
+      estimatedHeight += 140;                    // Reserve für Fußnote
+      estimatedHeight += 40;                     // Quelle
+      estimatedHeight += PAGE_PADDING;           // unten
+
+      const finalCanvas = document.createElement('canvas');
+      finalCanvas.width = exportWidth * EXPORT_SCALE;
+      finalCanvas.height = estimatedHeight * EXPORT_SCALE;
+
+      const ctx = finalCanvas.getContext('2d');
+      ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
+
+      // Hintergrund
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, exportWidth, estimatedHeight);
+
+      // Titel
+      let currentY = PAGE_PADDING;
+      ctx.fillStyle = TEXT_COLOR;
+      ctx.font = TITLE_FONT;
+      currentY = wrapText(ctx, titleText, PAGE_PADDING, currentY + 28, contentWidth, titleLineHeight);
+      currentY += 12;
+
+      // Karte
+      const mapX = PAGE_PADDING;
+      const mapY = currentY;
+      ctx.drawImage(mapCanvas, mapX, mapY, finalMapWidth, finalMapHeight);
+
+      // Legende oben rechts auf die Karte legen
+      if (legendCanvas && legendRect) {
+        const relativeLeft = legendRect.left - mapRect.left;
+        const relativeTop = legendRect.top - mapRect.top;
+
+        const drawLegendX = mapX + Math.round(relativeLeft * drawScale);
+        const drawLegendY = mapY + Math.round(relativeTop * drawScale);
+        const drawLegendW = Math.round(legendRect.width * drawScale);
+        const drawLegendH = Math.round(legendRect.height * drawScale);
+
+        ctx.drawImage(legendCanvas, drawLegendX, drawLegendY, drawLegendW, drawLegendH);
+      }
+
+      currentY = mapY + finalMapHeight + 24;
+
+      // Fußnote
+      if (footnoteText) {
+        ctx.fillStyle = TEXT_COLOR;
+        ctx.font = BODY_FONT;
+        currentY = wrapText(ctx, footnoteText, PAGE_PADDING, currentY, contentWidth, bodyLineHeight);
+        currentY += 12;
+      }
+
+      // Quelle
+      if (sourceText) {
+        ctx.fillStyle = TEXT_COLOR;
+        ctx.font = 'bold 14px Arial, sans-serif';
+        ctx.fillText('Quelle:', PAGE_PADDING, currentY);
+
+        const labelWidth = ctx.measureText('Quelle:').width + 6;
+        ctx.font = SOURCE_FONT;
+        ctx.fillStyle = SOURCE_COLOR;
+        ctx.fillText(sourceText, PAGE_PADDING + labelWidth, currentY);
+
+        // leichte Unterstreichung wie Link-Stil
+        const sourceWidth = ctx.measureText(sourceText).width;
+        ctx.beginPath();
+        ctx.moveTo(PAGE_PADDING + labelWidth, currentY + 3);
+        ctx.lineTo(PAGE_PADDING + labelWidth + sourceWidth, currentY + 3);
+        ctx.strokeStyle = SOURCE_COLOR;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Falls die tatsächlich beschriebene Höhe kleiner/größer ist:
+      // optional könnte man hier noch trimmen; für Stabilität lassen wir es so.
+
+      await downloadCanvasAsJpeg(finalCanvas, getMapFileName());
 
     } catch (error) {
       console.error('Exportfehler:', error);
       alert(
-        'Der Download konnte nicht gestartet werden.\n\n' +
-        'Falls der Kartenhintergrund fehlt oder die Karte weiter versetzt erscheint,\n' +
-        'liegt das sehr wahrscheinlich an Leaflet-Transforms oder externen Kartenkacheln.'
-      );
-    } finally {
-      if (button) {
-        button.disabled = false;
-        button.textContent = 'Karte als JPG herunterladen';
-      }
-    }
-  }
-
-  /*
-    ============================================================
-    BUTTON VERBINDEN
-    ============================================================
-  */
-  function initMapExportButton() {
-    const button = document.getElementById('btnSaveMapImage');
-
-    if (!button) {
-      console.warn('Button #btnSaveMapImage wurde nicht gefunden.');
-      return;
-    }
-
-    if (button.dataset.exportBound === 'true') {
-      return;
-    }
-
-    button.textContent = 'Karte als JPG herunterladen';
-
-    button.addEventListener('click', function () {
-      downloadMapBlockAsImage();
-    });
-
-    button.dataset.exportBound = 'true';
-  }
-
-  /*
-    ============================================================
-    START
-    ============================================================
-  */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMapExportButton);
-  } else {
-    initMapExportButton();
-  }
-})();
-</script>
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260603094933"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603100149"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
