@@ -53,6 +53,14 @@ function printDiv()
   #map-image-download {
     margin-top: 1rem;
   }
+
+  /*
+    Falls du irgendwo gezielt Elemente vom Export ausschließen willst,
+    kannst du ihnen die Klasse .no-export geben.
+  */
+  .no-export {
+    /* keine Layoutänderung auf der Seite selbst */
+  }
 </style>
 
 <script>
@@ -64,14 +72,14 @@ function printDiv()
     KONFIGURATION
     ============================================================
   */
-  const EXPORT_SCALE = 1.2;
+  const EXPORT_SCALE = 1.15;          // guter Kompromiss aus Qualität und Geschwindigkeit
   const EXPORT_TYPE = 'image/jpeg';
-  const EXPORT_QUALITY = 0.82;
+  const EXPORT_QUALITY = 0.84;
   const TILE_WAIT_TIMEOUT = 1500;
 
   /*
     ============================================================
-    DATEINAMEN BAUEN
+    DATEINAME AUS TITEL ERZEUGEN
     ============================================================
   */
   function getMapFileName() {
@@ -92,7 +100,7 @@ function printDiv()
 
   /*
     ============================================================
-    WARTEFUNKTION
+    KLEINE WARTEFUNKTION
     ============================================================
   */
   function wait(ms) {
@@ -125,6 +133,7 @@ function printDiv()
         }
       });
 
+      // Wenn der Großteil geladen ist, reicht das für den Export
       if (loadedCount / images.length > 0.9) {
         return true;
       }
@@ -150,6 +159,194 @@ function printDiv()
       } catch (e) {
         // absichtlich leer
       }
+    });
+  }
+
+  /*
+    ============================================================
+    TRANSFORM-MATRIX AUSLESEN
+    ============================================================
+    Leaflet nutzt häufig:
+    - matrix(...)
+    - matrix3d(...)
+    Daraus lesen wir die X-/Y-Verschiebung aus.
+  */
+  function parseTranslateFromTransform(transformValue) {
+    if (!transformValue || transformValue === 'none') {
+      return { x: 0, y: 0 };
+    }
+
+    // matrix(a, b, c, d, tx, ty)
+    const matrix2d = transformValue.match(/^matrix\((.+)\)$/);
+    if (matrix2d) {
+      const values = matrix2d[1].split(',').map(function (v) {
+        return parseFloat(v.trim());
+      });
+
+      return {
+        x: values[4] || 0,
+        y: values[5] || 0
+      };
+    }
+
+    // matrix3d(...)
+    const matrix3d = transformValue.match(/^matrix3d\((.+)\)$/);
+    if (matrix3d) {
+      const values = matrix3d[1].split(',').map(function (v) {
+        return parseFloat(v.trim());
+      });
+
+      return {
+        x: values[12] || 0,
+        y: values[13] || 0
+      };
+    }
+
+    return { x: 0, y: 0 };
+  }
+
+  /*
+    ============================================================
+    LIVE-DOM: LEAFLET-POSITIONEN AUFNEHMEN
+    ============================================================
+    Wir merken uns die berechneten Positionen wichtiger Leaflet-Elemente,
+    damit wir sie im geklonten DOM stabil reproduzieren können.
+  */
+  function captureLeafletLayoutSnapshot(mapContainer) {
+    const selectors = [
+      '.leaflet-map-pane',
+      '.leaflet-tile-pane',
+      '.leaflet-overlay-pane',
+      '.leaflet-shadow-pane',
+      '.leaflet-marker-pane',
+      '.leaflet-tooltip-pane',
+      '.leaflet-popup-pane',
+      '.leaflet-tile-container'
+    ];
+
+    const snapshot = [];
+
+    selectors.forEach(function (selector) {
+      const nodes = mapContainer.querySelectorAll(selector);
+
+      nodes.forEach(function (node, index) {
+        const style = window.getComputedStyle(node);
+        const translate = parseTranslateFromTransform(style.transform);
+
+        snapshot.push({
+          selector: selector,
+          index: index,
+          x: translate.x,
+          y: translate.y,
+          width: style.width,
+          height: style.height,
+          left: style.left,
+          top: style.top
+        });
+      });
+    });
+
+    return snapshot;
+  }
+
+  /*
+    ============================================================
+    CLONE: LEAFLET-POSITIONEN WIEDER EINSETZEN
+    ============================================================
+    Im geklonten DOM entfernen wir transform und setzen dafür left/top.
+    Das reduziert den typischen Leaflet-Versatz in html2canvas.
+  */
+  function applyLeafletLayoutSnapshot(clonedMapContainer, snapshot) {
+    snapshot.forEach(function (entry) {
+      const nodes = clonedMapContainer.querySelectorAll(entry.selector);
+      const node = nodes[entry.index];
+
+      if (!node) return;
+
+      node.style.transform = 'none';
+      node.style.webkitTransform = 'none';
+      node.style.transition = 'none';
+      node.style.animation = 'none';
+      node.style.left = entry.x + 'px';
+      node.style.top = entry.y + 'px';
+
+      if (entry.width) {
+        node.style.width = entry.width;
+      }
+
+      if (entry.height) {
+        node.style.height = entry.height;
+      }
+    });
+
+    // Auch einzelne Tiles stabilisieren
+    clonedMapContainer.querySelectorAll('.leaflet-tile').forEach(function (tile) {
+      tile.style.transform = 'none';
+      tile.style.webkitTransform = 'none';
+      tile.style.transition = 'none';
+      tile.style.animation = 'none';
+    });
+
+    // SVG-Overlay explizit oben halten
+    clonedMapContainer.querySelectorAll('.leaflet-overlay-pane svg').forEach(function (svg) {
+      svg.style.position = 'absolute';
+      svg.style.left = '0';
+      svg.style.top = '0';
+      svg.style.transform = 'none';
+      svg.style.webkitTransform = 'none';
+    });
+  }
+
+  /*
+    ============================================================
+    EXPORT-UNERWÜNSCHTE ELEMENTE AUSBLENDEN
+    ============================================================
+    Hier blenden wir im geklonten Export-DOM alles aus,
+    was NICHT mit ins Bild soll.
+  */
+  function hideElementsInClone(clonedWrapper) {
+    const selectorsToHide = [
+      // Leaflet-Bedienelemente
+      '.leaflet-control-zoom',
+      '.leaflet-control-search',
+      '.leaflet-control-fullscreen',
+      '.leaflet-control-attribution',
+      '.leaflet-bar.timecontrol',
+      '.leaflet-control-timecontrol',
+
+      // Export explizit ausschließen
+      '.no-export',
+
+      // GeoJSON-Download
+      '#mapSelectionDownload',
+      '#btnSaveMap',
+      '.btn-download',
+
+      // Sonstige Buttons/Links im Datenfuß
+      '#mapFooter button',
+      '#mapFooter .btn',
+      '#mapFooter a.btn',
+      '#mapFooter input[type="button"]',
+      '#mapFooter input[type="submit"]',
+
+      // Allgemein alle Buttons innerhalb des Exportbereichs ausblenden
+      'button',
+      '.btn'
+    ];
+
+    selectorsToHide.forEach(function (selector) {
+      clonedWrapper.querySelectorAll(selector).forEach(function (el) {
+        /*
+          Legende nicht ausblenden
+        */
+        if (el.classList.contains('legend')) return;
+        if (el.classList.contains('map-legend')) return;
+        if (el.classList.contains('info')) return;
+        if (el.closest('.legend')) return;
+        if (el.closest('.map-legend')) return;
+
+        el.style.display = 'none';
+      });
     });
   }
 
@@ -220,7 +417,7 @@ function printDiv()
 
   /*
     ============================================================
-    EXPORTFUNKTION
+    HAUPTFUNKTION: EXPORT
     ============================================================
   */
   async function downloadMapBlockAsImage() {
@@ -252,6 +449,9 @@ function printDiv()
       prepareTileImagesForExport(mapContainer);
       await waitForLeafletTiles(mapContainer, TILE_WAIT_TIMEOUT);
 
+      // Leaflet-Layout der LIVE-Karte merken
+      const leafletSnapshot = captureLeafletLayoutSnapshot(mapContainer);
+
       const rect = exportWrapper.getBoundingClientRect();
 
       const canvas = await html2canvas(exportWrapper, {
@@ -269,30 +469,17 @@ function printDiv()
 
         onclone: function (clonedDocument) {
           const clonedWrapper = clonedDocument.getElementById('map-export-wrapper');
+          const clonedMapContainer = clonedDocument.getElementById('map');
+
           if (!clonedWrapper) return;
 
-          const selectorsToHide = [
-            '.leaflet-control-zoom',
-            '.leaflet-control-search',
-            '.leaflet-control-fullscreen',
-            '.leaflet-control-attribution',
-            '.leaflet-bar.timecontrol',
-            '.leaflet-control-timecontrol',
-            '.leaflet-control-container .leaflet-bottom.leaflet-left .leaflet-control',
-            '.leaflet-control-container .leaflet-bottom.leaflet-right .leaflet-control'
-          ];
+          // Unerwünschte Buttons / Controls ausblenden
+          hideElementsInClone(clonedWrapper);
 
-          selectorsToHide.forEach(function (selector) {
-            clonedWrapper.querySelectorAll(selector).forEach(function (el) {
-              if (el.classList.contains('legend')) return;
-              if (el.classList.contains('map-legend')) return;
-              if (el.classList.contains('info')) return;
-              if (el.closest('.legend')) return;
-              if (el.closest('.map-legend')) return;
-
-              el.style.display = 'none';
-            });
-          });
+          // Leaflet-Layout im Clone korrigieren
+          if (clonedMapContainer) {
+            applyLeafletLayoutSnapshot(clonedMapContainer, leafletSnapshot);
+          }
         }
       });
 
@@ -302,8 +489,8 @@ function printDiv()
       console.error('Exportfehler:', error);
       alert(
         'Der Download konnte nicht gestartet werden.\n\n' +
-        'Falls der Kartenhintergrund fehlt oder der Export hängen bleibt,\n' +
-        'liegt das sehr wahrscheinlich an externen Leaflet-Kacheln (CORS).'
+        'Falls der Kartenhintergrund fehlt oder die Karte weiter versetzt erscheint,\n' +
+        'liegt das sehr wahrscheinlich an Leaflet-Transforms oder externen Kartenkacheln.'
       );
     } finally {
       if (button) {
@@ -339,6 +526,11 @@ function printDiv()
     button.dataset.exportBound = 'true';
   }
 
+  /*
+    ============================================================
+    START
+    ============================================================
+  */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMapExportButton);
   } else {
