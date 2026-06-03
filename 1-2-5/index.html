@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260602155209">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603041219">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1038,7 +1038,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260602155209'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603041219'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -1082,12 +1082,331 @@ function printDiv()
 
 
   
-html2canvas.min.js:20 Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently
-fn.createCanvasClone @ html2canvas.min.js:20
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+  #map-export-wrapper {
+    background: #ffffff;
+    padding: 20px;
+  }
+
+  #map-export-wrapper .map-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  #map-image-download {
+    margin-top: 1rem;
+  }
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  /*
+    ============================================================
+    KONFIGURATION
+    ============================================================
+    Hier kannst du Geschwindigkeit / Qualität später leicht anpassen.
+  */
+  const EXPORT_SCALE = 1.2;      // 1 = schneller / kleiner, 1.2 = guter Kompromiss
+  const EXPORT_TYPE = 'image/jpeg';
+  const EXPORT_QUALITY = 0.82;   // nur für JPEG relevant (0 bis 1)
+  const TILE_WAIT_TIMEOUT = 1500; // maximale Wartezeit auf Leaflet-Tiles in ms
+
+  /*
+    ============================================================
+    DATEINAME AUS TITEL BAUEN
+    ============================================================
+  */
+  function getMapFileName() {
+    const heading = document.getElementById('map-heading');
+
+    if (!heading) {
+      return 'karte.jpg';
+    }
+
+    const cleanName = heading.textContent
+      .trim()
+      .toLowerCase()
+      .replace(/[^\wäöüß\- ]/gi, '')
+      .replace(/\s+/g, '-');
+
+    return cleanName + '.jpg';
+  }
+
+  /*
+    ============================================================
+    KURZ WARTEN
+    ============================================================
+  */
+  function wait(ms) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  /*
+    ============================================================
+    AUF LEAFLET-TILES WARTEN (ABER NUR KURZ)
+    ============================================================
+    Wir warten bewusst nicht mehr sehr lange.
+    Sonst blockiert der Export unnötig.
+  */
+  async function waitForLeafletTiles(container, timeoutMs) {
+    const start = Date.now();
+
+    while (Date.now() - start < timeoutMs) {
+      const images = container.querySelectorAll('.leaflet-tile');
+
+      if (images.length === 0) {
+        await wait(150);
+        continue;
+      }
+
+      let loadedCount = 0;
+
+      images.forEach(function (img) {
+        if (img.complete) {
+          loadedCount++;
+        }
+      });
+
+      // Wenn fast alle Tiles geladen sind, reicht uns das
+      if (loadedCount / images.length > 0.9) {
+        return true;
+      }
+
+      await wait(150);
+    }
+
+    return false;
+  }
+
+  /*
+    ============================================================
+    TILE-BILDER FÜR EXPORT VORBEREITEN
+    ============================================================
+  */
+  function prepareTileImagesForExport(container) {
+    const tileImages = container.querySelectorAll('.leaflet-tile');
+
+    tileImages.forEach(function (img) {
+      try {
+        img.crossOrigin = 'anonymous';
+        img.setAttribute('crossorigin', 'anonymous');
+      } catch (e) {
+        // bewusst leer
+      }
+    });
+  }
+
+  /*
+    ============================================================
+    DOWNLOAD STARTEN
+    ============================================================
+    Erst Blob versuchen, sonst DataURL-Fallback.
+  */
+  function downloadData(data, filename, isBlob) {
+    const link = document.createElement('a');
+
+    if (isBlob) {
+      const url = URL.createObjectURL(data);
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+      }, 1000);
+    } else {
+      link.href = data;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+  }
+
+  /*
+    ============================================================
+    CANVAS EXPORTIEREN
+    ============================================================
+    JPEG ist hier absichtlich gewählt, damit die Datei deutlich kleiner wird.
+  */
+  function exportCanvas(canvas, filename) {
+    return new Promise(function (resolve, reject) {
+      try {
+        canvas.toBlob(function (blob) {
+          if (blob) {
+            downloadData(blob, filename, true);
+            resolve(true);
+            return;
+          }
+
+          try {
+            const dataUrl = canvas.toDataURL(EXPORT_TYPE, EXPORT_QUALITY);
+            downloadData(dataUrl, filename, false);
+            resolve(true);
+          } catch (error) {
+            reject(error);
+          }
+        }, EXPORT_TYPE, EXPORT_QUALITY);
+      } catch (error) {
+        try {
+          const dataUrl = canvas.toDataURL(EXPORT_TYPE, EXPORT_QUALITY);
+          downloadData(dataUrl, filename, false);
+          resolve(true);
+        } catch (fallbackError) {
+          reject(fallbackError);
+        }
+      }
+    });
+  }
+
+  /*
+    ============================================================
+    EXPORTFUNKTION
+    ============================================================
+  */
+  async function downloadMapBlockAsImage() {
+    const exportWrapper = document.getElementById('map-export-wrapper');
+    const mapContainer = document.getElementById('map');
+    const button = document.getElementById('btnSaveMapImage');
+
+    if (!exportWrapper) {
+      alert('Der Export-Bereich #map-export-wrapper wurde nicht gefunden.');
+      return;
+    }
+
+    if (!mapContainer) {
+      alert('Der Kartenbereich #map wurde nicht gefunden.');
+      return;
+    }
+
+    if (typeof html2canvas === 'undefined') {
+      alert('html2canvas wurde nicht geladen.');
+      return;
+    }
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Export läuft...';
+    }
+
+    try {
+      prepareTileImagesForExport(mapContainer);
+
+      // nur kurz auf Tiles warten
+      await waitForLeafletTiles(mapContainer, TILE_WAIT_TIMEOUT);
+
+      const rect = exportWrapper.getBoundingClientRect();
+
+      const canvas = await html2canvas(exportWrapper, {
+        backgroundColor: '#ffffff',
+        scale: EXPORT_SCALE,
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        imageTimeout: 2000,
+        foreignObjectRendering: false,
+        width: Math.ceil(rect.width),
+        height: Math.ceil(rect.height),
+        scrollX: 0,
+        scrollY: 0,
+
+        /*
+          Nur im KLON störende Bedienelemente ausblenden.
+          Die echte Seite bleibt dabei unverändert.
+        */
+        onclone: function (clonedDocument) {
+          const clonedWrapper = clonedDocument.getElementById('map-export-wrapper');
+          if (!clonedWrapper) return;
+
+          const selectorsToHide = [
+            '.leaflet-control-zoom',
+            '.leaflet-control-search',
+            '.leaflet-control-fullscreen',
+            '.leaflet-control-attribution',
+            '.leaflet-bar.timecontrol',
+            '.leaflet-control-timecontrol',
+            '.leaflet-control-container .leaflet-bottom.leaflet-left .leaflet-control',
+            '.leaflet-control-container .leaflet-bottom.leaflet-right .leaflet-control'
+          ];
+
+          selectorsToHide.forEach(function (selector) {
+            clonedWrapper.querySelectorAll(selector).forEach(function (el) {
+              // Legende möglichst stehen lassen
+              if (el.classList.contains('legend')) return;
+              if (el.classList.contains('map-legend')) return;
+              if (el.classList.contains('info')) return;
+              if (el.closest('.legend')) return;
+              if (el.closest('.map-legend')) return;
+
+              el.style.display = 'none';
+            });
+          });
+        }
+      });
+
+      await exportCanvas(canvas, getMapFileName());
+
+    } catch (error) {
+      console.error('Exportfehler:', error);
+      alert(
+        'Der Download konnte nicht gestartet werden.\n\n' +
+        'Falls der Kartenhintergrund fehlt oder der Export hängen bleibt,\n' +
+        'liegt das sehr wahrscheinlich an externen Leaflet-Kacheln (CORS).'
+      );
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Karte als JPG herunterladen';
+      }
+    }
+  }
+
+  /*
+    ============================================================
+    BUTTON VERBINDEN
+    ============================================================
+  */
+  function initMapExportButton() {
+    const button = document.getElementById('btnSaveMapImage');
+
+    if (!button) {
+      console.warn('Button #btnSaveMapImage wurde nicht gefunden.');
+      return;
+    }
+
+    if (button.dataset.exportBound === 'true') {
+      return;
+    }
+
+    // Buttontext an das neue Format anpassen
+    button.textContent = 'Karte als JPG herunterladen';
+
+    button.addEventListener('click', function () {
+      downloadMapBlockAsImage();
+    });
+
+    button.dataset.exportBound = 'true';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMapExportButton);
+  } else {
+    initMapExportButton();
+  }
+})();
+</script>
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260602155209"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603041219"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
