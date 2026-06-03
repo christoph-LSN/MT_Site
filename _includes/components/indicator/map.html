@@ -2,13 +2,8 @@
 {% assign indicator_number = page.indicator.indicator_number | default: page.indicator.indicator | default: page.indicator.id %}
 {% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}
 
-<!-- =========================================================
-     EXPORTBEREICH
-     Nur dieser Block wird für den JPEG-Export verwendet
-     ========================================================= -->
 <div id="map-export-wrapper">
 
-  <!-- Titel -->
   <div id="map-export-header">
     <h4 id="map-heading" class="map-title">
       {% if indicator_number %}
@@ -19,7 +14,6 @@
     </h4>
   </div>
 
-  <!-- Kartenbereich -->
   <div id="map" aria-describedby="table-alternative">
     <img
       class="map-loading-image"
@@ -27,20 +21,11 @@
       alt="{{ page.t.indicator.loading_map }}" />
   </div>
 
-  <!-- Standard-Fußnote / Datenfuß -->
   {% include components/indicator/data-footer.html footerId='mapFooter' %}
 
-  <!-- Zusätzliche Quellenangabe im Export -->
   <div id="map-export-source" class="map-export-source">
     <strong>Quelle:</strong>
     <span id="map-source-text">{{ source_url }}</span>
   </div>
-
-  <!--
-    WICHTIG:
-    KEIN zweiter GeoJSON-Button und KEINE zweite Button-Leiste mehr.
-    Der bereits vorhandene obere GeoJSON-Button bleibt bestehen
-    und wird per JavaScript nur optisch mit dem JPEG-Button kombiniert.
-  -->
 
 </div>
