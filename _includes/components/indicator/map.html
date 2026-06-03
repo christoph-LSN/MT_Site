@@ -54,15 +54,14 @@
   </button>
 
   <!-- GeoJSON-Download -->
-  <div id="mapSelectionDownload" class="clearfix">
-    <button
-      id="btnSaveMap"
-      type="button"
-      title="{{ page.t.indicator.download_chart_image_title }}"
-      aria-label="{{ page.t.indicator.download_chart_image_title }}"
-      class="btn btn-primary btn-download map-action-btn">
-      {{ page.t.indicator.download_chart_image }}
-    </button>
-  </div>
+  <a
+    id="btnSaveGeoJson"
+    href="https://christoph-lsn.github.io/IM_Data/de/geojson/map/indicator_1-1-1.geojson"
+    download
+    class="btn btn-primary map-action-btn geojson-export-btn"
+    title="Im GeoJSON-Format speichern - Karte"
+    aria-label="Im GeoJSON-Format speichern - Karte">
+    Im GeoJSON-Format speichern - Karte
+  </a>
 
 </div>
