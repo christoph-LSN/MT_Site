@@ -250,14 +250,14 @@
     /*
       Sichtbare Tooltip-/Popup-/Info-Elemente ausblenden
     */
-    var hoverSelectors = [
-      '#map .leaflet-tooltip',
-      '#map .leaflet-popup',
-      '#map .info',
-      '#map .hover',
-      '#map .map-info',
-      '#map .selection-legend dl'
-    ];
+var hoverSelectors = [
+  '#map .leaflet-tooltip',
+  '#map .leaflet-popup',
+  '#map .info',
+  '#map .hover',
+  '#map .map-info'
+];
+
 
     hoverSelectors.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (el) {
