@@ -41,17 +41,10 @@
 
   #map-action-row .btn,
   #map-action-row button,
-  #map-action-row a,
-  #mapSelectionDownload,
-  #mapSelectionDownload .btn {
+  #map-action-row a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  }
-
-  #map-action-row .btn,
-  #map-action-row button,
-  #map-action-row a {
     min-height: 42px;
     padding: 8px 16px;
     border: 1px solid #00843d;
@@ -85,11 +78,6 @@
 
   var JPEG_QUALITY = 0.90;
 
-  /*
-    ============================================================
-    HILFSFUNKTIONEN
-    ============================================================
-  */
   function wait(ms) {
     return new Promise(function (resolve) {
       setTimeout(resolve, ms);
@@ -130,15 +118,17 @@
 
   /*
     ============================================================
-    STÖRENDE ELEMENTE VORÜBERGEHEND AUSBLENDEN
+    Nur wirklich störende Elemente ausblenden
     ============================================================
+    Der GeoJSON-Button liegt jetzt außerhalb des Exportbereichs,
+    aber falls später doch einmal ein Export-Link innerhalb des
+    Wrappers landet, wird er vorsorglich ausgeblendet.
   */
   function hideElementsForCapture() {
     var selectors = [
-      '#map-export-wrapper .btn-download',
-      '#map-export-wrapper #mapSelectionDownload',
-      '#map-export-wrapper #btnSaveMap',
+      '#map-export-wrapper .geojson-export-btn',
       '#map-export-wrapper a[download]',
+      '#map-export-wrapper .btn-download',
       '#map-export-wrapper .leaflet-control-fullscreen',
       '#map-export-wrapper .leaflet-control-search',
       '#map-export-wrapper .leaflet-control-attribution',
@@ -168,20 +158,14 @@
 
   /*
     ============================================================
-    EXPORTBEREICH IN EINE STABILE POSITION SCROLLEN
+    Exportbereich vor dem Screenshot nach oben scrollen
     ============================================================
-    Dadurch ist es egal, wo der Benutzer vorher auf der Seite war.
   */
   async function scrollElementIntoStableCapturePosition(element) {
     var oldScrollX = window.scrollX;
     var oldScrollY = window.scrollY;
 
-    /*
-      Das Element möglichst weit nach oben bringen,
-      aber mit kleinem Rand.
-    */
     var targetTop = window.scrollY + element.getBoundingClientRect().top - 20;
-
     if (targetTop < 0) {
       targetTop = 0;
     }
@@ -192,15 +176,7 @@
       behavior: 'auto'
     });
 
-    /*
-      Browser kurz Zeit geben, Layout und Leaflet neu zu zeichnen
-    */
     await wait(350);
-
-    /*
-      Bei Karten nach Scroll/Redraw noch einmal kurz warten,
-      damit wirklich der finale Zustand sichtbar ist
-    */
     await wait(250);
 
     return function restoreScrollPosition() {
@@ -214,8 +190,7 @@
 
   /*
     ============================================================
-    SCREENSHOT DES AKTUELLEN TABS MACHEN UND EXAKT AUF EIN
-    ELEMENT ZUSCHNEIDEN
+    Exaktes Element aus dem aktuellen Tab ausschneiden
     ============================================================
   */
   async function captureExactElement(selector) {
@@ -233,20 +208,9 @@
     var restoreScrollPosition = null;
 
     try {
-      /*
-        Ganz wichtig:
-        Vor dem Screenshot den Exportbereich in stabile Position scrollen
-      */
       restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
-
-      /*
-        Nochmals kurz warten, falls Leaflet/DOM nach dem Scrollen nachzieht
-      */
       await wait(200);
 
-      /*
-        Freigabe des aktuellen Tabs anfordern
-      */
       var stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
           frameRate: 1
@@ -268,10 +232,6 @@
 
       try {
         await video.play();
-
-        /*
-          Warten, bis ein sauberer Frame verfügbar ist
-        */
         await wait(400);
 
         var frameWidth = video.videoWidth;
@@ -281,9 +241,6 @@
           throw new Error('Es konnte kein Videoframe aus dem Tab gelesen werden.');
         }
 
-        /*
-          Gesamten sichtbaren Tab auf Hilfs-Canvas zeichnen
-        */
         var fullCanvas = document.createElement('canvas');
         fullCanvas.width = frameWidth;
         fullCanvas.height = frameHeight;
@@ -291,14 +248,8 @@
         var fullCtx = fullCanvas.getContext('2d');
         fullCtx.drawImage(video, 0, 0, frameWidth, frameHeight);
 
-        /*
-          Jetzt NACH dem Scrollen die aktuelle Position des Elements holen
-        */
         var rect = element.getBoundingClientRect();
 
-        /*
-          Verhältnis Screenshot-Pixel zu CSS-Pixel
-        */
         var viewportWidth = window.innerWidth;
         var viewportHeight = window.innerHeight;
 
@@ -349,6 +300,10 @@
       }
 
     } finally {
+      /*
+        GANZ WICHTIG:
+        Alles wieder sichtbar machen
+      */
       restoreHiddenElements();
 
       if (restoreScrollPosition) {
@@ -359,7 +314,7 @@
 
   /*
     ============================================================
-    NUR #map-export-wrapper ALS JPEG SPEICHERN
+    Nur #map-export-wrapper speichern
     ============================================================
   */
   async function downloadCurrentMapDivAsJpeg() {
@@ -390,8 +345,7 @@
 
       alert(
         'Der Export konnte nicht erstellt werden.\n\n' +
-        'Bitte im Freigabedialog den aktuellen Browser-Tab auswählen.\n' +
-        'Der Exportbereich wird vor dem Screenshot automatisch nach oben gescrollt.'
+        'Bitte im Freigabedialog den aktuellen Browser-Tab auswählen.'
       );
     } finally {
       if (button) {
@@ -401,11 +355,6 @@
     }
   }
 
-  /*
-    ============================================================
-    INITIALISIERUNG
-    ============================================================
-  */
   function initMapExport() {
     var button = document.getElementById('btnSaveMapImage');
 
