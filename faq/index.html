@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603130527">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603133007">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -553,7 +553,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260603130527'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603133007'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -643,7 +643,7 @@ if (allRequired) {
 
   /*
     ============================================================
-    HILFSFUNKTION: kleine Pause
+    HILFSFUNKTIONEN
     ============================================================
   */
   function wait(ms) {
@@ -652,11 +652,6 @@ if (allRequired) {
     });
   }
 
-  /*
-    ============================================================
-    DATEINAME AUS DEM TITEL BAUEN
-    ============================================================
-  */
   function getMapFileName() {
     var heading = document.getElementById('map-heading');
 
@@ -673,11 +668,6 @@ if (allRequired) {
     return cleanName + '.jpg';
   }
 
-  /*
-    ============================================================
-    DOWNLOAD STARTEN
-    ============================================================
-  */
   function downloadBlob(blob, filename) {
     var url = URL.createObjectURL(blob);
     var link = document.createElement('a');
@@ -696,11 +686,8 @@ if (allRequired) {
 
   /*
     ============================================================
-    ELEMENTE VOR DEM SCREENSHOT KURZ AUSBLENDEN
+    STÖRENDE ELEMENTE VORÜBERGEHEND AUSBLENDEN
     ============================================================
-    Wichtig:
-    In deinem DOM liegt der GeoJSON-Link aktuell innerhalb von
-    #map-export-wrapper. Deshalb blenden wir ihn kurz aus.
   */
   function hideElementsForCapture() {
     var selectors = [
@@ -737,8 +724,54 @@ if (allRequired) {
 
   /*
     ============================================================
-    SCREENSHOT DES AKTUELLEN TABS MACHEN UND GENAU AUF EIN
-    BESTIMMTES ELEMENT ZUSCHNEIDEN
+    EXPORTBEREICH IN EINE STABILE POSITION SCROLLEN
+    ============================================================
+    Dadurch ist es egal, wo der Benutzer vorher auf der Seite war.
+  */
+  async function scrollElementIntoStableCapturePosition(element) {
+    var oldScrollX = window.scrollX;
+    var oldScrollY = window.scrollY;
+
+    /*
+      Das Element möglichst weit nach oben bringen,
+      aber mit kleinem Rand.
+    */
+    var targetTop = window.scrollY + element.getBoundingClientRect().top - 20;
+
+    if (targetTop < 0) {
+      targetTop = 0;
+    }
+
+    window.scrollTo({
+      top: targetTop,
+      left: 0,
+      behavior: 'auto'
+    });
+
+    /*
+      Browser kurz Zeit geben, Layout und Leaflet neu zu zeichnen
+    */
+    await wait(350);
+
+    /*
+      Bei Karten nach Scroll/Redraw noch einmal kurz warten,
+      damit wirklich der finale Zustand sichtbar ist
+    */
+    await wait(250);
+
+    return function restoreScrollPosition() {
+      window.scrollTo({
+        top: oldScrollY,
+        left: oldScrollX,
+        behavior: 'auto'
+      });
+    };
+  }
+
+  /*
+    ============================================================
+    SCREENSHOT DES AKTUELLEN TABS MACHEN UND EXAKT AUF EIN
+    ELEMENT ZUSCHNEIDEN
     ============================================================
   */
   async function captureExactElement(selector) {
@@ -752,16 +785,20 @@ if (allRequired) {
       throw new Error('Die Bildschirmfreigabe wird von diesem Browser nicht unterstützt.');
     }
 
-    /*
-      Vor dem Screenshot störende Elemente ausblenden
-    */
     var restoreHiddenElements = hideElementsForCapture();
+    var restoreScrollPosition = null;
 
     try {
       /*
-        Dem Browser kurz Zeit geben, die Anzeige zu aktualisieren
+        Ganz wichtig:
+        Vor dem Screenshot den Exportbereich in stabile Position scrollen
       */
-      await wait(100);
+      restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
+
+      /*
+        Nochmals kurz warten, falls Leaflet/DOM nach dem Scrollen nachzieht
+      */
+      await wait(200);
 
       /*
         Freigabe des aktuellen Tabs anfordern
@@ -789,9 +826,9 @@ if (allRequired) {
         await video.play();
 
         /*
-          Kurz warten, bis ein stabiler Frame vorliegt
+          Warten, bis ein sauberer Frame verfügbar ist
         */
-        await wait(350);
+        await wait(400);
 
         var frameWidth = video.videoWidth;
         var frameHeight = video.videoHeight;
@@ -801,7 +838,7 @@ if (allRequired) {
         }
 
         /*
-          Gesamten Tab-Frame auf ein Hilfs-Canvas zeichnen
+          Gesamten sichtbaren Tab auf Hilfs-Canvas zeichnen
         */
         var fullCanvas = document.createElement('canvas');
         fullCanvas.width = frameWidth;
@@ -811,15 +848,12 @@ if (allRequired) {
         fullCtx.drawImage(video, 0, 0, frameWidth, frameHeight);
 
         /*
-          Genaues Ziel-Element bestimmen
-          WICHTIG:
-          Wir schneiden NICHT #mapview aus,
-          sondern NUR #map-export-wrapper
+          Jetzt NACH dem Scrollen die aktuelle Position des Elements holen
         */
         var rect = element.getBoundingClientRect();
 
         /*
-          Verhältnis zwischen Screenshot-Pixeln und CSS-Pixeln bestimmen
+          Verhältnis Screenshot-Pixel zu CSS-Pixel
         */
         var viewportWidth = window.innerWidth;
         var viewportHeight = window.innerHeight;
@@ -832,10 +866,6 @@ if (allRequired) {
         var scaleX = frameWidth / viewportWidth;
         var scaleY = frameHeight / viewportHeight;
 
-        /*
-          Falls visualViewport Offsets vorhanden sind
-          (hilfreich bei Zoom-Situationen)
-        */
         var viewportOffsetLeft = window.visualViewport ? window.visualViewport.offsetLeft : 0;
         var viewportOffsetTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
 
@@ -844,9 +874,6 @@ if (allRequired) {
         var cropWidth = Math.round(rect.width * scaleX);
         var cropHeight = Math.round(rect.height * scaleY);
 
-        /*
-          Sicherheitsbegrenzung
-        */
         cropX = Math.max(0, cropX);
         cropY = Math.max(0, cropY);
         cropWidth = Math.max(1, Math.min(cropWidth, frameWidth - cropX));
@@ -866,9 +893,6 @@ if (allRequired) {
         return croppedCanvas;
 
       } finally {
-        /*
-          Stream immer beenden
-        */
         if (stream) {
           stream.getTracks().forEach(function (track) {
             track.stop();
@@ -881,16 +905,17 @@ if (allRequired) {
       }
 
     } finally {
-      /*
-        Ausgeblendete Elemente wieder sichtbar machen
-      */
       restoreHiddenElements();
+
+      if (restoreScrollPosition) {
+        restoreScrollPosition();
+      }
     }
   }
 
   /*
     ============================================================
-    NUR DEN EXPORT-WRAPPER SPEICHERN
+    NUR #map-export-wrapper ALS JPEG SPEICHERN
     ============================================================
   */
   async function downloadCurrentMapDivAsJpeg() {
@@ -902,10 +927,6 @@ if (allRequired) {
     }
 
     try {
-      /*
-        Genau dieses Element ausschneiden:
-        #map-export-wrapper
-      */
       var canvas = await captureExactElement('#map-export-wrapper');
 
       await new Promise(function (resolve, reject) {
@@ -926,7 +947,7 @@ if (allRequired) {
       alert(
         'Der Export konnte nicht erstellt werden.\n\n' +
         'Bitte im Freigabedialog den aktuellen Browser-Tab auswählen.\n' +
-        'Gespeichert wird nur der Bereich #map-export-wrapper.'
+        'Der Exportbereich wird vor dem Screenshot automatisch nach oben gescrollt.'
       );
     } finally {
       if (button) {
@@ -972,7 +993,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260603130527"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603133007"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
