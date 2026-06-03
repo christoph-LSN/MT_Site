@@ -1,385 +1,46 @@
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
-
-<style>
-  /* =========================================================
-     EXPORTBLOCK
-     ========================================================= */
-  #map-export-wrapper {
-    background: #ffffff;
-    padding: 20px;
-  }
-
-  #map-export-header {
-    margin-bottom: 20px;
-  }
-
-  #map-export-wrapper .map-title {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 2rem;
-    line-height: 1.3;
-  }
-
-  #map-export-source {
-    margin-top: 16px;
-    font-size: 0.95rem;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  /* =========================================================
-     AKTIONSLEISTE
-     ========================================================= */
-  #map-action-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
-    align-items: center;
-  }
-
-  #map-action-row .btn,
-  #map-action-row button,
-  #map-action-row a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 42px;
-    padding: 8px 16px;
-    border: 1px solid #00843d;
-    background-color: #00843d;
-    color: #ffffff !important;
-    text-decoration: none !important;
-    border-radius: 0;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.2;
-  }
-
-  #map-action-row .btn:hover,
-  #map-action-row button:hover,
-  #map-action-row a:hover {
-    background-color: #006c32;
-    border-color: #006c32;
-    color: #ffffff !important;
-  }
-
-  #map-action-row .btn:disabled,
-  #map-action-row button:disabled {
-    opacity: 0.75;
-    cursor: wait;
-  }
-</style>
-
-<script>
-(function () {
-  'use strict';
-
-  var JPEG_QUALITY = 0.90;
-
-  function wait(ms) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, ms);
-    });
-  }
-
-  function getMapFileName() {
-    var heading = document.getElementById('map-heading');
-
-    if (!heading) {
-      return 'karte.jpg';
-    }
-
-    var cleanName = heading.textContent
-      .trim()
-      .toLowerCase()
-      .replace(/[^\wäöüß\- ]/gi, '')
-      .replace(/\s+/g, '-');
-
-    return cleanName + '.jpg';
-  }
-
-  function downloadBlob(blob, filename) {
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-
-    link.href = url;
-    link.download = filename;
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setTimeout(function () {
-      URL.revokeObjectURL(url);
-    }, 1000);
-  }
-
-  /*
-    ============================================================
-    Nur wirklich störende Elemente ausblenden
-    ============================================================
-    Der GeoJSON-Button liegt jetzt außerhalb des Exportbereichs,
-    aber falls später doch einmal ein Export-Link innerhalb des
-    Wrappers landet, wird er vorsorglich ausgeblendet.
-  */
-  function hideElementsForCapture() {
-    var selectors = [
-      '#map-export-wrapper .geojson-export-btn',
-      '#map-export-wrapper a[download]',
-      '#map-export-wrapper .btn-download',
-      '#map-export-wrapper .leaflet-control-fullscreen',
-      '#map-export-wrapper .leaflet-control-search',
-      '#map-export-wrapper .leaflet-control-attribution',
-      '#map-export-wrapper .disaggregation-controls',
-      '#map-export-wrapper .leaflet-bar-timecontrol'
-    ];
-
-    var changed = [];
-
-    selectors.forEach(function (selector) {
-      document.querySelectorAll(selector).forEach(function (el) {
-        changed.push({
-          element: el,
-          oldDisplay: el.style.display
-        });
-
-        el.style.display = 'none';
-      });
-    });
-
-    return function restore() {
-      changed.forEach(function (entry) {
-        entry.element.style.display = entry.oldDisplay;
-      });
-    };
-  }
-
-  /*
-    ============================================================
-    Exportbereich vor dem Screenshot nach oben scrollen
-    ============================================================
-  */
-  async function scrollElementIntoStableCapturePosition(element) {
-    var oldScrollX = window.scrollX;
-    var oldScrollY = window.scrollY;
-
-    var targetTop = window.scrollY + element.getBoundingClientRect().top - 20;
-    if (targetTop < 0) {
-      targetTop = 0;
-    }
-
-    window.scrollTo({
-      top: targetTop,
-      left: 0,
-      behavior: 'auto'
-    });
-
-    await wait(350);
-    await wait(250);
-
-    return function restoreScrollPosition() {
-      window.scrollTo({
-        top: oldScrollY,
-        left: oldScrollX,
-        behavior: 'auto'
-      });
-    };
-  }
-
-  /*
-    ============================================================
-    Exaktes Element aus dem aktuellen Tab ausschneiden
-    ============================================================
-  */
-  async function captureExactElement(selector) {
-    var element = document.querySelector(selector);
-
-    if (!element) {
-      throw new Error('Element "' + selector + '" wurde nicht gefunden.');
-    }
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-      throw new Error('Die Bildschirmfreigabe wird von diesem Browser nicht unterstützt.');
-    }
-
-    var restoreHiddenElements = hideElementsForCapture();
-    var restoreScrollPosition = null;
-
-    try {
-      restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
-      await wait(200);
-
-      var stream = await navigator.mediaDevices.getDisplayMedia({
-        video: {
-          frameRate: 1
-        },
-        audio: false,
-        preferCurrentTab: true,
-        selfBrowserSurface: 'include'
-      });
-
-      var video = document.createElement('video');
-      video.style.position = 'fixed';
-      video.style.left = '-10000px';
-      video.style.top = '-10000px';
-      video.muted = true;
-      video.playsInline = true;
-      video.srcObject = stream;
-
-      document.body.appendChild(video);
-
-      try {
-        await video.play();
-        await wait(400);
-
-        var frameWidth = video.videoWidth;
-        var frameHeight = video.videoHeight;
-
-        if (!frameWidth || !frameHeight) {
-          throw new Error('Es konnte kein Videoframe aus dem Tab gelesen werden.');
-        }
-
-        var fullCanvas = document.createElement('canvas');
-        fullCanvas.width = frameWidth;
-        fullCanvas.height = frameHeight;
-
-        var fullCtx = fullCanvas.getContext('2d');
-        fullCtx.drawImage(video, 0, 0, frameWidth, frameHeight);
-
-        var rect = element.getBoundingClientRect();
-
-        var viewportWidth = window.innerWidth;
-        var viewportHeight = window.innerHeight;
-
-        if (window.visualViewport) {
-          viewportWidth = window.visualViewport.width;
-          viewportHeight = window.visualViewport.height;
-        }
-
-        var scaleX = frameWidth / viewportWidth;
-        var scaleY = frameHeight / viewportHeight;
-
-        var viewportOffsetLeft = window.visualViewport ? window.visualViewport.offsetLeft : 0;
-        var viewportOffsetTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
-
-        var cropX = Math.round((rect.left - viewportOffsetLeft) * scaleX);
-        var cropY = Math.round((rect.top - viewportOffsetTop) * scaleY);
-        var cropWidth = Math.round(rect.width * scaleX);
-        var cropHeight = Math.round(rect.height * scaleY);
-
-        cropX = Math.max(0, cropX);
-        cropY = Math.max(0, cropY);
-        cropWidth = Math.max(1, Math.min(cropWidth, frameWidth - cropX));
-        cropHeight = Math.max(1, Math.min(cropHeight, frameHeight - cropY));
-
-        var croppedCanvas = document.createElement('canvas');
-        croppedCanvas.width = cropWidth;
-        croppedCanvas.height = cropHeight;
-
-        var croppedCtx = croppedCanvas.getContext('2d');
-        croppedCtx.drawImage(
-          fullCanvas,
-          cropX, cropY, cropWidth, cropHeight,
-          0, 0, cropWidth, cropHeight
-        );
-
-        return croppedCanvas;
-
-      } finally {
-        if (stream) {
-          stream.getTracks().forEach(function (track) {
-            track.stop();
-          });
-        }
-
-        if (video && video.parentNode) {
-          video.parentNode.removeChild(video);
-        }
-      }
-
-    } finally {
-      /*
-        GANZ WICHTIG:
-        Alles wieder sichtbar machen
-      */
-      restoreHiddenElements();
-
-      if (restoreScrollPosition) {
-        restoreScrollPosition();
-      }
-    }
-  }
-
-  /*
-    ============================================================
-    Nur #map-export-wrapper speichern
-    ============================================================
-  */
-  async function downloadCurrentMapDivAsJpeg() {
-    var button = document.getElementById('btnSaveMapImage');
-
-    if (button) {
-      button.disabled = true;
-      button.textContent = 'Aktuellen Tab freigeben...';
-    }
-
-    try {
-      var canvas = await captureExactElement('#map-export-wrapper');
-
-      await new Promise(function (resolve, reject) {
-        canvas.toBlob(function (blob) {
-          if (!blob) {
-            reject(new Error('Das JPEG konnte nicht erzeugt werden.'));
-            return;
-          }
-
-          downloadBlob(blob, getMapFileName());
-          resolve(true);
-        }, 'image/jpeg', JPEG_QUALITY);
-      });
-
-    } catch (error) {
-      console.error('Screenshot-Exportfehler:', error);
-
-      alert(
-        'Der Export konnte nicht erstellt werden.\n\n' +
-        'Bitte im Freigabedialog den aktuellen Browser-Tab auswählen.'
-      );
-    } finally {
-      if (button) {
-        button.disabled = false;
-        button.textContent = 'Karte als JPEG herunterladen';
-      }
-    }
-  }
-
-  function initMapExport() {
-    var button = document.getElementById('btnSaveMapImage');
-
-    if (!button) {
-      console.warn('Button #btnSaveMapImage wurde nicht gefunden.');
-      return;
-    }
-
-    if (button.dataset.exportBound === 'true') {
-      return;
-    }
-
-    button.textContent = 'Karte als JPEG herunterladen';
-
-    button.addEventListener('click', function () {
-      downloadCurrentMapDivAsJpeg();
-    });
-
-    button.dataset.exportBound = 'true';
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMapExport);
-  } else {
-    initMapExport();
-  }
-})();
-</script>
+{% assign graph_title = page.indicator.graph_titles.first.title | default: page.indicator.graph_title %}
+{% assign indicator_number = page.indicator.indicator_number | default: page.indicator.indicator | default: page.indicator.id %}
+{% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}
+
+<!-- =========================================================
+     EXPORTBEREICH
+     Nur dieser Block wird für den JPEG-Export verwendet
+     ========================================================= -->
+<div id="map-export-wrapper">
+
+  <!-- Titel -->
+  <div id="map-export-header">
+    <h4 id="map-heading" class="map-title">
+      {% if indicator_number %}
+        Indikator {{ indicator_number }}: {{ graph_title }}
+      {% else %}
+        {{ graph_title }}
+      {% endif %}
+    </h4>
+  </div>
+
+  <!-- Kartenbereich -->
+  <div id="map" aria-describedby="table-alternative">
+    <img
+      class="map-loading-image"
+      src="{{ site.baseurl }}/assets/img/loading.gif"
+      alt="{{ page.t.indicator.loading_map }}" />
+  </div>
+
+  <!-- Standard-Fußnote / Datenfuß -->
+  {% include components/indicator/data-footer.html footerId='mapFooter' %}
+
+  <!-- Zusätzliche Quellenangabe im Export -->
+  <div id="map-export-source" class="map-export-source">
+    <strong>Quelle:</strong>
+    <span id="map-source-text">{{ source_url }}</span>
+  </div>
+
+  <!--
+    WICHTIG:
+    KEIN zweiter GeoJSON-Button und KEINE zweite Button-Leiste mehr.
+    Der bereits vorhandene obere GeoJSON-Button bleibt bestehen
+    und wird per JavaScript nur optisch mit dem JPEG-Button kombiniert.
+  -->
+
+</div>
