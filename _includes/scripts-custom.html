@@ -21,7 +21,12 @@
     line-height: 1.3;
   }
 
+  /*
+    Quellenangabe standardmäßig ausblenden.
+    Sie wird nur während des Screenshots kurz eingeblendet.
+  */
   #map-export-source {
+    display: none;
     margin-top: 16px;
     font-size: 0.95rem;
     line-height: 1.4;
@@ -124,10 +129,7 @@
 
   /* ============================================================
      VORHANDENEN GEOJSON-BUTTON FINDEN
-     ============================================================
-     Der Button kann je nach Renderlogik leicht unterschiedlich
-     erzeugt werden. Deshalb suchen wir bewusst etwas breiter.
-  */
+     ============================================================ */
   function findExistingGeoJsonButton() {
     return (
       document.querySelector('#map-export-wrapper a[download].btn-download') ||
@@ -173,24 +175,14 @@
       actionRow.id = 'map-inline-action-row';
     }
 
-    /*
-      Die Leiste direkt an die bisherige Stelle des vorhandenen
-      GeoJSON-Buttons setzen.
-    */
     if (!actionRow.parentNode && geoJsonButton.parentNode) {
       geoJsonButton.parentNode.insertBefore(actionRow, geoJsonButton);
     }
 
-    /*
-      Vorhandenen GeoJSON-Button in die Leiste verschieben
-    */
     if (!actionRow.contains(geoJsonButton)) {
       actionRow.appendChild(geoJsonButton);
     }
 
-    /*
-      JPEG-Button daneben setzen
-    */
     var jpegButton = createJpegButton();
     if (!actionRow.contains(jpegButton)) {
       actionRow.appendChild(jpegButton);
@@ -205,6 +197,10 @@
 
   /* ============================================================
      STÖRENDE ELEMENTE FÜR DEN SCREENSHOT AUSBLENDEN
+     HINWEIS:
+     Elemente oben rechts sollen sichtbar bleiben, daher werden
+     hier nur die Button-Leiste und einige bewusst störende Dinge
+     ausgeblendet.
      ============================================================ */
   function hideElementsForCapture() {
     var selectors = [
@@ -237,7 +233,27 @@
   }
 
   /* ============================================================
+     QUELLE NUR FÜR DEN SCREENSHOT EINBLENDEN
+     ============================================================ */
+  function showSourceOnlyDuringCapture() {
+    var source = document.getElementById('map-export-source');
+
+    if (!source) {
+      return function restore() {};
+    }
+
+    var oldDisplay = source.style.display;
+    source.style.display = 'block';
+
+    return function restore() {
+      source.style.display = oldDisplay;
+    };
+  }
+
+  /* ============================================================
      HOVER-/TOOLTIP-ELEMENTE DER KARTE VORÜBERGEHEND UNTERDRÜCKEN
+     Elemente oben rechts (z. B. Selection-/Legendenanzeige)
+     sollen NICHT ausgeblendet werden.
      ============================================================ */
   function suppressMapHoverDuringCapture() {
     var mapElement = document.getElementById('map');
@@ -247,17 +263,13 @@
 
     var changed = [];
 
-    /*
-      Sichtbare Tooltip-/Popup-/Info-Elemente ausblenden
-    */
-var hoverSelectors = [
-  '#map .leaflet-tooltip',
-  '#map .leaflet-popup',
-  '#map .info',
-  '#map .hover',
-  '#map .map-info'
-];
-
+    var hoverSelectors = [
+      '#map .leaflet-tooltip',
+      '#map .leaflet-popup',
+      '#map .info',
+      '#map .hover',
+      '#map .map-info'
+    ];
 
     hoverSelectors.forEach(function (selector) {
       document.querySelectorAll(selector).forEach(function (el) {
@@ -270,9 +282,6 @@ var hoverSelectors = [
       });
     });
 
-    /*
-      Mouseout / Mouseleave künstlich auslösen
-    */
     try {
       var mouseOutEvent = new MouseEvent('mouseout', {
         view: window,
@@ -297,9 +306,6 @@ var hoverSelectors = [
       // ignorieren
     }
 
-    /*
-      Pointer-Events auf der Karte kurz deaktivieren
-    */
     changed.push({
       element: mapElement,
       oldPointerEvents: mapElement.style.pointerEvents
@@ -318,9 +324,6 @@ var hoverSelectors = [
       el.style.pointerEvents = 'none';
     });
 
-    /*
-      Cursor kurz ausblenden
-    */
     changed.push({
       element: document.body,
       oldCursor: document.body.style.cursor
@@ -360,9 +363,6 @@ var hoverSelectors = [
       behavior: 'auto'
     });
 
-    /*
-      Browser Zeit geben, neu zu zeichnen
-    */
     await wait(350);
     await wait(250);
 
@@ -391,20 +391,14 @@ var hoverSelectors = [
     }
 
     var restoreHiddenElements = hideElementsForCapture();
+    var restoreSourceVisibility = showSourceOnlyDuringCapture();
     var restoreHoverState = suppressMapHoverDuringCapture();
     var restoreScrollPosition = null;
 
     try {
       restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
 
-      /*
-        Nach Scrollen noch kurz warten, damit DOM + Leaflet stabil sind
-      */
       await wait(200);
-
-      /*
-        Hover-Zustände sicher verschwinden lassen
-      */
       await wait(250);
 
       var stream = await navigator.mediaDevices.getDisplayMedia({
@@ -428,10 +422,6 @@ var hoverSelectors = [
 
       try {
         await video.play();
-
-        /*
-          Warten, bis ein sauberer Frame vorliegt
-        */
         await wait(400);
 
         var frameWidth = video.videoWidth;
@@ -500,11 +490,8 @@ var hoverSelectors = [
       }
 
     } finally {
-      /*
-        Ganz wichtig:
-        Alles sauber wiederherstellen
-      */
       restoreHiddenElements();
+      restoreSourceVisibility();
       restoreHoverState();
 
       if (restoreScrollPosition) {
