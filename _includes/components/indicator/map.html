@@ -36,32 +36,11 @@
     <span id="map-source-text">{{ source_url }}</span>
   </div>
 
-</div>
-
-<!-- =========================================================
-     AKTIONSLEISTE
-     Liegt AUSSERHALB des Exportbereichs und wird daher
-     nicht in das Bild übernommen
-     ========================================================= -->
-<div id="map-action-row" class="no-export">
-
-  <!-- JPEG-Download -->
-  <button
-    id="btnSaveMapImage"
-    type="button"
-    class="btn btn-primary map-action-btn">
-    Karte als JPEG herunterladen
-  </button>
-
-  <!-- GeoJSON-Download -->
-  <a
-    id="btnSaveGeoJson"
-    href="https://christoph-lsn.github.io/IM_Data/de/geojson/map/indicator_1-1-1.geojson"
-    download
-    class="btn btn-primary map-action-btn geojson-export-btn"
-    title="Im GeoJSON-Format speichern - Karte"
-    aria-label="Im GeoJSON-Format speichern - Karte">
-    Im GeoJSON-Format speichern - Karte
-  </a>
+  <!--
+    WICHTIG:
+    KEIN zweiter GeoJSON-Button und KEINE zweite Button-Leiste mehr.
+    Der bereits vorhandene obere GeoJSON-Button bleibt bestehen
+    und wird per JavaScript nur optisch mit dem JPEG-Button kombiniert.
+  -->
 
 </div>
