@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603123052">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603124531">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1275,12 +1275,10 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260603123052'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603124531'></script>
+<!-- Falls DataTables-Buttons an anderer Stelle im Projekt benötigt werden -->
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
 
 <style>
   /* =========================================================
@@ -1364,49 +1362,8 @@ if (allRequired) {
 (function () {
   'use strict';
 
-  /* =========================================================
-     KONFIGURATION
-     ========================================================= */
-  var EXPORT_SCALE = 1;
-  var JPEG_QUALITY = 0.86;
-  var TILE_WAIT_TIMEOUT = 2500;
-  var PAGE_PADDING = 20;
-  var TITLE_FONT = 'normal 28px Arial, sans-serif';
-  var BODY_FONT = 'normal 14px Arial, sans-serif';
-  var SOURCE_FONT = 'normal 14px Arial, sans-serif';
-  var TEXT_COLOR = '#222222';
-  var SOURCE_COLOR = '#1a5fb4';
+  var JPEG_QUALITY = 0.88;
 
-  /* =========================================================
-     LEAFLET-MAPS EINFANGEN
-     ========================================================= */
-  window.__capturedLeafletMaps = window.__capturedLeafletMaps || [];
-
-  function installLeafletMapCapture() {
-    if (!window.L || !window.L.map || window.__leafletMapCaptureInstalled) {
-      return;
-    }
-
-    var originalMapFactory = window.L.map;
-
-    window.L.map = function () {
-      var map = originalMapFactory.apply(this, arguments);
-      try {
-        window.__capturedLeafletMaps.push(map);
-      } catch (e) {
-        // absichtlich leer
-      }
-      return map;
-    };
-
-    window.__leafletMapCaptureInstalled = true;
-  }
-
-  installLeafletMapCapture();
-
-  /* =========================================================
-     HILFSFUNKTIONEN
-     ========================================================= */
   function wait(ms) {
     return new Promise(function (resolve) {
       setTimeout(resolve, ms);
@@ -1429,578 +1386,160 @@ if (allRequired) {
     return cleanName + '.jpg';
   }
 
-  function getTextFromElement(selector) {
-    var el = document.querySelector(selector);
-    return el ? el.innerText.trim() : '';
+  function downloadBlob(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1000);
   }
 
-  function getFootnoteText() {
-    var footer = document.getElementById('mapFooter');
-    if (!footer) return '';
+  async function captureElementFromCurrentTab(element) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+      throw new Error('Die Screen-Capture-API wird in diesem Browser nicht unterstützt.');
+    }
 
-    var clone = footer.cloneNode(true);
-
-    /* Alles entfernen, was nicht in die Fußnote soll */
-    var removable = clone.querySelectorAll(
-      'button, .btn, a.btn, input[type="button"], input[type="submit"], h1, h2, h3, h4, h5, h6'
-    );
-
-    removable.forEach(function (el) {
-      el.remove();
+    /*
+      Wichtig:
+      Der Browser zeigt einen Freigabedialog.
+      Dort muss der aktuelle Tab ausgewählt werden.
+    */
+    var stream = await navigator.mediaDevices.getDisplayMedia({
+      video: {
+        frameRate: 1
+      },
+      audio: false
     });
 
-    var text = clone.innerText || '';
-    text = text.replace(/\n{3,}/g, '\n\n').trim();
+    var video = document.createElement('video');
+    video.style.position = 'fixed';
+    video.style.left = '-10000px';
+    video.style.top = '-10000px';
+    video.muted = true;
+    video.playsInline = true;
+    video.srcObject = stream;
 
-    return text;
-  }
+    document.body.appendChild(video);
 
-  function prepareTileImagesForExport(container) {
-    var tiles = container.querySelectorAll('.leaflet-tile');
+    try {
+      await video.play();
 
-    tiles.forEach(function (img) {
-      try {
-        img.crossOrigin = 'anonymous';
-        img.setAttribute('crossorigin', 'anonymous');
-      } catch (e) {
-        // absichtlich leer
-      }
-    });
-  }
+      /*
+        Kurze Wartezeit, damit der erste saubere Frame verfügbar ist.
+      */
+      await wait(300);
 
-  async function waitForLeafletTiles(container, timeoutMs) {
-    var start = Date.now();
+      var fullWidth = video.videoWidth;
+      var fullHeight = video.videoHeight;
 
-    while (Date.now() - start < timeoutMs) {
-      var images = container.querySelectorAll('.leaflet-tile');
-
-      if (images.length === 0) {
-        await wait(150);
-        continue;
+      if (!fullWidth || !fullHeight) {
+        throw new Error('Der Screenshot-Frame konnte nicht gelesen werden.');
       }
 
-      var loaded = 0;
-      images.forEach(function (img) {
-        if (img.complete) {
-          loaded++;
-        }
-      });
+      var fullCanvas = document.createElement('canvas');
+      fullCanvas.width = fullWidth;
+      fullCanvas.height = fullHeight;
 
-      if (loaded / images.length > 0.9) {
-        return true;
+      var fullCtx = fullCanvas.getContext('2d');
+      fullCtx.drawImage(video, 0, 0, fullWidth, fullHeight);
+
+      /*
+        Elementposition relativ zum aktuellen Viewport bestimmen
+      */
+      var rect = element.getBoundingClientRect();
+
+      /*
+        Verhältnis zwischen Video-Pixeln und CSS-Pixeln bestimmen
+      */
+      var scaleX = fullWidth / window.innerWidth;
+      var scaleY = fullHeight / window.innerHeight;
+
+      var cropX = Math.max(0, Math.round(rect.left * scaleX));
+      var cropY = Math.max(0, Math.round(rect.top * scaleY));
+      var cropWidth = Math.min(fullWidth - cropX, Math.round(rect.width * scaleX));
+      var cropHeight = Math.min(fullHeight - cropY, Math.round(rect.height * scaleY));
+
+      if (cropWidth <= 0 || cropHeight <= 0) {
+        throw new Error('Der auszuschneidende Bereich ist ungültig.');
       }
 
-      await wait(150);
-    }
+      var croppedCanvas = document.createElement('canvas');
+      croppedCanvas.width = cropWidth;
+      croppedCanvas.height = cropHeight;
 
-    return false;
-  }
-
-  function findLegendElement() {
-    var candidates = document.querySelectorAll(
-      '#map .legend, ' +
-      '#map .map-legend, ' +
-      '#map .leaflet-control.legend, ' +
-      '#map .leaflet-control .legend, ' +
-      '#map .info.legend, ' +
-      '#map .leaflet-top.leaflet-right .leaflet-control'
-    );
-
-    for (var i = 0; i < candidates.length; i++) {
-      var el = candidates[i];
-      var rect = el.getBoundingClientRect();
-      var style = window.getComputedStyle(el);
-
-      if (
-        rect.width > 20 &&
-        rect.height > 20 &&
-        style.display !== 'none' &&
-        style.visibility !== 'hidden'
-      ) {
-        return el;
-      }
-    }
-
-    return null;
-  }
-
-  function findOverlaySvgElement() {
-    return document.querySelector('#map .leaflet-overlay-pane svg');
-  }
-
-  function findLeafletMapInstance() {
-    var mapContainer = document.getElementById('map');
-
-    if (!mapContainer || !window.L || !window.L.Map) {
-      return null;
-    }
-
-    if (window.__capturedLeafletMaps.length) {
-      for (var i = window.__capturedLeafletMaps.length - 1; i >= 0; i--) {
-        var storedMap = window.__capturedLeafletMaps[i];
-        if (
-          storedMap &&
-          storedMap.getContainer &&
-          storedMap.getContainer() === mapContainer
-        ) {
-          return storedMap;
-        }
-      }
-
-      return window.__capturedLeafletMaps[window.__capturedLeafletMaps.length - 1];
-    }
-
-    for (var key in window) {
-      try {
-        var value = window[key];
-        if (value instanceof window.L.Map) {
-          if (value.getContainer && value.getContainer() === mapContainer) {
-            return value;
-          }
-        }
-      } catch (e) {
-        // ignorieren
-      }
-    }
-
-    for (var key2 in window) {
-      try {
-        var obj = window[key2];
-        if (!obj || typeof obj !== 'object') {
-          continue;
-        }
-
-        for (var subKey in obj) {
-          try {
-            var candidate = obj[subKey];
-            if (candidate instanceof window.L.Map) {
-              if (candidate.getContainer && candidate.getContainer() === mapContainer) {
-                return candidate;
-              }
-            }
-          } catch (e) {
-            // ignorieren
-          }
-        }
-      } catch (e) {
-        // ignorieren
-      }
-    }
-
-    return null;
-  }
-
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight, draw) {
-    if (!text) {
-      return y;
-    }
-
-    var paragraphs = text.split('\n');
-    var currentY = y;
-
-    paragraphs.forEach(function (paragraph, paragraphIndex) {
-      var words = paragraph.split(/\s+/);
-      var line = '';
-
-      words.forEach(function (word) {
-        var testLine = line ? line + ' ' + word : word;
-        var metrics = ctx.measureText(testLine);
-
-        if (metrics.width > maxWidth && line) {
-          if (draw) {
-            ctx.fillText(line, x, currentY);
-          }
-          currentY += lineHeight;
-          line = word;
-        } else {
-          line = testLine;
-        }
-      });
-
-      if (line) {
-        if (draw) {
-          ctx.fillText(line, x, currentY);
-        }
-        currentY += lineHeight;
-      }
-
-      if (paragraphIndex < paragraphs.length - 1) {
-        currentY += 4;
-      }
-    });
-
-    return currentY;
-  }
-
-  function measureWrappedTextHeight(ctx, text, maxWidth, lineHeight) {
-    var startY = 0;
-    var endY = wrapText(ctx, text, 0, startY, maxWidth, lineHeight, false);
-    return endY - startY;
-  }
-
-  async function renderLegendCanvas(legendElement) {
-    if (!legendElement || typeof html2canvas === 'undefined') {
-      return null;
-    }
-
-    return await html2canvas(legendElement, {
-      backgroundColor: null,
-      scale: 1,
-      useCORS: true,
-      allowTaint: false,
-      logging: false
-    });
-  }
-
-  function renderLeafletMapCanvas(map) {
-    return new Promise(function (resolve, reject) {
-      if (!window.leafletImage) {
-        reject(new Error('leaflet-image wurde nicht geladen.'));
-        return;
-      }
-
-      window.leafletImage(map, function (err, canvas) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(canvas);
-      });
-    });
-  }
-
-  function inlineSvgStyles(sourceSvg, clonedSvg) {
-    var sourceNodes = [sourceSvg].concat(Array.prototype.slice.call(sourceSvg.querySelectorAll('*')));
-    var cloneNodes = [clonedSvg].concat(Array.prototype.slice.call(clonedSvg.querySelectorAll('*')));
-
-    var properties = [
-      'fill',
-      'fill-opacity',
-      'stroke',
-      'stroke-opacity',
-      'stroke-width',
-      'stroke-linecap',
-      'stroke-linejoin',
-      'stroke-dasharray',
-      'opacity',
-      'color',
-      'font',
-      'font-family',
-      'font-size',
-      'font-weight',
-      'font-style',
-      'text-anchor',
-      'dominant-baseline',
-      'paint-order',
-      'vector-effect',
-      'display',
-      'visibility'
-    ];
-
-    for (var i = 0; i < sourceNodes.length; i++) {
-      var sourceNode = sourceNodes[i];
-      var cloneNode = cloneNodes[i];
-
-      if (!sourceNode || !cloneNode || sourceNode.nodeType !== 1 || cloneNode.nodeType !== 1) {
-        continue;
-      }
-
-      var computed = window.getComputedStyle(sourceNode);
-      var styleString = cloneNode.getAttribute('style') || '';
-
-      properties.forEach(function (prop) {
-        var value = computed.getPropertyValue(prop);
-        if (value) {
-          styleString += prop + ':' + value + ';';
-        }
-      });
-
-      cloneNode.setAttribute('style', styleString);
-    }
-  }
-
-  function svgElementToCanvas(svgElement) {
-    return new Promise(function (resolve, reject) {
-      if (!svgElement) {
-        resolve(null);
-        return;
-      }
-
-      var rect = svgElement.getBoundingClientRect();
-      var width = Math.max(1, Math.round(rect.width));
-      var height = Math.max(1, Math.round(rect.height));
-
-      var clonedSvg = svgElement.cloneNode(true);
-
-      inlineSvgStyles(svgElement, clonedSvg);
-
-      clonedSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      clonedSvg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
-      clonedSvg.setAttribute('width', width);
-      clonedSvg.setAttribute('height', height);
-
-      if (!clonedSvg.getAttribute('viewBox')) {
-        clonedSvg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
-      }
-
-      var svgString = new XMLSerializer().serializeToString(clonedSvg);
-      var svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-      var url = URL.createObjectURL(svgBlob);
-      var img = new Image();
-
-      img.onload = function () {
-        try {
-          var canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          URL.revokeObjectURL(url);
-
-          resolve({
-            canvas: canvas,
-            rect: rect
-          });
-        } catch (e) {
-          URL.revokeObjectURL(url);
-          reject(e);
-        }
-      };
-
-      img.onerror = function () {
-        URL.revokeObjectURL(url);
-        reject(new Error('SVG-Overlay konnte nicht in Canvas umgewandelt werden.'));
-      };
-
-      img.src = url;
-    });
-  }
-
-  function downloadCanvasAsJpeg(canvas, filename) {
-    return new Promise(function (resolve, reject) {
-      try {
-        canvas.toBlob(function (blob) {
-          if (!blob) {
-            reject(new Error('Kein Blob erzeugt.'));
-            return;
-          }
-
-          var url = URL.createObjectURL(blob);
-          var link = document.createElement('a');
-
-          link.href = url;
-          link.download = filename;
-
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-
-          setTimeout(function () {
-            URL.revokeObjectURL(url);
-          }, 1000);
-
-          resolve(true);
-        }, 'image/jpeg', JPEG_QUALITY);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
-  async function downloadMapAsJpeg() {
-    var button = document.getElementById('btnSaveMapImage');
-    var mapContainer = document.getElementById('map');
-
-    if (!mapContainer) {
-      alert('Der Kartencontainer #map wurde nicht gefunden.');
-      return;
-    }
-
-    var map = findLeafletMapInstance();
-
-    if (!map) {
-      alert(
-        'Die Leaflet-Karteninstanz konnte nicht gefunden werden.\n\n' +
-        'Wenn diese Meldung erscheint, muss die Map-Erzeugung einmal gezielt ' +
-        'an das Exportskript angebunden werden.'
+      var croppedCtx = croppedCanvas.getContext('2d');
+      croppedCtx.drawImage(
+        fullCanvas,
+        cropX, cropY, cropWidth, cropHeight,
+        0, 0, cropWidth, cropHeight
       );
+
+      return croppedCanvas;
+
+    } finally {
+      /*
+        Stream immer sauber beenden
+      */
+      if (stream) {
+        stream.getTracks().forEach(function (track) {
+          track.stop();
+        });
+      }
+
+      if (video && video.parentNode) {
+        video.parentNode.removeChild(video);
+      }
+    }
+  }
+
+  async function downloadCurrentMapScreenshot() {
+    var button = document.getElementById('btnSaveMapImage');
+    var exportWrapper = document.getElementById('map-export-wrapper');
+
+    if (!exportWrapper) {
+      alert('Der Export-Bereich #map-export-wrapper wurde nicht gefunden.');
       return;
     }
 
     if (button) {
       button.disabled = true;
-      button.textContent = 'Export läuft...';
+      button.textContent = 'Tab-Freigabe auswählen...';
     }
 
     try {
-      prepareTileImagesForExport(mapContainer);
-      await waitForLeafletTiles(mapContainer, TILE_WAIT_TIMEOUT);
+      /*
+        Damit der Benutzer genau weiß, was zu tun ist:
+        Der Browser zeigt jetzt die Freigabeauswahl.
+      */
+      var canvas = await captureElementFromCurrentTab(exportWrapper);
 
-      var mapRect = mapContainer.getBoundingClientRect();
-      var titleText = getTextFromElement('#map-heading');
-      var footnoteText = getFootnoteText();
-      var sourceText = getTextFromElement('#map-source-text');
-      var legendElement = findLegendElement();
-      var overlaySvgElement = findOverlaySvgElement();
+      await new Promise(function (resolve, reject) {
+        canvas.toBlob(function (blob) {
+          if (!blob) {
+            reject(new Error('Das JPEG konnte nicht erzeugt werden.'));
+            return;
+          }
 
-      /* 1) Basiskarte rendern */
-      var mapCanvas = await renderLeafletMapCanvas(map);
-
-      /* 2) Shape/SVG-Overlay separat rendern */
-      var overlayResult = null;
-      if (overlaySvgElement) {
-        overlayResult = await svgElementToCanvas(overlaySvgElement);
-      }
-
-      /* 3) Legende separat rendern */
-      var legendCanvas = null;
-      var legendRect = null;
-
-      if (legendElement) {
-        legendCanvas = await renderLegendCanvas(legendElement);
-        legendRect = legendElement.getBoundingClientRect();
-      }
-
-      /* 4) Finales Canvas zusammenbauen */
-      var exportWidth = Math.max(1000, Math.round(mapRect.width) + PAGE_PADDING * 2);
-      var contentWidth = exportWidth - PAGE_PADDING * 2;
-      var drawScale = contentWidth / mapCanvas.width;
-      var finalMapWidth = Math.round(mapCanvas.width * drawScale);
-      var finalMapHeight = Math.round(mapCanvas.height * drawScale);
-
-      var measureCanvas = document.createElement('canvas');
-      var measureCtx = measureCanvas.getContext('2d');
-
-      var titleLineHeight = 36;
-      var bodyLineHeight = 20;
-      var sourceLineHeight = 20;
-
-      measureCtx.font = TITLE_FONT;
-      var titleHeight = measureWrappedTextHeight(measureCtx, titleText, contentWidth, titleLineHeight);
-
-      measureCtx.font = BODY_FONT;
-      var footnoteHeight = footnoteText
-        ? measureWrappedTextHeight(measureCtx, footnoteText, contentWidth, bodyLineHeight)
-        : 0;
-
-      measureCtx.font = SOURCE_FONT;
-      var sourceHeight = sourceText ? sourceLineHeight : 0;
-
-      var exportHeight =
-        PAGE_PADDING +
-        titleHeight + 12 +
-        finalMapHeight +
-        24 +
-        footnoteHeight +
-        (footnoteText ? 12 : 0) +
-        sourceHeight +
-        PAGE_PADDING;
-
-      var finalCanvas = document.createElement('canvas');
-      finalCanvas.width = Math.round(exportWidth * EXPORT_SCALE);
-      finalCanvas.height = Math.round(exportHeight * EXPORT_SCALE);
-
-      var ctx = finalCanvas.getContext('2d');
-      ctx.scale(EXPORT_SCALE, EXPORT_SCALE);
-
-      /* Hintergrund */
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, exportWidth, exportHeight);
-
-      /* Titel */
-      var currentY = PAGE_PADDING;
-      ctx.fillStyle = TEXT_COLOR;
-      ctx.font = TITLE_FONT;
-      currentY = wrapText(ctx, titleText, PAGE_PADDING, currentY + 28, contentWidth, titleLineHeight, true);
-      currentY += 12;
-
-      /* Karte */
-      var mapX = PAGE_PADDING;
-      var mapY = currentY;
-      ctx.drawImage(mapCanvas, mapX, mapY, finalMapWidth, finalMapHeight);
-
-      /* Shape/SVG-Overlay darüber zeichnen */
-      if (overlayResult && overlayResult.canvas && overlayResult.rect) {
-        var overlayRect = overlayResult.rect;
-
-        var relativeOverlayLeft = overlayRect.left - mapRect.left;
-        var relativeOverlayTop = overlayRect.top - mapRect.top;
-
-        var drawOverlayX = mapX + Math.round(relativeOverlayLeft * drawScale);
-        var drawOverlayY = mapY + Math.round(relativeOverlayTop * drawScale);
-        var drawOverlayW = Math.round(overlayRect.width * drawScale);
-        var drawOverlayH = Math.round(overlayRect.height * drawScale);
-
-        ctx.drawImage(
-          overlayResult.canvas,
-          drawOverlayX,
-          drawOverlayY,
-          drawOverlayW,
-          drawOverlayH
-        );
-      }
-
-      /* Legende an Originalposition */
-      if (legendCanvas && legendRect) {
-        var relativeLegendLeft = legendRect.left - mapRect.left;
-        var relativeLegendTop = legendRect.top - mapRect.top;
-
-        var drawLegendX = mapX + Math.round(relativeLegendLeft * drawScale);
-        var drawLegendY = mapY + Math.round(relativeLegendTop * drawScale);
-        var drawLegendW = Math.round(legendRect.width * drawScale);
-        var drawLegendH = Math.round(legendRect.height * drawScale);
-
-        ctx.drawImage(
-          legendCanvas,
-          drawLegendX,
-          drawLegendY,
-          drawLegendW,
-          drawLegendH
-        );
-      }
-
-      currentY = mapY + finalMapHeight + 24;
-
-      /* Fußnote */
-      if (footnoteText) {
-        ctx.fillStyle = TEXT_COLOR;
-        ctx.font = BODY_FONT;
-        currentY = wrapText(ctx, footnoteText, PAGE_PADDING, currentY, contentWidth, bodyLineHeight, true);
-        currentY += 12;
-      }
-
-      /* Quelle */
-      if (sourceText) {
-        ctx.fillStyle = TEXT_COLOR;
-        ctx.font = 'bold 14px Arial, sans-serif';
-        ctx.fillText('Quelle:', PAGE_PADDING, currentY);
-
-        var labelWidth = ctx.measureText('Quelle:').width + 6;
-
-        ctx.font = SOURCE_FONT;
-        ctx.fillStyle = SOURCE_COLOR;
-        ctx.fillText(sourceText, PAGE_PADDING + labelWidth, currentY);
-
-        var sourceWidth = ctx.measureText(sourceText).width;
-        ctx.beginPath();
-        ctx.moveTo(PAGE_PADDING + labelWidth, currentY + 3);
-        ctx.lineTo(PAGE_PADDING + labelWidth + sourceWidth, currentY + 3);
-        ctx.strokeStyle = SOURCE_COLOR;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-
-      await downloadCanvasAsJpeg(finalCanvas, getMapFileName());
+          downloadBlob(blob, getMapFileName());
+          resolve(true);
+        }, 'image/jpeg', JPEG_QUALITY);
+      });
 
     } catch (error) {
-      console.error('Exportfehler:', error);
+      console.error('Screenshot-Exportfehler:', error);
+
       alert(
-        'Der Kartenexport konnte nicht abgeschlossen werden.\n\n' +
-        'Bitte prüfe die Browser-Konsole. ' +
-        'Mögliche Ursachen sind externe Kartenkacheln, ein SVG-Overlay mit Sonderformatierung ' +
-        'oder eine nicht auffindbare Leaflet-Map.'
+        'Der Screenshot konnte nicht erstellt werden.\n\n' +
+        'Bitte beim Freigabedialog den aktuellen Browser-Tab auswählen.\n' +
+        'Wenn der Vorgang abgebrochen wurde, kann kein Bild gespeichert werden.'
       );
     } finally {
       if (button) {
@@ -2011,9 +1550,8 @@ if (allRequired) {
   }
 
   function initMapExport() {
-    installLeafletMapCapture();
-
     var button = document.getElementById('btnSaveMapImage');
+
     if (!button) {
       console.warn('Button #btnSaveMapImage wurde nicht gefunden.');
       return;
@@ -2024,8 +1562,9 @@ if (allRequired) {
     }
 
     button.textContent = 'Karte als JPEG herunterladen';
+
     button.addEventListener('click', function () {
-      downloadMapAsJpeg();
+      downloadCurrentMapScreenshot();
     });
 
     button.dataset.exportBound = 'true';
@@ -2038,10 +1577,11 @@ if (allRequired) {
   }
 })();
 </script>
+``
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260603123052"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603124531"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
