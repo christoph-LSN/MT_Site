@@ -1,16 +1,21 @@
 {% assign graph_title = page.indicator.graph_titles.first.title | default: page.indicator.graph_title %}
+{% assign indicator_number = page.indicator.indicator_number | default: page.indicator.indicator | default: page.indicator.id %}
+{% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}
 
-<!--
-  Alles innerhalb von #map-export-wrapper wird später als PNG exportiert:
-  - Titel
-  - Karte
-  - Legende (wenn sie im Kartenbereich liegt)
-  - Fußnote
--->
 <div id="map-export-wrapper">
 
-  <h4 id="map-heading" class="map-title">{{ graph_title }}</h4>
+  <!-- Export-Titel: Indikator-Nummer + Titel -->
+  <div id="map-export-header">
+    <h4 id="map-heading" class="map-title">
+      {% if indicator_number %}
+        Indikator {{ indicator_number }}: {{ graph_title }}
+      {% else %}
+        {{ graph_title }}
+      {% endif %}
+    </h4>
+  </div>
 
+  <!-- Kartenbereich -->
   <div id="map" aria-describedby="table-alternative">
     <img
       class="map-loading-image"
@@ -18,19 +23,23 @@
       alt="{{ page.t.indicator.loading_map }}" />
   </div>
 
+  <!-- Standard-Fußnote / Datenfuß -->
   {% include components/indicator/data-footer.html footerId='mapFooter' %}
+
+  <!-- Zusätzliche Quelle im Export -->
+  <div id="map-export-source" class="map-export-source">
+    <strong>Quelle:</strong>
+    <span id="map-source-text">{{ source_url }}</span>
+  </div>
 
 </div>
 
-<!--
-  Der Download-Button liegt AUSSERHALB des Export-Wrappers,
-  damit er nicht mit in das Bild exportiert wird.
--->
+<!-- Download-Button außerhalb des Exportbereichs -->
 <div id="map-image-download" class="clearfix" style="margin-top: 1rem;">
   <button
     id="btnSaveMapImage"
     type="button"
     class="btn btn-primary">
-    Karte als PNG herunterladen
+    Karte als JPG herunterladen
   </button>
 </div>
