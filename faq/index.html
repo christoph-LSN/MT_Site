@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603042530">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260603042616">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -553,7 +553,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260603042530'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260603042616'></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
@@ -580,23 +580,6 @@ function printDiv()
 </script>
 
 
-<script>
-  function printElement() {
-  var printContent = document.querySelector("#selectionsTable").inner.HTML;
-  var printWindow = window.open('', '_blank');
-  
-  printWindow.document.open();
-  printWindow.document.write('<html><head><title>Druckansicht</title></head><body>' + printContent + '</body></html>');
-  printWindow.document.close();
-  printWindow.onload = function() {
-    printWindow.print();
-  };
-}  
-
-</script>
-
-
-  
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
@@ -605,9 +588,22 @@ function printDiv()
     padding: 20px;
   }
 
+  #map-export-header {
+    margin-bottom: 20px;
+  }
+
   #map-export-wrapper .map-title {
     margin-top: 0;
     margin-bottom: 20px;
+    font-size: 2rem;
+    line-height: 1.3;
+  }
+
+  #map-export-source {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-break: break-word;
   }
 
   #map-image-download {
@@ -623,16 +619,15 @@ function printDiv()
     ============================================================
     KONFIGURATION
     ============================================================
-    Hier kannst du Geschwindigkeit / Qualität später leicht anpassen.
   */
-  const EXPORT_SCALE = 1.2;      // 1 = schneller / kleiner, 1.2 = guter Kompromiss
+  const EXPORT_SCALE = 1.2;
   const EXPORT_TYPE = 'image/jpeg';
-  const EXPORT_QUALITY = 0.82;   // nur für JPEG relevant (0 bis 1)
-  const TILE_WAIT_TIMEOUT = 1500; // maximale Wartezeit auf Leaflet-Tiles in ms
+  const EXPORT_QUALITY = 0.82;
+  const TILE_WAIT_TIMEOUT = 1500;
 
   /*
     ============================================================
-    DATEINAME AUS TITEL BAUEN
+    DATEINAMEN BAUEN
     ============================================================
   */
   function getMapFileName() {
@@ -653,7 +648,7 @@ function printDiv()
 
   /*
     ============================================================
-    KURZ WARTEN
+    WARTEFUNKTION
     ============================================================
   */
   function wait(ms) {
@@ -664,10 +659,8 @@ function printDiv()
 
   /*
     ============================================================
-    AUF LEAFLET-TILES WARTEN (ABER NUR KURZ)
+    AUF LEAFLET-TILES WARTEN
     ============================================================
-    Wir warten bewusst nicht mehr sehr lange.
-    Sonst blockiert der Export unnötig.
   */
   async function waitForLeafletTiles(container, timeoutMs) {
     const start = Date.now();
@@ -688,7 +681,6 @@ function printDiv()
         }
       });
 
-      // Wenn fast alle Tiles geladen sind, reicht uns das
       if (loadedCount / images.length > 0.9) {
         return true;
       }
@@ -712,7 +704,7 @@ function printDiv()
         img.crossOrigin = 'anonymous';
         img.setAttribute('crossorigin', 'anonymous');
       } catch (e) {
-        // bewusst leer
+        // absichtlich leer
       }
     });
   }
@@ -721,7 +713,6 @@ function printDiv()
     ============================================================
     DOWNLOAD STARTEN
     ============================================================
-    Erst Blob versuchen, sonst DataURL-Fallback.
   */
   function downloadData(data, filename, isBlob) {
     const link = document.createElement('a');
@@ -730,6 +721,7 @@ function printDiv()
       const url = URL.createObjectURL(data);
       link.href = url;
       link.download = filename;
+
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -740,6 +732,7 @@ function printDiv()
     } else {
       link.href = data;
       link.download = filename;
+
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -750,7 +743,6 @@ function printDiv()
     ============================================================
     CANVAS EXPORTIEREN
     ============================================================
-    JPEG ist hier absichtlich gewählt, damit die Datei deutlich kleiner wird.
   */
   function exportCanvas(canvas, filename) {
     return new Promise(function (resolve, reject) {
@@ -814,8 +806,6 @@ function printDiv()
 
     try {
       prepareTileImagesForExport(mapContainer);
-
-      // nur kurz auf Tiles warten
       await waitForLeafletTiles(mapContainer, TILE_WAIT_TIMEOUT);
 
       const rect = exportWrapper.getBoundingClientRect();
@@ -833,10 +823,6 @@ function printDiv()
         scrollX: 0,
         scrollY: 0,
 
-        /*
-          Nur im KLON störende Bedienelemente ausblenden.
-          Die echte Seite bleibt dabei unverändert.
-        */
         onclone: function (clonedDocument) {
           const clonedWrapper = clonedDocument.getElementById('map-export-wrapper');
           if (!clonedWrapper) return;
@@ -854,7 +840,6 @@ function printDiv()
 
           selectorsToHide.forEach(function (selector) {
             clonedWrapper.querySelectorAll(selector).forEach(function (el) {
-              // Legende möglichst stehen lassen
               if (el.classList.contains('legend')) return;
               if (el.classList.contains('map-legend')) return;
               if (el.classList.contains('info')) return;
@@ -901,7 +886,6 @@ function printDiv()
       return;
     }
 
-    // Buttontext an das neue Format anpassen
     button.textContent = 'Karte als JPG herunterladen';
 
     button.addEventListener('click', function () {
@@ -921,7 +905,7 @@ function printDiv()
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260603042530"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260603042616"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
