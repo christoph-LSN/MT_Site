@@ -2,9 +2,13 @@
 {% assign indicator_number = page.indicator.indicator_number | default: page.indicator.indicator | default: page.indicator.id %}
 {% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}
 
+<!-- =========================================================
+     EXPORTBEREICH
+     Alles in diesem Block ist für den Bildexport relevant
+     ========================================================= -->
 <div id="map-export-wrapper">
 
-  <!-- Titel für den Export -->
+  <!-- Titel -->
   <div id="map-export-header">
     <h4 id="map-heading" class="map-title">
       {% if indicator_number %}
@@ -15,7 +19,7 @@
     </h4>
   </div>
 
-  <!-- Kartenbereich -->
+  <!-- Leaflet-Kartencontainer -->
   <div id="map" aria-describedby="table-alternative">
     <img
       class="map-loading-image"
@@ -23,23 +27,32 @@
       alt="{{ page.t.indicator.loading_map }}" />
   </div>
 
-  <!-- Standard-Fußbereich -->
+  <!-- Standard-Fußnote -->
   {% include components/indicator/data-footer.html footerId='mapFooter' %}
 
-  <!-- Zusätzliche Quellenangabe im Export -->
+  <!-- Zusätzliche Quellenangabe -->
   <div id="map-export-source" class="map-export-source">
     <strong>Quelle:</strong>
     <span id="map-source-text">{{ source_url }}</span>
   </div>
-
 </div>
 
-<!-- Export-Button: außerhalb des Exportbereichs -->
-<div id="map-image-download" class="clearfix no-export" style="margin-top: 1rem;">
+<!-- =========================================================
+     BUTTON-LEISTE
+     Liegt AUSSERHALB des Exportbereichs und wird daher
+     nicht mit in das Bild aufgenommen
+     ========================================================= -->
+<div id="map-action-row" class="no-export">
+  <!-- Unser JPG-Button -->
   <button
     id="btnSaveMapImage"
     type="button"
-    class="btn btn-primary">
-    Karte als JPG herunterladen
+    class="btn btn-primary map-action-btn">
+    Karte als JPEG herunterladen
   </button>
+
+  <!--
+    Der vorhandene GeoJSON-Button wird per JavaScript in diese
+    Aktionsleiste verschoben, sobald er auf der Seite vorhanden ist.
+  -->
 </div>
