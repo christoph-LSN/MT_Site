@@ -29,7 +29,10 @@
   }
 
   /* =========================================================
-     BUTTON-LEISTE DIREKT AM VORHANDENEN GEOJSON-BUTTON
+     GEMEINSAME BUTTON-LEISTE
+     Enthält:
+     - vorhandenen GeoJSON-Button
+     - JPEG-Button
      ========================================================= */
   #map-inline-action-row {
     display: flex;
@@ -122,8 +125,8 @@
   /* ============================================================
      VORHANDENEN GEOJSON-BUTTON FINDEN
      ============================================================
-     Wir suchen bewusst breit, weil der Button je nach Renderlogik
-     leicht unterschiedlich eingebunden sein kann.
+     Der Button kann je nach Renderlogik leicht unterschiedlich
+     erzeugt werden. Deshalb suchen wir bewusst etwas breiter.
   */
   function findExistingGeoJsonButton() {
     return (
@@ -131,7 +134,9 @@
       document.querySelector('#map-export-wrapper a[download]') ||
       document.querySelector('a[download].btn-download[title*="GeoJSON"]') ||
       document.querySelector('a[download][title*="GeoJSON"]') ||
-      document.querySelector('a[download][aria-label*="GeoJSON"]')
+      document.querySelector('a[download][aria-label*="GeoJSON"]') ||
+      document.querySelector('a[href*="/geojson/"].btn-download') ||
+      document.querySelector('a[href*="/geojson/"]')
     );
   }
 
@@ -169,8 +174,8 @@
     }
 
     /*
-      Falls die Leiste noch nicht im DOM ist:
-      genau an die Stelle des vorhandenen GeoJSON-Buttons setzen.
+      Die Leiste direkt an die bisherige Stelle des vorhandenen
+      GeoJSON-Buttons setzen.
     */
     if (!actionRow.parentNode && geoJsonButton.parentNode) {
       geoJsonButton.parentNode.insertBefore(actionRow, geoJsonButton);
@@ -232,6 +237,112 @@
   }
 
   /* ============================================================
+     HOVER-/TOOLTIP-ELEMENTE DER KARTE VORÜBERGEHEND UNTERDRÜCKEN
+     ============================================================ */
+  function suppressMapHoverDuringCapture() {
+    var mapElement = document.getElementById('map');
+    if (!mapElement) {
+      return function restore() {};
+    }
+
+    var changed = [];
+
+    /*
+      Sichtbare Tooltip-/Popup-/Info-Elemente ausblenden
+    */
+    var hoverSelectors = [
+      '#map .leaflet-tooltip',
+      '#map .leaflet-popup',
+      '#map .info',
+      '#map .hover',
+      '#map .map-info',
+      '#map .selection-legend dl'
+    ];
+
+    hoverSelectors.forEach(function (selector) {
+      document.querySelectorAll(selector).forEach(function (el) {
+        changed.push({
+          element: el,
+          oldDisplay: el.style.display
+        });
+
+        el.style.display = 'none';
+      });
+    });
+
+    /*
+      Mouseout / Mouseleave künstlich auslösen
+    */
+    try {
+      var mouseOutEvent = new MouseEvent('mouseout', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+
+      var mouseLeaveEvent = new MouseEvent('mouseleave', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
+
+      mapElement.dispatchEvent(mouseOutEvent);
+      mapElement.dispatchEvent(mouseLeaveEvent);
+
+      mapElement.querySelectorAll('.leaflet-interactive').forEach(function (el) {
+        el.dispatchEvent(mouseOutEvent);
+        el.dispatchEvent(mouseLeaveEvent);
+      });
+    } catch (e) {
+      // ignorieren
+    }
+
+    /*
+      Pointer-Events auf der Karte kurz deaktivieren
+    */
+    changed.push({
+      element: mapElement,
+      oldPointerEvents: mapElement.style.pointerEvents
+    });
+    mapElement.style.pointerEvents = 'none';
+
+    var pointerTargets = mapElement.querySelectorAll(
+      '.leaflet-interactive, .leaflet-pane, .leaflet-control-container'
+    );
+
+    pointerTargets.forEach(function (el) {
+      changed.push({
+        element: el,
+        oldPointerEvents: el.style.pointerEvents
+      });
+      el.style.pointerEvents = 'none';
+    });
+
+    /*
+      Cursor kurz ausblenden
+    */
+    changed.push({
+      element: document.body,
+      oldCursor: document.body.style.cursor
+    });
+    document.body.style.cursor = 'none';
+
+    return function restore() {
+      changed.forEach(function (entry) {
+        if (typeof entry.oldDisplay !== 'undefined') {
+          entry.element.style.display = entry.oldDisplay;
+        }
+        if (typeof entry.oldPointerEvents !== 'undefined') {
+          entry.element.style.pointerEvents = entry.oldPointerEvents;
+        }
+        if (typeof entry.oldCursor !== 'undefined') {
+          entry.element.style.cursor = entry.oldCursor;
+        }
+      });
+    };
+  }
+
+  /* ============================================================
      EXPORTBEREICH IN EINE STABILE POSITION SCROLLEN
      ============================================================ */
   async function scrollElementIntoStableCapturePosition(element) {
@@ -249,6 +360,9 @@
       behavior: 'auto'
     });
 
+    /*
+      Browser Zeit geben, neu zu zeichnen
+    */
     await wait(350);
     await wait(250);
 
@@ -277,11 +391,21 @@
     }
 
     var restoreHiddenElements = hideElementsForCapture();
+    var restoreHoverState = suppressMapHoverDuringCapture();
     var restoreScrollPosition = null;
 
     try {
       restoreScrollPosition = await scrollElementIntoStableCapturePosition(element);
+
+      /*
+        Nach Scrollen noch kurz warten, damit DOM + Leaflet stabil sind
+      */
       await wait(200);
+
+      /*
+        Hover-Zustände sicher verschwinden lassen
+      */
+      await wait(250);
 
       var stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
@@ -304,6 +428,10 @@
 
       try {
         await video.play();
+
+        /*
+          Warten, bis ein sauberer Frame vorliegt
+        */
         await wait(400);
 
         var frameWidth = video.videoWidth;
@@ -372,7 +500,12 @@
       }
 
     } finally {
+      /*
+        Ganz wichtig:
+        Alles sauber wiederherstellen
+      */
       restoreHiddenElements();
+      restoreHoverState();
 
       if (restoreScrollPosition) {
         restoreScrollPosition();
@@ -423,11 +556,29 @@
   }
 
   /* ============================================================
+     JPEG-BUTTON VERBINDEN
+     ============================================================ */
+  function bindJpegButton(jpegButton) {
+    if (!jpegButton) {
+      return;
+    }
+
+    if (jpegButton.dataset.exportBound === 'true') {
+      return;
+    }
+
+    jpegButton.addEventListener('click', function () {
+      downloadCurrentMapDivAsJpeg();
+    });
+
+    jpegButton.dataset.exportBound = 'true';
+  }
+
+  /* ============================================================
      INITIALISIERUNG
-     ============================================================
-     Falls der GeoJSON-Button später nachgeladen wird:
-     beobachten und dann die Leiste aufbauen.
-  */
+     Falls der GeoJSON-Button später nachgeladen wird,
+     warten wir per MutationObserver darauf.
+     ============================================================ */
   function initMapExport() {
     var placed = placeButtonsInline();
 
@@ -448,22 +599,6 @@
       childList: true,
       subtree: true
     });
-  }
-
-  function bindJpegButton(jpegButton) {
-    if (!jpegButton) {
-      return;
-    }
-
-    if (jpegButton.dataset.exportBound === 'true') {
-      return;
-    }
-
-    jpegButton.addEventListener('click', function () {
-      downloadCurrentMapDivAsJpeg();
-    });
-
-    jpegButton.dataset.exportBound = 'true';
   }
 
   if (document.readyState === 'loading') {
