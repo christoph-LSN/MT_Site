@@ -3300,36 +3300,63 @@ button.dt-btn-split-drop-button {
   div.dt-button-collection.columns > :last-child {
     width: 200px; } }
 /* ===== Kartendruck ===== */
-.mt-print-content {
+.mt-print-legend-overlay {
   display: none; }
 
-body.leaflet--printing .mt-print-content {
-  display: block !important;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 0 0 10mm 0; }
+body.leaflet--printing .grid-print-container {
+  position: relative;
+  overflow: hidden !important; }
+
+body.leaflet--printing #print-header {
+  text-align: left !important;
+  padding: 0 4mm 2mm 4mm;
+  font-size: 14px !important;
+  line-height: 1.2 !important; }
+
+body.leaflet--printing .mt-print-header {
+  width: 100%; }
 
 body.leaflet--printing .mt-print-title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
-  margin: 0 0 4mm 0; }
+  margin: 0 0 2mm 0; }
 
 body.leaflet--printing .mt-print-meta {
-  font-size: 16px;
-  margin: 0 0 6mm 0; }
+  font-size: 14px;
+  margin: 0; }
 
-body.leaflet--printing .mt-print-legend {
-  margin: 0 0 6mm 0; }
+body.leaflet--printing .mt-print-legend-overlay {
+  display: block !important;
+  position: absolute !important;
+  top: 8mm;
+  right: 8mm;
+  z-index: 10001;
+  width: 58mm;
+  max-width: 58mm;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  box-shadow: none !important;
+  padding: 3mm; }
 
 body.leaflet--printing .mt-print-legend-heading {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 3mm; }
+  margin: 0 0 2mm 0; }
 
 body.leaflet--printing .mt-print-legend-clone {
   position: static !important;
   float: none !important;
   right: auto !important;
   top: auto !important;
+  left: auto !important;
+  bottom: auto !important;
   box-shadow: none !important;
-  max-width: 100%; }
+  max-width: 100%;
+  width: 100%;
+  background: transparent !important; }
+
+body.leaflet--printing .mt-print-legend-clone * {
+  box-shadow: none !important; }
+
+body.leaflet--printing #print-footer {
+  display: none !important; }
