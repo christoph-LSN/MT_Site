@@ -1,56 +1,120 @@
 (function () {
   'use strict';
 
-  // Globale Sammlung aller gefundenen Leaflet-Maps.
-  window.MTLeafletMaps = window.MTLeafletMaps || [];
+  var state = {
+    maps: [],
+    attached: false,
+    observer: null,
+    interval: null
+  };
 
-  function log(message) {
+  function log(message, data) {
     if (window.console && console.log) {
-      console.log('[map-print] ' + message);
+      if (typeof data !== 'undefined') {
+        console.log('[map-print] ' + message, data);
+      } else {
+        console.log('[map-print] ' + message);
+      }
     }
   }
 
-  function warn(message) {
+  function warn(message, data) {
     if (window.console && console.warn) {
-      console.warn('[map-print] ' + message);
+      if (typeof data !== 'undefined') {
+        console.warn('[map-print] ' + message, data);
+      } else {
+        console.warn('[map-print] ' + message);
+      }
     }
+  }
+
+  function isLeafletAvailable() {
+    return !!(window.L && L.Map && L.control && L.control.browserPrint);
+  }
+
+  function getMapView() {
+    return document.getElementById('mapview');
   }
 
   function uniquePushMap(map) {
     if (!map) return;
 
-    var exists = window.MTLeafletMaps.some(function (existingMap) {
-      return existingMap === map;
+    var exists = state.maps.some(function (existing) {
+      return existing === map;
     });
 
     if (!exists) {
-      window.MTLeafletMaps.push(map);
+      state.maps.push(map);
+      log('Leaflet-Map registriert.', describeMap(map));
     }
   }
 
-  function registerLeafletInitHook() {
-    if (!window.L || !L.Map || !L.Map.addInitHook) {
+  function describeMap(map) {
+    if (!map || !map.getContainer) {
+      return { valid: false };
+    }
+
+    var container = map.getContainer();
+    return {
+      valid: true,
+      id: container.id || '',
+      className: container.className || '',
+      inMapView: isInsideMapView(container),
+      visible: isVisible(container)
+    };
+  }
+
+  function isVisible(element) {
+    if (!element) return false;
+    return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+  }
+
+  function isInsideMapView(element) {
+    var mapView = getMapView();
+    if (!mapView || !element) return false;
+    return mapView === element || mapView.contains(element) || element.contains(mapView);
+  }
+
+  function isGoodTargetMap(map) {
+    if (!map || !map.getContainer) return false;
+
+    var container = map.getContainer();
+    if (!container) return false;
+
+    // Wichtig: Nur die Karte im Bereich #mapview akzeptieren.
+    if (!isInsideMapView(container)) {
       return false;
     }
 
-    if (window.__mtLeafletPrintHookRegistered) {
-      return true;
+    // Sichtbarkeit bevorzugen.
+    if (!isVisible(container)) {
+      return false;
     }
-
-    window.__mtLeafletPrintHookRegistered = true;
-
-    L.Map.addInitHook(function () {
-      uniquePushMap(this);
-      tryAttachPrintControl(this);
-    });
 
     return true;
   }
 
-  function scanWindowForLeafletMaps() {
-    if (!window.L || !L.Map) {
+  function registerLeafletInitHook() {
+    if (!window.L || !L.Map || !L.Map.addInitHook) {
       return;
     }
+
+    if (window.__mtMapPrintHookRegistered) {
+      return;
+    }
+
+    window.__mtMapPrintHookRegistered = true;
+
+    L.Map.addInitHook(function () {
+      uniquePushMap(this);
+      attachIfPossible();
+    });
+
+    log('Leaflet init hook registriert.');
+  }
+
+  function scanWindowForMaps() {
+    if (!window.L || !L.Map) return;
 
     Object.keys(window).forEach(function (key) {
       try {
@@ -63,26 +127,21 @@
     });
   }
 
-  function scanJQueryDataForLeafletMaps() {
-    if (!window.jQuery || !window.L || !L.Map) {
-      return;
-    }
+  function getPrintableBaseLayer(map) {
+    var found = null;
 
-    var $mapView = window.jQuery('#mapview');
-    if (!$mapView.length) {
-      return;
-    }
+    map.eachLayer(function (layer) {
+      if (found) return;
 
-    var data = $mapView.data() || {};
-    Object.keys(data).forEach(function (key) {
-      try {
-        if (data[key] instanceof L.Map) {
-          uniquePushMap(data[key]);
-        }
-      } catch (e) {
-        // ignorieren
+      if (
+        (window.L.TileLayer && layer instanceof L.TileLayer) ||
+        (window.L.TileLayer && window.L.TileLayer.WMS && layer instanceof L.TileLayer.WMS)
+      ) {
+        found = layer;
       }
     });
+
+    return found;
   }
 
   function getIndicatorTitle() {
@@ -110,68 +169,19 @@
     return window.location.pathname;
   }
 
-  function getMapViewElement() {
-    return document.getElementById('mapview');
-  }
-
-  function isRelevantMap(map) {
-    if (!map || !map.getContainer) {
-      return false;
-    }
-
-    var container = map.getContainer();
-    if (!container) {
-      return false;
-    }
-
-    var mapView = getMapViewElement();
-
-    // Wenn #mapview existiert, dann nur Maps in diesem Bereich anfassen.
-    if (mapView) {
-      return mapView === container || mapView.contains(container) || container.contains(mapView);
-    }
-
-    // Fallback: wenn es keine #mapview gibt, akzeptieren wir die Map.
-    return true;
-  }
-
-  function getPrintableBaseLayer(map) {
-    if (!window.L || !map || !map.eachLayer) {
-      return null;
-    }
-
-    var found = null;
-
-    map.eachLayer(function (layer) {
-      if (found) return;
-
-      if (
-        (window.L.TileLayer && layer instanceof L.TileLayer) ||
-        (window.L.TileLayer && window.L.TileLayer.WMS && layer instanceof L.TileLayer.WMS)
-      ) {
-        found = layer;
-      }
-    });
-
-    return found;
-  }
-
   function buildPrintModes(title, subtitle) {
-    var headerText = title;
-    var footerText = subtitle;
-
     return [
       L.BrowserPrint.Mode.Landscape('A4', {
         title: 'Drucken (Querformat)',
         header: {
           enabled: true,
-          text: headerText,
+          text: title,
           size: '12mm',
           overTheMap: false
         },
         footer: {
           enabled: true,
-          text: footerText,
+          text: subtitle,
           size: '8mm',
           overTheMap: false
         }
@@ -180,13 +190,13 @@
         title: 'Drucken (Automatisch)',
         header: {
           enabled: true,
-          text: headerText,
+          text: title,
           size: '12mm',
           overTheMap: false
         },
         footer: {
           enabled: true,
-          text: footerText,
+          text: subtitle,
           size: '8mm',
           overTheMap: false
         }
@@ -194,16 +204,13 @@
     ];
   }
 
-  function tryAttachPrintControl(map) {
-    if (!window.L || !L.control || !L.control.browserPrint) {
+  function attachPrintControl(map) {
+    if (!isLeafletAvailable()) {
+      warn('Leaflet oder leaflet.browser.print ist nicht verfügbar.');
       return false;
     }
 
     if (!map || map._mtPrintControlAdded) {
-      return false;
-    }
-
-    if (!isRelevantMap(map)) {
       return false;
     }
 
@@ -222,66 +229,109 @@
 
       map._mtPrintControlAdded = true;
       map._mtPrintControl = control;
+      state.attached = true;
 
-      log('Print-Control hinzugefügt.');
+      log('Print-Control zur sichtbaren #mapview-Karte hinzugefügt.', describeMap(map));
+
+      stopWatching();
       return true;
     } catch (error) {
-      warn('Print-Control konnte nicht hinzugefügt werden: ' + error);
+      warn('Fehler beim Hinzufügen des Print-Controls.', error);
       return false;
     }
   }
 
-  function tryAttachToKnownMaps() {
-    var success = false;
+  function attachIfPossible() {
+    if (state.attached) {
+      return true;
+    }
 
-    window.MTLeafletMaps.forEach(function (map) {
-      var attached = tryAttachPrintControl(map);
-      if (attached) {
-        success = true;
-      }
-    });
+    var goodMaps = state.maps.filter(isGoodTargetMap);
 
-    return success;
+    if (goodMaps.length) {
+      return attachPrintControl(goodMaps[0]);
+    }
+
+    return false;
   }
 
-  function bootstrap() {
-    if (!window.L) {
-      warn('Leaflet (L) ist noch nicht verfügbar.');
+  function observeMapView() {
+    var mapView = getMapView();
+    if (!mapView) {
+      warn('#mapview wurde noch nicht gefunden.');
       return;
     }
 
-    if (!L.control || !L.control.browserPrint) {
-      warn('leaflet.browser.print ist noch nicht verfügbar.');
+    if (state.observer) {
+      return;
+    }
+
+    state.observer = new MutationObserver(function () {
+      if (state.attached) return;
+      attachIfPossible();
+    });
+
+    state.observer.observe(mapView, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+
+    log('MutationObserver für #mapview gestartet.');
+  }
+
+  function startPolling() {
+    if (state.interval) {
+      return;
+    }
+
+    var attempts = 0;
+    var maxAttempts = 60;
+
+    state.interval = window.setInterval(function () {
+      if (state.attached) {
+        stopWatching();
+        return;
+      }
+
+      attempts += 1;
+
+      scanWindowForMaps();
+      attachIfPossible();
+
+      if (attempts >= maxAttempts) {
+        stopWatching();
+        warn('Keine sichtbare Leaflet-Karte innerhalb von #mapview gefunden.');
+      }
+    }, 500);
+  }
+
+  function stopWatching() {
+    if (state.interval) {
+      window.clearInterval(state.interval);
+      state.interval = null;
+    }
+
+    if (state.observer) {
+      state.observer.disconnect();
+      state.observer = null;
+    }
+  }
+
+  function bootstrap() {
+    if (!isLeafletAvailable()) {
+      warn('Leaflet oder leaflet.browser.print fehlt.');
       return;
     }
 
     registerLeafletInitHook();
-    scanWindowForLeafletMaps();
-    scanJQueryDataForLeafletMaps();
+    scanWindowForMaps();
+    observeMapView();
 
-    if (tryAttachToKnownMaps()) {
-      return;
+    if (!attachIfPossible()) {
+      startPolling();
     }
-
-    // Fallback: noch einige Sekunden pollen, falls die Karte später initialisiert wird.
-    var attempts = 0;
-    var maxAttempts = 40;
-
-    var interval = window.setInterval(function () {
-      attempts += 1;
-
-      scanWindowForLeafletMaps();
-      scanJQueryDataForLeafletMaps();
-
-      var attached = tryAttachToKnownMaps();
-      if (attached || attempts >= maxAttempts) {
-        window.clearInterval(interval);
-
-        if (!attached) {
-          warn('Keine passende Leaflet-Karte für den Print-Control gefunden.');
-        }
-      }
-    }, 500);
   }
 
   if (document.readyState === 'loading') {
