@@ -161,13 +161,11 @@
 
   function findVisibleLegend() {
     var selectors = [
+      '#mapview .leaflet-top.leaflet-right .leaflet-control:not(.leaflet-control-attribution):not(.leaflet-control-zoom)',
+      '#mapview .leaflet-right .leaflet-control:not(.leaflet-control-attribution):not(.leaflet-control-zoom)',
       '#mapview .legend',
       '#mapview .map-legend',
-      '#mapview .leaflet-control .legend',
-      '#mapview .leaflet-control-container .legend',
-      '#mapview .legend-container',
-      '#mapview .leaflet-top.leaflet-right .legend',
-      '#mapview .leaflet-right .legend'
+      '#mapview .legend-container'
     ];
 
     for (var i = 0; i < selectors.length; i++) {
@@ -204,6 +202,7 @@
 
     var legend = findVisibleLegend();
     if (!legend) {
+      log('Keine sichtbare Legende gefunden.');
       return;
     }
 
@@ -242,22 +241,22 @@
       L.BrowserPrint.Mode.Landscape('A4', {
         title: 'Drucken',
         margin: {
-          top: 4,
-          right: 4,
-          bottom: 4,
-          left: 4
+          top: 2,
+          right: 2,
+          bottom: 2,
+          left: 2
         },
-        scale: 0.80,
+        scale: 0.72,
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '14mm',
+          size: '11mm',
           overTheMap: false
         },
         footer: {
-          enabled: false,
-          text: '',
-          size: '0mm',
+          enabled: true,
+          text: 'Integrationsmonitoring Niedersachsen',
+          size: '5mm',
           overTheMap: false
         }
       })
@@ -385,3 +384,4 @@
     bootstrap();
   }
 })();
+``
