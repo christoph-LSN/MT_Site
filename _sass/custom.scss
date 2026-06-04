@@ -63,13 +63,21 @@ body {
 body.leaflet--printing .grid-print-container {
   position: relative;
   overflow: hidden !important;
+  break-inside: avoid-page !important;
+  page-break-inside: avoid !important;
+}
+
+body.leaflet--printing .grid-map-print {
+  transform-origin: top left !important;
+  break-inside: avoid-page !important;
+  page-break-inside: avoid !important;
 }
 
 body.leaflet--printing #print-header {
   text-align: left !important;
-  padding: 0 4mm 2mm 4mm;
-  font-size: 14px !important;
-  line-height: 1.2 !important;
+  padding: 0 3mm 1mm 3mm;
+  font-size: 12px !important;
+  line-height: 1.1 !important;
 }
 
 body.leaflet--printing .mt-print-header {
@@ -77,34 +85,35 @@ body.leaflet--printing .mt-print-header {
 }
 
 body.leaflet--printing .mt-print-title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
-  margin: 0 0 2mm 0;
+  margin: 0 0 1mm 0;
 }
 
 body.leaflet--printing .mt-print-meta {
-  font-size: 14px;
+  font-size: 11px;
   margin: 0;
 }
 
 body.leaflet--printing .mt-print-legend-overlay {
   display: block !important;
   position: absolute !important;
-  top: 8mm;
-  right: 8mm;
+  top: 4mm;
+  right: 4mm;
   z-index: 10001;
-  width: 58mm;
-  max-width: 58mm;
-  background: rgba(255, 255, 255, 0.95);
+  width: 42mm;
+  max-width: 42mm;
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid #ccc;
   box-shadow: none !important;
-  padding: 3mm;
+  padding: 2mm;
+  overflow: hidden;
 }
 
 body.leaflet--printing .mt-print-legend-heading {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
-  margin: 0 0 2mm 0;
+  margin: 0 0 1.5mm 0;
 }
 
 body.leaflet--printing .mt-print-legend-clone {
@@ -118,13 +127,28 @@ body.leaflet--printing .mt-print-legend-clone {
   max-width: 100%;
   width: 100%;
   background: transparent !important;
+  font-size: 10px !important;
+  line-height: 1.15 !important;
 }
 
 body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
+  max-width: 100% !important;
 }
 
 body.leaflet--printing #print-footer {
+  display: block !important;
+  text-align: left !important;
+  padding: 1mm 3mm 0 3mm;
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+
+body.leaflet--printing .leaflet-control-attribution {
   display: none !important;
 }
-``
+
+body.leaflet--printing .leaflet-control-scale {
+  transform: scale(0.85);
+  transform-origin: bottom right;
+}
