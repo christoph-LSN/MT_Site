@@ -213,31 +213,40 @@
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '14mm',
+          size: '13mm',
           overTheMap: true
         },
         footer: {
           enabled: true,
           text: 'Integrationsmonitoring Niedersachsen',
-          size: '6mm',
+          size: '5mm',
           overTheMap: true
         }
       })
     ];
   }
 
-  function removeExistingPrintLegend(printMap) {
-    if (!printMap || !printMap.getContainer) return;
+  function getPrintOverlayRoot(printMap) {
+    if (!printMap || !printMap.getContainer) return null;
 
-    var container = printMap.getContainer();
-    var existing = container.querySelector('.mt-print-legend-overlay');
+    var mapContainer = printMap.getContainer();
+    if (!mapContainer) return null;
+
+    return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
+  }
+
+  function removeExistingPrintLegend(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-legend-overlay');
     if (existing) {
       existing.remove();
     }
   }
 
   function addLegendToPrintMap(printMap) {
-    if (!printMap || !printMap.getContainer) return;
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
 
     var legend = findVisibleLegend();
     if (!legend) {
@@ -245,8 +254,7 @@
       return;
     }
 
-    var container = printMap.getContainer();
-    removeExistingPrintLegend(printMap);
+    removeExistingPrintLegend(root);
 
     var wrapper = document.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
@@ -260,7 +268,7 @@
     clonedLegend.classList.add('mt-print-legend-clone');
     wrapper.appendChild(clonedLegend);
 
-    container.appendChild(wrapper);
+    root.appendChild(wrapper);
   }
 
   function attachPrintControl(map) {
@@ -284,7 +292,7 @@
         printModes: buildPrintModes()
       }).addTo(map);
 
-      map.on(L.BrowserPrint.Event.PrintStart, function (event) {
+      map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
           addLegendToPrintMap(event.printMap);
         }
@@ -292,7 +300,8 @@
 
       map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
         if (event && event.printMap) {
-          removeExistingPrintLegend(event.printMap);
+          var root = getPrintOverlayRoot(event.printMap);
+          removeExistingPrintLegend(root);
         }
       });
 
