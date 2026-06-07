@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260607051640">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260607052502">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1427,7 +1427,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260607051640'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260607052502'></script>
 <script>
   /*!
  * 
@@ -1657,31 +1657,40 @@ if (allRequired) {
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '14mm',
+          size: '13mm',
           overTheMap: true
         },
         footer: {
           enabled: true,
           text: 'Integrationsmonitoring Niedersachsen',
-          size: '6mm',
+          size: '5mm',
           overTheMap: true
         }
       })
     ];
   }
 
-  function removeExistingPrintLegend(printMap) {
-    if (!printMap || !printMap.getContainer) return;
+  function getPrintOverlayRoot(printMap) {
+    if (!printMap || !printMap.getContainer) return null;
 
-    var container = printMap.getContainer();
-    var existing = container.querySelector('.mt-print-legend-overlay');
+    var mapContainer = printMap.getContainer();
+    if (!mapContainer) return null;
+
+    return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
+  }
+
+  function removeExistingPrintLegend(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-legend-overlay');
     if (existing) {
       existing.remove();
     }
   }
 
   function addLegendToPrintMap(printMap) {
-    if (!printMap || !printMap.getContainer) return;
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
 
     var legend = findVisibleLegend();
     if (!legend) {
@@ -1689,8 +1698,7 @@ if (allRequired) {
       return;
     }
 
-    var container = printMap.getContainer();
-    removeExistingPrintLegend(printMap);
+    removeExistingPrintLegend(root);
 
     var wrapper = document.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
@@ -1704,7 +1712,7 @@ if (allRequired) {
     clonedLegend.classList.add('mt-print-legend-clone');
     wrapper.appendChild(clonedLegend);
 
-    container.appendChild(wrapper);
+    root.appendChild(wrapper);
   }
 
   function attachPrintControl(map) {
@@ -1728,7 +1736,7 @@ if (allRequired) {
         printModes: buildPrintModes()
       }).addTo(map);
 
-      map.on(L.BrowserPrint.Event.PrintStart, function (event) {
+      map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
           addLegendToPrintMap(event.printMap);
         }
@@ -1736,7 +1744,8 @@ if (allRequired) {
 
       map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
         if (event && event.printMap) {
-          removeExistingPrintLegend(event.printMap);
+          var root = getPrintOverlayRoot(event.printMap);
+          removeExistingPrintLegend(root);
         }
       });
 
@@ -1841,7 +1850,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260607051640"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260607052502"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
