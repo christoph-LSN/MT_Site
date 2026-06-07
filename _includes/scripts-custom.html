@@ -10,4 +10,46 @@
 <script>
   {% include assets/js/map-print.js %}
 </script>
-``
+
+{%- comment -%}
+  Custom scripts for MT_Site.
+
+  Open SDG injects this include close to the closing </body> tag.
+  We use it to load project-specific JavaScript and third-party plugins.
+
+  Existing map print integration:
+  - leaflet.browser.print.min.js
+  - map-print.js
+
+  New table print integration:
+  - buttons.dataTables.min.js      (DataTables Buttons core)
+  - buttons.print.min.js           (DataTables print button type)
+  - buttons.bootstrap5.min.js      (Bootstrap 5 integration for Buttons)
+  - table-print.js                 (project-specific table print integration)
+{%- endcomment -%}
+
+<!-- Existing map print integration -->
+<script>
+  {% include assets/js/vendor/leaflet.browser.print.min.js %}
+</script>
+
+<script>
+  {% include assets/js/map-print.js %}
+</script>
+
+<!-- DataTables Buttons / Print integration -->
+<script>
+  {% include assets/js/vendor/buttons.dataTables.min.js %}
+</script>
+
+<script>
+  {% include assets/js/vendor/buttons.print.min.js %}
+</script>
+
+<script>
+  {% include assets/js/vendor/buttons.bootstrap5.min.js %}
+</script>
+
+<script>
+  {% include assets/js/table-print.js %}
+</script>
