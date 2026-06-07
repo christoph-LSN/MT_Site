@@ -1,6 +1,18 @@
 (function () {
   'use strict';
 
+  /**
+   * Shared runtime state.
+   */
+  var state = {
+    currentTable: null,
+    currentTableId: null,
+    externalButtonBound: false
+  };
+
+  /**
+   * Log helper.
+   */
   function log(message, data) {
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
@@ -11,6 +23,9 @@
     }
   }
 
+  /**
+   * Warning helper.
+   */
   function warn(message, data) {
     if (window.console && console.warn) {
       if (typeof data !== 'undefined') {
@@ -22,55 +37,38 @@
   }
 
   /**
-   * Main Open SDG table container.
+   * Current Open SDG table container.
    */
   function getSelectionsTable() {
     return document.getElementById('selectionsTable');
   }
 
   /**
-   * Prefer the existing Open SDG toolbar/download area above the table.
+   * Stable parent for the visible print button.
    *
-   * Your debug logs showed mutations on:
-   *   div#tableSelectionDownload.clearfix
+   * Based on your debug logs, #selectionsTable and #tableSelectionDownload
+   * are rebuilt on Gebietseinheit changes.
    *
-   * That makes it the best candidate for a stable print button host.
+   * Therefore we place the external print button higher up in #tableview,
+   * which is the table tab panel itself.
    */
-  function getPrintHostParent() {
+  function getStableButtonArea() {
     return (
-      document.getElementById('tableSelectionDownload') ||
+      document.getElementById('tableview') ||
       (getSelectionsTable() ? getSelectionsTable().closest('.tab-pane') : null) ||
-      (getSelectionsTable() ? getSelectionsTable().parentNode : null) ||
       null
     );
   }
 
   /**
-   * Find or create the host that will contain the print button.
-   *
-   * We deliberately place this host OUTSIDE the dynamic #selectionsTable block,
-   * because #selectionsTable is rebuilt when disaggregation selections change.
+   * Read the visible table element.
    */
-  function ensureButtonHost() {
-    var parent = getPrintHostParent();
-    if (!parent) {
-      return null;
-    }
-
-    var existing = parent.querySelector('.table-print-buttons');
-    if (existing) {
-      return existing;
-    }
-
-    var host = document.createElement('div');
-    host.className = 'table-print-buttons';
-
-    parent.appendChild(host);
-    return host;
+  function getCurrentTableElement() {
+    return document.querySelector('#selectionsTable table');
   }
 
   /**
-   * Check whether a table node belongs to the current Open SDG table view.
+   * Check whether a table node belongs to the current table view.
    */
   function isInsideSelectionsTable(tableNode) {
     var selectionsTable = getSelectionsTable();
@@ -78,7 +76,7 @@
   }
 
   /**
-   * Read the indicator title from the page heading.
+   * Read the page heading / indicator title.
    */
   function getIndicatorTitle() {
     var el =
@@ -93,7 +91,7 @@
   }
 
   /**
-   * Read the HTML table caption if present.
+   * Read the table caption if present.
    */
   function getTableCaptionText(tableEl) {
     if (!tableEl) return '';
@@ -122,31 +120,95 @@
   }
 
   /**
-   * Re-insert the Buttons container into the stable host.
-   *
-   * DataTables Buttons explicitly supports obtaining the container for a
-   * button set and moving it into the document with standard jQuery methods. 【4-2d1bf5】【5-73db1c】
+   * Create a stable external host for our custom visible print button.
    */
-  function reattachButtonsContainer(dataTable) {
-    var host = ensureButtonHost();
-    if (!host) {
-      warn('Could not create stable button host.');
-      return false;
+  function ensureExternalButtonHost() {
+    var area = getStableButtonArea();
+    if (!area) {
+      return null;
     }
 
-    jQuery(host).empty();
-    dataTable.buttons('mtTablePrint', null).container().appendTo(host);
-    return true;
+    var existing = area.querySelector('.table-print-buttons');
+    if (existing) {
+      return existing;
+    }
+
+    var host = document.createElement('div');
+    host.className = 'table-print-buttons';
+
+    // Put it near the top of the table tab.
+    area.insertBefore(host, area.firstChild);
+    return host;
   }
 
   /**
-   * Attach or reattach the print button to a specific DataTable instance.
+   * Create or reuse the visible external print button.
    *
-   * Safe to call multiple times:
-   * - if already attached for this DataTable instance, only reinsert the container
-   * - otherwise create the Buttons instance once
+   * This button is NOT the native DataTables button.
+   * It is our own stable UI element that calls the hidden DataTables
+   * print button via API.
    */
-  function attachPrintButtonToDataTable(dataTable, tableEl) {
+  function ensureExternalPrintButton() {
+    var host = ensureExternalButtonHost();
+    if (!host) {
+      warn('Could not create stable external print button host.');
+      return null;
+    }
+
+    var existing = host.querySelector('.table-print-trigger');
+    if (existing) {
+      return existing;
+    }
+
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'table-print-trigger btn btn-primary';
+    button.textContent = 'Tabelle drucken';
+
+    host.appendChild(button);
+    return button;
+  }
+
+  /**
+   * Bind the click handler of the stable external print button once.
+   *
+   * DataTables Buttons allows programmatic triggering of a button action
+   * using button().trigger(). 【3-0c7993】【4-4237d1】
+   */
+  function bindExternalButtonClick() {
+    if (state.externalButtonBound) {
+      return;
+    }
+
+    var button = ensureExternalPrintButton();
+    if (!button) {
+      return;
+    }
+
+    button.addEventListener('click', function () {
+      if (!state.currentTable) {
+        warn('No active DataTable available for printing.');
+        return;
+      }
+
+      try {
+        state.currentTable.button('mtTablePrint:name', 0).trigger();
+        log('Triggered DataTables print action via external button.');
+      } catch (error) {
+        warn('Failed to trigger DataTables print button.', error);
+      }
+    });
+
+    state.externalButtonBound = true;
+  }
+
+  /**
+   * For the current DataTable instance, create a hidden DataTables Buttons
+   * instance containing only the print button.
+   *
+   * We keep this hidden and use the external stable button to trigger it.
+   */
+  function ensureHiddenPrintButtonsForTable(dataTable, tableEl) {
     if (!dataTable || !tableEl) return false;
     if (!isInsideSelectionsTable(tableEl)) return false;
 
@@ -157,8 +219,10 @@
 
     var settings = dataTable.settings()[0];
 
-    if (settings._mtTablePrintAttached) {
-      reattachButtonsContainer(dataTable);
+    // Already prepared for this exact DataTable instance.
+    if (settings._mtHiddenTablePrintAttached) {
+      state.currentTable = dataTable;
+      state.currentTableId = tableEl.id || null;
       return true;
     }
 
@@ -213,11 +277,22 @@
       ]
     });
 
-    reattachButtonsContainer(dataTable);
-    settings._mtTablePrintAttached = true;
+    /**
+     * We do not show the DataTables Buttons UI.
+     * But we append the hidden container once to the document body so that the
+     * Buttons instance is fully initialised and available via API.
+     */
+    var hiddenContainer = dataTable.buttons('mtTablePrint:name', null).container();
+    hiddenContainer.addClass('mt-hidden-dt-buttons');
+    jQuery(document.body).append(hiddenContainer);
 
-    log('Print button attached to DataTable instance.', {
-      tableId: tableEl.id
+    settings._mtHiddenTablePrintAttached = true;
+
+    state.currentTable = dataTable;
+    state.currentTableId = tableEl.id || null;
+
+    log('Hidden table print button attached to DataTable instance.', {
+      tableId: state.currentTableId
     });
 
     return true;
@@ -232,31 +307,32 @@
       return false;
     }
 
-    var tableEl = document.querySelector('#selectionsTable table');
+    var tableEl = getCurrentTableElement();
     if (!tableEl) {
       warn('No table found in #selectionsTable.');
       return false;
     }
 
     if (!jQuery.fn.dataTable.isDataTable(tableEl)) {
-      warn('The table exists, but is not an active DataTable yet.');
+      warn('The current table exists, but is not an active DataTable yet.');
       return false;
     }
 
     var dataTable = jQuery(tableEl).DataTable();
-    return attachPrintButtonToDataTable(dataTable, tableEl);
+    bindExternalButtonClick();
+    return ensureHiddenPrintButtonsForTable(dataTable, tableEl);
   }
 
   /**
    * Listen globally for DataTables lifecycle events.
    *
    * DataTables documents:
-   * - draw: fires whenever the table is redrawn
-   * - init: fires when a DataTable is initialised
-   * - these events bubble and can be listened for centrally. 【1-e3d63d】【2-34836b】【3-a71c6b】
+   * - draw: fired on every redraw
+   * - init: fired on initialisation
+   * - these events can be listened for centrally because they bubble. 【5-d63033】【6-f1d601】【7-f5a8b9】
    *
-   * This is important because your logs show the table changes from
-   * DataTables_Table_0 to DataTables_Table_1 when a Gebietseinheit is selected.
+   * This is important because your logs show that selecting a Gebietseinheit
+   * creates a new table instance (DataTables_Table_0 -> DataTables_Table_1).
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
@@ -271,7 +347,8 @@
         if (!isInsideSelectionsTable(tableNode)) return;
 
         var dataTable = jQuery(tableNode).DataTable();
-        attachPrintButtonToDataTable(dataTable, tableNode);
+        ensureHiddenPrintButtonsForTable(dataTable, tableNode);
+        bindExternalButtonClick();
       } catch (error) {
         warn('Error while reacting to DataTables lifecycle event.', error);
       }
@@ -279,11 +356,12 @@
   }
 
   /**
-   * Retry initial attachment because Open SDG may initialise the table
-   * slightly after DOM ready.
+   * Initial retry because Open SDG may finish table initialisation
+   * shortly after DOM ready.
    */
   function bootstrapWithRetry() {
     bindGlobalDataTableEvents();
+    bindExternalButtonClick();
 
     var attempts = 0;
     var maxAttempts = 30;
@@ -296,7 +374,7 @@
         window.clearInterval(retryTimer);
 
         if (!attached) {
-          warn('Giving up after retrying to attach the table print button.');
+          warn('Giving up after retrying to connect the stable table print button.');
         }
       }
     }, 500);
