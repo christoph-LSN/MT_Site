@@ -1,6 +1,12 @@
 (function () {
   'use strict';
 
+  var state = {
+    currentTable: null,
+    currentButtonApi: null,
+    externalButtonBound: false
+  };
+
   function log(message, data) {
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
@@ -21,19 +27,10 @@
     }
   }
 
-  /**
-   * Main Open SDG table container.
-   */
   function getSelectionsTable() {
     return document.getElementById('selectionsTable');
   }
 
-  /**
-   * Stable host area for the visible print button.
-   *
-   * We use the table tab panel itself because your debugging showed that
-   * #selectionsTable is rebuilt when a Gebietseinheit is selected.
-   */
   function getStableButtonArea() {
     return (
       document.getElementById('tableview') ||
@@ -42,10 +39,51 @@
     );
   }
 
-  /**
-   * Create or reuse the stable host for the native DataTables print button.
-   */
-  function ensureButtonHost() {
+  function getCurrentTableElement() {
+    return document.querySelector('#selectionsTable table');
+  }
+
+  function isInsideSelectionsTable(tableNode) {
+    var selectionsTable = getSelectionsTable();
+    return !!(selectionsTable && tableNode && selectionsTable.contains(tableNode));
+  }
+
+  function getIndicatorTitle() {
+    var el =
+      document.querySelector('.heading h1') ||
+      document.querySelector('h1');
+
+    if (el && el.textContent) {
+      return el.textContent.trim();
+    }
+
+    return document.title || 'Table';
+  }
+
+  function getTableCaptionText(tableEl) {
+    if (!tableEl) return '';
+
+    var caption = tableEl.querySelector('caption');
+    if (caption && caption.textContent) {
+      return caption.textContent.trim();
+    }
+
+    return '';
+  }
+
+  function isButtonsReady() {
+    return !!(
+      window.jQuery &&
+      jQuery.fn &&
+      jQuery.fn.dataTable &&
+      jQuery.fn.dataTable.Buttons &&
+      jQuery.fn.dataTable.ext &&
+      jQuery.fn.dataTable.ext.buttons &&
+      jQuery.fn.dataTable.ext.buttons.print
+    );
+  }
+
+  function ensureExternalButtonHost() {
     var area = getStableButtonArea();
     if (!area) {
       return null;
@@ -63,81 +101,79 @@
     return host;
   }
 
-  /**
-   * Check whether a table belongs to the current Open SDG table tab.
-   */
-  function isInsideSelectionsTable(tableNode) {
-    var selectionsTable = getSelectionsTable();
-    return !!(selectionsTable && tableNode && selectionsTable.contains(tableNode));
-  }
-
-  /**
-   * Read the indicator title from the page heading.
-   */
-  function getIndicatorTitle() {
-    var el =
-      document.querySelector('.heading h1') ||
-      document.querySelector('h1');
-
-    if (el && el.textContent) {
-      return el.textContent.trim();
-    }
-
-    return document.title || 'Table';
-  }
-
-  /**
-   * Read the HTML table caption if present.
-   */
-  function getTableCaptionText(tableEl) {
-    if (!tableEl) return '';
-
-    var caption = tableEl.querySelector('caption');
-    if (caption && caption.textContent) {
-      return caption.textContent.trim();
-    }
-
-    return '';
-  }
-
-  /**
-   * Check whether DataTables Buttons and the print button type are available.
-   */
-  function isButtonsReady() {
-    return !!(
-      window.jQuery &&
-      jQuery.fn &&
-      jQuery.fn.dataTable &&
-      jQuery.fn.dataTable.Buttons &&
-      jQuery.fn.dataTable.ext &&
-      jQuery.fn.dataTable.ext.buttons &&
-      jQuery.fn.dataTable.ext.buttons.print
-    );
-  }
-
-  /**
-   * Move the native DataTables Buttons container into the stable host.
-   *
-   * DataTables explicitly supports retrieving a Buttons container and
-   * inserting it into the document using standard jQuery methods. 【4-ce41fd】【5-ff6bb5】
-   */
-  function placeButtonsContainer(dataTable) {
-    var host = ensureButtonHost();
+  function ensureExternalPrintButton() {
+    var host = ensureExternalButtonHost();
     if (!host) {
-      warn('Could not create stable button host.');
-      return false;
+      warn('Could not create stable external print button host.');
+      return null;
     }
 
-    jQuery(host).empty();
-    dataTable.buttons('mtTablePrint:name', null).container().appendTo(host);
-    return true;
+    var existing = host.querySelector('.table-print-trigger');
+    if (existing) {
+      return existing;
+    }
+
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'table-print-trigger btn btn-primary';
+    button.textContent = 'Tabelle drucken';
+
+    host.appendChild(button);
+    return button;
   }
 
   /**
-   * Ensure that the given DataTable instance has a print button attached,
-   * and place its visible button container into the stable host.
+   * Bind the visible external button only once.
+   *
+   * Important:
+   * We do NOT use button().trigger() anymore because DataTables explicitly notes
+   * that some button types may not be triggerable programmatically.
+   * Instead we retrieve the actual action function via button().action()
+   * and execute it directly.
    */
-  function ensurePrintButtonForTable(dataTable, tableEl) {
+  function bindExternalButtonClick() {
+    if (state.externalButtonBound) {
+      return;
+    }
+
+    var visibleButton = ensureExternalPrintButton();
+    if (!visibleButton) {
+      return;
+    }
+
+    visibleButton.addEventListener('click', function (e) {
+      if (!state.currentTable || !state.currentButtonApi) {
+        warn('No active DataTable / print button API available.');
+        return;
+      }
+
+      try {
+        var action = state.currentButtonApi.action();
+        if (typeof action !== 'function') {
+          warn('Print button action is not a function.');
+          return;
+        }
+
+        var dt = state.currentTable;
+        var buttonNode = jQuery(state.currentButtonApi.node());
+        var config = state.currentButtonApi.conf;
+
+        action.call(state.currentButtonApi, e, dt, buttonNode, config);
+
+        log('Executed native DataTables print action from external button.');
+      } catch (error) {
+        warn('Failed to execute DataTables print action.', error);
+      }
+    });
+
+    state.externalButtonBound = true;
+  }
+
+  /**
+   * Ensure that the current DataTable instance has a hidden native print button.
+   * The visible UI remains our external stable button.
+   */
+  function ensureHiddenPrintButtonForTable(dataTable, tableEl) {
     if (!dataTable || !tableEl) return false;
     if (!isInsideSelectionsTable(tableEl)) return false;
 
@@ -148,10 +184,10 @@
 
     var settings = dataTable.settings()[0];
 
-    // If this table instance already has the print button, only move it back
-    // into the stable host.
-    if (settings._mtTablePrintAttached) {
-      placeButtonsContainer(dataTable);
+    // Already configured for this DataTable instance.
+    if (settings._mtHiddenTablePrintAttached) {
+      state.currentTable = dataTable;
+      state.currentButtonApi = dataTable.button('mtTablePrint:name', 0);
       return true;
     }
 
@@ -206,26 +242,31 @@
       ]
     });
 
-    settings._mtTablePrintAttached = true;
-    placeButtonsContainer(dataTable);
+    // Keep the native container hidden in the document,
+    // but fully initialised and available through the API.
+    var hiddenContainer = dataTable.buttons('mtTablePrint:name', null).container();
+    hiddenContainer.addClass('mt-hidden-dt-buttons');
+    jQuery(document.body).append(hiddenContainer);
 
-    log('Native DataTables print button attached and placed.', {
+    settings._mtHiddenTablePrintAttached = true;
+
+    state.currentTable = dataTable;
+    state.currentButtonApi = dataTable.button('mtTablePrint:name', 0);
+
+    log('Hidden table print button attached to DataTable instance.', {
       tableId: tableEl.id
     });
 
     return true;
   }
 
-  /**
-   * Attach to the current visible table if available.
-   */
   function attachToCurrentTable() {
     if (!window.jQuery || !jQuery.fn || !jQuery.fn.dataTable) {
       warn('jQuery DataTables is not available.');
       return false;
     }
 
-    var tableEl = document.querySelector('#selectionsTable table');
+    var tableEl = getCurrentTableElement();
     if (!tableEl) {
       warn('No table found in #selectionsTable.');
       return false;
@@ -237,19 +278,15 @@
     }
 
     var dataTable = jQuery(tableEl).DataTable();
-    return ensurePrintButtonForTable(dataTable, tableEl);
+    bindExternalButtonClick();
+    return ensureHiddenPrintButtonForTable(dataTable, tableEl);
   }
 
   /**
-   * Listen globally for DataTables lifecycle events.
+   * React globally to DataTables lifecycle changes.
    *
-   * DataTables documents:
-   * - draw: fired whenever the table is redrawn
-   * - init: fired whenever a DataTable is initialised
-   * - these events bubble and can be listened for centrally. 【6-c1b966】【7-d10d19】【8-52f1f2】
-   *
-   * This matters here because your logs showed that selecting a Gebietseinheit
-   * creates a new table instance (DataTables_Table_0 -> DataTables_Table_1).
+   * draw: fired when the table is redrawn
+   * init: fired when a DataTable is initialised
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
@@ -264,19 +301,17 @@
         if (!isInsideSelectionsTable(tableNode)) return;
 
         var dataTable = jQuery(tableNode).DataTable();
-        ensurePrintButtonForTable(dataTable, tableNode);
+        ensureHiddenPrintButtonForTable(dataTable, tableNode);
+        bindExternalButtonClick();
       } catch (error) {
         warn('Error while reacting to DataTables lifecycle event.', error);
       }
     });
   }
 
-  /**
-   * Retry initial attachment because Open SDG may initialise the table
-   * slightly after DOM ready.
-   */
   function bootstrapWithRetry() {
     bindGlobalDataTableEvents();
+    bindExternalButtonClick();
 
     var attempts = 0;
     var maxAttempts = 30;
@@ -289,7 +324,7 @@
         window.clearInterval(retryTimer);
 
         if (!attached) {
-          warn('Giving up after retrying to attach the native table print button.');
+          warn('Giving up after retrying to connect the stable table print button.');
         }
       }
     }, 500);
@@ -301,3 +336,4 @@
     bootstrapWithRetry();
   }
 })();
+``
