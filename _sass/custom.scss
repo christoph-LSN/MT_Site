@@ -259,3 +259,15 @@ body.mt-table-print caption {
   font-weight: 600;
   margin-bottom: 0.2cm;
 }
+
+
+/* Stable host for the table print button */
+.table-print-buttons {
+  margin-bottom: 1rem;
+}
+
+.table-print-buttons .dt-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
