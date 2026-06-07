@@ -1,25 +1,15 @@
 {%- comment -%}
   Custom scripts for MT_Site.
-  Loaded near the closing </body> tag by Open SDG.
-{%- endcomment -%}
-
-<script>
-  {% include assets/js/vendor/leaflet.browser.print.min.js %}
-</script>
-
-<script>
-  {% include assets/js/map-print.js %}
-</script>
-
-{%- comment -%}
-  Custom scripts for MT_Site.
 
   Open SDG injects this include near the closing </body> tag.
   We use it to load project-specific JavaScript and third-party plugins.
 
-  Notes:
-  - Files inside /assets/... must be loaded with normal <script src="..."> tags.
-  - Jekyll {% include %} only works for files located under /_includes/...
+  Included here:
+  - Leaflet map print integration
+  - DataTables Buttons core
+  - DataTables print button
+  - Bootstrap 5 integration for DataTables Buttons
+  - Project-specific table print integration
 {%- endcomment -%}
 
 <!-- Existing map print integration -->
@@ -27,7 +17,7 @@
 <script src="{{ site.baseurl }}/assets/js/map-print.js"></script>
 
 <!-- DataTables Buttons / Print integration -->
-<script src="{{ site.baseurl }}/assets/js/vendor/buttons.dataTables.min.js"></script>
+<script src="{{ site.baseurl }}/assets/js/vendor/dataTables.buttons.min.js"></script>
 <script src="{{ site.baseurl }}/assets/js/vendor/buttons.print.min.js"></script>
 <script src="{{ site.baseurl }}/assets/js/vendor/buttons.bootstrap5.min.js"></script>
 
