@@ -2923,3 +2923,14 @@ body.leaflet--printing .leaflet-control-scale {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem; }
+
+/* ===== Stable external table print button ===== */
+.table-print-buttons {
+  margin-bottom: 1rem; }
+
+.table-print-trigger {
+  display: inline-block; }
+
+/* Keep the native DataTables Buttons container hidden */
+.mt-hidden-dt-buttons {
+  display: none !important; }
