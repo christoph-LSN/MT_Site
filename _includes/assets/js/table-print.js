@@ -28,14 +28,35 @@
   }
 
   /**
-   * Return the current #selectionsTable container.
+   * Return the current Open SDG table container.
    */
   function getSelectionsTable() {
     return document.getElementById('selectionsTable');
   }
 
   /**
-   * Check whether a table node belongs to the Open SDG table tab.
+   * Find a stable parent container for the print button.
+   *
+   * Important:
+   * We do NOT place the button inside #selectionsTable itself anymore,
+   * because that area can be rebuilt / replaced when filters change.
+   *
+   * Instead we try to place it in the surrounding tab panel (or a similar
+   * parent container) and keep it above the dynamic table area.
+   */
+  function getStableTableArea() {
+    var selectionsTable = getSelectionsTable();
+    if (!selectionsTable) return null;
+
+    return (
+      selectionsTable.closest('.tab-pane') ||
+      selectionsTable.parentNode ||
+      selectionsTable
+    );
+  }
+
+  /**
+   * Check whether a table node belongs to the current table view.
    */
   function isInsideSelectionsTable(tableNode) {
     var selectionsTable = getSelectionsTable();
@@ -43,7 +64,7 @@
   }
 
   /**
-   * Read the indicator title from the page heading.
+   * Read the page / indicator title.
    */
   function getIndicatorTitle() {
     var el =
@@ -58,7 +79,7 @@
   }
 
   /**
-   * Read the HTML table caption if present.
+   * Read the HTML caption from the current table.
    */
   function getTableCaptionText(tableEl) {
     if (!tableEl) return '';
@@ -72,14 +93,20 @@
   }
 
   /**
-   * Create or reuse a host element for the print button.
-   * The host sits above the current table inside #selectionsTable.
+   * Create or reuse a stable host for the print button.
+   *
+   * The host is inserted BEFORE #selectionsTable inside the stable parent
+   * container, so it survives redraws / replacements of the table itself.
    */
   function ensureButtonHost() {
+    var stableArea = getStableTableArea();
     var selectionsTable = getSelectionsTable();
-    if (!selectionsTable) return null;
 
-    var existing = selectionsTable.querySelector('.table-print-buttons');
+    if (!stableArea || !selectionsTable) {
+      return null;
+    }
+
+    var existing = stableArea.querySelector('.table-print-buttons');
     if (existing) {
       return existing;
     }
@@ -87,12 +114,13 @@
     var host = document.createElement('div');
     host.className = 'table-print-buttons';
 
-    selectionsTable.insertBefore(host, selectionsTable.firstChild);
+    stableArea.insertBefore(host, selectionsTable);
     return host;
   }
 
   /**
-   * Check whether DataTables Buttons and the print button are available.
+   * Check whether the DataTables Buttons extension and the print button type
+   * are available.
    */
   function isButtonsReady() {
     return !!(
@@ -107,15 +135,15 @@
   }
 
   /**
-   * Re-insert the Buttons container into the current DOM.
+   * Reinsert the existing Buttons container into our stable host.
    *
-   * DataTables documents that Buttons containers can be accessed via the API
-   * and inserted into the document using standard jQuery methods. 【4-439a9f】【5-16ad2e】
+   * DataTables explicitly supports obtaining a Buttons container through the API
+   * and then inserting it wherever needed with standard jQuery methods. 【4-602cd6】【5-c5b8be】
    */
   function reattachButtonsContainer(dataTable) {
     var host = ensureButtonHost();
     if (!host) {
-      warn('Could not create button host.');
+      warn('Could not create stable button host.');
       return false;
     }
 
@@ -125,11 +153,11 @@
   }
 
   /**
-   * Attach (or reattach) the print button to a given DataTable instance.
+   * Attach or reattach the print button to the given DataTable instance.
    *
-   * This function is safe to call repeatedly:
-   * - if Buttons are already attached, it only re-inserts the button container
-   * - otherwise it creates the Buttons instance once
+   * Safe to call multiple times:
+   * - if already attached, only the DOM insertion is repeated
+   * - otherwise a new Buttons instance is created once for this table
    */
   function attachPrintButtonToDataTable(dataTable, tableEl) {
     if (!dataTable || !tableEl) return false;
@@ -145,7 +173,7 @@
 
     var settings = dataTable.settings()[0];
 
-    // If already attached, only reinsert the container into the current DOM.
+    // If this table instance already has the print button, simply reinsert it.
     if (settings._mtTablePrintAttached) {
       reattachButtonsContainer(dataTable);
       return true;
@@ -210,7 +238,7 @@
   }
 
   /**
-   * Try to attach to the currently visible table in #selectionsTable.
+   * Attach to the currently visible table in the table tab, if available.
    */
   function attachToCurrentTable() {
     if (!window.jQuery || !jQuery.fn || !jQuery.fn.dataTable) {
@@ -234,14 +262,16 @@
   }
 
   /**
-   * Global event binding for DataTables lifecycle.
+   * Listen globally for DataTables lifecycle events.
    *
-   * DataTables events bubble and can be listened to centrally. The draw event
-   * fires whenever the table is redrawn. The init event fires when a DataTable
-   * has been initialised. 【1-c96af1】【2-546630】【3-e82120】
+   * Why global?
+   * Open SDG may replace or recreate the table when selections change.
+   * Binding only to one initial table instance is therefore not robust enough.
    *
-   * This is more robust than attaching only to a single table instance,
-   * because Open SDG may replace the table when filters / selections change.
+   * DataTables documents that:
+   * - 'draw' fires whenever a redraw happens
+   * - 'init' fires when a DataTable is initialised
+   * - these events bubble and can be listened to centrally. 【1-d7abcd】【2-b1e96b】【3-463451】
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
@@ -264,8 +294,8 @@
   }
 
   /**
-   * Initial bootstrap with retry because Open SDG may initialise the table
-   * shortly after DOM ready.
+   * Retry bootstrap for a short period because Open SDG may initialise
+   * the table slightly after DOM ready.
    */
   function bootstrapWithRetry() {
     bindGlobalDataTableEvents();
@@ -293,3 +323,4 @@
     bootstrapWithRetry();
   }
 })();
+``
