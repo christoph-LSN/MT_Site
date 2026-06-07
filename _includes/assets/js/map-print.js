@@ -5,8 +5,7 @@
     maps: [],
     attached: false,
     observer: null,
-    interval: null,
-    printLegendId: 'mt-print-legend'
+    interval: null
   };
 
   function log(message, data) {
@@ -136,7 +135,7 @@
       return idEl.textContent.trim();
     }
 
-    return window.location.pathname;
+    return '';
   }
 
   function getCurrentYearText() {
@@ -180,42 +179,6 @@
     return null;
   }
 
-  function ensurePrintLegendContainer() {
-    var existing = document.getElementById(state.printLegendId);
-    if (existing) {
-      return existing;
-    }
-
-    var wrapper = document.createElement('div');
-    wrapper.id = state.printLegendId;
-    wrapper.setAttribute('leaflet-browser-print-content', '');
-    wrapper.className = 'mt-print-legend-overlay';
-    wrapper.setAttribute('aria-hidden', 'true');
-
-    document.body.appendChild(wrapper);
-    return wrapper;
-  }
-
-  function buildPrintLegend() {
-    var wrapper = ensurePrintLegendContainer();
-    wrapper.innerHTML = '';
-
-    var legend = findVisibleLegend();
-    if (!legend) {
-      log('Keine sichtbare Legende gefunden.');
-      return;
-    }
-
-    var heading = document.createElement('div');
-    heading.className = 'mt-print-legend-heading';
-    heading.textContent = 'Legende';
-    wrapper.appendChild(heading);
-
-    var clonedLegend = legend.cloneNode(true);
-    clonedLegend.classList.add('mt-print-legend-clone');
-    wrapper.appendChild(clonedLegend);
-  }
-
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
     var subtitle = getIndicatorSubtitle();
@@ -246,21 +209,58 @@
           bottom: 2,
           left: 2
         },
-        scale: 0.72,
+        enableZoom: false,
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '11mm',
-          overTheMap: false
+          size: '14mm',
+          overTheMap: true
         },
         footer: {
           enabled: true,
           text: 'Integrationsmonitoring Niedersachsen',
-          size: '5mm',
-          overTheMap: false
+          size: '6mm',
+          overTheMap: true
         }
       })
     ];
+  }
+
+  function removeExistingPrintLegend(printMap) {
+    if (!printMap || !printMap.getContainer) return;
+
+    var container = printMap.getContainer();
+    var existing = container.querySelector('.mt-print-legend-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  function addLegendToPrintMap(printMap) {
+    if (!printMap || !printMap.getContainer) return;
+
+    var legend = findVisibleLegend();
+    if (!legend) {
+      log('Keine sichtbare Legende gefunden.');
+      return;
+    }
+
+    var container = printMap.getContainer();
+    removeExistingPrintLegend(printMap);
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'mt-print-legend-overlay';
+
+    var heading = document.createElement('div');
+    heading.className = 'mt-print-legend-heading';
+    heading.textContent = 'Legende';
+    wrapper.appendChild(heading);
+
+    var clonedLegend = legend.cloneNode(true);
+    clonedLegend.classList.add('mt-print-legend-clone');
+    wrapper.appendChild(clonedLegend);
+
+    container.appendChild(wrapper);
   }
 
   function attachPrintControl(map) {
@@ -281,12 +281,19 @@
         position: 'topleft',
         documentTitle: getIndicatorTitle(),
         printLayer: baseLayer,
-        contentSelector: '[leaflet-browser-print-content]',
         printModes: buildPrintModes()
       }).addTo(map);
 
-      map.on(L.BrowserPrint.Event.PrePrint, function () {
-        buildPrintLegend();
+      map.on(L.BrowserPrint.Event.PrintStart, function (event) {
+        if (event && event.printMap) {
+          addLegendToPrintMap(event.printMap);
+        }
+      });
+
+      map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
+        if (event && event.printMap) {
+          removeExistingPrintLegend(event.printMap);
+        }
       });
 
       map._mtPrintControlAdded = true;
