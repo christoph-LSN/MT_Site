@@ -1,6 +1,22 @@
 (function () {
   'use strict';
 
+  /**
+   * Shared runtime state for the print integration.
+   *
+   * maps:
+   *   Stores all Leaflet map instances we discover on the page.
+   *
+   * attached:
+   *   Prevents attaching the print control multiple times.
+   *
+   * observer / interval:
+   *   Used to retry detection while the page and map are still rendering.
+   *
+   * cachedLegendHtml:
+   *   Stores a copy of the original visible legend HTML before printing starts.
+   *   We do this because the DOM can change during the print workflow.
+   */
   var state = {
     maps: [],
     attached: false,
@@ -9,6 +25,9 @@
     cachedLegendHtml: ''
   };
 
+  /**
+   * Small logging helper for development/debugging.
+   */
   function log(message, data) {
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
@@ -19,6 +38,9 @@
     }
   }
 
+  /**
+   * Small warning helper for development/debugging.
+   */
   function warn(message, data) {
     if (window.console && console.warn) {
       if (typeof data !== 'undefined') {
@@ -29,25 +51,50 @@
     }
   }
 
+  /**
+   * Check whether Leaflet and leaflet.browser.print are both available.
+   *
+   * We only continue if:
+   * - Leaflet core is present
+   * - the Leaflet Map class exists
+   * - the print control plugin has been loaded
+   */
   function isLeafletAvailable() {
     return !!(window.L && L.Map && L.control && L.control.browserPrint);
   }
 
+  /**
+   * The Open SDG map is rendered inside the tab panel with id="mapview".
+   * We use this as the primary anchor to avoid attaching the print control
+   * to unrelated Leaflet maps.
+   */
   function getMapView() {
     return document.getElementById('mapview');
   }
 
+  /**
+   * Determine whether an element is visually present on the page.
+   * This is important because Leaflet controls and containers can exist
+   * in the DOM while still being hidden.
+   */
   function isVisible(element) {
     if (!element) return false;
     return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
   }
 
+  /**
+   * Check whether a DOM element belongs to the map view area.
+   * We use this to ensure that we only target the visible indicator map.
+   */
   function isInsideMapView(element) {
     var mapView = getMapView();
     if (!mapView || !element) return false;
     return mapView === element || mapView.contains(element) || element.contains(mapView);
   }
 
+  /**
+   * Store a Leaflet map instance exactly once.
+   */
   function uniquePushMap(map) {
     if (!map) return;
 
@@ -60,6 +107,13 @@
     }
   }
 
+  /**
+   * Register a Leaflet init hook so that every map created afterwards
+   * is automatically tracked.
+   *
+   * This is useful because Open SDG may initialise the map after our script
+   * has already loaded.
+   */
   function registerLeafletInitHook() {
     if (!window.L || !L.Map || !L.Map.addInitHook) return;
     if (window.__mtMapPrintHookRegistered) return;
@@ -72,6 +126,10 @@
     });
   }
 
+  /**
+   * Also scan global window properties for already existing Leaflet maps.
+   * This covers the case where the map was created before our script started.
+   */
   function scanWindowForMaps() {
     if (!window.L || !L.Map) return;
 
@@ -81,11 +139,17 @@
           uniquePushMap(window[key]);
         }
       } catch (e) {
-        // ignore
+        // Ignore cross-origin / inaccessible properties.
       }
     });
   }
 
+  /**
+   * Decide whether a discovered map is the correct target:
+   * - it must have a container
+   * - that container must be inside #mapview
+   * - and that container must currently be visible
+   */
   function isGoodTargetMap(map) {
     if (!map || !map.getContainer) return false;
 
@@ -97,6 +161,12 @@
     return true;
   }
 
+  /**
+   * Find the base tile layer used in the current map.
+   *
+   * We pass this as printLayer so that the printed map preserves
+   * the background map instead of printing only thematic polygons.
+   */
   function getPrintableBaseLayer(map) {
     var found = null;
 
@@ -114,6 +184,9 @@
     return found;
   }
 
+  /**
+   * Read the indicator title from the heading area.
+   */
   function getIndicatorTitle() {
     var el =
       document.querySelector('.heading h1') ||
@@ -123,22 +196,14 @@
       return el.textContent.trim();
     }
 
-    return document.title || 'Karte';
+    return document.title || 'Map';
   }
 
-  function getIndicatorSubtitle() {
-    var idEl =
-      document.querySelector('.heading .indicator-number') ||
-      document.querySelector('.indicator-name') ||
-      document.querySelector('.indicator-short-name');
-
-    if (idEl && idEl.textContent) {
-      return idEl.textContent.trim();
-    }
-
-    return '';
-  }
-
+  /**
+   * Extract the currently active year from visible map controls.
+   *
+   * Open SDG / Leaflet map controls can vary slightly, so we try several selectors.
+   */
   function getCurrentYearText() {
     var selectors = [
       '#mapview .noUi-tooltip',
@@ -149,8 +214,9 @@
       '#mapview .current-year'
     ];
 
-    for (var i = 0; i < selectors.length; i++) {
-      var el = document.querySelector(selectors[i]);
+    var i, el;
+    for (i = 0; i < selectors.length; i++) {
+      el = document.querySelector(selectors[i]);
       if (el && el.textContent && el.textContent.trim()) {
         return el.textContent.trim();
       }
@@ -159,6 +225,15 @@
     return '';
   }
 
+  /**
+   * Find the visible legend element in the live map.
+   *
+   * In this project the legend is currently exposed as:
+   *   .selection-legend.leaflet-control
+   *
+   * We still keep a few fallback selectors to make the implementation
+   * more resilient across future changes.
+   */
   function findLegendElement() {
     var selectors = [
       '#mapview .selection-legend.leaflet-control',
@@ -170,17 +245,18 @@
       '#mapview .legend-container'
     ];
 
-    for (var i = 0; i < selectors.length; i++) {
-      var candidates = document.querySelectorAll(selectors[i]);
+    var i, j, candidates;
+    for (i = 0; i < selectors.length; i++) {
+      candidates = document.querySelectorAll(selectors[i]);
 
-      // Erst sichtbare Kandidaten bevorzugen
-      for (var j = 0; j < candidates.length; j++) {
+      // Prefer a currently visible legend.
+      for (j = 0; j < candidates.length; j++) {
         if (isVisible(candidates[j])) {
           return candidates[j];
         }
       }
 
-      // Falls nichts sichtbar ist, wenigstens ersten Kandidaten nehmen
+      // If nothing is visible, return the first match as a fallback.
       if (candidates.length) {
         return candidates[0];
       }
@@ -189,30 +265,38 @@
     return null;
   }
 
+  /**
+   * Cache the original legend HTML before printing starts.
+   *
+   * This is important because the printing workflow manipulates the DOM,
+   * and by the time the print map exists the original legend may no longer
+   * be in a reliable state.
+   */
   function cacheLegendHtml() {
     var legend = findLegendElement();
 
     if (!legend) {
       state.cachedLegendHtml = '';
-      warn('Keine Legende im Original-DOM gefunden.');
+      warn('No legend found in the original DOM.');
       return;
     }
 
     state.cachedLegendHtml = legend.outerHTML;
-    log('Legende zwischengespeichert.');
+    log('Legend cached.');
   }
 
+  /**
+   * Build the print header.
+   *
+   * We deliberately keep this small so that the map itself can remain large.
+   * The site path is intentionally NOT included.
+   */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
-    var subtitle = getIndicatorSubtitle();
     var yearText = getCurrentYearText();
 
-    var metaParts = [];
-    if (subtitle) metaParts.push(subtitle);
-    if (yearText) metaParts.push('Stand/Jahr: ' + yearText);
-
-    var metaLine = metaParts.length
-      ? '<div class="mt-print-meta">' + metaParts.join(' | ') + '</div>'
+    var metaLine = yearText
+      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
       : '';
 
     return '' +
@@ -222,10 +306,19 @@
       '</div>';
   }
 
+  /**
+   * Configure the print mode.
+   *
+   * Key decisions:
+   * - A4 landscape
+   * - very small margins
+   * - keep the current map zoom instead of auto-resizing too much
+   * - overlay header and footer so they do not consume separate layout height
+   */
   function buildPrintModes() {
     return [
       L.BrowserPrint.Mode.Landscape('A4', {
-        title: 'Drucken',
+        title: 'Print',
         margin: {
           top: 2,
           right: 2,
@@ -249,6 +342,14 @@
     ];
   }
 
+  /**
+   * Get the best container for legend injection in the print view.
+   *
+   * We do NOT inject the legend into the Leaflet map pane itself because
+   * that can cause it to be hidden below the map tiles or clipped.
+   *
+   * Instead we attach it to the surrounding print layout container.
+   */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
 
@@ -258,6 +359,9 @@
     return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
   }
 
+  /**
+   * Remove any previously added legend from the print view.
+   */
   function removeExistingPrintLegend(root) {
     if (!root) return;
 
@@ -267,6 +371,11 @@
     }
   }
 
+  /**
+   * Add the cached legend to the print view.
+   *
+   * This runs late in the print process so that the print map already exists.
+   */
   function addLegendToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
@@ -274,7 +383,7 @@
     removeExistingPrintLegend(root);
 
     if (!state.cachedLegendHtml) {
-      warn('Keine zwischengespeicherte Legende vorhanden.');
+      warn('No cached legend available.');
       return;
     }
 
@@ -283,7 +392,7 @@
 
     var heading = document.createElement('div');
     heading.className = 'mt-print-legend-heading';
-    heading.textContent = 'Legende';
+    heading.textContent = 'Legend';
     wrapper.appendChild(heading);
 
     var legendHolder = document.createElement('div');
@@ -292,12 +401,20 @@
     wrapper.appendChild(legendHolder);
 
     root.appendChild(wrapper);
-    log('Legende in Druckansicht eingefügt.');
+    log('Legend inserted into print view.');
   }
 
+  /**
+   * Attach the browser print control to the target map.
+   *
+   * We also hook into:
+   * - PrePrint: cache the original legend
+   * - Print: inject the legend into the print view
+   * - PrintEnd: clean up again
+   */
   function attachPrintControl(map) {
     if (!isLeafletAvailable()) {
-      warn('Leaflet oder leaflet.browser.print ist nicht verfügbar.');
+      warn('Leaflet or leaflet.browser.print is not available.');
       return false;
     }
 
@@ -309,7 +426,7 @@
 
     try {
       var control = L.control.browserPrint({
-        title: 'Karte drucken',
+        title: 'Print map',
         position: 'topleft',
         documentTitle: getIndicatorTitle(),
         printLayer: baseLayer,
@@ -337,15 +454,18 @@
       map._mtPrintControl = control;
       state.attached = true;
 
-      log('Print-Control hinzugefügt.');
+      log('Print control attached.');
       stopWatching();
       return true;
     } catch (error) {
-      warn('Fehler beim Hinzufügen des Print-Controls.', error);
+      warn('Failed to attach print control.', error);
       return false;
     }
   }
 
+  /**
+   * Attempt to attach the print control to the first suitable map.
+   */
   function attachIfPossible() {
     if (state.attached) return true;
 
@@ -355,6 +475,9 @@
     return attachPrintControl(goodMaps[0]);
   }
 
+  /**
+   * Observe #mapview because Open SDG may render the map asynchronously.
+   */
   function observeMapView() {
     var mapView = getMapView();
     if (!mapView || state.observer) return;
@@ -372,6 +495,9 @@
     });
   }
 
+  /**
+   * Fallback polling while the page is still settling.
+   */
   function startPolling() {
     if (state.interval) return;
 
@@ -390,11 +516,14 @@
 
       if (attempts >= maxAttempts) {
         stopWatching();
-        warn('Keine sichtbare Leaflet-Karte innerhalb von #mapview gefunden.');
+        warn('No visible Leaflet map found inside #mapview.');
       }
     }, 500);
   }
 
+  /**
+   * Stop all watchers once the print control is attached.
+   */
   function stopWatching() {
     if (state.interval) {
       window.clearInterval(state.interval);
@@ -407,9 +536,12 @@
     }
   }
 
+  /**
+   * Initialise the integration.
+   */
   function bootstrap() {
     if (!isLeafletAvailable()) {
-      warn('Leaflet oder leaflet.browser.print fehlt.');
+      warn('Leaflet or leaflet.browser.print is missing.');
       return;
     }
 
