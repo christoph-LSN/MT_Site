@@ -2765,7 +2765,7 @@ body.leaflet--printing .leaflet-print-overlay {
   background: white !important; }
 
 body.leaflet--printing .grid-print-container {
-  position: relative;
+  position: relative !important;
   overflow: hidden !important;
   break-inside: avoid-page !important;
   page-break-inside: avoid !important; }
@@ -2779,7 +2779,8 @@ body.leaflet--printing #print-header {
   font-size: 12px !important;
   line-height: 1.1 !important;
   padding: 3mm 4mm 0 4mm !important;
-  background: transparent !important; }
+  background: transparent !important;
+  z-index: 10002 !important; }
 
 body.leaflet--printing .mt-print-header {
   width: 100%; }
@@ -2798,16 +2799,17 @@ body.leaflet--printing #print-footer {
   font-size: 10px !important;
   line-height: 1 !important;
   padding: 0 4mm 3mm 4mm !important;
-  background: transparent !important; }
+  background: transparent !important;
+  z-index: 10002 !important; }
 
 body.leaflet--printing .mt-print-legend-overlay {
   position: absolute !important;
   top: 8mm;
   right: 8mm;
-  z-index: 10001;
-  width: 46mm;
-  max-width: 46mm;
-  background: rgba(255, 255, 255, 0.96);
+  z-index: 10003 !important;
+  width: 48mm;
+  max-width: 48mm;
+  background: rgba(255, 255, 255, 0.97);
   border: 1px solid #ccc;
   box-shadow: none !important;
   padding: 2mm;
@@ -2830,13 +2832,15 @@ body.leaflet--printing .mt-print-legend-clone {
   width: 100%;
   background: transparent !important;
   font-size: 9px !important;
-  line-height: 1.2 !important; }
+  line-height: 1.2 !important;
+  transform: none !important; }
 
 body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
   max-width: 100% !important;
   white-space: normal !important;
-  line-height: 1.2 !important; }
+  line-height: 1.2 !important;
+  transform: none !important; }
 
 body.leaflet--printing .leaflet-control-attribution {
   display: none !important; }
