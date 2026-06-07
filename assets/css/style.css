@@ -2916,7 +2916,6 @@ body.leaflet--printing .leaflet-control-scale {
   transform-origin: bottom right; }
 
 /* ===== Table print (DataTables Buttons) ===== */
-/* Host container for the print button above the table */
 .table-print-buttons {
   margin-bottom: 1rem; }
 
@@ -2924,14 +2923,3 @@ body.leaflet--printing .leaflet-control-scale {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem; }
-
-/* ===== Stable external table print button ===== */
-.table-print-buttons {
-  margin-bottom: 1rem; }
-
-.table-print-trigger {
-  display: inline-block; }
-
-/* Hide the internal DataTables Buttons container used only for API triggering */
-.mt-hidden-dt-buttons {
-  display: none !important; }
