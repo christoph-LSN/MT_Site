@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* open-sans-regular - latin */
 @font-face {
   font-family: 'Open Sans';
@@ -2732,36 +2733,20 @@ body {
   background: white;
   padding-top: 0; }
 
-/* ===== Map print styling ===== */
-/*
- * Ensure the plugin's print overlay has a clean white background.
- * This avoids inherited page backgrounds bleeding into the print view.
- */
+/* ===== Kartendruck ===== */
 body.leaflet--printing .leaflet-print-overlay {
   background: white !important; }
 
-/*
- * The print layout container wraps the printable content.
- * Keep it positioned and prevent page-break issues inside the container.
- */
 body.leaflet--printing .grid-print-container {
   position: relative !important;
   overflow: hidden !important;
   break-inside: avoid-page !important;
   page-break-inside: avoid !important; }
 
-/*
- * Prevent the printed map itself from being split awkwardly across pages.
- */
 body.leaflet--printing .grid-map-print {
   break-inside: avoid-page !important;
   page-break-inside: avoid !important; }
 
-/*
- * Style the print header.
- * The header is rendered over the map (configured in map-print.js),
- * so padding and font sizes must remain compact.
- */
 body.leaflet--printing #print-header {
   text-align: left !important;
   font-size: 12px !important;
@@ -2770,31 +2755,18 @@ body.leaflet--printing #print-header {
   background: transparent !important;
   z-index: 10002 !important; }
 
-/*
- * Wrapper for the custom header HTML inserted by map-print.js.
- */
 body.leaflet--printing .mt-print-header {
   width: 100%; }
 
-/*
- * Main print title (indicator title).
- */
 body.leaflet--printing .mt-print-title {
   font-size: 17px;
   font-weight: 600;
   margin: 0 0 0.8mm 0; }
 
-/*
- * Secondary line below the title (currently used for the year).
- */
 body.leaflet--printing .mt-print-meta {
   font-size: 10px;
   margin: 0; }
 
-/*
- * Style the footer text.
- * The footer is also rendered over the map and should remain minimal.
- */
 body.leaflet--printing #print-footer {
   text-align: left !important;
   font-size: 9px !important;
@@ -2803,10 +2775,6 @@ body.leaflet--printing #print-footer {
   background: transparent !important;
   z-index: 10002 !important; }
 
-/*
- * Custom legend overlay inserted into the print layout by map-print.js.
- * We place it in the upper right corner above the map.
- */
 body.leaflet--printing .mt-print-legend-overlay {
   position: absolute !important;
   top: 7mm;
@@ -2820,18 +2788,11 @@ body.leaflet--printing .mt-print-legend-overlay {
   padding: 2mm;
   overflow: hidden; }
 
-/*
- * Title of the legend box ("Legend").
- */
 body.leaflet--printing .mt-print-legend-heading {
   font-size: 11px;
   font-weight: 600;
   margin: 0 0 1.5mm 0; }
 
-/*
- * The cloned legend markup taken from the live map.
- * We reset all positioning so it behaves like normal static content.
- */
 body.leaflet--printing .mt-print-legend-clone {
   position: static !important;
   float: none !important;
@@ -2847,10 +2808,6 @@ body.leaflet--printing .mt-print-legend-clone {
   line-height: 1.25 !important;
   transform: none !important; }
 
-/*
- * Also normalise all nested elements inside the cloned legend.
- * This helps prevent overlapping text and layout artifacts from the live control.
- */
 body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
   max-width: 100% !important;
@@ -2858,10 +2815,7 @@ body.leaflet--printing .mt-print-legend-clone * {
   line-height: 1.25 !important;
   transform: none !important; }
 
-/*
- * Neutralise the original Leaflet control wrapper inside the cloned legend.
- * Without this, the legend may keep control-specific spacing or background styles.
- */
+/* Original-Legendencontainer in der Druckfassung neutralisieren */
 body.leaflet--printing .mt-print-legend-clone .selection-legend,
 body.leaflet--printing .mt-print-legend-clone .leaflet-control {
   position: static !important;
@@ -2872,10 +2826,7 @@ body.leaflet--printing .mt-print-legend-clone .leaflet-control {
   min-width: 0 !important;
   max-width: 100% !important; }
 
-/*
- * Hide close/remove buttons or similar interactive UI elements
- * that do not belong in the printed legend.
- */
+/* Störende Schließen-/Entfernen-Elemente in der Druckfassung ausblenden */
 body.leaflet--printing .mt-print-legend-clone button,
 body.leaflet--printing .mt-print-legend-clone [class*="close"],
 body.leaflet--printing .mt-print-legend-clone [class*="remove"],
@@ -2883,43 +2834,21 @@ body.leaflet--printing .mt-print-legend-clone [aria-label*="close"],
 body.leaflet--printing .mt-print-legend-clone [title*="close"] {
   display: none !important; }
 
-/*
- * Hide the problematic bottom min/max/scale row in the printed legend.
- * In the live legend this row is useful, but in print it renders incorrectly
- * and overlaps with the main legend values.
- */
+/* Problematischen unteren Min-/Max-/Skalenblock ausblenden */
 body.leaflet--printing .mt-print-legend-clone .selection-legend > :last-child,
 body.leaflet--printing .mt-print-legend-clone .leaflet-control > :last-child {
   display: none !important; }
 
-/*
- * If the legend contains SVG, canvas, or images, keep them within bounds.
- */
+/* Falls die Legende intern SVG/Canvas/Bilder nutzt */
 body.leaflet--printing .mt-print-legend-clone svg,
 body.leaflet--printing .mt-print-legend-clone canvas,
 body.leaflet--printing .mt-print-legend-clone img {
   max-width: 100% !important;
   height: auto !important; }
 
-/*
- * The built-in Leaflet attribution is hidden in print because
- * the custom footer text replaces it.
- */
 body.leaflet--printing .leaflet-control-attribution {
   display: none !important; }
 
-/*
- * Slightly reduce the scale bar to keep it unobtrusive.
- */
 body.leaflet--printing .leaflet-control-scale {
   transform: scale(0.85);
   transform-origin: bottom right; }
-
-/* ===== Table print (DataTables Buttons) ===== */
-.table-print-buttons {
-  margin-bottom: 1rem; }
-
-.table-print-buttons .dt-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem; }
