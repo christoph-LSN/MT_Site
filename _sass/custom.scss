@@ -100,7 +100,7 @@ body.leaflet--printing .mt-print-legend-clone * {
   transform: none !important;
 }
 
-/* Die originale Leaflet-Legende auf der Druckkarte neutralisieren */
+/* Original-Legenden-Container in der Druck-Legende neutralisieren */
 body.leaflet--printing .mt-print-legend-clone .selection-legend,
 body.leaflet--printing .mt-print-legend-clone .leaflet-control {
   position: static !important;
@@ -108,9 +108,26 @@ body.leaflet--printing .mt-print-legend-clone .leaflet-control {
   background: transparent !important;
   border: 0 !important;
   width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
 }
 
-/* Häufige Farb-/Beschriftungs-Elemente robuster machen */
+/* Störende Schließen-/Entfernen-Elemente ausblenden */
+body.leaflet--printing .mt-print-legend-clone button,
+body.leaflet--printing .mt-print-legend-clone [class*="close"],
+body.leaflet--printing .mt-print-legend-clone [class*="remove"],
+body.leaflet--printing .mt-print-legend-clone [aria-label*="close"],
+body.leaflet--printing .mt-print-legend-clone [title*="close"] {
+  display: none !important;
+}
+
+/* Problematischen unteren Min-/Max-Bereich ausblenden */
+body.leaflet--printing .mt-print-legend-clone .selection-legend > :last-child,
+body.leaflet--printing .mt-print-legend-clone .leaflet-control > :last-child {
+  display: none !important;
+}
+
+/* Falls die Legende intern SVG/Canvas/Bilder nutzt */
 body.leaflet--printing .mt-print-legend-clone svg,
 body.leaflet--printing .mt-print-legend-clone canvas,
 body.leaflet--printing .mt-print-legend-clone img {
