@@ -5,7 +5,8 @@
     maps: [],
     attached: false,
     observer: null,
-    interval: null
+    interval: null,
+    cachedLegendHtml: ''
   };
 
   function log(message, data) {
@@ -158,8 +159,10 @@
     return '';
   }
 
-  function findVisibleLegend() {
+  function findLegendElement() {
     var selectors = [
+      '#mapview .selection-legend.leaflet-control',
+      '#mapview .leaflet-top.leaflet-right .selection-legend.leaflet-control',
       '#mapview .leaflet-top.leaflet-right .leaflet-control:not(.leaflet-control-attribution):not(.leaflet-control-zoom)',
       '#mapview .leaflet-right .leaflet-control:not(.leaflet-control-attribution):not(.leaflet-control-zoom)',
       '#mapview .legend',
@@ -169,14 +172,34 @@
 
     for (var i = 0; i < selectors.length; i++) {
       var candidates = document.querySelectorAll(selectors[i]);
+
+      // Erst sichtbare Kandidaten bevorzugen
       for (var j = 0; j < candidates.length; j++) {
         if (isVisible(candidates[j])) {
           return candidates[j];
         }
       }
+
+      // Falls nichts sichtbar ist, wenigstens ersten Kandidaten nehmen
+      if (candidates.length) {
+        return candidates[0];
+      }
     }
 
     return null;
+  }
+
+  function cacheLegendHtml() {
+    var legend = findLegendElement();
+
+    if (!legend) {
+      state.cachedLegendHtml = '';
+      warn('Keine Legende im Original-DOM gefunden.');
+      return;
+    }
+
+    state.cachedLegendHtml = legend.outerHTML;
+    log('Legende zwischengespeichert.');
   }
 
   function buildHeaderHtml() {
@@ -213,13 +236,13 @@
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '13mm',
+          size: '11mm',
           overTheMap: true
         },
         footer: {
           enabled: true,
           text: 'Integrationsmonitoring Niedersachsen',
-          size: '5mm',
+          size: '4mm',
           overTheMap: true
         }
       })
@@ -248,13 +271,12 @@
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
 
-    var legend = findVisibleLegend();
-    if (!legend) {
-      log('Keine sichtbare Legende gefunden.');
+    removeExistingPrintLegend(root);
+
+    if (!state.cachedLegendHtml) {
+      warn('Keine zwischengespeicherte Legende vorhanden.');
       return;
     }
-
-    removeExistingPrintLegend(root);
 
     var wrapper = document.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
@@ -264,11 +286,13 @@
     heading.textContent = 'Legende';
     wrapper.appendChild(heading);
 
-    var clonedLegend = legend.cloneNode(true);
-    clonedLegend.classList.add('mt-print-legend-clone');
-    wrapper.appendChild(clonedLegend);
+    var legendHolder = document.createElement('div');
+    legendHolder.className = 'mt-print-legend-clone';
+    legendHolder.innerHTML = state.cachedLegendHtml;
+    wrapper.appendChild(legendHolder);
 
     root.appendChild(wrapper);
+    log('Legende in Druckansicht eingefügt.');
   }
 
   function attachPrintControl(map) {
@@ -291,6 +315,10 @@
         printLayer: baseLayer,
         printModes: buildPrintModes()
       }).addTo(map);
+
+      map.on(L.BrowserPrint.Event.PrePrint, function () {
+        cacheLegendHtml();
+      });
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
