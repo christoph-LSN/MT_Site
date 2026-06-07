@@ -1,9 +1,6 @@
 (function () {
   'use strict';
 
-  /**
-   * Log helper for debugging.
-   */
   function log(message, data) {
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
@@ -14,9 +11,6 @@
     }
   }
 
-  /**
-   * Warning helper for debugging.
-   */
   function warn(message, data) {
     if (window.console && console.warn) {
       if (typeof data !== 'undefined') {
@@ -28,35 +22,49 @@
   }
 
   /**
-   * Return the current Open SDG table container.
+   * Main Open SDG table container.
    */
   function getSelectionsTable() {
     return document.getElementById('selectionsTable');
   }
 
   /**
-   * Find a stable parent container for the print button.
+   * Stable host area for the visible print button.
    *
-   * Important:
-   * We do NOT place the button inside #selectionsTable itself anymore,
-   * because that area can be rebuilt / replaced when filters change.
-   *
-   * Instead we try to place it in the surrounding tab panel (or a similar
-   * parent container) and keep it above the dynamic table area.
+   * We use the table tab panel itself because your debugging showed that
+   * #selectionsTable is rebuilt when a Gebietseinheit is selected.
    */
-  function getStableTableArea() {
-    var selectionsTable = getSelectionsTable();
-    if (!selectionsTable) return null;
-
+  function getStableButtonArea() {
     return (
-      selectionsTable.closest('.tab-pane') ||
-      selectionsTable.parentNode ||
-      selectionsTable
+      document.getElementById('tableview') ||
+      (getSelectionsTable() ? getSelectionsTable().closest('.tab-pane') : null) ||
+      null
     );
   }
 
   /**
-   * Check whether a table node belongs to the current table view.
+   * Create or reuse the stable host for the native DataTables print button.
+   */
+  function ensureButtonHost() {
+    var area = getStableButtonArea();
+    if (!area) {
+      return null;
+    }
+
+    var existing = area.querySelector('.table-print-buttons');
+    if (existing) {
+      return existing;
+    }
+
+    var host = document.createElement('div');
+    host.className = 'table-print-buttons';
+
+    area.insertBefore(host, area.firstChild);
+    return host;
+  }
+
+  /**
+   * Check whether a table belongs to the current Open SDG table tab.
    */
   function isInsideSelectionsTable(tableNode) {
     var selectionsTable = getSelectionsTable();
@@ -64,7 +72,7 @@
   }
 
   /**
-   * Read the page / indicator title.
+   * Read the indicator title from the page heading.
    */
   function getIndicatorTitle() {
     var el =
@@ -79,7 +87,7 @@
   }
 
   /**
-   * Read the HTML caption from the current table.
+   * Read the HTML table caption if present.
    */
   function getTableCaptionText(tableEl) {
     if (!tableEl) return '';
@@ -93,34 +101,7 @@
   }
 
   /**
-   * Create or reuse a stable host for the print button.
-   *
-   * The host is inserted BEFORE #selectionsTable inside the stable parent
-   * container, so it survives redraws / replacements of the table itself.
-   */
-  function ensureButtonHost() {
-    var stableArea = getStableTableArea();
-    var selectionsTable = getSelectionsTable();
-
-    if (!stableArea || !selectionsTable) {
-      return null;
-    }
-
-    var existing = stableArea.querySelector('.table-print-buttons');
-    if (existing) {
-      return existing;
-    }
-
-    var host = document.createElement('div');
-    host.className = 'table-print-buttons';
-
-    stableArea.insertBefore(host, selectionsTable);
-    return host;
-  }
-
-  /**
-   * Check whether the DataTables Buttons extension and the print button type
-   * are available.
+   * Check whether DataTables Buttons and the print button type are available.
    */
   function isButtonsReady() {
     return !!(
@@ -135,12 +116,12 @@
   }
 
   /**
-   * Reinsert the existing Buttons container into our stable host.
+   * Move the native DataTables Buttons container into the stable host.
    *
-   * DataTables explicitly supports obtaining a Buttons container through the API
-   * and then inserting it wherever needed with standard jQuery methods. 【4-602cd6】【5-c5b8be】
+   * DataTables explicitly supports retrieving a Buttons container and
+   * inserting it into the document using standard jQuery methods. 【4-ce41fd】【5-ff6bb5】
    */
-  function reattachButtonsContainer(dataTable) {
+  function placeButtonsContainer(dataTable) {
     var host = ensureButtonHost();
     if (!host) {
       warn('Could not create stable button host.');
@@ -148,23 +129,17 @@
     }
 
     jQuery(host).empty();
-    dataTable.buttons('mtTablePrint', null).container().appendTo(host);
+    dataTable.buttons('mtTablePrint:name', null).container().appendTo(host);
     return true;
   }
 
   /**
-   * Attach or reattach the print button to the given DataTable instance.
-   *
-   * Safe to call multiple times:
-   * - if already attached, only the DOM insertion is repeated
-   * - otherwise a new Buttons instance is created once for this table
+   * Ensure that the given DataTable instance has a print button attached,
+   * and place its visible button container into the stable host.
    */
-  function attachPrintButtonToDataTable(dataTable, tableEl) {
+  function ensurePrintButtonForTable(dataTable, tableEl) {
     if (!dataTable || !tableEl) return false;
-
-    if (!isInsideSelectionsTable(tableEl)) {
-      return false;
-    }
+    if (!isInsideSelectionsTable(tableEl)) return false;
 
     if (!isButtonsReady()) {
       warn('DataTables Buttons / print extension is not available.');
@@ -173,9 +148,10 @@
 
     var settings = dataTable.settings()[0];
 
-    // If this table instance already has the print button, simply reinsert it.
+    // If this table instance already has the print button, only move it back
+    // into the stable host.
     if (settings._mtTablePrintAttached) {
-      reattachButtonsContainer(dataTable);
+      placeButtonsContainer(dataTable);
       return true;
     }
 
@@ -230,15 +206,18 @@
       ]
     });
 
-    reattachButtonsContainer(dataTable);
-
     settings._mtTablePrintAttached = true;
-    log('Print button attached to current DataTable instance.');
+    placeButtonsContainer(dataTable);
+
+    log('Native DataTables print button attached and placed.', {
+      tableId: tableEl.id
+    });
+
     return true;
   }
 
   /**
-   * Attach to the currently visible table in the table tab, if available.
+   * Attach to the current visible table if available.
    */
   function attachToCurrentTable() {
     if (!window.jQuery || !jQuery.fn || !jQuery.fn.dataTable) {
@@ -253,25 +232,24 @@
     }
 
     if (!jQuery.fn.dataTable.isDataTable(tableEl)) {
-      warn('The table exists, but is not an active DataTable yet.');
+      warn('The current table exists, but is not an active DataTable yet.');
       return false;
     }
 
     var dataTable = jQuery(tableEl).DataTable();
-    return attachPrintButtonToDataTable(dataTable, tableEl);
+    return ensurePrintButtonForTable(dataTable, tableEl);
   }
 
   /**
    * Listen globally for DataTables lifecycle events.
    *
-   * Why global?
-   * Open SDG may replace or recreate the table when selections change.
-   * Binding only to one initial table instance is therefore not robust enough.
+   * DataTables documents:
+   * - draw: fired whenever the table is redrawn
+   * - init: fired whenever a DataTable is initialised
+   * - these events bubble and can be listened for centrally. 【6-c1b966】【7-d10d19】【8-52f1f2】
    *
-   * DataTables documents that:
-   * - 'draw' fires whenever a redraw happens
-   * - 'init' fires when a DataTable is initialised
-   * - these events bubble and can be listened to centrally. 【1-d7abcd】【2-b1e96b】【3-463451】
+   * This matters here because your logs showed that selecting a Gebietseinheit
+   * creates a new table instance (DataTables_Table_0 -> DataTables_Table_1).
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
@@ -286,16 +264,16 @@
         if (!isInsideSelectionsTable(tableNode)) return;
 
         var dataTable = jQuery(tableNode).DataTable();
-        attachPrintButtonToDataTable(dataTable, tableNode);
+        ensurePrintButtonForTable(dataTable, tableNode);
       } catch (error) {
-        warn('Error while reacting to DataTables event.', error);
+        warn('Error while reacting to DataTables lifecycle event.', error);
       }
     });
   }
 
   /**
-   * Retry bootstrap for a short period because Open SDG may initialise
-   * the table slightly after DOM ready.
+   * Retry initial attachment because Open SDG may initialise the table
+   * slightly after DOM ready.
    */
   function bootstrapWithRetry() {
     bindGlobalDataTableEvents();
@@ -311,7 +289,7 @@
         window.clearInterval(retryTimer);
 
         if (!attached) {
-          warn('Giving up after retrying to attach the table print button.');
+          warn('Giving up after retrying to attach the native table print button.');
         }
       }
     }, 500);
@@ -323,4 +301,3 @@
     bootstrapWithRetry();
   }
 })();
-``
