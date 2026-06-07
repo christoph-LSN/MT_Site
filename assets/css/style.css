@@ -2761,8 +2761,8 @@ body {
   background: yellow; }
 
 /* ===== Kartendruck ===== */
-.mt-print-legend-overlay {
-  display: none; }
+body.leaflet--printing .leaflet-print-overlay {
+  background: white !important; }
 
 body.leaflet--printing .grid-print-container {
   position: relative;
@@ -2771,15 +2771,15 @@ body.leaflet--printing .grid-print-container {
   page-break-inside: avoid !important; }
 
 body.leaflet--printing .grid-map-print {
-  transform-origin: top left !important;
   break-inside: avoid-page !important;
   page-break-inside: avoid !important; }
 
 body.leaflet--printing #print-header {
   text-align: left !important;
-  padding: 0 3mm 1mm 3mm;
   font-size: 12px !important;
-  line-height: 1.1 !important; }
+  line-height: 1.1 !important;
+  padding: 3mm 4mm 0 4mm !important;
+  background: transparent !important; }
 
 body.leaflet--printing .mt-print-header {
   width: 100%; }
@@ -2793,14 +2793,20 @@ body.leaflet--printing .mt-print-meta {
   font-size: 11px;
   margin: 0; }
 
+body.leaflet--printing #print-footer {
+  text-align: left !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  padding: 0 4mm 3mm 4mm !important;
+  background: transparent !important; }
+
 body.leaflet--printing .mt-print-legend-overlay {
-  display: block !important;
   position: absolute !important;
-  top: 4mm;
-  right: 4mm;
+  top: 8mm;
+  right: 8mm;
   z-index: 10001;
-  width: 42mm;
-  max-width: 42mm;
+  width: 46mm;
+  max-width: 46mm;
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid #ccc;
   box-shadow: none !important;
@@ -2808,7 +2814,7 @@ body.leaflet--printing .mt-print-legend-overlay {
   overflow: hidden; }
 
 body.leaflet--printing .mt-print-legend-heading {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   margin: 0 0 1.5mm 0; }
 
@@ -2823,19 +2829,14 @@ body.leaflet--printing .mt-print-legend-clone {
   max-width: 100%;
   width: 100%;
   background: transparent !important;
-  font-size: 10px !important;
-  line-height: 1.15 !important; }
+  font-size: 9px !important;
+  line-height: 1.2 !important; }
 
 body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
-  max-width: 100% !important; }
-
-body.leaflet--printing #print-footer {
-  display: block !important;
-  text-align: left !important;
-  padding: 1mm 3mm 0 3mm;
-  font-size: 10px !important;
-  line-height: 1 !important; }
+  max-width: 100% !important;
+  white-space: normal !important;
+  line-height: 1.2 !important; }
 
 body.leaflet--printing .leaflet-control-attribution {
   display: none !important; }
