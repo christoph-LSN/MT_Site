@@ -5,55 +5,6 @@ body {
   padding-top: 0;
 }
 
-// NDS Karte Startseite
-.site-intro {
-  .description {
-    margin-top: 30px;
-    font-size: 21px;
-    text-align: justify;
-    text-justify: inter-word;
-  }
-
-  @media only screen and (min-width: 700px) {
-    padding-right: 300px;
-    min-height: 180px;
-
-    background: url('../img/SDG Wheel_Transparent-01.png');
-    background-position: right center;
-    background-size: 220px;
-    background-repeat: no-repeat;
-  }
-}
-
-// Tag Colors
-.tags {
-  .tag-datenstand-2020 {
-    background-color: pink;
-  }
-
-  .tag-datenstand-2021 {
-    background-color: green;
-  }
-
-  .tag-datenstand-2019 {
-    background-color: red;
-  }
-}
-
-.tags {
-  li:nth-child(1) .tag {
-    background: pink;
-  }
-
-  li:nth-child(2) .tag {
-    background: lightgreen;
-  }
-
-  li:nth-child(3) .tag {
-    background: yellow;
-  }
-}
-
 /* ===== Kartendruck ===== */
 
 body.leaflet--printing .leaflet-print-overlay {
@@ -76,7 +27,7 @@ body.leaflet--printing #print-header {
   text-align: left !important;
   font-size: 12px !important;
   line-height: 1.1 !important;
-  padding: 3mm 4mm 0 4mm !important;
+  padding: 2mm 4mm 0 4mm !important;
   background: transparent !important;
   z-index: 10002 !important;
 }
@@ -86,32 +37,32 @@ body.leaflet--printing .mt-print-header {
 }
 
 body.leaflet--printing .mt-print-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
-  margin: 0 0 1mm 0;
+  margin: 0 0 0.8mm 0;
 }
 
 body.leaflet--printing .mt-print-meta {
-  font-size: 11px;
+  font-size: 10px;
   margin: 0;
 }
 
 body.leaflet--printing #print-footer {
   text-align: left !important;
-  font-size: 10px !important;
+  font-size: 9px !important;
   line-height: 1 !important;
-  padding: 0 4mm 3mm 4mm !important;
+  padding: 0 4mm 2mm 4mm !important;
   background: transparent !important;
   z-index: 10002 !important;
 }
 
 body.leaflet--printing .mt-print-legend-overlay {
   position: absolute !important;
-  top: 8mm;
-  right: 8mm;
+  top: 7mm;
+  right: 7mm;
   z-index: 10003 !important;
-  width: 48mm;
-  max-width: 48mm;
+  width: 54mm;
+  max-width: 54mm;
   background: rgba(255, 255, 255, 0.97);
   border: 1px solid #ccc;
   box-shadow: none !important;
@@ -137,7 +88,7 @@ body.leaflet--printing .mt-print-legend-clone {
   width: 100%;
   background: transparent !important;
   font-size: 9px !important;
-  line-height: 1.2 !important;
+  line-height: 1.25 !important;
   transform: none !important;
 }
 
@@ -145,8 +96,26 @@ body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
   max-width: 100% !important;
   white-space: normal !important;
-  line-height: 1.2 !important;
+  line-height: 1.25 !important;
   transform: none !important;
+}
+
+/* Die originale Leaflet-Legende auf der Druckkarte neutralisieren */
+body.leaflet--printing .mt-print-legend-clone .selection-legend,
+body.leaflet--printing .mt-print-legend-clone .leaflet-control {
+  position: static !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  width: 100% !important;
+}
+
+/* Häufige Farb-/Beschriftungs-Elemente robuster machen */
+body.leaflet--printing .mt-print-legend-clone svg,
+body.leaflet--printing .mt-print-legend-clone canvas,
+body.leaflet--printing .mt-print-legend-clone img {
+  max-width: 100% !important;
+  height: auto !important;
 }
 
 body.leaflet--printing .leaflet-control-attribution {
