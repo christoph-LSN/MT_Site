@@ -63,7 +63,8 @@
    * Create or reuse a host container inside #selectionsTable
    * where the native DataTables print button will be rendered.
    *
-   * This keeps the button in the same dynamic area as the table itself.
+   * The button intentionally stays in the same dynamic area as the table.
+   * If Open SDG / DataTables rebuilds the area, we reinsert it afterwards.
    */
   function ensureButtonHost() {
     var selectionsTable = document.getElementById('selectionsTable');
@@ -113,9 +114,8 @@
   /**
    * Move / reinsert the button container into the current host.
    *
-   * DataTables Buttons explicitly supports retrieving the button container
-   * through the API and inserting it back into the document with standard
-   * jQuery methods. 【3-bbcdd3】【4-54f713】
+   * DataTables Buttons supports retrieving the button container through the API
+   * and inserting it back into the document with standard jQuery methods. 
    */
   function placeButtonsContainer(dataTable) {
     var buttonHost = ensureButtonHost();
@@ -226,7 +226,7 @@
    * Why?
    * Your logs showed that after region selection, DataTables fires draw/init
    * and then the DOM inside #selectionsTable is still being rebuilt.
-   * So we retry briefly until the new table is fully ready again. 【1-083817】【2-3c21ba】
+   * So we retry briefly until the new table is fully ready again. 【1-dd0660】【2-7bd0ae】
    */
   function scheduleReattach() {
     if (reattachTimer) {
@@ -258,47 +258,76 @@
    * DataTables documents:
    * - draw: fired whenever the table is redrawn
    * - init: fired whenever a DataTable is initialised
-   * - these events bubble and can be listened for centrally. 【1-083817】【2-3c21ba】
+   * - order: fired whenever the table data is ordered / sorted
+   * - these events bubble and can be listened for centrally. 【1-dd0660】【2-7bd0ae】【3-0e3429】
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
 
     jQuery(document).off('.mtTablePrint');
 
-    jQuery(document).on('init.dt.mtTablePrint draw.dt.mtTablePrint', function (e, settings) {
-      try {
-        if (!settings || !settings.nTable) return;
+    jQuery(document).on(
+      'init.dt.mtTablePrint draw.dt.mtTablePrint order.dt.mtTablePrint',
+      function (e, settings) {
+        try {
+          if (!settings || !settings.nTable) return;
 
-        var tableNode = settings.nTable;
-        var selectionsTable = document.getElementById('selectionsTable');
+          var tableNode = settings.nTable;
+          var selectionsTable = document.getElementById('selectionsTable');
 
-        if (!selectionsTable || !selectionsTable.contains(tableNode)) {
-          return;
+          if (!selectionsTable || !selectionsTable.contains(tableNode)) {
+            return;
+          }
+
+          scheduleReattach();
+        } catch (error) {
+          warn('Error while reacting to DataTables lifecycle event.', error);
         }
-
-        scheduleReattach();
-      } catch (error) {
-        warn('Error while reacting to DataTables lifecycle event.', error);
       }
-    });
+    );
   }
 
   /**
-   * Also react to checkbox changes in the region selection.
-   * This is intentionally simple and complements draw/init.
+   * React to checkbox changes in the region selection.
    */
   function bindSelectionChangeEvents() {
-    document.addEventListener('change', function (e) {
-      var target = e.target;
+    document.addEventListener(
+      'change',
+      function (e) {
+        var target = e.target;
 
-      if (
-        target &&
-        target.tagName === 'INPUT' &&
-        target.type === 'checkbox'
-      ) {
-        scheduleReattach();
-      }
-    }, true);
+        if (
+          target &&
+          target.tagName === 'INPUT' &&
+          target.type === 'checkbox'
+        ) {
+          scheduleReattach();
+        }
+      },
+      true
+    );
+  }
+
+  /**
+   * React to sorting clicks on table headers.
+   *
+   * This complements the DataTables order/draw/init events and follows
+   * the same pattern as the region-selection handling.
+   */
+  function bindSortingEvents() {
+    document.addEventListener(
+      'click',
+      function (e) {
+        var headerCell = e.target && e.target.closest
+          ? e.target.closest('#selectionsTable th')
+          : null;
+
+        if (headerCell) {
+          scheduleReattach();
+        }
+      },
+      true
+    );
   }
 
   /**
@@ -307,6 +336,7 @@
   function bootstrap() {
     bindGlobalDataTableEvents();
     bindSelectionChangeEvents();
+    bindSortingEvents();
     scheduleReattach();
   }
 
@@ -316,4 +346,3 @@
     bootstrap();
   }
 })();
-``
