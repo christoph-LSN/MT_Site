@@ -2,27 +2,15 @@
   Custom scripts for the MT_Site implementation.
 
   Open SDG automatically injects this include near the closing </body> tag.
-  This makes it the recommended place for project-specific JavaScript
-  that should run after the main page content has been rendered.
+  This is the recommended place for project-specific JavaScript.
 
-  In this project we use it to load:
-  1) leaflet.browser.print
-     - third-party Leaflet plugin used to create a print control for maps
-  2) map-print.js
-     - project-specific integration layer that:
-       * finds the visible Open SDG / Leaflet map
-       * adds the print button
-       * builds the print header/footer
-       * copies the visible legend into the print view
-
-  Important:
-  These files are loaded with Jekyll {% include %} because they currently live
-  under /_includes/assets/js/... rather than the public /assets/js/... folder.
-
-  If these files are later moved into the public assets folder, this file
-  should be changed to standard ...script> tags instead.
+  Current strategy:
+  - keep the existing map print integration unchanged
+  - load DataTables Buttons libraries
+  - load a minimal table-print.js that only creates a stable visible button
 {%- endcomment -%}
 
+<!-- Existing map print integration -->
 <script>
   {% include assets/js/vendor/leaflet.browser.print.min.js %}
 </script>
@@ -31,8 +19,7 @@
   {% include assets/js/map-print.js %}
 </script>
 
-
-<!-- DataTables Buttons / Print integration: phase 1 -->
+<!-- DataTables Buttons / Print integration -->
 <script>
   {% include assets/js/vendor/dataTables.buttons.min.js %}
 </script>
@@ -44,3 +31,9 @@
 <script>
   {% include assets/js/vendor/buttons.bootstrap5.min.js %}
 </script>
+
+<!-- Minimal step-1 table print integration -->
+<script>
+  {% include assets/js/table-print.js %}
+</script>
+
