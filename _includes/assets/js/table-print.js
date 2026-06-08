@@ -58,19 +58,17 @@
   }
 
   /**
-   * Create or reuse a host container above the table
+   * Create or reuse a stable host container in #tableview
    * where the native DataTables print button will be rendered.
    *
-   * Note:
-   * This is the simple rollback version.
-   * It works for the initial table view, but the button may disappear
-   * if Open SDG rebuilds the table area after a disaggregation change.
+   * This is the only intentional change compared with the earlier rollback:
+   * the host is outside #selectionsTable so it survives table rebuilds better.
    */
   function ensureButtonHost() {
-    var selectionsTable = document.getElementById('selectionsTable');
-    if (!selectionsTable) return null;
+    var tableView = document.getElementById('tableview');
+    if (!tableView) return null;
 
-    var existing = selectionsTable.querySelector('.table-print-buttons');
+    var existing = tableView.querySelector('.table-print-buttons');
     if (existing) {
       return existing;
     }
@@ -78,7 +76,7 @@
     var host = document.createElement('div');
     host.className = 'table-print-buttons';
 
-    selectionsTable.insertBefore(host, selectionsTable.firstChild);
+    tableView.insertBefore(host, tableView.firstChild);
     return host;
   }
 
@@ -112,52 +110,41 @@
   }
 
   /**
-   * Attach the native DataTables print button to the existing DataTable.
+   * Insert (or re-insert) the button container into the stable host.
    *
-   * Important:
-   * - We do not re-initialise the table.
-   * - We attach Buttons to the already existing DataTable instance.
-   * - We guard against duplicate attachment.
-   *
-   * DataTables Buttons supports creating a Buttons instance and then moving the
-   * button container into the DOM with standard jQuery methods. 【1-37a6c5】【2-414eb5】【5-5eb6e0】
+   * DataTables Buttons supports retrieving the button container through
+   * the API and inserting it into the document with standard jQuery methods. 【3-f4c352】【4-5a66ad】
    */
-  function attachPrintButton() {
-    var tableEl = getTableElement();
-    if (!tableEl) {
-      warn('No table found in #selectionsTable.');
+  function placeButtonsContainer(dataTable) {
+    var buttonHost = ensureButtonHost();
+    if (!buttonHost) {
+      warn('Could not create button host inside #tableview.');
       return false;
     }
 
-    if (!window.jQuery) {
-      warn('jQuery is not available.');
-      return false;
-    }
+    jQuery(buttonHost).empty();
+    dataTable.buttons('mtTablePrint', null).container().appendTo(buttonHost);
+    return true;
+  }
 
-    var $table = jQuery(tableEl);
-
-    if (!isDataTableReady($table)) {
-      warn('The table exists, but is not an active DataTable yet.');
-      return false;
-    }
+  /**
+   * Attach the native DataTables print button to the given DataTable instance.
+   *
+   * If already attached for this table instance, only move the container back
+   * into the stable host.
+   */
+  function ensurePrintButtonForTable(dataTable, tableEl) {
+    if (!dataTable || !tableEl) return false;
 
     if (!isButtonsReady()) {
       warn('DataTables Buttons / print extension is not available.');
       return false;
     }
 
-    var dataTable = $table.DataTable();
     var settings = dataTable.settings()[0];
 
     if (settings._mtTablePrintAttached) {
-      log('Print button already attached.');
-      return true;
-    }
-
-    var buttonHost = ensureButtonHost();
-    if (!buttonHost) {
-      warn('Could not create button host inside #selectionsTable.');
-      return false;
+      return placeButtonsContainer(dataTable);
     }
 
     var printTitle = getIndicatorTitle();
@@ -211,25 +198,87 @@
       ]
     });
 
-    dataTable.buttons('mtTablePrint', null).container().appendTo(buttonHost);
     settings._mtTablePrintAttached = true;
+    log('Native table print button attached.', { tableId: tableEl.id });
 
-    log('Print button attached to the existing DataTable.');
-    return true;
+    return placeButtonsContainer(dataTable);
   }
 
   /**
-   * Open SDG / DataTables initialisation may complete slightly after DOM ready.
-   * Therefore we retry attachment for a short period.
+   * Attach to the currently visible table if available.
+   */
+  function attachToCurrentTable() {
+    if (!window.jQuery || !jQuery.fn || !jQuery.fn.dataTable) {
+      warn('jQuery DataTables is not available.');
+      return false;
+    }
+
+    var tableEl = getTableElement();
+    if (!tableEl) {
+      warn('No table found in #selectionsTable.');
+      return false;
+    }
+
+    var $table = jQuery(tableEl);
+
+    if (!isDataTableReady($table)) {
+      warn('The current table exists, but is not an active DataTable yet.');
+      return false;
+    }
+
+    var dataTable = $table.DataTable();
+    return ensurePrintButtonForTable(dataTable, tableEl);
+  }
+
+  /**
+   * Listen globally for DataTables lifecycle events.
+   *
+   * DataTables documents:
+   * - draw: fired whenever the table is redrawn
+   * - init: fired whenever a DataTable is initialised
+   * - these events bubble and can be listened for centrally. 【1-cc4196】【2-63821f】
+   *
+   * This matters here because your logs show that selecting a Gebietseinheit
+   * creates a new table instance (DataTables_Table_0 -> DataTables_Table_1). 【1-cc4196】【2-63821f】
+   */
+  function bindGlobalDataTableEvents() {
+    if (!window.jQuery) return;
+
+    jQuery(document).off('.mtTablePrint');
+
+    jQuery(document).on('init.dt.mtTablePrint draw.dt.mtTablePrint', function (e, settings) {
+      try {
+        if (!settings || !settings.nTable) return;
+
+        var tableNode = settings.nTable;
+        var selectionsTable = document.getElementById('selectionsTable');
+
+        if (!selectionsTable || !selectionsTable.contains(tableNode)) {
+          return;
+        }
+
+        var dataTable = jQuery(tableNode).DataTable();
+        ensurePrintButtonForTable(dataTable, tableNode);
+      } catch (error) {
+        warn('Error while reacting to DataTables lifecycle event.', error);
+      }
+    });
+  }
+
+  /**
+   * Retry initial attachment because Open SDG may initialise the table
+   * slightly after DOM ready.
    */
   function bootstrapWithRetry() {
+    bindGlobalDataTableEvents();
+
     var attempts = 0;
     var maxAttempts = 30;
 
     var timer = window.setInterval(function () {
       attempts += 1;
 
-      var attached = attachPrintButton();
+      var attached = attachToCurrentTable();
       if (attached || attempts >= maxAttempts) {
         window.clearInterval(timer);
 
