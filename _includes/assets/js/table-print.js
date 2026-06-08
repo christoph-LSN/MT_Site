@@ -206,19 +206,29 @@
 
             body.classList.add('mt-table-print');
 
-            if (tableCaption) {
-              var caption = doc.createElement('div');
-              caption.className = 'mt-table-print-caption';
-              caption.textContent = tableCaption;
-              body.insertBefore(caption, body.firstChild.nextSibling);
+            var printedTable = body.querySelector('table');
+
+            // Remove any printed table caption so that only the main title remains
+            if (printedTable) {
+              var printedCaption = printedTable.querySelector('caption');
+              if (printedCaption) {
+                printedCaption.parentNode.removeChild(printedCaption);
+              }
             }
+
+            // Remove any custom caption block if present
+            var customCaptions = body.querySelectorAll('.mt-table-print-caption');
+            customCaptions.forEach(function (el) {
+              if (el.parentNode) {
+                el.parentNode.removeChild(el);
+              }
+            });
 
             var source = doc.createElement('div');
             source.className = 'mt-table-print-source';
             source.textContent = 'Quelle: Integrationsmonitoring Niedersachsen';
             body.appendChild(source);
 
-            var printedTable = body.querySelector('table');
             if (printedTable) {
               printedTable.classList.add(
                 'table',
@@ -276,8 +286,8 @@
    * - we deliberately do NOT react to order.dt / draw.dt
    *
    * Reason:
-   * The sort-debug logs showed that sorting keeps the same table instance
-   * and that our own reattach logic was replacing the button node afterward.
+   * Sorting keeps the same table instance and the explicit reattach
+   * during sorting had broken the button action.
    * For the region-selection case, init.dt is the relevant signal for a newly
    * initialised table instance.
    */
