@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260608105733">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260608112335">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -530,7 +530,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260608105733'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260608112335'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1347,19 +1347,29 @@ if (allRequired) {
 
             body.classList.add('mt-table-print');
 
-            if (tableCaption) {
-              var caption = doc.createElement('div');
-              caption.className = 'mt-table-print-caption';
-              caption.textContent = tableCaption;
-              body.insertBefore(caption, body.firstChild.nextSibling);
+            var printedTable = body.querySelector('table');
+
+            // Remove any printed table caption so that only the main title remains
+            if (printedTable) {
+              var printedCaption = printedTable.querySelector('caption');
+              if (printedCaption) {
+                printedCaption.parentNode.removeChild(printedCaption);
+              }
             }
+
+            // Remove any custom caption block if present
+            var customCaptions = body.querySelectorAll('.mt-table-print-caption');
+            customCaptions.forEach(function (el) {
+              if (el.parentNode) {
+                el.parentNode.removeChild(el);
+              }
+            });
 
             var source = doc.createElement('div');
             source.className = 'mt-table-print-source';
             source.textContent = 'Quelle: Integrationsmonitoring Niedersachsen';
             body.appendChild(source);
 
-            var printedTable = body.querySelector('table');
             if (printedTable) {
               printedTable.classList.add(
                 'table',
@@ -1417,8 +1427,8 @@ if (allRequired) {
    * - we deliberately do NOT react to order.dt / draw.dt
    *
    * Reason:
-   * The sort-debug logs showed that sorting keeps the same table instance
-   * and that our own reattach logic was replacing the button node afterward.
+   * Sorting keeps the same table instance and the explicit reattach
+   * during sorting had broken the button action.
    * For the region-selection case, init.dt is the relevant signal for a newly
    * initialised table instance.
    */
@@ -1488,7 +1498,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260608105733"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260608112335"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
