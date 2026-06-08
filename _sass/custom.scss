@@ -197,3 +197,19 @@ body.leaflet--printing .leaflet-control-scale {
 #selectionsTable.has-table-print-bar table caption {
   display: none;
 }
+/* ===== Tabellen-Druck: Abstand zum Seitenrand ===== */
+
+body.mt-table-print {
+  margin: 0 !important;
+  padding: 10mm 12mm 8mm 12mm !important;
+  font-size: 12px;
+}
+
+body.mt-table-print h1 {
+  margin: 0 0 0.4cm 0;
+}
+
+body.mt-table-print .mt-table-print-table {
+  width: 100% !important;
+  margin-top: 0.2cm;
+}
