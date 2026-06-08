@@ -60,26 +60,43 @@
   }
 
   /**
-   * Create or reuse a host container inside #selectionsTable
-   * where the native DataTables print button will be rendered.
+   * Create or reuse a title/action bar inside #selectionsTable.
    *
-   * The button intentionally stays in the same dynamic area as the table.
-   * If Open SDG / DataTables rebuilds the area, we reinsert it afterwards.
+   * Structure:
+   * .table-print-bar
+   *   .table-print-title
+   *   .table-print-actions
+   *
+   * The native DataTables button container is inserted into .table-print-actions.
    */
   function ensureButtonHost() {
     var selectionsTable = document.getElementById('selectionsTable');
     if (!selectionsTable) return null;
 
-    var existing = selectionsTable.querySelector('.table-print-buttons');
-    if (existing) {
-      return existing;
+    var existingActions = selectionsTable.querySelector('.table-print-actions');
+    if (existingActions) {
+      return existingActions;
     }
 
-    var host = document.createElement('div');
-    host.className = 'table-print-buttons';
+    var tableEl = getTableElement();
+    var titleText = getTableCaptionText(tableEl) || getIndicatorTitle();
 
-    selectionsTable.insertBefore(host, selectionsTable.firstChild);
-    return host;
+    var bar = document.createElement('div');
+    bar.className = 'table-print-bar';
+
+    var title = document.createElement('div');
+    title.className = 'table-print-title';
+    title.textContent = titleText;
+
+    var actions = document.createElement('div');
+    actions.className = 'table-print-actions';
+
+    bar.appendChild(title);
+    bar.appendChild(actions);
+
+    selectionsTable.insertBefore(bar, selectionsTable.firstChild);
+
+    return actions;
   }
 
   /**
@@ -112,20 +129,20 @@
   }
 
   /**
-   * Move / reinsert the button container into the current host.
+   * Move / reinsert the button container into the title/action bar.
    *
    * DataTables Buttons supports retrieving the button container through the API
-   * and inserting it back into the document with standard jQuery methods.
+   * and inserting it back into the document with standard jQuery methods. 
    */
   function placeButtonsContainer(dataTable) {
-    var buttonHost = ensureButtonHost();
-    if (!buttonHost) {
-      warn('Could not create button host inside #selectionsTable.');
+    var actionHost = ensureButtonHost();
+    if (!actionHost) {
+      warn('Could not create print action host inside #selectionsTable.');
       return false;
     }
 
-    jQuery(buttonHost).empty();
-    dataTable.buttons('mtTablePrint', null).container().appendTo(buttonHost);
+    jQuery(actionHost).empty();
+    dataTable.buttons('mtTablePrint', null).container().appendTo(actionHost);
     return true;
   }
 
@@ -171,8 +188,8 @@
       buttons: [
         {
           extend: 'print',
-          text: 'Tabelle drucken',
-          className: 'buttons-print',
+          text: '🖨 Drucken',
+          className: 'buttons-print mt-table-print-button',
           autoPrint: false,
           title: printTitle,
           exportOptions: {
@@ -253,7 +270,7 @@
   /**
    * Listen globally for DataTables lifecycle events.
    *
-   * Important for the current fix:
+   * Important:
    * - we only react to init.dt here
    * - we deliberately do NOT react to order.dt / draw.dt
    *
@@ -261,7 +278,7 @@
    * The sort-debug logs showed that sorting keeps the same table instance
    * and that our own reattach logic was replacing the button node afterward.
    * For the region-selection case, init.dt is the relevant signal for a newly
-   * initialised table instance.
+   * initialised table instance. 【1-5018f7】【2-075af4】
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
