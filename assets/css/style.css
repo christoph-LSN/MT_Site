@@ -2852,3 +2852,12 @@ body.leaflet--printing .leaflet-control-attribution {
 body.leaflet--printing .leaflet-control-scale {
   transform: scale(0.85);
   transform-origin: bottom right; }
+
+/* ===== Table print (rollback baseline) ===== */
+.table-print-buttons {
+  margin-bottom: 1rem; }
+
+.table-print-buttons .dt-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; }
