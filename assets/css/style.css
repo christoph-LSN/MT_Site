@@ -2861,3 +2861,33 @@ body.leaflet--printing .leaflet-control-scale {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem; }
+
+/* ===== Tabellen-Druck: Titel links, Button rechts ===== */
+.table-print-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem; }
+
+.table-print-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.2; }
+
+.table-print-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; }
+
+.table-print-actions .dt-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; }
+
+/* Kompakter Druckbutton */
+.mt-table-print-button {
+  padding: 0.35rem 0.75rem !important;
+  font-size: 0.95rem !important;
+  line-height: 1.2 !important;
+  white-space: nowrap; }
