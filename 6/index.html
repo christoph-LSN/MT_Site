@@ -144,7 +144,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260608072023">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260608073312">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -784,7 +784,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260608072023'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260608073312'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1396,6 +1396,8 @@ if (allRequired) {
   (function () {
   'use strict';
 
+  var reattachTimer = null;
+
   function log(message, data) {
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
@@ -1453,17 +1455,16 @@ if (allRequired) {
   }
 
   /**
-   * Create or reuse a stable host container in #tableview
+   * Create or reuse a host container inside #selectionsTable
    * where the native DataTables print button will be rendered.
    *
-   * This is the only intentional change compared with the earlier rollback:
-   * the host is outside #selectionsTable so it survives table rebuilds better.
+   * This keeps the button in the same dynamic area as the table itself.
    */
   function ensureButtonHost() {
-    var tableView = document.getElementById('tableview');
-    if (!tableView) return null;
+    var selectionsTable = document.getElementById('selectionsTable');
+    if (!selectionsTable) return null;
 
-    var existing = tableView.querySelector('.table-print-buttons');
+    var existing = selectionsTable.querySelector('.table-print-buttons');
     if (existing) {
       return existing;
     }
@@ -1471,7 +1472,7 @@ if (allRequired) {
     var host = document.createElement('div');
     host.className = 'table-print-buttons';
 
-    tableView.insertBefore(host, tableView.firstChild);
+    selectionsTable.insertBefore(host, selectionsTable.firstChild);
     return host;
   }
 
@@ -1505,15 +1506,16 @@ if (allRequired) {
   }
 
   /**
-   * Insert (or re-insert) the button container into the stable host.
+   * Move / reinsert the button container into the current host.
    *
-   * DataTables Buttons supports retrieving the button container through
-   * the API and inserting it into the document with standard jQuery methods. 【3-f4c352】【4-5a66ad】
+   * DataTables Buttons explicitly supports retrieving the button container
+   * through the API and inserting it back into the document with standard
+   * jQuery methods. 【3-bbcdd3】【4-54f713】
    */
   function placeButtonsContainer(dataTable) {
     var buttonHost = ensureButtonHost();
     if (!buttonHost) {
-      warn('Could not create button host inside #tableview.');
+      warn('Could not create button host inside #selectionsTable.');
       return false;
     }
 
@@ -1523,21 +1525,35 @@ if (allRequired) {
   }
 
   /**
-   * Attach the native DataTables print button to the given DataTable instance.
-   *
-   * If already attached for this table instance, only move the container back
-   * into the stable host.
+   * Attach (or reattach) the native DataTables print button
+   * to the current DataTable instance.
    */
-  function ensurePrintButtonForTable(dataTable, tableEl) {
-    if (!dataTable || !tableEl) return false;
+  function attachPrintButton() {
+    var tableEl = getTableElement();
+    if (!tableEl) {
+      return false;
+    }
+
+    if (!window.jQuery) {
+      warn('jQuery is not available.');
+      return false;
+    }
+
+    var $table = jQuery(tableEl);
+
+    if (!isDataTableReady($table)) {
+      return false;
+    }
 
     if (!isButtonsReady()) {
       warn('DataTables Buttons / print extension is not available.');
       return false;
     }
 
+    var dataTable = $table.DataTable();
     var settings = dataTable.settings()[0];
 
+    // If already attached for this table instance, simply reinsert the container.
     if (settings._mtTablePrintAttached) {
       return placeButtonsContainer(dataTable);
     }
@@ -1600,29 +1616,35 @@ if (allRequired) {
   }
 
   /**
-   * Attach to the currently visible table if available.
+   * Start a short retry cycle.
+   *
+   * Why?
+   * Your logs showed that after region selection, DataTables fires draw/init
+   * and then the DOM inside #selectionsTable is still being rebuilt.
+   * So we retry briefly until the new table is fully ready again. 【1-083817】【2-3c21ba】
    */
-  function attachToCurrentTable() {
-    if (!window.jQuery || !jQuery.fn || !jQuery.fn.dataTable) {
-      warn('jQuery DataTables is not available.');
-      return false;
+  function scheduleReattach() {
+    if (reattachTimer) {
+      window.clearInterval(reattachTimer);
+      reattachTimer = null;
     }
 
-    var tableEl = getTableElement();
-    if (!tableEl) {
-      warn('No table found in #selectionsTable.');
-      return false;
-    }
+    var attempts = 0;
+    var maxAttempts = 12;
 
-    var $table = jQuery(tableEl);
+    reattachTimer = window.setInterval(function () {
+      attempts += 1;
 
-    if (!isDataTableReady($table)) {
-      warn('The current table exists, but is not an active DataTable yet.');
-      return false;
-    }
+      var attached = attachPrintButton();
+      if (attached || attempts >= maxAttempts) {
+        window.clearInterval(reattachTimer);
+        reattachTimer = null;
 
-    var dataTable = $table.DataTable();
-    return ensurePrintButtonForTable(dataTable, tableEl);
+        if (!attached) {
+          warn('Reattach attempt finished without visible print button.');
+        }
+      }
+    }, 250);
   }
 
   /**
@@ -1631,10 +1653,7 @@ if (allRequired) {
    * DataTables documents:
    * - draw: fired whenever the table is redrawn
    * - init: fired whenever a DataTable is initialised
-   * - these events bubble and can be listened for centrally. 【1-cc4196】【2-63821f】
-   *
-   * This matters here because your logs show that selecting a Gebietseinheit
-   * creates a new table instance (DataTables_Table_0 -> DataTables_Table_1). 【1-cc4196】【2-63821f】
+   * - these events bubble and can be listened for centrally. 【1-083817】【2-3c21ba】
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
@@ -1652,8 +1671,7 @@ if (allRequired) {
           return;
         }
 
-        var dataTable = jQuery(tableNode).DataTable();
-        ensurePrintButtonForTable(dataTable, tableNode);
+        scheduleReattach();
       } catch (error) {
         warn('Error while reacting to DataTables lifecycle event.', error);
       }
@@ -1661,41 +1679,45 @@ if (allRequired) {
   }
 
   /**
-   * Retry initial attachment because Open SDG may initialise the table
-   * slightly after DOM ready.
+   * Also react to checkbox changes in the region selection.
+   * This is intentionally simple and complements draw/init.
    */
-  function bootstrapWithRetry() {
-    bindGlobalDataTableEvents();
+  function bindSelectionChangeEvents() {
+    document.addEventListener('change', function (e) {
+      var target = e.target;
 
-    var attempts = 0;
-    var maxAttempts = 30;
-
-    var timer = window.setInterval(function () {
-      attempts += 1;
-
-      var attached = attachToCurrentTable();
-      if (attached || attempts >= maxAttempts) {
-        window.clearInterval(timer);
-
-        if (!attached) {
-          warn('Giving up after retrying to attach the table print button.');
-        }
+      if (
+        target &&
+        target.tagName === 'INPUT' &&
+        target.type === 'checkbox'
+      ) {
+        scheduleReattach();
       }
-    }, 500);
+    }, true);
+  }
+
+  /**
+   * Initial bootstrap.
+   */
+  function bootstrap() {
+    bindGlobalDataTableEvents();
+    bindSelectionChangeEvents();
+    scheduleReattach();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootstrapWithRetry);
+    document.addEventListener('DOMContentLoaded', bootstrap);
   } else {
-    bootstrapWithRetry();
+    bootstrap();
   }
 })();
+``
 </script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260608072023"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260608073312"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
