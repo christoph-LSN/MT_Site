@@ -21,17 +21,10 @@
     }
   }
 
-  /**
-   * Use the table tab itself as the stable area for the button.
-   * This is intentionally higher up than #selectionsTable.
-   */
   function getStableButtonArea() {
     return document.getElementById('tableview');
   }
 
-  /**
-   * Create or reuse the host element for the visible test button.
-   */
   function ensureButtonHost() {
     var area = getStableButtonArea();
     if (!area) {
@@ -53,9 +46,6 @@
     return host;
   }
 
-  /**
-   * Create or reuse the visible test button.
-   */
   function ensureVisibleButton() {
     var host = ensureButtonHost();
     if (!host) return null;
@@ -80,10 +70,6 @@
     return button;
   }
 
-  /**
-   * Watch the stable area and recreate the button if it disappears.
-   * This isolates the DOM problem before we add print functionality.
-   */
   function observeStableArea() {
     var area = getStableButtonArea();
     if (!area) return;
@@ -100,9 +86,6 @@
     log('MutationObserver attached to stable table area.');
   }
 
-  /**
-   * Retry because Open SDG may finish rendering after DOM ready.
-   */
   function bootstrapWithRetry() {
     var attempts = 0;
     var maxAttempts = 30;
