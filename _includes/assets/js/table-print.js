@@ -208,21 +208,33 @@
 
             var printedTable = body.querySelector('table');
 
-            // Remove any printed table caption so that only the main title remains
-            if (printedTable) {
-              var printedCaption = printedTable.querySelector('caption');
-              if (printedCaption) {
-                printedCaption.parentNode.removeChild(printedCaption);
-              }
-            }
-
-            // Remove any custom caption block if present
-            var customCaptions = body.querySelectorAll('.mt-table-print-caption');
-            customCaptions.forEach(function (el) {
+            // Remove all table captions in the print document
+            body.querySelectorAll('caption').forEach(function (el) {
               if (el.parentNode) {
                 el.parentNode.removeChild(el);
               }
             });
+
+            // Remove any custom caption blocks if present
+            body.querySelectorAll('.mt-table-print-caption').forEach(function (el) {
+              if (el.parentNode) {
+                el.parentNode.removeChild(el);
+              }
+            });
+
+            // Remove any plain text block directly before the table
+            // that duplicates the caption
+            if (printedTable && tableCaption) {
+              var previous = printedTable.previousElementSibling;
+
+              if (
+                previous &&
+                previous.textContent &&
+                previous.textContent.trim() === tableCaption.trim()
+              ) {
+                previous.parentNode.removeChild(previous);
+              }
+            }
 
             var source = doc.createElement('div');
             source.className = 'mt-table-print-source';
