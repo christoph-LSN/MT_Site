@@ -96,6 +96,10 @@
 
     selectionsTable.insertBefore(bar, selectionsTable.firstChild);
 
+    // Mark the container so the original visible table caption
+    // can be hidden via CSS without removing it from the DOM.
+    selectionsTable.classList.add('has-table-print-bar');
+
     return actions;
   }
 
@@ -130,9 +134,6 @@
 
   /**
    * Move / reinsert the button container into the title/action bar.
-   *
-   * DataTables Buttons supports retrieving the button container through the API
-   * and inserting it back into the document with standard jQuery methods. 
    */
   function placeButtonsContainer(dataTable) {
     var actionHost = ensureButtonHost();
@@ -278,7 +279,7 @@
    * The sort-debug logs showed that sorting keeps the same table instance
    * and that our own reattach logic was replacing the button node afterward.
    * For the region-selection case, init.dt is the relevant signal for a newly
-   * initialised table instance. 【1-5018f7】【2-075af4】
+   * initialised table instance.
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;

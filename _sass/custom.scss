@@ -191,3 +191,9 @@ body.leaflet--printing .leaflet-control-scale {
   line-height: 1.2 !important;
   white-space: nowrap;
 }
+
+/* Ursprüngliche Tabellen-Caption ausblenden,
+   sobald die eigene Titel-/Button-Leiste aktiv ist */
+#selectionsTable.has-table-print-bar table caption {
+  display: none;
+}
