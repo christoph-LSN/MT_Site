@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260608075701">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260608083458">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -469,7 +469,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260608075701'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260608083458'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1195,7 +1195,7 @@ if (allRequired) {
    * Move / reinsert the button container into the current host.
    *
    * DataTables Buttons supports retrieving the button container through the API
-   * and inserting it back into the document with standard jQuery methods. 
+   * and inserting it back into the document with standard jQuery methods.
    */
   function placeButtonsContainer(dataTable) {
     var buttonHost = ensureButtonHost();
@@ -1303,10 +1303,8 @@ if (allRequired) {
   /**
    * Start a short retry cycle.
    *
-   * Why?
-   * Your logs showed that after region selection, DataTables fires draw/init
-   * and then the DOM inside #selectionsTable is still being rebuilt.
-   * So we retry briefly until the new table is fully ready again. 【1-dd0660】【2-7bd0ae】
+   * This is mainly needed after area rebuilds triggered by the region selection.
+   * We retry briefly until the current table is fully ready again.
    */
   function scheduleReattach() {
     if (reattachTimer) {
@@ -1335,40 +1333,43 @@ if (allRequired) {
   /**
    * Listen globally for DataTables lifecycle events.
    *
-   * DataTables documents:
-   * - draw: fired whenever the table is redrawn
-   * - init: fired whenever a DataTable is initialised
-   * - order: fired whenever the table data is ordered / sorted
-   * - these events bubble and can be listened for centrally. 【1-dd0660】【2-7bd0ae】【3-0e3429】
+   * Important for the current fix:
+   * - we only react to init.dt here
+   * - we deliberately do NOT react to order.dt / draw.dt
+   *
+   * Reason:
+   * The sort-debug logs showed that sorting keeps the same table instance
+   * and that our own reattach logic was replacing the button node afterward.
+   * For the region-selection case, init.dt is the relevant signal for a newly
+   * initialised table instance.
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
 
     jQuery(document).off('.mtTablePrint');
 
-    jQuery(document).on(
-      'init.dt.mtTablePrint draw.dt.mtTablePrint order.dt.mtTablePrint',
-      function (e, settings) {
-        try {
-          if (!settings || !settings.nTable) return;
+    jQuery(document).on('init.dt.mtTablePrint', function (e, settings) {
+      try {
+        if (!settings || !settings.nTable) return;
 
-          var tableNode = settings.nTable;
-          var selectionsTable = document.getElementById('selectionsTable');
+        var tableNode = settings.nTable;
+        var selectionsTable = document.getElementById('selectionsTable');
 
-          if (!selectionsTable || !selectionsTable.contains(tableNode)) {
-            return;
-          }
-
-          scheduleReattach();
-        } catch (error) {
-          warn('Error while reacting to DataTables lifecycle event.', error);
+        if (!selectionsTable || !selectionsTable.contains(tableNode)) {
+          return;
         }
+
+        scheduleReattach();
+      } catch (error) {
+        warn('Error while reacting to DataTables init event.', error);
       }
-    );
+    });
   }
 
   /**
    * React to checkbox changes in the region selection.
+   *
+   * This is the main trigger for the disaggregation / region workflow.
    */
   function bindSelectionChangeEvents() {
     document.addEventListener(
@@ -1389,34 +1390,11 @@ if (allRequired) {
   }
 
   /**
-   * React to sorting clicks on table headers.
-   *
-   * This complements the DataTables order/draw/init events and follows
-   * the same pattern as the region-selection handling.
-   */
-  function bindSortingEvents() {
-    document.addEventListener(
-      'click',
-      function (e) {
-        var headerCell = e.target && e.target.closest
-          ? e.target.closest('#selectionsTable th')
-          : null;
-
-        if (headerCell) {
-          scheduleReattach();
-        }
-      },
-      true
-    );
-  }
-
-  /**
    * Initial bootstrap.
    */
   function bootstrap() {
     bindGlobalDataTableEvents();
     bindSelectionChangeEvents();
-    bindSortingEvents();
     scheduleReattach();
   }
 
@@ -1426,12 +1404,13 @@ if (allRequired) {
     bootstrap();
   }
 })();
+
 </script>
 
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260608075701"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260608083458"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
