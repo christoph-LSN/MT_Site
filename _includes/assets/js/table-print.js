@@ -24,7 +24,7 @@
   }
 
   /**
-   * Find the visible table inside the Open SDG table tab.
+   * Find the visible table inside  the Open SDG table tab.
    */
   function getTableElement() {
     return document.querySelector('#selectionsTable table');
