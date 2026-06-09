@@ -2855,7 +2855,7 @@ body.leaflet--printing .mt-print-legend-clone .leaflet-control {
   min-width: 0 !important;
   max-width: 100% !important; }
 
-/* Störende Schließen-/Entfernen-Elemente in der Druckfassung ausblenden */
+/* Störende UI-Elemente in der Druckfassung ausblenden */
 body.leaflet--printing .mt-print-legend-clone button,
 body.leaflet--printing .mt-print-legend-clone [class*="close"],
 body.leaflet--printing .mt-print-legend-clone [class*="remove"],
@@ -2863,16 +2863,27 @@ body.leaflet--printing .mt-print-legend-clone [aria-label*="close"],
 body.leaflet--printing .mt-print-legend-clone [title*="close"] {
   display: none !important; }
 
-/* Tooltip-/Popup-/Hover-Elemente im Ausdruck unterdrücken */
-body.leaflet--printing .leaflet-tooltip,
-body.leaflet--printing .leaflet-popup,
-body.leaflet--printing .leaflet-popup-pane,
-body.leaflet--printing [role="tooltip"],
-body.leaflet--printing .tooltip,
-body.leaflet--printing [class*="tooltip"] {
+/* Tooltip-/Popup-/Hover-Elemente nur ohne Auswahl ausblenden */
+body.leaflet--printing:not(.mt-print-has-selection) .leaflet-tooltip,
+body.leaflet--printing:not(.mt-print-has-selection) .leaflet-popup,
+body.leaflet--printing:not(.mt-print-has-selection) .leaflet-popup-pane,
+body.leaflet--printing:not(.mt-print-has-selection) [role="tooltip"],
+body.leaflet--printing:not(.mt-print-has-selection) .tooltip,
+body.leaflet--printing:not(.mt-print-has-selection) [class*="tooltip"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important; }
+
+/* Mit Auswahl sollen die Tooltip-Beschriftungen im Ausdruck sichtbar bleiben */
+body.leaflet--printing.mt-print-has-selection .leaflet-tooltip,
+body.leaflet--printing.mt-print-has-selection [role="tooltip"],
+body.leaflet--printing.mt-print-has-selection .tooltip,
+body.leaflet--printing.mt-print-has-selection [class*="tooltip"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  box-shadow: none !important; }
 
 /* Wenn Auswahl-Einträge vorhanden sind, Footer mit Min/Max/Farbskala ausblenden */
 body.leaflet--printing .mt-print-legend-clone #selection-list:not(:empty) + .legend-footer {
@@ -2903,7 +2914,6 @@ body.leaflet--printing .mt-print-legend-clone .legend-swatch {
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-  /* Wichtig für Browser-Print mit Hintergrundfarben */
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important; }
 
