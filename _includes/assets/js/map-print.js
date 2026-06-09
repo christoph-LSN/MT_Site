@@ -266,6 +266,100 @@
   }
 
   /**
+   * === NEU 1 ===
+   * Remove transient / temporary UI such as hover tooltips or popups
+   * from a map-related DOM subtree before printing.
+   *
+   * This prevents onMouseOver values from appearing in the print output.
+   */
+  function removeTransientMapUi(root) {
+    if (!root) return;
+
+    var selectors = [
+      '.leaflet-tooltip',
+      '.leaflet-popup',
+      '.leaflet-popup-pane',
+      '[role="tooltip"]',
+      '.tooltip'
+    ];
+
+    selectors.forEach(function (selector) {
+      root.querySelectorAll(selector).forEach(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      });
+    });
+  }
+
+  /**
+   * === NEU 2 ===
+   * Remove transient UI from the cloned legend as well.
+   */
+  function sanitizeLegendClone(root) {
+    if (!root) return;
+
+    var selectors = [
+      '.leaflet-tooltip',
+      '.leaflet-popup',
+      '.leaflet-popup-pane',
+      '[role="tooltip"]',
+      '.tooltip',
+      '[class*="hover"]',
+      '[class*="mouseover"]'
+    ];
+
+    selectors.forEach(function (selector) {
+      root.querySelectorAll(selector).forEach(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      });
+    });
+  }
+
+  /**
+   * === NEU 3 ===
+   * If the legend has no actual selected-region entries, create a separate
+   * visible copy of the final min/max range block so that the print legend
+   * is not empty when nothing is selected.
+   *
+   * This avoids relying on the original last-child, which may be hidden
+   * by existing CSS rules in the print clone.
+   */
+  function maybeAddLegendRangeBlock(legendHolder) {
+    if (!legendHolder) return;
+
+    var sourceContainer =
+      legendHolder.querySelector('.selection-legend') ||
+      legendHolder.querySelector('.leaflet-control');
+
+    if (!sourceContainer) return;
+
+    var children = Array.prototype.slice.call(sourceContainer.children || []);
+    if (!children.length) return;
+
+    var lastChild = sourceContainer.lastElementChild;
+    if (!lastChild) return;
+
+    // If there is meaningful text content before the last child,
+    // we assume there are actual legend entries / selections already.
+    var hasMeaningfulEntriesAbove = children.slice(0, -1).some(function (child) {
+      return !!(child.textContent && child.textContent.trim());
+    });
+
+    if (hasMeaningfulEntriesAbove) {
+      return;
+    }
+
+    var rangeWrapper = document.createElement('div');
+    rangeWrapper.className = 'mt-print-legend-range';
+    rangeWrapper.appendChild(lastChild.cloneNode(true));
+
+    legendHolder.appendChild(rangeWrapper);
+  }
+
+  /**
    * Cache the original legend HTML before printing starts.
    *
    * This is important because the printing workflow manipulates the DOM,
@@ -280,6 +374,10 @@
       warn('No legend found in the original DOM.');
       return;
     }
+
+    // === GEÄNDERT ===
+    // Remove temporary hover / popup UI from the live map before caching.
+    removeTransientMapUi(getMapView());
 
     state.cachedLegendHtml = legend.outerHTML;
     log('Legend cached.');
@@ -398,6 +496,16 @@
     var legendHolder = document.createElement('div');
     legendHolder.className = 'mt-print-legend-clone';
     legendHolder.innerHTML = state.cachedLegendHtml;
+
+    // === GEÄNDERT ===
+    // Remove transient hover-related UI from the cloned legend.
+    sanitizeLegendClone(legendHolder);
+
+    // === GEÄNDERT ===
+    // If there are no selected entries, add a visible copy of the
+    // min/max range block so the print legend is not empty.
+    maybeAddLegendRangeBlock(legendHolder);
+
     wrapper.appendChild(legendHolder);
 
     root.appendChild(wrapper);
@@ -434,11 +542,17 @@
       }).addTo(map);
 
       map.on(L.BrowserPrint.Event.PrePrint, function () {
+        // === GEÄNDERT ===
+        // Remove visible hover / tooltip UI from the live map right before print.
+        removeTransientMapUi(map.getContainer());
         cacheLegendHtml();
       });
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
+          // === GEÄNDERT ===
+          // Also remove any transient UI from the print map itself.
+          removeTransientMapUi(event.printMap.getContainer());
           addLegendToPrintMap(event.printMap);
         }
       });

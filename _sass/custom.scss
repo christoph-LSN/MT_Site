@@ -183,6 +183,32 @@ body.leaflet--printing .leaflet-control-scale {
   transform-origin: bottom right;
 }
 
+/* ===== Kartendruck: Min/Max-Bereich und Hover-Werte ===== */
+
+/* Hover-/Tooltip-/Popup-Elemente im Ausdruck unterdrücken */
+body.leaflet--printing .leaflet-tooltip,
+body.leaflet--printing .leaflet-popup,
+body.leaflet--printing .leaflet-popup-pane,
+body.leaflet--printing [role="tooltip"],
+body.leaflet--printing .tooltip,
+body.leaflet--printing [class*="tooltip"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Sichtbarer Min-/Max-Bereich für den Sonderfall "keine Auswahl" */
+body.leaflet--printing .mt-print-legend-range {
+  margin-top: 2mm;
+}
+
+body.leaflet--printing .mt-print-legend-range * {
+  max-width: 100% !important;
+  white-space: normal !important;
+  line-height: 1.25 !important;
+}
+
+
 /* ===== Table print (rollback baseline) ===== */
 
 .table-print-buttons {
