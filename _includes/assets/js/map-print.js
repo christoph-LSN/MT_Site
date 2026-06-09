@@ -53,11 +53,6 @@
 
   /**
    * Check whether Leaflet and leaflet.browser.print are both available.
-   *
-   * We only continue if:
-   * - Leaflet core is present
-   * - the Leaflet Map class exists
-   * - the print control plugin has been loaded
    */
   function isLeafletAvailable() {
     return !!(window.L && L.Map && L.control && L.control.browserPrint);
@@ -65,8 +60,6 @@
 
   /**
    * The Open SDG map is rendered inside the tab panel with id="mapview".
-   * We use this as the primary anchor to avoid attaching the print control
-   * to unrelated Leaflet maps.
    */
   function getMapView() {
     return document.getElementById('mapview');
@@ -74,8 +67,6 @@
 
   /**
    * Determine whether an element is visually present on the page.
-   * This is important because Leaflet controls and containers can exist
-   * in the DOM while still being hidden.
    */
   function isVisible(element) {
     if (!element) return false;
@@ -84,7 +75,6 @@
 
   /**
    * Check whether a DOM element belongs to the map view area.
-   * We use this to ensure that we only target the visible indicator map.
    */
   function isInsideMapView(element) {
     var mapView = getMapView();
@@ -110,9 +100,6 @@
   /**
    * Register a Leaflet init hook so that every map created afterwards
    * is automatically tracked.
-   *
-   * This is useful because Open SDG may initialise the map after our script
-   * has already loaded.
    */
   function registerLeafletInitHook() {
     if (!window.L || !L.Map || !L.Map.addInitHook) return;
@@ -128,7 +115,6 @@
 
   /**
    * Also scan global window properties for already existing Leaflet maps.
-   * This covers the case where the map was created before our script started.
    */
   function scanWindowForMaps() {
     if (!window.L || !L.Map) return;
@@ -145,10 +131,7 @@
   }
 
   /**
-   * Decide whether a discovered map is the correct target:
-   * - it must have a container
-   * - that container must be inside #mapview
-   * - and that container must currently be visible
+   * Decide whether a discovered map is the correct target.
    */
   function isGoodTargetMap(map) {
     if (!map || !map.getContainer) return false;
@@ -163,9 +146,6 @@
 
   /**
    * Find the base tile layer used in the current map.
-   *
-   * We pass this as printLayer so that the printed map preserves
-   * the background map instead of printing only thematic polygons.
    */
   function getPrintableBaseLayer(map) {
     var found = null;
@@ -201,8 +181,6 @@
 
   /**
    * Extract the currently active year from visible map controls.
-   *
-   * Open SDG / Leaflet map controls can vary slightly, so we try several selectors.
    */
   function getCurrentYearText() {
     var selectors = [
@@ -227,12 +205,6 @@
 
   /**
    * Find the visible legend element in the live map.
-   *
-   * In this project the legend is currently exposed as:
-   *   .selection-legend.leaflet-control
-   *
-   * We still keep a few fallback selectors to make the implementation
-   * more resilient across future changes.
    */
   function findLegendElement() {
     var selectors = [
@@ -266,11 +238,8 @@
   }
 
   /**
-   * === NEU 1 ===
    * Remove transient / temporary UI such as hover tooltips or popups
    * from a map-related DOM subtree before printing.
-   *
-   * This prevents onMouseOver values from appearing in the print output.
    */
   function removeTransientMapUi(root) {
     if (!root) return;
@@ -293,7 +262,6 @@
   }
 
   /**
-   * === NEU 2 ===
    * Remove transient UI from the cloned legend as well.
    */
   function sanitizeLegendClone(root) {
@@ -319,13 +287,42 @@
   }
 
   /**
-   * === NEU 3 ===
-   * Clone a legend element while preserving rendered canvas content.
+   * Copy important computed visual styles from the original legend
+   * into the cloned legend.
    *
-   * Why:
-   * A plain outerHTML copy of a <canvas> keeps the element but loses the
-   * painted pixels. Therefore we replace canvases with <img> elements based
-   * on canvas.toDataURL() before serialising the legend for print.
+   * This helps retain CSS-driven visuals in the print legend.
+   */
+  function inlineLegendVisualStyles(originalRoot, clonedRoot) {
+    if (!originalRoot || !clonedRoot) return;
+
+    var originalNodes = originalRoot.querySelectorAll('*');
+    var clonedNodes = clonedRoot.querySelectorAll('*');
+
+    originalNodes.forEach(function (originalNode, index) {
+      var clonedNode = clonedNodes[index];
+      if (!clonedNode) return;
+
+      var style = window.getComputedStyle(originalNode);
+
+      clonedNode.style.background = style.background;
+      clonedNode.style.backgroundColor = style.backgroundColor;
+      clonedNode.style.backgroundImage = style.backgroundImage;
+      clonedNode.style.border = style.border;
+      clonedNode.style.borderColor = style.borderColor;
+      clonedNode.style.borderWidth = style.borderWidth;
+      clonedNode.style.borderStyle = style.borderStyle;
+      clonedNode.style.color = style.color;
+      clonedNode.style.width = style.width;
+      clonedNode.style.height = style.height;
+      clonedNode.style.minWidth = style.minWidth;
+      clonedNode.style.maxWidth = style.maxWidth;
+      clonedNode.style.display = style.display;
+    });
+  }
+
+  /**
+   * Clone a legend element while preserving rendered canvas content
+   * and important computed visual styles.
    */
   function cloneLegendPreservingCanvas(legend) {
     if (!legend) return null;
@@ -362,56 +359,14 @@
       }
     });
 
+    // Preserve CSS-driven visual appearance as inline styles.
+    inlineLegendVisualStyles(legend, clone);
+
     return clone;
   }
 
   /**
-   * === NEU 4 ===
-   * If the legend has no actual selected-region entries, create a separate
-   * visible copy of the final min/max range block so that the print legend
-   * is not empty when nothing is selected.
-   *
-   * This avoids relying on the original last-child, which may be hidden
-   * by existing CSS rules in the print clone.
-   */
-  function maybeAddLegendRangeBlock(legendHolder) {
-    if (!legendHolder) return;
-
-    var sourceContainer =
-      legendHolder.querySelector('.selection-legend') ||
-      legendHolder.querySelector('.leaflet-control');
-
-    if (!sourceContainer) return;
-
-    var children = Array.prototype.slice.call(sourceContainer.children || []);
-    if (!children.length) return;
-
-    var lastChild = sourceContainer.lastElementChild;
-    if (!lastChild) return;
-
-    // If there is meaningful text content before the last child,
-    // we assume there are actual legend entries / selections already.
-    var hasMeaningfulEntriesAbove = children.slice(0, -1).some(function (child) {
-      return !!(child.textContent && child.textContent.trim());
-    });
-
-    if (hasMeaningfulEntriesAbove) {
-      return;
-    }
-
-    var rangeWrapper = document.createElement('div');
-    rangeWrapper.className = 'mt-print-legend-range';
-    rangeWrapper.appendChild(lastChild.cloneNode(true));
-
-    legendHolder.appendChild(rangeWrapper);
-  }
-
-  /**
    * Cache the original legend HTML before printing starts.
-   *
-   * This is important because the printing workflow manipulates the DOM,
-   * and by the time the print map exists the original legend may no longer
-   * be in a reliable state.
    */
   function cacheLegendHtml() {
     var legend = findLegendElement();
@@ -422,11 +377,9 @@
       return;
     }
 
-    // === GEÄNDERT ===
     // Remove temporary hover / popup UI from the live map before caching.
     removeTransientMapUi(getMapView());
 
-    // === GEÄNDERT ===
     // Preserve canvas-based legend graphics by converting canvases to images
     // before serialising the legend HTML.
     var preservedClone = cloneLegendPreservingCanvas(legend);
@@ -555,14 +508,8 @@
     legendHolder.className = 'mt-print-legend-clone';
     legendHolder.innerHTML = state.cachedLegendHtml;
 
-    // === GEÄNDERT ===
     // Remove transient hover-related UI from the cloned legend.
     sanitizeLegendClone(legendHolder);
-
-    // === GEÄNDERT ===
-    // If there are no selected entries, add a visible copy of the
-    // min/max range block so the print legend is not empty.
-    maybeAddLegendRangeBlock(legendHolder);
 
     wrapper.appendChild(legendHolder);
 
@@ -600,7 +547,6 @@
       }).addTo(map);
 
       map.on(L.BrowserPrint.Event.PrePrint, function () {
-        // === GEÄNDERT ===
         // Remove visible hover / tooltip UI from the live map right before print.
         removeTransientMapUi(map.getContainer());
         cacheLegendHtml();
@@ -608,7 +554,6 @@
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
-          // === GEÄNDERT ===
           // Also remove any transient UI from the print map itself.
           removeTransientMapUi(event.printMap.getContainer());
           addLegendToPrintMap(event.printMap);

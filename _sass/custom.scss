@@ -164,22 +164,10 @@ body.leaflet--printing .mt-print-legend-clone [title*="close"] {
 /* Falls die Legende intern SVG/Canvas/Bilder nutzt */
 body.leaflet--printing .mt-print-legend-clone svg,
 body.leaflet--printing .mt-print-legend-clone canvas,
-body.leaflet--printing .mt-print-legend-clone img,
-body.leaflet--printing .mt-print-legend-range img {
+body.leaflet--printing .mt-print-legend-clone img {
   display: block !important;
   max-width: 100% !important;
   height: auto !important;
-}
-
-/* Sichtbarer Min-/Max-Bereich für den Fall "keine Auswahl" */
-body.leaflet--printing .mt-print-legend-range {
-  margin-top: 2mm;
-}
-
-body.leaflet--printing .mt-print-legend-range * {
-  max-width: 100% !important;
-  white-space: normal !important;
-  line-height: 1.25 !important;
 }
 
 /* Hover-/Tooltip-/Popup-Elemente im Ausdruck unterdrücken */
