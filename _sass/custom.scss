@@ -1,48 +1,58 @@
 // Enter any custom Sass in this file.
+
 body {
   background: white;
   padding-top: 0;
 }
-//NDS Karte Startseite
-.site-intro{
 
-    .description{
-        margin-top:  30px;
-        font-size:  21px;
+// NDS Karte Startseite
+.site-intro {
+  .description {
+    margin-top: 30px;
+    font-size: 21px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
 
-        text-align: justify;
-        text-justify: inter-word;
-    }
+  @media only screen and (min-width: 700px) {
+    padding-right: 300px;
+    min-height: 180px;
 
-    @media only screen and (min-width: 700px) {
-        padding-right: 300px;
-        min-height: 180px;
-
-        background: url('../img/SDG Wheel_Transparent-01.png');
-        background-position: right center;
-        background-size: 220px;
-        background-repeat: no-repeat;
-    }
+    background: url('../img/SDG Wheel_Transparent-01.png');
+    background-position: right center;
+    background-size: 220px;
+    background-repeat: no-repeat;
+  }
 }
-Tag Colors
+
+/* Tag Colors */
 .tags {
   .tag-datenstand-2020 {
     background-color: pink;
   }
+
   .tag-datenstand-2021 {
     background-color: green;
   }
+
   .tag-datenstand-2019 {
     background-color: red;
   }
 }
 
 .tags {
-  li:nth-child(1) .tag { background: pink; }
-  li:nth-child(2) .tag { background: lightgreen; }
-  li:nth-child(3) .tag { background: yellow; }
-}
+  li:nth-child(1) .tag {
+    background: pink;
+  }
 
+  li:nth-child(2) .tag {
+    background: lightgreen;
+  }
+
+  li:nth-child(3) .tag {
+    background: yellow;
+  }
+}
 
 /* ===== Kartendruck ===== */
 
@@ -160,33 +170,31 @@ body.leaflet--printing .mt-print-legend-clone [title*="close"] {
   display: none !important;
 }
 
-/* Problematischen unteren Min-/Max-/Skalenblock ausblenden */
-body.leaflet--printing .mt-print-legend-clone .selection-legend > :last-child,
-body.leaflet--printing .mt-print-legend-clone .leaflet-control > :last-child {
+/* Tooltip-/Popup-/Hover-Elemente im Ausdruck unterdrücken */
+body.leaflet--printing .leaflet-tooltip,
+body.leaflet--printing .leaflet-popup,
+body.leaflet--printing .leaflet-popup-pane,
+body.leaflet--printing [role="tooltip"],
+body.leaflet--printing .tooltip,
+body.leaflet--printing [class*="tooltip"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Wenn Auswahl-Einträge vorhanden sind, Footer mit Min/Max/Farbskala ausblenden */
+body.leaflet--printing .mt-print-legend-clone #selection-list:not(:empty) + .legend-footer {
   display: none !important;
 }
 
-/* Falls die Legende intern SVG/Canvas/Bilder nutzt */
-body.leaflet--printing .mt-print-legend-clone svg,
-body.leaflet--printing .mt-print-legend-clone canvas,
-body.leaflet--printing .mt-print-legend-clone img {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-body.leaflet--printing .leaflet-control-attribution {
-  display: none !important;
-}
-
-body.leaflet--printing .leaflet-control-scale {
-  transform: scale(0.85);
-  transform-origin: bottom right;
-}
-
-/* ===== Kartendruck: Farbskala der Legende explizit sichtbar machen ===== */
-
-body.leaflet--printing .mt-print-legend-clone .legend-footer {
+/* Wenn keine Auswahl-Einträge vorhanden sind, Footer sichtbar lassen */
+body.leaflet--printing .mt-print-legend-clone #selection-list:empty + .legend-footer {
   display: block !important;
+}
+
+/* Farbskala im Footer explizit sichtbar und stabil machen */
+body.leaflet--printing .mt-print-legend-clone .legend-footer {
+  display: block;
 }
 
 body.leaflet--printing .mt-print-legend-clone .legend-swatches {
@@ -224,6 +232,23 @@ body.leaflet--printing .mt-print-legend-clone .legend-values {
 
 body.leaflet--printing .mt-print-legend-clone .legend-values .arrow {
   display: none !important;
+}
+
+/* Falls die Legende intern SVG/Canvas/Bilder nutzt */
+body.leaflet--printing .mt-print-legend-clone svg,
+body.leaflet--printing .mt-print-legend-clone canvas,
+body.leaflet--printing .mt-print-legend-clone img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+body.leaflet--printing .leaflet-control-attribution {
+  display: none !important;
+}
+
+body.leaflet--printing .leaflet-control-scale {
+  transform: scale(0.85);
+  transform-origin: bottom right;
 }
 
 /* ===== Table print (rollback baseline) ===== */
@@ -279,6 +304,7 @@ body.leaflet--printing .mt-print-legend-clone .legend-values .arrow {
 #selectionsTable.has-table-print-bar table caption {
   display: none;
 }
+
 /* ===== Tabellen-Druck: Abstand zum Seitenrand ===== */
 
 body.mt-table-print {
