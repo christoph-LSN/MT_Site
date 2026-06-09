@@ -189,7 +189,7 @@
       buttons: [
         {
           extend: 'print',
-          text: '🖨 Drucken',
+          text: '🖨 {{ page.t.indicator.print_table | escape }}',
           className: 'buttons-print mt-table-print-button',
           autoPrint: false,
           title: printTitle,
