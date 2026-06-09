@@ -266,6 +266,48 @@
   }
 
   /**
+   * Check whether the live legend currently contains selected-region entries.
+   *
+   * If the selection list contains entries, we keep tooltip labels in print
+   * so that the printed circles can still be matched to their values.
+   */
+  function hasSelectedLegendItems() {
+    var legend = findLegendElement();
+    if (!legend) return false;
+
+    var selectionList = legend.querySelector('#selection-list');
+    if (!selectionList) return false;
+
+    return !!selectionList.children.length;
+  }
+
+  /**
+   * Remove transient / temporary UI such as hover tooltips or popups
+   * from a map-related DOM subtree before printing.
+   *
+   * This is only used when there is NO selection.
+   */
+  function removeTransientMapUi(root) {
+    if (!root) return;
+
+    var selectors = [
+      '.leaflet-tooltip',
+      '.leaflet-popup',
+      '.leaflet-popup-pane',
+      '[role="tooltip"]',
+      '.tooltip'
+    ];
+
+    selectors.forEach(function (selector) {
+      root.querySelectorAll(selector).forEach(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      });
+    });
+  }
+
+  /**
    * Cache the original legend HTML before printing starts.
    *
    * This is important because the printing workflow manipulates the DOM,
@@ -434,11 +476,29 @@
       }).addTo(map);
 
       map.on(L.BrowserPrint.Event.PrePrint, function () {
+        var hasSelection = hasSelectedLegendItems();
+
+        // Remember current mode so CSS can react.
+        document.body.classList.toggle('mt-print-has-selection', hasSelection);
+
+        // Only remove transient hover UI when there is NO selection.
+        if (!hasSelection) {
+          removeTransientMapUi(map.getContainer());
+        }
+
         cacheLegendHtml();
       });
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
+          var hasSelection = hasSelectedLegendItems();
+
+          // Only remove transient hover UI in the print map
+          // when there is NO selection.
+          if (!hasSelection) {
+            removeTransientMapUi(event.printMap.getContainer());
+          }
+
           addLegendToPrintMap(event.printMap);
         }
       });
@@ -448,6 +508,9 @@
           var root = getPrintOverlayRoot(event.printMap);
           removeExistingPrintLegend(root);
         }
+
+        // Clean up print state flag
+        document.body.classList.remove('mt-print-has-selection');
       });
 
       map._mtPrintControlAdded = true;
