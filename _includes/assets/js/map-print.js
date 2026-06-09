@@ -434,7 +434,7 @@
 
     var heading = document.createElement('div');
     heading.className = 'mt-print-legend-heading';
-    heading.textContent = 'Legend';
+    heading.textContent = '{{ page.t.indicator.map_legend | default: "Legend" | escape }}';
     wrapper.appendChild(heading);
 
     var legendHolder = document.createElement('div');
