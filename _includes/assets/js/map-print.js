@@ -447,7 +447,7 @@
   }
 
   /**
-   * Attach the browser print control to the target map.
+   * Attach the browser print  control to the target map.
    *
    * We also hook into:
    * - PrePrint: cache the original legend
