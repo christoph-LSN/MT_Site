@@ -131,7 +131,6 @@ body.leaflet--printing .mt-print-legend-clone {
   transform: none !important;
 }
 
-/* Alle Elemente in der geklonten Legende normalisieren */
 body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
   max-width: 100% !important;
@@ -161,33 +160,24 @@ body.leaflet--printing .mt-print-legend-clone [title*="close"] {
   display: none !important;
 }
 
+/* Problematischen unteren Min-/Max-/Skalenblock ausblenden */
+body.leaflet--printing .mt-print-legend-clone .selection-legend > :last-child,
+body.leaflet--printing .mt-print-legend-clone .leaflet-control > :last-child {
+  display: none !important;
+}
+
 /* Falls die Legende intern SVG/Canvas/Bilder nutzt */
 body.leaflet--printing .mt-print-legend-clone svg,
 body.leaflet--printing .mt-print-legend-clone canvas,
 body.leaflet--printing .mt-print-legend-clone img {
-  display: block !important;
   max-width: 100% !important;
   height: auto !important;
 }
 
-/* Hover-/Tooltip-/Popup-Elemente im Ausdruck unterdrücken */
-body.leaflet--printing .leaflet-tooltip,
-body.leaflet--printing .leaflet-popup,
-body.leaflet--printing .leaflet-popup-pane,
-body.leaflet--printing [role="tooltip"],
-body.leaflet--printing .tooltip,
-body.leaflet--printing [class*="tooltip"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-
-/* Built-in Attribution im Ausdruck ausblenden */
 body.leaflet--printing .leaflet-control-attribution {
   display: none !important;
 }
 
-/* Maßstab dezent verkleinern */
 body.leaflet--printing .leaflet-control-scale {
   transform: scale(0.85);
   transform-origin: bottom right;
