@@ -320,6 +320,53 @@
 
   /**
    * === NEU 3 ===
+   * Clone a legend element while preserving rendered canvas content.
+   *
+   * Why:
+   * A plain outerHTML copy of a <canvas> keeps the element but loses the
+   * painted pixels. Therefore we replace canvases with <img> elements based
+   * on canvas.toDataURL() before serialising the legend for print.
+   */
+  function cloneLegendPreservingCanvas(legend) {
+    if (!legend) return null;
+
+    var clone = legend.cloneNode(true);
+
+    var originalCanvases = legend.querySelectorAll('canvas');
+    var clonedCanvases = clone.querySelectorAll('canvas');
+
+    originalCanvases.forEach(function (canvas, index) {
+      var replacement = clonedCanvases[index];
+      if (!replacement) return;
+
+      try {
+        var img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png');
+        img.alt = '';
+
+        // Preserve visible size if possible
+        img.width = canvas.width;
+        img.height = canvas.height;
+
+        // Keep inline styles if present
+        if (canvas.getAttribute('style')) {
+          img.setAttribute('style', canvas.getAttribute('style'));
+        }
+
+        // Preserve class names
+        img.className = canvas.className || '';
+
+        replacement.parentNode.replaceChild(img, replacement);
+      } catch (error) {
+        warn('Could not convert legend canvas to image.', error);
+      }
+    });
+
+    return clone;
+  }
+
+  /**
+   * === NEU 4 ===
    * If the legend has no actual selected-region entries, create a separate
    * visible copy of the final min/max range block so that the print legend
    * is not empty when nothing is selected.
@@ -379,7 +426,18 @@
     // Remove temporary hover / popup UI from the live map before caching.
     removeTransientMapUi(getMapView());
 
-    state.cachedLegendHtml = legend.outerHTML;
+    // === GEÄNDERT ===
+    // Preserve canvas-based legend graphics by converting canvases to images
+    // before serialising the legend HTML.
+    var preservedClone = cloneLegendPreservingCanvas(legend);
+
+    if (!preservedClone) {
+      state.cachedLegendHtml = '';
+      warn('Legend clone could not be created.');
+      return;
+    }
+
+    state.cachedLegendHtml = preservedClone.outerHTML;
     log('Legend cached.');
   }
 

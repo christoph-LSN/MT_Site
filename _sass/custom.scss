@@ -131,6 +131,7 @@ body.leaflet--printing .mt-print-legend-clone {
   transform: none !important;
 }
 
+/* Alle Elemente in der geklonten Legende normalisieren */
 body.leaflet--printing .mt-print-legend-clone * {
   box-shadow: none !important;
   max-width: 100% !important;
@@ -160,30 +161,26 @@ body.leaflet--printing .mt-print-legend-clone [title*="close"] {
   display: none !important;
 }
 
-/* Problematischen unteren Min-/Max-/Skalenblock ausblenden */
-body.leaflet--printing .mt-print-legend-clone .selection-legend > :last-child,
-body.leaflet--printing .mt-print-legend-clone .leaflet-control > :last-child {
-  display: none !important;
-}
-
 /* Falls die Legende intern SVG/Canvas/Bilder nutzt */
 body.leaflet--printing .mt-print-legend-clone svg,
 body.leaflet--printing .mt-print-legend-clone canvas,
-body.leaflet--printing .mt-print-legend-clone img {
+body.leaflet--printing .mt-print-legend-clone img,
+body.leaflet--printing .mt-print-legend-range img {
+  display: block !important;
   max-width: 100% !important;
   height: auto !important;
 }
 
-body.leaflet--printing .leaflet-control-attribution {
-  display: none !important;
+/* Sichtbarer Min-/Max-Bereich für den Fall "keine Auswahl" */
+body.leaflet--printing .mt-print-legend-range {
+  margin-top: 2mm;
 }
 
-body.leaflet--printing .leaflet-control-scale {
-  transform: scale(0.85);
-  transform-origin: bottom right;
+body.leaflet--printing .mt-print-legend-range * {
+  max-width: 100% !important;
+  white-space: normal !important;
+  line-height: 1.25 !important;
 }
-
-/* ===== Kartendruck: Min/Max-Bereich und Hover-Werte ===== */
 
 /* Hover-/Tooltip-/Popup-Elemente im Ausdruck unterdrücken */
 body.leaflet--printing .leaflet-tooltip,
@@ -197,15 +194,15 @@ body.leaflet--printing [class*="tooltip"] {
   opacity: 0 !important;
 }
 
-/* Sichtbarer Min-/Max-Bereich für den Sonderfall "keine Auswahl" */
-body.leaflet--printing .mt-print-legend-range {
-  margin-top: 2mm;
+/* Built-in Attribution im Ausdruck ausblenden */
+body.leaflet--printing .leaflet-control-attribution {
+  display: none !important;
 }
 
-body.leaflet--printing .mt-print-legend-range * {
-  max-width: 100% !important;
-  white-space: normal !important;
-  line-height: 1.25 !important;
+/* Maßstab dezent verkleinern */
+body.leaflet--printing .leaflet-control-scale {
+  transform: scale(0.85);
+  transform-origin: bottom right;
 }
 
 
