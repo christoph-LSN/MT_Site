@@ -2,22 +2,12 @@
   'use strict';
 
   /**
+   * Toggle this to true while diagnosing map print issues.
+   */
+  var DEBUG = false;
+
+  /**
    * Shared runtime state for the print integration.
-   *
-   * maps:
-   *   Stores all Leaflet map instances we discover on the page.
-   *
-   * attached:
-   *   Prevents attaching the print control multiple times.
-   *
-   * observer / interval:
-   *   Used to retry detection while the page and map are still rendering.
-   *
-   * cachedLegendHtml:
-   *   Stores a copy of the original visible legend HTML before printing starts.
-   *
-   * cachedYearText:
-   *   Stores the currently visible year immediately before print starts.
    */
   var state = {
     maps: [],
@@ -32,6 +22,8 @@
    * Small logging helper for development/debugging.
    */
   function log(message, data) {
+    if (!DEBUG) return;
+
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
         console.log('[map-print] ' + message, data);
@@ -42,7 +34,7 @@
   }
 
   /**
-   * Small warning helper for development/debugging.
+   * Small warning helper.
    */
   function warn(message, data) {
     if (window.console && console.warn) {
@@ -82,7 +74,7 @@
   function isInsideMapView(element) {
     var mapView = getMapView();
     if (!mapView || !element) return false;
-    return mapView === element || mapView.contains(element) || element.contains(mapView);
+    return mapView === element || mapView.contains(element);
   }
 
   /**
@@ -607,7 +599,7 @@
     var baseLayer = getPrintableBaseLayer(map);
 
     try {
-      var control = L.control.browserPrint({
+      L.control.browserPrint({
         title: 'Print map',
         position: 'topleft',
         documentTitle: getIndicatorTitle(),
@@ -661,7 +653,6 @@
       });
 
       map._mtPrintControlAdded = true;
-      map._mtPrintControl = control;
       state.attached = true;
 
       log('Print control attached.');
