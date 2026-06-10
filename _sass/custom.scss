@@ -194,19 +194,9 @@ body.leaflet--printing.mt-print-has-selection [class*="tooltip"] {
   box-shadow: none !important;
 }
 
-/* Wenn Auswahl-Einträge vorhanden sind, Footer mit Min/Max/Farbskala ausblenden */
-body.leaflet--printing .mt-print-legend-clone #selection-list:not(:empty) + .legend-footer {
-  display: none !important;
-}
-
-/* Wenn keine Auswahl-Einträge vorhanden sind, Footer sichtbar lassen */
-body.leaflet--printing .mt-print-legend-clone #selection-list:empty + .legend-footer {
-  display: block !important;
-}
-
-/* Farbskala im Footer explizit sichtbar und stabil machen */
+/* Footer mit Farbskala und Min/Max IMMER sichtbar lassen */
 body.leaflet--printing .mt-print-legend-clone .legend-footer {
-  display: block;
+  display: block !important;
 }
 
 body.leaflet--printing .mt-print-legend-clone .legend-swatches {
@@ -227,7 +217,6 @@ body.leaflet--printing .mt-print-legend-clone .legend-swatch {
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
-
   -webkit-print-color-adjust: exact !important;
   print-color-adjust: exact !important;
 }
