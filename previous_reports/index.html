@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610080234">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610085251">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -472,7 +472,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610080234'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610085251'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -492,22 +492,12 @@ if (allRequired) {
   'use strict';
 
   /**
+   * Toggle this to true while diagnosing map print issues.
+   */
+  var DEBUG = false;
+
+  /**
    * Shared runtime state for the print integration.
-   *
-   * maps:
-   *   Stores all Leaflet map instances we discover on the page.
-   *
-   * attached:
-   *   Prevents attaching the print control multiple times.
-   *
-   * observer / interval:
-   *   Used to retry detection while the page and map are still rendering.
-   *
-   * cachedLegendHtml:
-   *   Stores a copy of the original visible legend HTML before printing starts.
-   *
-   * cachedYearText:
-   *   Stores the currently visible year immediately before print starts.
    */
   var state = {
     maps: [],
@@ -522,6 +512,8 @@ if (allRequired) {
    * Small logging helper for development/debugging.
    */
   function log(message, data) {
+    if (!DEBUG) return;
+
     if (window.console && console.log) {
       if (typeof data !== 'undefined') {
         console.log('[map-print] ' + message, data);
@@ -532,7 +524,7 @@ if (allRequired) {
   }
 
   /**
-   * Small warning helper for development/debugging.
+   * Small warning helper.
    */
   function warn(message, data) {
     if (window.console && console.warn) {
@@ -572,7 +564,7 @@ if (allRequired) {
   function isInsideMapView(element) {
     var mapView = getMapView();
     if (!mapView || !element) return false;
-    return mapView === element || mapView.contains(element) || element.contains(mapView);
+    return mapView === element || mapView.contains(element);
   }
 
   /**
@@ -1097,7 +1089,7 @@ if (allRequired) {
     var baseLayer = getPrintableBaseLayer(map);
 
     try {
-      var control = L.control.browserPrint({
+      L.control.browserPrint({
         title: 'Print map',
         position: 'topleft',
         documentTitle: getIndicatorTitle(),
@@ -1151,7 +1143,6 @@ if (allRequired) {
       });
 
       map._mtPrintControlAdded = true;
-      map._mtPrintControl = control;
       state.attached = true;
 
       log('Print control attached.');
@@ -1661,7 +1652,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610080234"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610085251"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
