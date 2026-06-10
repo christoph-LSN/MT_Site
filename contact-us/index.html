@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610053750">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610061457">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -473,7 +473,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610053750'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610061457'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -696,10 +696,12 @@ if (allRequired) {
    * We try several selectors and return the first visible 4-digit year.
    */
   function getCurrentYearText() {
-    var candidates = [
-      '#mapview .noUi-tooltip',
+    var selectors = [
       '#mapview .timecontrol-date',
+      '#mapview .leaflet-control-timecontrol .noUi-tooltip',
       '#mapview .leaflet-control-timecontrol .timecontrol-slider + span',
+      '#mapview .leaflet-control-timecontrol [aria-valuenow]',
+      '#mapview .leaflet-control-timecontrol input',
       '#mapview .leaflet-control-timecontrol',
       '#mapview .year',
       '#mapview .current-year'
@@ -707,21 +709,41 @@ if (allRequired) {
 
     var yearPattern = /\b(19|20)\d{2}\b/;
     var i, j, nodes, text, match;
+    var foundYears = [];
 
-    for (i = 0; i < candidates.length; i++) {
-      nodes = document.querySelectorAll(candidates[i]);
+    for (i = 0; i < selectors.length; i++) {
+      nodes = document.querySelectorAll(selectors[i]);
 
       for (j = 0; j < nodes.length; j++) {
         if (!isVisible(nodes[j])) continue;
+
+        var attrCandidates = [
+          nodes[j].getAttribute && nodes[j].getAttribute('aria-valuenow'),
+          nodes[j].getAttribute && nodes[j].getAttribute('data-value'),
+          nodes[j].value
+        ];
+
+        attrCandidates.forEach(function (candidate) {
+          if (!candidate) return;
+          var attrMatch = String(candidate).match(yearPattern);
+          if (attrMatch) {
+            foundYears.push(attrMatch[0]);
+          }
+        });
 
         text = (nodes[j].textContent || '').trim();
         if (!text) continue;
 
         match = text.match(yearPattern);
         if (match) {
-          return match[0];
+          foundYears.push(match[0]);
         }
       }
+    }
+
+    if (foundYears.length) {
+      // Usually the current year is the last visible match in DOM order.
+      return foundYears[foundYears.length - 1];
     }
 
     return '';
@@ -855,12 +877,25 @@ if (allRequired) {
    * after the print layout has been created.
    */
   function updatePrintHeader(printMap) {
-    if (!printMap || !printMap.getContainer) return;
+    var header = null;
 
-    var root = getPrintOverlayRoot(printMap);
-    if (!root) return;
+    if (printMap && printMap.getContainer) {
+      var container = printMap.getContainer();
+      var root = getPrintOverlayRoot(printMap);
 
-    var header = root.querySelector('#print-header');
+      if (root) {
+        header = root.querySelector('#print-header');
+      }
+
+      if (!header && container && container.ownerDocument) {
+        header = container.ownerDocument.querySelector('#print-header');
+      }
+    }
+
+    if (!header) {
+      header = document.querySelector('#print-header');
+    }
+
     if (!header) return;
 
     header.innerHTML = buildHeaderHtml();
@@ -952,7 +987,7 @@ if (allRequired) {
 
     var heading = document.createElement('div');
     heading.className = 'mt-print-legend-heading';
-    heading.textContent = 'Legend';
+    heading.textContent = 'Legende';
     wrapper.appendChild(heading);
 
     var legendHolder = document.createElement('div');
@@ -1545,7 +1580,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610053750"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610061457"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
