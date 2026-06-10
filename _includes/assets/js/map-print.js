@@ -202,10 +202,10 @@
   /**
    * Extract the currently active year from visible map controls.
    *
-   * Open SDG / Leaflet map controls can vary slightly, so we try several selectors.
+   * We try several selectors and return the first visible 4-digit year.
    */
   function getCurrentYearText() {
-    var selectors = [
+    var candidates = [
       '#mapview .noUi-tooltip',
       '#mapview .timecontrol-date',
       '#mapview .leaflet-control-timecontrol .timecontrol-slider + span',
@@ -214,11 +214,22 @@
       '#mapview .current-year'
     ];
 
-    var i, el;
-    for (i = 0; i < selectors.length; i++) {
-      el = document.querySelector(selectors[i]);
-      if (el && el.textContent && el.textContent.trim()) {
-        return el.textContent.trim();
+    var yearPattern = /\b(19|20)\d{2}\b/;
+    var i, j, nodes, text, match;
+
+    for (i = 0; i < candidates.length; i++) {
+      nodes = document.querySelectorAll(candidates[i]);
+
+      for (j = 0; j < nodes.length; j++) {
+        if (!isVisible(nodes[j])) continue;
+
+        text = (nodes[j].textContent || '').trim();
+        if (!text) continue;
+
+        match = text.match(yearPattern);
+        if (match) {
+          return match[0];
+        }
       }
     }
 
@@ -349,6 +360,22 @@
   }
 
   /**
+   * Update the print header with the current title/year
+   * after the print layout has been created.
+   */
+  function updatePrintHeader(printMap) {
+    if (!printMap || !printMap.getContainer) return;
+
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    var header = root.querySelector('#print-header');
+    if (!header) return;
+
+    header.innerHTML = buildHeaderHtml();
+  }
+
+  /**
    * Configure the print mode.
    *
    * Key decisions:
@@ -434,7 +461,7 @@
 
     var heading = document.createElement('div');
     heading.className = 'mt-print-legend-heading';
-    heading.textContent = '{{ page.t.indicator.map_legend | default: "Legend" | escape }}';
+    heading.textContent = 'Legend';
     wrapper.appendChild(heading);
 
     var legendHolder = document.createElement('div');
@@ -447,7 +474,7 @@
   }
 
   /**
-   * Attach the browser print  control to the target map.
+   * Attach the browser print control to the target map.
    *
    * We also hook into:
    * - PrePrint: cache the original legend
@@ -498,6 +525,9 @@
           if (!hasSelection) {
             removeTransientMapUi(event.printMap.getContainer());
           }
+
+          // Refresh the header so the CURRENT year is used.
+          updatePrintHeader(event.printMap);
 
           addLegendToPrintMap(event.printMap);
         }
