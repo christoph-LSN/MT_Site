@@ -185,16 +185,12 @@
   /**
    * Translation labels from metadata_fields.yml
    */
-  function getIndicatorLabel() {
-    return '{{ page.t.metadata_fields.indicator | default: "Indicator" | escape }}';
-  }
-
-  function getIndicatorNameLabel() {
-    return '{{ page.t.metadata_fields.indicator_name | default: "Indicator name" | escape }}';
-  }
-
   function getDataSourceLabel() {
     return '{{ page.t.metadata_fields.data_source | default: "Data source" | escape }}';
+  }
+
+  function getReferenceYearLabel() {
+    return '{{ page.t.metadata_fields.reference_year | default: "Reference year" | escape }}';
   }
 
   /**
@@ -212,7 +208,7 @@
       text.indexOf("name='") !== -1 ||
       text.indexOf('url=') !== -1 ||
       text.indexOf('=>') !== -1 ||
-      text.indexOf('{') !== -1 && text.indexOf('}') !== -1
+      (text.indexOf('{') !== -1 && text.indexOf('}') !== -1)
     );
   }
 
@@ -255,6 +251,24 @@
     }
 
     return title;
+  }
+
+  /**
+   * Build the print heading from indicator number + indicator name.
+   */
+  function getPrintHeadingText() {
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+
+    if (indicatorNumber && indicatorName) {
+      return indicatorNumber + ' ' + indicatorName;
+    }
+
+    if (indicatorName) {
+      return indicatorName;
+    }
+
+    return getIndicatorTitle();
   }
 
   /**
@@ -430,45 +444,23 @@
    * Build the print header.
    */
   function buildHeaderHtml() {
-    var title = getIndicatorTitle();
+    var title = getPrintHeadingText();
 
     // Prefer the cached year captured immediately before print.
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var indicatorLabel = getIndicatorLabel();
-    var indicatorNameLabel = getIndicatorNameLabel();
     var dataSourceLabel = getDataSourceLabel();
-
-    var indicatorNumber = getIndicatorNumberValue();
-    var indicatorName = getIndicatorNameValue();
+    var referenceYearLabel = getReferenceYearLabel();
     var dataSource = getDataSourceValue();
 
     var lines = [];
 
-    if (indicatorNumber) {
-      lines.push(
-        '<div class="mt-print-meta"><strong>' +
-          indicatorLabel +
-          ':</strong> ' +
-          indicatorNumber +
-        '</div>'
-      );
-    }
-
-    if (indicatorName) {
-      lines.push(
-        '<div class="mt-print-meta"><strong>' +
-          indicatorNameLabel +
-          ':</strong> ' +
-          indicatorName +
-        '</div>'
-      );
-    }
-
     if (yearText) {
       lines.push(
-        '<div class="mt-print-meta">Reference year: ' +
+        '<div class="mt-print-meta"><strong>' +
+          referenceYearLabel +
+          ':</strong> ' +
           yearText +
         '</div>'
       );
