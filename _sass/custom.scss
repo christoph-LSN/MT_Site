@@ -40,6 +40,20 @@ body {
   }
 }
 
+.tags {
+  li:nth-child(1) .tag {
+    background: pink;
+  }
+
+  li:nth-child(2) .tag {
+    background: lightgreen;
+  }
+
+  li:nth-child(3) .tag {
+    background: yellow;
+  }
+}
+
 /* ===== Kartendruck ===== */
 
 body.leaflet--printing .leaflet-print-overlay {
