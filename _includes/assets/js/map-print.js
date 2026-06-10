@@ -205,10 +205,12 @@
    * We try several selectors and return the first visible 4-digit year.
    */
   function getCurrentYearText() {
-    var candidates = [
-      '#mapview .noUi-tooltip',
+    var selectors = [
       '#mapview .timecontrol-date',
+      '#mapview .leaflet-control-timecontrol .noUi-tooltip',
       '#mapview .leaflet-control-timecontrol .timecontrol-slider + span',
+      '#mapview .leaflet-control-timecontrol [aria-valuenow]',
+      '#mapview .leaflet-control-timecontrol input',
       '#mapview .leaflet-control-timecontrol',
       '#mapview .year',
       '#mapview .current-year'
@@ -216,21 +218,41 @@
 
     var yearPattern = /\b(19|20)\d{2}\b/;
     var i, j, nodes, text, match;
+    var foundYears = [];
 
-    for (i = 0; i < candidates.length; i++) {
-      nodes = document.querySelectorAll(candidates[i]);
+    for (i = 0; i < selectors.length; i++) {
+      nodes = document.querySelectorAll(selectors[i]);
 
       for (j = 0; j < nodes.length; j++) {
         if (!isVisible(nodes[j])) continue;
+
+        var attrCandidates = [
+          nodes[j].getAttribute && nodes[j].getAttribute('aria-valuenow'),
+          nodes[j].getAttribute && nodes[j].getAttribute('data-value'),
+          nodes[j].value
+        ];
+
+        attrCandidates.forEach(function (candidate) {
+          if (!candidate) return;
+          var attrMatch = String(candidate).match(yearPattern);
+          if (attrMatch) {
+            foundYears.push(attrMatch[0]);
+          }
+        });
 
         text = (nodes[j].textContent || '').trim();
         if (!text) continue;
 
         match = text.match(yearPattern);
         if (match) {
-          return match[0];
+          foundYears.push(match[0]);
         }
       }
+    }
+
+    if (foundYears.length) {
+      // Usually the current year is the last visible match in DOM order.
+      return foundYears[foundYears.length - 1];
     }
 
     return '';
@@ -364,12 +386,25 @@
    * after the print layout has been created.
    */
   function updatePrintHeader(printMap) {
-    if (!printMap || !printMap.getContainer) return;
+    var header = null;
 
-    var root = getPrintOverlayRoot(printMap);
-    if (!root) return;
+    if (printMap && printMap.getContainer) {
+      var container = printMap.getContainer();
+      var root = getPrintOverlayRoot(printMap);
 
-    var header = root.querySelector('#print-header');
+      if (root) {
+        header = root.querySelector('#print-header');
+      }
+
+      if (!header && container && container.ownerDocument) {
+        header = container.ownerDocument.querySelector('#print-header');
+      }
+    }
+
+    if (!header) {
+      header = document.querySelector('#print-header');
+    }
+
     if (!header) return;
 
     header.innerHTML = buildHeaderHtml();
@@ -461,7 +496,7 @@
 
     var heading = document.createElement('div');
     heading.className = 'mt-print-legend-heading';
-    heading.textContent = 'Legend';
+    heading.textContent = '{{ page.t.indicator.map_legend | default: "Legend" | escape }}';
     wrapper.appendChild(heading);
 
     var legendHolder = document.createElement('div');
