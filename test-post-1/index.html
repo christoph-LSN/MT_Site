@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610071759">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610073643">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -496,7 +496,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610071759'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610073643'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -699,16 +699,12 @@ if (allRequired) {
   /**
    * Translation labels from metadata_fields.yml
    */
-  function getIndicatorLabel() {
-    return 'Indikatorennummerierung';
-  }
-
-  function getIndicatorNameLabel() {
-    return 'Indikatorenbezeichnung';
-  }
-
   function getDataSourceLabel() {
     return 'Datenquelle';
+  }
+
+  function getReferenceYearLabel() {
+    return 'Reference year';
   }
 
   /**
@@ -726,7 +722,7 @@ if (allRequired) {
       text.indexOf("name='") !== -1 ||
       text.indexOf('url=') !== -1 ||
       text.indexOf('=>') !== -1 ||
-      text.indexOf('{') !== -1 && text.indexOf('}') !== -1
+      (text.indexOf('{') !== -1 && text.indexOf('}') !== -1)
     );
   }
 
@@ -769,6 +765,24 @@ if (allRequired) {
     }
 
     return title;
+  }
+
+  /**
+   * Build the print heading from indicator number + indicator name.
+   */
+  function getPrintHeadingText() {
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+
+    if (indicatorNumber && indicatorName) {
+      return indicatorNumber + ' ' + indicatorName;
+    }
+
+    if (indicatorName) {
+      return indicatorName;
+    }
+
+    return getIndicatorTitle();
   }
 
   /**
@@ -944,45 +958,23 @@ if (allRequired) {
    * Build the print header.
    */
   function buildHeaderHtml() {
-    var title = getIndicatorTitle();
+    var title = getPrintHeadingText();
 
     // Prefer the cached year captured immediately before print.
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var indicatorLabel = getIndicatorLabel();
-    var indicatorNameLabel = getIndicatorNameLabel();
     var dataSourceLabel = getDataSourceLabel();
-
-    var indicatorNumber = getIndicatorNumberValue();
-    var indicatorName = getIndicatorNameValue();
+    var referenceYearLabel = getReferenceYearLabel();
     var dataSource = getDataSourceValue();
 
     var lines = [];
 
-    if (indicatorNumber) {
-      lines.push(
-        '<div class="mt-print-meta"><strong>' +
-          indicatorLabel +
-          ':</strong> ' +
-          indicatorNumber +
-        '</div>'
-      );
-    }
-
-    if (indicatorName) {
-      lines.push(
-        '<div class="mt-print-meta"><strong>' +
-          indicatorNameLabel +
-          ':</strong> ' +
-          indicatorName +
-        '</div>'
-      );
-    }
-
     if (yearText) {
       lines.push(
-        '<div class="mt-print-meta">Reference year: ' +
+        '<div class="mt-print-meta"><strong>' +
+          referenceYearLabel +
+          ':</strong> ' +
           yearText +
         '</div>'
       );
@@ -1699,7 +1691,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610071759"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610073643"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
