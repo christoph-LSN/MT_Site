@@ -1,6 +1,6 @@
 {% assign graph_title = page.indicator.graph_titles.first.title | default: page.indicator.graph_title %}
 {% assign indicator_number = page.indicator.indicator_number | default: page.indicator.indicator | default: page.indicator.id %}
-{% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}
+<!--{% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}-->
 
 <!-- =========================================================
      EXPORTBEREICH
@@ -32,7 +32,7 @@
 
   <!-- Zusätzliche Quellenangabe im Export -->
   <div id="map-export-source" class="map-export-source">
-    <strong>Quelle:</strong>
+    <!--<strong>Quelle:</strong>-->
     <span id="map-source-text">{{ source_url }}</span>
   </div>
 
