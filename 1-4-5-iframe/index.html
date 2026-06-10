@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610061457">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -916,7 +916,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610061457'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -950,13 +950,19 @@ if (allRequired) {
    * cachedLegendHtml:
    *   Stores a copy of the original visible legend HTML before printing starts.
    *   We do this because the DOM can change during the print workflow.
+   *
+   * cachedYearText:
+   *   Stores the currently visible year immediately before print starts.
+   *   This is needed because the year control may no longer expose the
+   *   selected year once the print preview is being built.
    */
   var state = {
     maps: [],
     attached: false,
     observer: null,
     interval: null,
-    cachedLegendHtml: ''
+    cachedLegendHtml: '',
+    cachedYearText: ''
   };
 
   /**
@@ -1136,7 +1142,8 @@ if (allRequired) {
   /**
    * Extract the currently active year from visible map controls.
    *
-   * We try several selectors and return the first visible 4-digit year.
+   * We try several selectors and collect visible 4-digit years.
+   * In practice the currently active year is usually the last visible match.
    */
   function getCurrentYearText() {
     var selectors = [
@@ -1185,11 +1192,21 @@ if (allRequired) {
     }
 
     if (foundYears.length) {
-      // Usually the current year is the last visible match in DOM order.
       return foundYears[foundYears.length - 1];
     }
 
     return '';
+  }
+
+  /**
+   * Cache the currently visible year before the print view is created.
+   *
+   * This is important because the year controls may no longer expose the
+   * selected year once the print preview is being built.
+   */
+  function cacheCurrentYearText() {
+    state.cachedYearText = getCurrentYearText();
+    log('Year cached before print.', state.cachedYearText);
   }
 
   /**
@@ -1302,7 +1319,10 @@ if (allRequired) {
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
-    var yearText = getCurrentYearText();
+
+    // Prefer the cached year captured immediately before print.
+    // Fall back to a live lookup if needed.
+    var yearText = state.cachedYearText || getCurrentYearText();
 
     var metaLine = yearText
       ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
@@ -1446,8 +1466,8 @@ if (allRequired) {
    * Attach the browser print control to the target map.
    *
    * We also hook into:
-   * - PrePrint: cache the original legend
-   * - Print: inject the legend into the print view
+   * - PrePrint: cache the original legend and current year
+   * - Print: refresh the header and inject the legend into the print view
    * - PrintEnd: clean up again
    */
   function attachPrintControl(map) {
@@ -1477,6 +1497,9 @@ if (allRequired) {
         // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
+        // Cache the currently visible year BEFORE the print preview is built.
+        cacheCurrentYearText();
+
         // Only remove transient hover UI when there is NO selection.
         if (!hasSelection) {
           removeTransientMapUi(map.getContainer());
@@ -1495,7 +1518,7 @@ if (allRequired) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT year is used.
+          // Refresh the header so the CURRENT cached year is used.
           updatePrintHeader(event.printMap);
 
           addLegendToPrintMap(event.printMap);
@@ -1508,8 +1531,9 @@ if (allRequired) {
           removeExistingPrintLegend(root);
         }
 
-        // Clean up print state flag
+        // Clean up print state flag and cached year
         document.body.classList.remove('mt-print-has-selection');
+        state.cachedYearText = '';
       });
 
       map._mtPrintControlAdded = true;
@@ -2023,7 +2047,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610061457"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
