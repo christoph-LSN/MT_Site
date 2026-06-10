@@ -186,11 +186,11 @@
    * Translation labels from metadata_fields.yml
    */
   function getDataSourceLabel() {
-    return '{{ page.t.metadata_fields.data_source | default: "Data source" | escape }}';
+    return '{{ page.t.metadata_fields.data_source | default: "Quelle" | escape }}';
   }
 
   function getReferenceYearLabel() {
-    return '{{ page.t.metadata_fields.reference_year | default: "Reference year" | escape }}';
+    return '{{ page.t.metadata_fields.reference_year | default: "Jahr" | escape }}';
   }
 
   /**
@@ -269,21 +269,6 @@
     }
 
     return getIndicatorTitle();
-  }
-
-  /**
-   * Try to get the data source from page variables.
-   * If not available or object-like, return empty string and omit the line.
-   */
-  function getDataSourceValue() {
-    var explicitValue =
-      '{{ page.data_source | default: page.source | default: "" | strip_html | strip_newlines | escape }}';
-
-    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
-      return explicitValue;
-    }
-
-    return '';
   }
 
   /**
@@ -447,7 +432,7 @@
    *   indicator number + indicator name
    *
    * Meta lines:
-   *   reference year
+   *   year
    */
   function buildHeaderHtml() {
     var title = getPrintHeadingText();
@@ -479,31 +464,17 @@
   /**
    * Build the print footer.
    *
-   * Desired order:
-   * 1. Datenquelle: ...
-   * 2. integrationsmonitoring.niedersachsen.de
+   * Desired output:
+   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
    */
   function buildFooterHtml() {
     var dataSourceLabel = getDataSourceLabel();
-    var dataSource = getDataSourceValue();
 
-    var lines = [];
-
-    if (dataSource) {
-      lines.push(
-        '<div class="mt-print-footer-source"><strong>' +
-          dataSourceLabel +
-          ':</strong> ' +
-          dataSource +
-        '</div>'
-      );
-    }
-
-    lines.push(
-      '<div class="mt-print-footer-site">integrationsmonitoring.niedersachsen.de</div>'
+    return (
+      '<div class="mt-print-footer-source"><strong>' +
+        dataSourceLabel +
+        ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
-
-    return lines.join('');
   }
 
   /**
@@ -558,7 +529,7 @@
         footer: {
           enabled: true,
           text: buildFooterHtml(),
-          size: '7mm',
+          size: '5mm',
           overTheMap: true
         }
       })
