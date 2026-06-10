@@ -2755,6 +2755,13 @@ body {
 .tags .tag-datenstand-2019 {
   background-color: red; }
 
+.tags li:nth-child(1) .tag {
+  background: pink; }
+.tags li:nth-child(2) .tag {
+  background: lightgreen; }
+.tags li:nth-child(3) .tag {
+  background: yellow; }
+
 /* ===== Kartendruck ===== */
 body.leaflet--printing .leaflet-print-overlay {
   background: white !important; }

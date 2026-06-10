@@ -119,7 +119,7 @@ var translations = {
         ================================================== -->
 
         
-    <title>Metadaten bearbeite: 5.3.4 - Migration und Teilhabe in Niedersachsen</title>
+    <title>Metadaten bearbeiten: 5.3.4 - Migration und Teilhabe in Niedersachsen</title>
 
 
 
@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610103608">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610112858">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -240,7 +240,7 @@ data-event-label="high"
 
 <div id="main-content" class="container" role="main">
   <div class="row">
-    <div class="col-md-12"><h1>Metadaten bearbeite: 5.3.4</h1></div>
+    <div class="col-md-12"><h1>Metadaten bearbeiten: 5.3.4</h1></div>
   </div>
   <div class="row">
     <div id="root"></div>
@@ -260,7 +260,7 @@ data-event-label="high"
       configType: "metadata",
     };
     
-      opensdg.configForm.schema = {"type":"object","title":"Metadaten bearbeite","properties":{"national_indicator_description":{"type":"string","title":"Definition des Indikators","description":"Scope: national, Field: national_indicator_description"},"computation_calculations":{"type":"string","title":"Methodische Hinweise","description":"Scope: national, Field: computation_calculations"},"other_info":{"type":"string","title":"Weiterführende Informationen","description":"Scope: national, Field: other_info"},"source_url_1":{"type":"string","title":"Tabelle zum Download","description":"Scope: global, Field: source_url_1"},"source_url_text_1":{"type":"string","title":"metadata_fields.source_url_text_1","description":"Scope: global, Field: source_url_text_1"}}}
+      opensdg.configForm.schema = {"type":"object","title":"Metadaten bearbeiten","properties":{"national_indicator_description":{"type":"string","title":"Definition des Indikators","description":"Scope: national, Field: national_indicator_description"},"computation_calculations":{"type":"string","title":"Methodische Hinweise","description":"Scope: national, Field: computation_calculations"},"other_info":{"type":"string","title":"Weiterführende Informationen","description":"Scope: national, Field: other_info"},"source_url_1":{"type":"string","title":"Tabelle zum Download","description":"Scope: global, Field: source_url_1"},"source_url_text_1":{"type":"string","title":"metadata_fields.source_url_text_1","description":"Scope: global, Field: source_url_text_1"}}}
       opensdg.configForm.uiSchema = {
         type: 'VerticalLayout',
         elements: Object.keys(opensdg.configForm.schema.properties).map(function(metadataKey) {
@@ -273,7 +273,7 @@ data-event-label="high"
           };
         }),
       };
-      opensdg.configForm.initialData = {"sdg_goal":"5","indicator_number":"5.3.4","data_non_statistical":false,"graph_title":"global_indicators.5-3-4-title","graph_type":"bar","indicator_name":"global_indicators.5-3-4-title","indicator_sort_order":"05-03-04","published":true,"reporting_status":"complete","target_name":"global_targets.5-3-title","target_id":"5.3","precision":[{"unit":"Prozent","decimals":1},{"unit":"Anzahl","decimals":0}],"tags":["Datenstand 2024","Niedersachsen"],"data_show_map":false,"data_source":"Statistik der Bundesagentur  für Arbeit","source_active_1":true,"source_url_1":"/assets/excel/2025_5-3-4.xlsx","source_url_text_1":"global_indicators.5-3-4-title","title":"Untitled","national_indicator_description":"Der Indikator gibt die Zahl der Arbeitslosen nach Rechtskreisen sowie davon die Zahl und den Anteil der Personen mit Zuwanderungsgeschichte wieder.","computation_calculations":"Quelle für die dargestellten Ergebnisse ist die sogenannte Migrationshintergrund-Erhebung der Bundesagentur für Arbeit, im Rahmen derer Arbeitslose in den Agenturen und Jobcentern zu ihrem Migrationshintergrund befragt werden, um das Portfolio der Arbeitsmarktstatistiken zu erweitern. Die Erhebung wurde in § 281 Abs. 2 SGB III normiert und Details zum Verfahren sowie zur Methodik im September 2010 in der sogenannten Migrationshintergrund-Erhebungsverordnung (MighEV) festgehalten.<br> Ein Migrationshintergrund liegt gemäß § 6 MighEV vor, wenn 1.\tdie befragte Person nicht die deutsche Staatsangehörigkeit besitzt oder 2.\tder Geburtsort der befragten Person außerhalb der heutigen Grenzen der Bundesrepublik Deutschland liegt und eine Zuwanderung in das heutige Gebiet der Bundesrepublik Deutschland nach 1949 erfolgte oder 3.\tder Geburtsort mindestens eines Elternteiles der befragten Person außerhalb der heutigen Grenzen der Bundesrepublik Deutschland liegt sowie eine Zuwanderung dieses Elternteiles in das heutige Gebiet der Bundesrepublik Deutschland nach 1949 erfolgte. <br> Diese Definition entspricht der eines Migrationshintergrundes „im engeren Sinne“ im Rahmen des Mikrozensus. Bei der Interpretation der Ergebnisse ist zu beachten, dass nicht für alle Arbeitslosen sondern lediglich für den Kreis der befragten Personen Angaben zum Migrationshintergrund vorliegen. Die ausgewiesenen Anteile beziehen sich daher ausdrücklich auf die Gruppe der Befragten und nicht auf die Gesamtheit aller Arbeitslosen. Arbeitslose im Rechtskreis des SGB II sind alle arbeitslosen Personen, die die Anspruch auf Leistungen (Arbeitslosengeld II und Sozialgeld) nach dem Zweiten Sozialgesetzbuch (SGB II) – Grundsicherung für Arbeitssuchende – haben. Arbeitslose im Rechtskreis des SGB III sind alle arbeitslosen Personen, die Anspruch auf Leistungen (Arbeitslosengeld I) nach dem Dritten Sozialgesetzbuch (SGB III) – Arbeitsförderung – haben und die Personen, die keine Leistungen mehr erhalten.","data_footnotes":"<br>1) einschließlich Personen mit Migrationshintergrund ohne nähere Angabe <br>2) Anteile an der Gruppe der im Rahmen der Erhebung befragten Personen <br>3) Eine Differenzierung der Arbeitslosen in den beiden Rechtskreisen SGB II und III nach Geschlecht und Migrationshintergrund ist auf Grundlage der zur Verfügung stehenden Daten nicht möglich. <br>4) \".\" = Die Bundesagentur für Arbeit (BA) veröffentlicht keine Arbeitslosenquoten für Personengruppen mit weniger als 1 000 zivilen Erwerbspersonen, da bei zu kleinen Personengruppen überzeichnete oder unplausible Quoten nicht auszuschließen sind.","page_content":"","national_metadata_updated_date":"2026-06-09","national_data_updated_date":"2026-06-09","target_number":"5.3","goal_number":"5"};
+      opensdg.configForm.initialData = {"sdg_goal":"5","indicator_number":"5.3.4","data_non_statistical":false,"graph_title":"global_indicators.5-3-4-title","graph_type":"bar","indicator_name":"global_indicators.5-3-4-title","indicator_sort_order":"05-03-04","published":true,"reporting_status":"complete","target_name":"global_targets.5-3-title","target_id":"5.3","precision":[{"unit":"Prozent","decimals":1},{"unit":"Anzahl","decimals":0}],"tags":["Datenstand 2024","Niedersachsen"],"data_show_map":false,"data_source":"Statistik der Bundesagentur  für Arbeit","source_active_1":true,"source_url_1":"/assets/excel/2025_5-3-4.xlsx","source_url_text_1":"global_indicators.5-3-4-title","title":"Untitled","national_indicator_description":"Der Indikator gibt die Zahl der Arbeitslosen nach Rechtskreisen sowie davon die Zahl und den Anteil der Personen mit Zuwanderungsgeschichte wieder.","computation_calculations":"Quelle für die dargestellten Ergebnisse ist die sogenannte Migrationshintergrund-Erhebung der Bundesagentur für Arbeit, im Rahmen derer Arbeitslose in den Agenturen und Jobcentern zu ihrem Migrationshintergrund befragt werden, um das Portfolio der Arbeitsmarktstatistiken zu erweitern. Die Erhebung wurde in § 281 Abs. 2 SGB III normiert und Details zum Verfahren sowie zur Methodik im September 2010 in der sogenannten Migrationshintergrund-Erhebungsverordnung (MighEV) festgehalten.<br> Ein Migrationshintergrund liegt gemäß § 6 MighEV vor, wenn 1.\tdie befragte Person nicht die deutsche Staatsangehörigkeit besitzt oder 2.\tder Geburtsort der befragten Person außerhalb der heutigen Grenzen der Bundesrepublik Deutschland liegt und eine Zuwanderung in das heutige Gebiet der Bundesrepublik Deutschland nach 1949 erfolgte oder 3.\tder Geburtsort mindestens eines Elternteiles der befragten Person außerhalb der heutigen Grenzen der Bundesrepublik Deutschland liegt sowie eine Zuwanderung dieses Elternteiles in das heutige Gebiet der Bundesrepublik Deutschland nach 1949 erfolgte. <br> Diese Definition entspricht der eines Migrationshintergrundes „im engeren Sinne“ im Rahmen des Mikrozensus. Bei der Interpretation der Ergebnisse ist zu beachten, dass nicht für alle Arbeitslosen sondern lediglich für den Kreis der befragten Personen Angaben zum Migrationshintergrund vorliegen. Die ausgewiesenen Anteile beziehen sich daher ausdrücklich auf die Gruppe der Befragten und nicht auf die Gesamtheit aller Arbeitslosen. Arbeitslose im Rechtskreis des SGB II sind alle arbeitslosen Personen, die die Anspruch auf Leistungen (Arbeitslosengeld II und Sozialgeld) nach dem Zweiten Sozialgesetzbuch (SGB II) – Grundsicherung für Arbeitssuchende – haben. Arbeitslose im Rechtskreis des SGB III sind alle arbeitslosen Personen, die Anspruch auf Leistungen (Arbeitslosengeld I) nach dem Dritten Sozialgesetzbuch (SGB III) – Arbeitsförderung – haben und die Personen, die keine Leistungen mehr erhalten.","data_footnotes":"<br>1) einschließlich Personen mit Migrationshintergrund ohne nähere Angabe <br>2) Anteile an der Gruppe der im Rahmen der Erhebung befragten Personen <br>3) Eine Differenzierung der Arbeitslosen in den beiden Rechtskreisen SGB II und III nach Geschlecht und Migrationshintergrund ist auf Grundlage der zur Verfügung stehenden Daten nicht möglich. <br>4) \".\" = Die Bundesagentur für Arbeit (BA) veröffentlicht keine Arbeitslosenquoten für Personengruppen mit weniger als 1 000 zivilen Erwerbspersonen, da bei zu kleinen Personengruppen überzeichnete oder unplausible Quoten nicht auszuschließen sind.","page_content":"","national_metadata_updated_date":"2026-06-10","national_data_updated_date":"2026-06-10","target_number":"5.3","goal_number":"5"};
       opensdg.configForm.repoUrl = "https://github.com/christoph-LSN/IM_Data";
     
   </script>
@@ -490,7 +490,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610103608'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610112858'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -2368,7 +2368,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610103608"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610112858"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
