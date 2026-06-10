@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -784,7 +784,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1008,6 +1008,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '{&quot;number&quot;=&gt;&quot;4.1.5&quot;, &quot;slug&quot;=&gt;&quot;4-1-5&quot;, &quot;name&quot;=&gt;&quot;Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/4-1-5/&quot;, &quot;sort&quot;=&gt;&quot;040105&quot;, &quot;goal_number&quot;=&gt;&quot;4&quot;, &quot;target_number&quot;=&gt;&quot;4.1&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht&quot;}, &quot;sdg_goal&quot;=&gt;&quot;4&quot;, &quot;indicator_number&quot;=&gt;&quot;4.1.5&quot;, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht&quot;, &quot;graph_type&quot;=&gt;&quot;bar&quot;, &quot;indicator_name&quot;=&gt;&quot;Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;04-01-05&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Schulische Bildung&lt;/b&gt; &lt;br&gt; Bildung ist von zentraler Bedeutung für den Integrationsprozess. Bildung bestimmt nicht nur die Chancen auf dem Arbeitsmarkt, sondern ermöglicht Teilhabe in vielen gesellschaftlichen Lebensbereichen. Die erreichten Schulabschlüsse zeigen die Bildungsstruktur der Menschen mit Zuwanderungsgeschichte. Sie sind ein Indikator für das Potenzial der Menschen mit Zuwanderungsgeschichte für den Arbeitsmarkt.&quot;, &quot;target_id&quot;=&gt;&quot;4.1&quot;, &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Niedersachsen&quot;], &quot;precision&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;%&quot;, &quot;decimals&quot;=&gt;1}], &quot;data_start_values&quot;=&gt;[{&quot;field&quot;=&gt;&quot;Geschlecht&quot;, &quot;value&quot;=&gt;&quot;Insgesamt&quot;}, {&quot;field&quot;=&gt;&quot;Migrationsstatus&quot;, &quot;value&quot;=&gt;&quot;mit Migrationshintergrund&quot;}, {&quot;field&quot;=&gt;&quot;Migrationsstatus&quot;, &quot;value&quot;=&gt;&quot;ohne Migrationshintergrund&quot;}, {&quot;field&quot;=&gt;&quot;Bildungsstand&quot;, &quot;value&quot;=&gt;&quot;Frühe Schulabgänger/innen&quot;}, {&quot;field&quot;=&gt;&quot;Bildungsstand&quot;, &quot;value&quot;=&gt;&quot;Personen mit geringem Bildungsstand&quot;}, {&quot;field&quot;=&gt;&quot;Altersgruppe&quot;, &quot;value&quot;=&gt;&quot;18 - 25&quot;}, {&quot;field&quot;=&gt;&quot;Altersgruppe&quot;, &quot;value&quot;=&gt;&quot;25 - 65&quot;}], &quot;graph_titles&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;1000&quot;, &quot;title&quot;=&gt;&quot;Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht&quot;}, {&quot;unit&quot;=&gt;&quot;%&quot;, &quot;title&quot;=&gt;&quot;Anteil der Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht an der Bevölkerung der entsprechenden Altersgruppe in Prozent&quot;}], &quot;data_show_map&quot;=&gt;false, &quot;data_source&quot;=&gt;&quot;Mikrozensus&quot;, &quot;source_active_1&quot;=&gt;true, &quot;source_url_1&quot;=&gt;&quot;/assets/excel/2025_4-1-5.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Frühe Schulabgängerinnen und Schulabgänger sowie Personen mit niedrigem Bildungsstand nach Migrationsstatus und Geschlecht&quot;, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Der Indikator frühe Schulabgänger/-innen gibt den Anteil der 18- bis unter 25-Jährigen ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) wieder, die sich weder in schulischer oder beruflicher Ausbildung befinden noch an einer Weiterbildung teilnehmen, an der entsprechenden Bevölkerungsgruppe an. Grundwehr- und Zivildienstleistende werden aus der Berechnung ausgeschlossen. Der Indikator fasst Personen zusammen, die maximal die Sekundarstufe I abgeschlossen haben, also maximal über einen Haupt- oder Realschulabschluss verfügen beziehungsweise maximal die 10. Klasse des Gymnasiums oder ein Berufsvorbereitungsjahr abgeschlossen haben. Darüber hinaus bildet der Indikator Personen mit niedrigem Bildungsstand den Anteil der 25- bis unter 65-Jährigen ohne beruflichen Bildungsabschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2) an der entsprechenden Bevölkerungsgruppe ab.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Dem Indikator liegt die von der UNESCO entwickelte internationale Klassifikation des Bildungswesens (ISCED) zugrunde. Diese wurde entwickelt, um nationale und internationale Statistiken und Indikatoren des Bildungswesens einheitlich darzustellen. Datenquelle ist der Mikrozensus. Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen: &lt;br&gt; 1. zugewanderte und nicht zugewanderte Ausländerinnen und Ausländer; &lt;br&gt; 2. zugewanderte und nicht zugewanderte Eingebürgerte; &lt;br&gt; 3. (Spät-)Aussiedlerinnen und (Spät-)Aussiedler; &lt;br&gt; 4. mit deutscher Staatsangehörigkeit geborene Nachkommen. &lt;br&gt; Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. &lt;br&gt; Ab Veröffentlichungsjahr 2021 wird zwischen Erst- und Endveröffentlichungen von Mikrozensusergebnissen unterschieden. Bei Erst- und Endergebnissen handelt es sich um zwei Ergebnisarten, die beide auf vollständig aufbereiteten und validierten Daten beruhen. Die Endergebnisse basieren im Gegensatz zu den Erstergebnissen auf einer höheren Anzahl befragter Haushalte. Dies ist dadurch bedingt, dass auch nach Ende eines Erhebungsjahres fehlende Haushalte nach Erinnerungen und/oder Mahnungen noch Auskunft geben. Dieses Datenmaterial wird zudem an einem aktualisierten Bevölkerungseckwert hochgerechnet. Durch den größeren Stichprobenumfang und die aktualisierte Hochrechnung können ggf. Abweichungen gegenüber den Erstergebnissen entstehen. Bei den hier für das Jahr 2022 veröffentlichten Daten handelt es sich um die Erstergebnisse.&quot;, &quot;other_info&quot;=&gt;&quot;Weitere Infomrmationen finden Sie in der &lt;a href=\&quot;https://www.statistik.niedersachsen.de/startseite/themen/soziales/sozialberichterstattung_in_niedersachsen/handlungsorientierte-sozialberichterstattung-niedersachsen-hsbn-191385.html/\&quot; target=\&quot;_blank\&quot;&gt;Handlungsorientierten Sozialberichterstattung Niedersachsen (HSBN)&lt;/a&gt;.&quot;, &quot;data_footnotes&quot;=&gt;&quot;&lt;br&gt;1) Frühe Schulabgänger: 18- bis unter 25-Jährige ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2), die sich weder in schulischer oder beruflicher Ausbildung befinden noch an einer Weiterbildung teilnehmen. &lt;br&gt;2) Personen mit niedrigem Bildungsstand: 25- bis unter 65-Jährige ohne beruflichen Abschluss und ohne (Fach-)Hochschulreife (maximal ISCED 2). &lt;br&gt;3) Ab der Veröffentlichung der Endergebnisse 2023 und der Erstergebnisse 2024 werden für die Hochrechnung des Mikrozensus Daten der Bevölkerungsfortschreibung herangezogen, die auf den Eckwerten des Zensus 2022 basieren. Die Hochrechnung für die Jahre vor 2011 sowie für bislang veröffentlichte Ergebnisse des Mikrozensus 2011-2015 basiert auf den fortgeschriebenen Ergebnissen der Volkszählung 1987. In 2016 erfolgte die Umstellung auf eine neue Mikrozensus-Stichprobe (auf Basis des Zensus 2011). Ab 2017 wird nur noch die Bevölkerung in Privathaushalten (ohne Gemeinschaftsunterkünfte) ausgewiesen. Dadurch ergibt sich jeweils eine eingeschränkte Vergleichbarkeit mit den Vorjahren. Die Ergebnisse des Mikrozensus 2020 sind unter anderem aufgrund methodischer Effekte im Rahmen einer Neugestaltung der Erhebung sowie insbesondere aufgrund der Folgen der Corona-Pandemie in Ihrer Datenqualität eingeschränkt. Auf die Verwendung dieser Ergebnisse wird daher verzichtet. Weitere Informationen zur methodischen Neugestaltung des Mikrozensus ab 2020 und zu den Auswirkungen der Neugestaltung und der Corona-Krise auf die Ergebnisse des Jahres 2020 finden Sie auf der  &lt;a href=\&quot;https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Methoden/mikrozensus-2020.html\&quot; target=\&quot;_blank\&quot;&gt;Informationsseite des Statistischen Bundesamtes&lt;/a&gt;.  &lt;br&gt; 4) In vorangegangenen Ausgaben des Berichts Migration und Teilhabe in Niedersachsen an dieser Stelle berichtete Daten zu frühen Schulabgängerinnen und Schulabgängern sind aufgrund methodischer Änderungen nicht mehr mit den aktuellen Daten vergleichbar. Auf die Darstellung dieser früheren Daten wird daher verzichtet.&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}]}';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -1181,9 +1245,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1192,14 +1253,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -1915,7 +2020,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

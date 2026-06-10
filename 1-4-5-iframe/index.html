@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -916,7 +916,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1140,6 +1140,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '{&quot;number&quot;=&gt;&quot;1.4.5&quot;, &quot;slug&quot;=&gt;&quot;1-4-5&quot;, &quot;name&quot;=&gt;&quot;Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Nationalität und Geschlecht&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/1-4-5/&quot;, &quot;sort&quot;=&gt;&quot;010405&quot;, &quot;goal_number&quot;=&gt;&quot;1&quot;, &quot;target_number&quot;=&gt;&quot;1.4&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Nationalität und Geschlecht&quot;}, &quot;sdg_goal&quot;=&gt;&quot;1&quot;, &quot;indicator_number&quot;=&gt;&quot;1.4.5&quot;, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Nationalität und Geschlecht&quot;, &quot;graph_type&quot;=&gt;&quot;line&quot;, &quot;indicator_name&quot;=&gt;&quot;Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen nach Nationalität und Geschlecht&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;01-02-05&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Das Wanderungsgeschehen in Niedersachsen&lt;/b&gt; &lt;br&gt; Die Zuzüge aus dem Ausland und die Fortzüge in das Ausland sind aussagekräftige Indikatoren des Wanderungsgeschehens in Niedersachsen.  Der Wanderungssaldo ist die Differenz aus den Zuzügen aus dem Ausland nach Niedersachsen und den Fortzügen aus Niedersachsen in das Ausland.&quot;, &quot;target_id&quot;=&gt;&quot;1.2&quot;, &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Landkreise und kreisfreie Städte&quot;], &quot;data_start_values&quot;=&gt;[{&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Niedersachsen&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Braunschweig&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Hannover&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Lüneburg&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Weser-Ems&quot;}, {&quot;field&quot;=&gt;&quot;Wanderung&quot;, &quot;value&quot;=&gt;&quot;Saldo der Zu- und Fortzüge&quot;}, {&quot;field&quot;=&gt;&quot;Nationalität / Geschlecht&quot;, &quot;value&quot;=&gt;&quot;Insgesamt&quot;}], &quot;source_active_1&quot;=&gt;true, &quot;source_url_1&quot;=&gt;&quot;/assets/excel/2025_1-4-5.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Saldo der Zu- und Fortzüge über die Bundesgrenzen von und nach Niedersachsen&quot;, &quot;data_source&quot;=&gt;&quot;Wanderungsstatistik&quot;, &quot;source_url_2&quot;=&gt;&quot;https://www1.nls.niedersachsen.de/statistik/default.asp&quot;, &quot;source_url_text_2&quot;=&gt;&quot;LSN-Online Datenbank&quot;, &quot;un_designated_tier&quot;=&gt;&quot;1&quot;, &quot;data_show_map&quot;=&gt;true, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;data_footnote&quot;=&gt;&quot;Die Ergebnisse der Wanderungsstatistik ab Berichtsjahr 2016 sind aufgrund methodischer Änderungen, technischer Weiterentwicklungen der Datenlieferungen aus dem Meldewesen an die Statistik sowie der Umstellung auf ein neues statistisches Aufbereitungsverfahren nur bedingt mit den Vorjahreswerten vergleichbar.&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Der Indikator bildet die Anzahl der jährlichen Zu- und Fortzüge nach bzw. aus Niedersachsen aus dem bzw. in das Ausland (=über die Bundesgrenzen) sowie den Wanderungssaldo nach Landkreisen und kreisfreien Städten ab.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Die hier dargestellten Zu- und Fortzüge bilden die grenzüberschreitenden Wanderungsströme zwischen Niedersachsen und dem Ausland ab. Die Kennzahl gibt Hinweise auf das Ausmaß der Zu- und Abwanderung nach bzw. aus Niedersachsen und basiert auf Angaben der Meldebehörden.&quot;, &quot;other_info&quot;=&gt;&quot;Angaben für Niedersachsen auf Gemeindeebene sind verfügbar in der &lt;a href=\&quot;https://www1.nls.niedersachsen.de/statistik/default.asp\&quot; target=\&quot;_blank\&quot;&gt;LSN-Online-Datenbank&lt;/a&gt; (Statistische Erhebung &gt; 120 Wanderungsstatistik) sowie bundesweit in der &lt;a href=\&quot;https://www.regionalstatistik.de/genesis/online/logon\&quot; target=\&quot;_blank\&quot;&gt;Regionaldatenbank Deutschland&lt;/a&gt;. Methodische Erläuterungen finden sich fortlaufend in dem jährlich erscheinenden &lt;a href=\&quot;https://www.statistik.niedersachsen.de/startseite/veroffentlichungen/statistische_berichte/statistische-berichte-niedersachsen-87713.html\&quot; target=\&quot;_blank\&quot;&gt;Statistische Bericht Niedersachsen&lt;/a&gt; A III 1, Wanderungen.&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}, {&quot;type&quot;=&gt;&quot;map&quot;, &quot;label&quot;=&gt;&quot;indicator.map&quot;}]}';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -1313,9 +1377,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1324,14 +1385,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -2047,7 +2152,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

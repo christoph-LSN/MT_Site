@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1407,7 +1407,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1631,6 +1631,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '{&quot;number&quot;=&gt;&quot;6.2.2&quot;, &quot;slug&quot;=&gt;&quot;6-2-2&quot;, &quot;name&quot;=&gt;&quot;Empfängerinnen und Empfänger von Mindestsicherungsleistungen nach Altersgruppen (Anzahl je 1 000 Einwohnerinnen und Einwohner der betreffenden Bevölkerungsgruppe)&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/6-2-2/&quot;, &quot;sort&quot;=&gt;&quot;060202&quot;, &quot;goal_number&quot;=&gt;&quot;6&quot;, &quot;target_number&quot;=&gt;&quot;6.2&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Empfängerinnen und Empfänger von Mindestsicherungsleistungen nach Altersgruppen (Anzahl je 1 000 Einwohnerinnen und Einwohner der betreffenden Bevölkerungsgruppe)&quot;}, &quot;sdg_goal&quot;=&gt;&quot;6&quot;, &quot;indicator_number&quot;=&gt;&quot;6.2.2&quot;, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Empfängerinnen und Empfänger von Mindestsicherungsleistungen nach Altersgruppen (Anzahl je 1 000 Einwohnerinnen und Einwohner der betreffenden Bevölkerungsgruppe)&quot;, &quot;graph_type&quot;=&gt;&quot;line&quot;, &quot;indicator_name&quot;=&gt;&quot;Empfängerinnen und Empfänger von Mindestsicherungsleistungen nach Altersgruppen (Anzahl je 1 000 Einwohnerinnen und Einwohner der betreffenden Bevölkerungsgruppe)&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;06-02-02&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Mindestsicherung&lt;/b&gt; &lt;br&gt;Die „bekämpfte Armut“ bezeichnet das Ausmaß der Abhängigkeit von staatlichen Mindestsicherungsleistungen.\n Durch die Transferleistungen soll den Empfängerinnen und Empfängern eine gleichberechtigte Teilhabe am gesellschaftlichen Leben ermöglicht werden.&quot;, &quot;target_id&quot;=&gt;&quot;6.2&quot;, &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Landkreise und kreisfreie Städte&quot;], &quot;data_show_map&quot;=&gt;true, &quot;data_start_values&quot;=&gt;[{&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Niedersachsen&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Braunschweig&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Hannover&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Lüneburg&quot;}, {&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Statistische Region Weser-Ems&quot;}, {&quot;field&quot;=&gt;&quot;Altersgruppe&quot;, &quot;value&quot;=&gt;&quot;im Alter von 18 bis unter 65 Jahren&quot;}, {&quot;field&quot;=&gt;&quot;Nationalität&quot;, &quot;value&quot;=&gt;&quot;Ausländerinnen und Ausländer&quot;}], &quot;data_source&quot;=&gt;&quot;Leistungen nach SGB II: Statistik der Bundesagentur für Arbeit, alle weiteren Daten: Statistische Ämter des Bundes und der Länder. Eigene Berechnung LSN.&quot;, &quot;source_active_1&quot;=&gt;true, &quot;source_url_1&quot;=&gt;&quot;/assets/excel/2025_6-2-2.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Empfängerinnen und Empfänger von Mindestsicherungsleistungen nach Altersgruppen (Anzahl je 1 000 Einwohnerinnen und Einwohner der betreffenden Bevölkerungsgruppe)&quot;, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Staatliche Transferleistungen der sozialen Mindestsicherungssysteme werden zur Sicherung des Lebensunterhaltes gezahlt. Die Empfängerquote bzw. Mindestsicherungsquote beschreibt die Anzahl der Empfängerinnen und Empfänger von Leistungen je 1 000 Einwohnerinnen und Einwohner (Promille) nach Nationalität, Altersgruppen und Kreisen. Sie ist ein Indikator für die „bekämpfte Armut“ in der Gesellschaft.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Zu den Mindestsicherungsleistungen zählen folgende Leistungen: Gesamtregelleistung nach dem SGB II \&quot;Grundsicherung für Arbeitsuchende\&quot; (Arbeitslosengeld II / Sozialgeld; ab 2023: \&quot;Bürgergeld\&quot;), laufende Hilfe zum Lebensunterhalt außerhalb von Einrichtungen nach dem SGB XII,  Grundsicherung im Alter und bei Erwerbsminderung nach dem SGB XII Sozialhilfe sowie Regelleistungen nach dem Asylbewerberleistungsgesetz (AsylbLG). Ab Berichtsjahr 2020 wird in den Statistiken der Hilfe zum Lebensunterhalt, der Grundsicherung im Alter und bei Erwerbsminderung und der Asylbewerberleistungen zur Sicherstellung  der Geheimhaltung ein Rundungsverfahren eingesetzt. Dabei wird jede Zahl für sich auf ein Vielfaches von 5 auf- oder abgerundet. Die maximale Abweichung zu den jeweiligen Originalwerten beträgt dadurch für jeden Wert höchstens 2. Somit beträgt die jeweils mögliche Abweichung der Anzahl der Empfängerinnen und Empfänger sozialer Mindestsicherungsleistungen insgesamt vom Originalwert maximal 6. Personen, die in Niedersachsen ihren Hauptwohnsitz haben, jedoch Leistungen aus einem anderen Bundesland beziehen, sind nicht enthalten. Nicht enthalten sind für Niedersachsen zum 31.12.2022 zudem insgesamt 6.335 Personen (2021: 3.385; 2020: 2.430; 2019: 3.672; 2018: 2.583; 2017: 2.971; 2016: 3.149; 2015: 23.085; 2014: 2.020), die Leistungen der Landesaufnahmebehörde (überörtlicher Träger) erhalten. Regional sind sie ebenfalls nicht zugeordnet. Für Wilhelmshaven, Stadt ist der Wert für die Hilfe zum Lebensunterhalt in den Berichtsjahren 2018 und 2019 und damit für die Mindestsicherungsleistungen insgesamt nur eingeschränkt vergleichbar.&quot;, &quot;other_info&quot;=&gt;&quot;Angaben für Niedersachsen auf Ebene der Verwaltungseinheiten (Einheits- und Samtgemeinden) sind verfügbar in der &lt;a href=\&quot;https://www1.nls.niedersachsen.de/statistik/default.asp\&quot; target=\&quot;_blank\&quot;&gt;LSN-Online Datenbank&lt;/a&gt; (Statistische Erhebung &gt; 255 Soziale Mindestsicherung). Ausführliche Informationen werden im Rahmen des vom Niedersächsischen Ministerium für Soziales, Gesundheit und Gleichstellung (MS) finanzierten Projekts „Handlungsorientierte Sozialberichterstattung Niedersachsen“ vom LSN zusammengestellt. Methodische Erläuterungen und Ergebnisse für Bund und Länder werden im &lt;a href=\&quot;http://www.statistikportal.de/de/sbe\&quot; target=\&quot;_blank\&quot;&gt;Statistik-Portal&lt;/a&gt; veröffentlicht.&quot;, &quot;data_footnote&quot;=&gt;&quot;&lt;br&gt;1) Zu den Mindestsicherungsleistungen zählen folgende Leistungen: Gesamtregelleistung nach dem SGB II \&quot;Grundsicherung für Arbeitsuchende\&quot; (Arbeitslosengeld II / Sozialgeld; seit 2023: \&quot;Bürgergeld\&quot;; Quelle: Statistik der Bundesagentur für Arbeit), laufende Hilfe zum Lebensunterhalt außerhalb von Einrichtungen nach dem SGB XII,  Grundsicherung im Alter und bei Erwerbsminderung nach dem SGB XII Sozialhilfe sowie Regelleistungen nach dem Asylbewerberleistungsgesetz (AsylbLG). Personen, die in Niedersachsen ihren Hauptwohnsitz haben, jedoch Leistungen aus einem anderen Bundesland beziehen, sind nicht enthalten. Nicht berücksichtigt sind für Niedersachsen bei der Quotenberechnung zum 31.12.2024 insgesamt 2.040 Personen (2023: 5.430; 2022: 6.335; 2021:3.385; 2020: 2.430; 2019: 3.672; 2018: 2.583; 2017: 2.971; 2016: 3.149; 2015: 23.085; 2014: 2.020), die Regelleistungen nach dem AsylbLG von der Landesaufnahmebehörde (überörtlicher Träger) erhalten. Regional sind sie ebenfalls nicht zugeordnet.\t\t\t\t\t\t\t&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}, {&quot;type&quot;=&gt;&quot;map&quot;, &quot;label&quot;=&gt;&quot;indicator.map&quot;}]}';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -1804,9 +1868,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1815,14 +1876,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -2538,7 +2643,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

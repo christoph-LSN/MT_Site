@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -593,7 +593,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -817,6 +817,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '2-2-1';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -990,9 +1054,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1001,14 +1062,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -1724,7 +1829,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

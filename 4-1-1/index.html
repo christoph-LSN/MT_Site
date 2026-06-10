@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1427,7 +1427,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1651,6 +1651,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '{&quot;number&quot;=&gt;&quot;4.1.1&quot;, &quot;slug&quot;=&gt;&quot;4-1-1&quot;, &quot;name&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/4-1-1/&quot;, &quot;sort&quot;=&gt;&quot;040101&quot;, &quot;goal_number&quot;=&gt;&quot;4&quot;, &quot;target_number&quot;=&gt;&quot;4.1&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang&quot;}, &quot;sdg_goal&quot;=&gt;&quot;4&quot;, &quot;indicator_number&quot;=&gt;&quot;4.1.1&quot;, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang&quot;, &quot;graph_type&quot;=&gt;&quot;bar&quot;, &quot;indicator_name&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;04-01-01&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Schulische Bildung&lt;/b&gt; &lt;br&gt; Bildung ist von zentraler Bedeutung für den Integrationsprozess. Bildung bestimmt nicht nur die Chancen auf dem Arbeitsmarkt, sondern ermöglicht Teilhabe in vielen gesellschaftlichen Lebensbereichen. Die erreichten Schulabschlüsse zeigen die Bildungsstruktur der Menschen mit Zuwanderungsgeschichte. Sie sind ein Indikator für das Potenzial der Menschen mit Zuwanderungsgeschichte für den Arbeitsmarkt.&quot;, &quot;target_id&quot;=&gt;&quot;4.1&quot;, &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Landkreise und kreisfreie Städte&quot;], &quot;precision&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;Prozent&quot;, &quot;decimals&quot;=&gt;1}, {&quot;unit&quot;=&gt;&quot;Anzahl&quot;, &quot;decimals&quot;=&gt;0}], &quot;data_start_values&quot;=&gt;[{&quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Niedersachsen&quot;}, {&quot;field&quot;=&gt;&quot;Nationalität&quot;, &quot;value&quot;=&gt;&quot;Deutsche&quot;}, {&quot;field&quot;=&gt;&quot;Nationalität&quot;, &quot;value&quot;=&gt;&quot;Ausländerinnen und Ausländer&quot;}, {&quot;field&quot;=&gt;&quot;Schulgliederung&quot;, &quot;value&quot;=&gt;&quot;Insgesamt&quot;}, {&quot;field&quot;=&gt;&quot;unit&quot;, &quot;value&quot;=&gt;&quot;Prozent&quot;}], &quot;graph_titles&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;Prozent&quot;, &quot;title&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang in Prozent&quot;}, {&quot;unit&quot;=&gt;&quot;Anzahl&quot;, &quot;title&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang (Anzahl)&quot;}], &quot;data_show_map&quot;=&gt;true, &quot;source_active_1&quot;=&gt;true, &quot;data_source&quot;=&gt;&quot;Schulstatistik&quot;, &quot;source_url_1&quot;=&gt;&quot;/assets/excel/2025_4-1-1.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Verteilung der Schülerinnen und Schüler im 8. Schuljahrgang&quot;, &quot;source_url_2&quot;=&gt;&quot;https://www1.nls.niedersachsen.de/statistik/default.asp&quot;, &quot;source_url_text_2&quot;=&gt;&quot;LSN-Online-Datenbank&quot;, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Der Indikator gibt den Anteil von Schülerinnen und Schülern im 8. Schuljahrgang nach Nationalität und Schulform an. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation von ausländischen Schülerinnen und Schülern in den verschiedenen Schulformen zeigt an, ob diese vergleichbare Bildungschancen wie deutsche Schülerinnen und Schüler haben. Der 8. Schuljahrgang bietet sich für den strukturellen Vergleich an, weil in diesem Jahrgang die Verteilung der Schülerinnen und Schüler auf die verschiedenen Schulformen im Wesentlichen abgeschlossen ist und auch in früheren Jahren, als es z.B. noch die Orientierungsstufe gab, abgeschlossen war.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Die Schulstatistik besitzt bisher keine einheitliche Definition zum Migrationshintergrund. Daher wird der Indikator zunächst nur nach Staatsangehörigkeit gegliedert. Eine methodische Schwierigkeit bei einem bundesweiten Vergleich besteht in der Untergliederung der einzelnen, länderspezifischen Schulsysteme in Schultypen. Unter die Integrierte Gesamtschule werden auch Freie Waldorfschulen u. ä. subsumiert. Die verschiedenen Zweige der Kooperativen Gesamtschule werden den Schulformen Hauptschule, Realschule und Gymnasium zugeordnet.&quot;, &quot;other_info&quot;=&gt;&quot;Angaben für Niedersachsen sind verfügbar in der &lt;a href=\&quot;https://www1.nls.niedersachsen.de/statistik/default.asp\&quot; target=\&quot;_blank\&quot;&gt;LSN-Online Datenbank&lt;/a&gt; (Statistische Erhebung &gt; 300 Allgemein bildende Schulen).&quot;, &quot;data_footnotes&quot;=&gt;&quot;&lt;br&gt;1) Integrierte Gesamtschule: einschließlich Freie Waldorfschule u. ä.; die verschiedenen Zweige der Kooperativen   Gesamtschule werden den Schulformen Hauptschule, Realschule und Gymnasium zugeordnet. &lt;br&gt;2) Oberschule: Schulform in Niedersachsen zum Schuljahr 2011/2012 eingeführt&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}, {&quot;type&quot;=&gt;&quot;map&quot;, &quot;label&quot;=&gt;&quot;indicator.map&quot;}]}';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -1824,9 +1888,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1835,14 +1896,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -2558,7 +2663,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

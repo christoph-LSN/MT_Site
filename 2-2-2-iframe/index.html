@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -778,7 +778,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1002,6 +1002,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '{&quot;number&quot;=&gt;&quot;2.2.2&quot;, &quot;slug&quot;=&gt;&quot;2-2-2&quot;, &quot;name&quot;=&gt;&quot;Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/2-2-2/&quot;, &quot;sort&quot;=&gt;&quot;020202&quot;, &quot;goal_number&quot;=&gt;&quot;2&quot;, &quot;target_number&quot;=&gt;&quot;2.2&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)&quot;}, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)&quot;, &quot;graph_type&quot;=&gt;&quot;line&quot;, &quot;indicator_number&quot;=&gt;&quot;2.2.2&quot;, &quot;indicator_name&quot;=&gt;&quot;Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;02-02-02&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;data_show_map&quot;=&gt;false, &quot;sdg_goal&quot;=&gt;&quot;2&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Flucht &amp; Asyl&lt;/b&gt; &lt;br&gt;Menschen verlassen ihr Heimatland aus verschiedenen Gründen. Menschen fliehen, weil in ihrer Heimat Krieg ist, weil sie in ihrer Heimat wegen ihrer Hautfarbe, ihrer politischen Ansichten, ihrer sexuellen Orientierung oder ihrer Religion verfolgt werden. Menschen fliehen auch vor Hunger, Naturkatastrophen oder Armut. &lt;br&gt; Ein kleiner Teil dieser Menschen auf der Flucht kommt auch in Niedersachsen an. Sie werden hier durch die Landesaufnahmebehörde aufgenommen und untergebracht, stellen einen Antrag auf Asyl, erhalten eine Aufenthaltsgenehmigung, besuchen Integrationskurse, werden eingebürgert oder werden ggf auch wieder abgeschoben oder im Rahmen des Dublin III Verfahrens in andere Länder überstellt. Ausgewählte Daten zur Thematik Flucht und Asyl finden sich in diesem Themenbereich.&quot;, &quot;target_id&quot;=&gt;&quot;2.2&quot;, &quot;data_start_values&quot;=&gt;[{&quot;field&quot;=&gt;&quot;Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)&quot;, &quot;value&quot;=&gt;&quot;Belegung&quot;}, {&quot;field&quot;=&gt;&quot;Durchschnittliche Bewohnerzahl in der Landesaufnahmebehörde Niedersachsen (LAB NI)&quot;, &quot;value&quot;=&gt;&quot;vorhandene Kapazität&quot;}], &quot;tags&quot;=&gt;[&quot;Datenstand 2025&quot;, &quot;Niedersachsen&quot;], &quot;national_indicator_description&quot;=&gt;&quot;Die Landesaufnahmebehörde Niedersachsen betreibt derzeit sechs Standorte über das gesamte Landesgebiet verteilt. Die Standorte Bramsche und Braunschweig nehmen die Funktion eines Ankunftszentrums wahr. Der Indikator zeigt, die durchschnittliche Anzahl der Bewohnerinnen und Bewohner in den von der Landesaufnahmebehörde zur Verfügung gestellten Wohnunungen / Wohnheimen, sowie die vorhandenen Kapazitäten.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Die Kapazitäten der Jahre 2015 und 2016 umfassen alle Standorte, Außenstellen, Notunterkünfte und die im Rahmen der Verwaltungsvereinbarung geschaffenen Plätze. Ab 2017 werden alle Standorte sowie die Außenstellen abgebildet.&quot;, &quot;other_info&quot;=&gt;&quot;Eine Übersicht der Standorte mit jeweils weiteren Informationen zu den einzelnen Standorten finden Sie auf den Internetseiten der [Landesaufnahmebehörden Niedersachsen](https://www.lab.niedersachsen.de/startseite/standorte/standorte-der-landesaufnahmebehoerde-niedersachsen-143388.html).&quot;, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;source_other_info_1&quot;=&gt;&quot;&quot;, &quot;source_active_1&quot;=&gt;true, &quot;data_source&quot;=&gt;&quot;Niedersächisches Miniterium für Inneres und Sport, Statistische Daten zur Flüchtlingssituation.&quot;, &quot;source_url_2&quot;=&gt;&quot;https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html&quot;, &quot;source_url_text_2&quot;=&gt;&quot;Statistische Daten zur Flüchtlingssituation&quot;, &quot;source_url_1&quot;=&gt;&quot;https://www.mi.niedersachsen.de/startseite/themen/auslanderangelegenheiten/zahlen_daten_fakten/statistische_daten/lagebilder-zu-fluechlings--und-auslaenderangelegenheiten-164283.html&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Hier finden Sie weitere Daten zu Flüchtlings- und Ausländerangelegenheiten&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}]}';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -1175,9 +1239,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1186,14 +1247,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -1909,7 +2014,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

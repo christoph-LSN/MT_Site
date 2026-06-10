@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610064352">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1264,7 +1264,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610064352'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1488,6 +1488,70 @@ if (allRequired) {
   }
 
   /**
+   * Translation labels from metadata_fields.yml
+   */
+  function getIndicatorLabel() {
+    return 'Indikatorennummerierung';
+  }
+
+  function getIndicatorNameLabel() {
+    return 'Indikatorenbezeichnung';
+  }
+
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '{&quot;number&quot;=&gt;&quot;5.3.4&quot;, &quot;slug&quot;=&gt;&quot;5-3-4&quot;, &quot;name&quot;=&gt;&quot;Arbeitslose nach Zuwanderungsgeschichte, Rechtskreis und Geschlecht&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/5-3-4/&quot;, &quot;sort&quot;=&gt;&quot;050304&quot;, &quot;goal_number&quot;=&gt;&quot;5&quot;, &quot;target_number&quot;=&gt;&quot;5.3&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Arbeitslose nach Zuwanderungsgeschichte, Rechtskreis und Geschlecht&quot;}, &quot;sdg_goal&quot;=&gt;&quot;5&quot;, &quot;indicator_number&quot;=&gt;&quot;5.3.4&quot;, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Arbeitslose nach Zuwanderungsgeschichte, Rechtskreis und Geschlecht&quot;, &quot;graph_type&quot;=&gt;&quot;bar&quot;, &quot;indicator_name&quot;=&gt;&quot;Arbeitslose nach Zuwanderungsgeschichte, Rechtskreis und Geschlecht&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;05-03-04&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Arbeitslosigkeit&lt;/b&gt; &lt;br&gt; Die Integration in den Arbeitsmarkt ist ein wesentlicher Faktor für eine erfolgreiche Integration. Menschen mit und ohne Migrationshintergrund sind zu unterschiedlichen Anteilen von Arbeitslosigkeit betroffen. Nicht in den Zahlen über Arbeitslose und den entsprechenden Quoten enthalten sind Personen, die sich in Fortbildungs- und Arbeitsbeschaffungsmaßnahmen oder im Vorruhestand befinden. Das Ausmaß der Unterbeschäftigung ist daher höher, als es die amtlichen Zahlen über Arbeitslose ausweisen.&quot;, &quot;target_id&quot;=&gt;&quot;5.3&quot;, &quot;precision&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;Prozent&quot;, &quot;decimals&quot;=&gt;1}, {&quot;unit&quot;=&gt;&quot;Anzahl&quot;, &quot;decimals&quot;=&gt;0}], &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Niedersachsen&quot;], &quot;data_show_map&quot;=&gt;false, &quot;data_source&quot;=&gt;&quot;Statistik der Bundesagentur  für Arbeit&quot;, &quot;source_active_1&quot;=&gt;true, &quot;source_url_1&quot;=&gt;&quot;/assets/excel/2025_5-3-4.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Arbeitslose nach Zuwanderungsgeschichte, Rechtskreis und Geschlecht&quot;, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Der Indikator gibt die Zahl der Arbeitslosen nach Rechtskreisen sowie davon die Zahl und den Anteil der Personen mit Zuwanderungsgeschichte wieder.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Quelle für die dargestellten Ergebnisse ist die sogenannte Migrationshintergrund-Erhebung der Bundesagentur für Arbeit, im Rahmen derer Arbeitslose in den Agenturen und Jobcentern zu ihrem Migrationshintergrund befragt werden, um das Portfolio der Arbeitsmarktstatistiken zu erweitern. Die Erhebung wurde in § 281 Abs. 2 SGB III normiert und Details zum Verfahren sowie zur Methodik im September 2010 in der sogenannten Migrationshintergrund-Erhebungsverordnung (MighEV) festgehalten.&lt;br&gt; Ein Migrationshintergrund liegt gemäß § 6 MighEV vor, wenn 1.\tdie befragte Person nicht die deutsche Staatsangehörigkeit besitzt oder 2.\tder Geburtsort der befragten Person außerhalb der heutigen Grenzen der Bundesrepublik Deutschland liegt und eine Zuwanderung in das heutige Gebiet der Bundesrepublik Deutschland nach 1949 erfolgte oder 3.\tder Geburtsort mindestens eines Elternteiles der befragten Person außerhalb der heutigen Grenzen der Bundesrepublik Deutschland liegt sowie eine Zuwanderung dieses Elternteiles in das heutige Gebiet der Bundesrepublik Deutschland nach 1949 erfolgte. &lt;br&gt; Diese Definition entspricht der eines Migrationshintergrundes „im engeren Sinne“ im Rahmen des Mikrozensus. Bei der Interpretation der Ergebnisse ist zu beachten, dass nicht für alle Arbeitslosen sondern lediglich für den Kreis der befragten Personen Angaben zum Migrationshintergrund vorliegen. Die ausgewiesenen Anteile beziehen sich daher ausdrücklich auf die Gruppe der Befragten und nicht auf die Gesamtheit aller Arbeitslosen. Arbeitslose im Rechtskreis des SGB II sind alle arbeitslosen Personen, die die Anspruch auf Leistungen (Arbeitslosengeld II und Sozialgeld) nach dem Zweiten Sozialgesetzbuch (SGB II) – Grundsicherung für Arbeitssuchende – haben. Arbeitslose im Rechtskreis des SGB III sind alle arbeitslosen Personen, die Anspruch auf Leistungen (Arbeitslosengeld I) nach dem Dritten Sozialgesetzbuch (SGB III) – Arbeitsförderung – haben und die Personen, die keine Leistungen mehr erhalten.&quot;, &quot;data_footnotes&quot;=&gt;&quot;&lt;br&gt;1) einschließlich Personen mit Migrationshintergrund ohne nähere Angabe &lt;br&gt;2) Anteile an der Gruppe der im Rahmen der Erhebung befragten Personen &lt;br&gt;3) Eine Differenzierung der Arbeitslosen in den beiden Rechtskreisen SGB II und III nach Geschlecht und Migrationshintergrund ist auf Grundlage der zur Verfügung stehenden Daten nicht möglich. &lt;br&gt;4) \&quot;.\&quot; = Die Bundesagentur für Arbeit (BA) veröffentlicht keine Arbeitslosenquoten für Personengruppen mit weniger als 1 000 zivilen Erwerbspersonen, da bei zu kleinen Personengruppen überzeichnete oder unplausible Quoten nicht auszuschließen sind.&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}]}';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Try to get the data source from page variables.
+   * If not available, return empty string and omit the line.
+   */
+  function getDataSourceValue() {
+    return '';
+  }
+
+  /**
    * Extract the currently active year from visible map controls.
    *
    * We try several selectors and collect visible 4-digit years.
@@ -1661,9 +1725,6 @@ if (allRequired) {
 
   /**
    * Build the print header.
-   *
-   * We deliberately keep this small so that the map itself can remain large.
-   * The site path is intentionally NOT included.
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
@@ -1672,14 +1733,58 @@ if (allRequired) {
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var metaLine = yearText
-      ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
-      : '';
+    var indicatorLabel = getIndicatorLabel();
+    var indicatorNameLabel = getIndicatorNameLabel();
+    var dataSourceLabel = getDataSourceLabel();
+
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
+    if (indicatorNumber) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorLabel +
+          ':</strong> ' +
+          indicatorNumber +
+        '</div>'
+      );
+    }
+
+    if (indicatorName) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          indicatorNameLabel +
+          ':</strong> ' +
+          indicatorName +
+        '</div>'
+      );
+    }
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta">Reference year: ' +
+          yearText +
+        '</div>'
+      );
+    }
+
+    if (dataSource) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          dataSourceLabel +
+          ':</strong> ' +
+          dataSource +
+        '</div>'
+      );
+    }
 
     return '' +
       '<div class="mt-print-header">' +
         '<div class="mt-print-title">' + title + '</div>' +
-        metaLine +
+        lines.join('') +
       '</div>';
   }
 
@@ -2395,7 +2500,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610064352"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
