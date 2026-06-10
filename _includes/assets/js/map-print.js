@@ -15,12 +15,9 @@
    *
    * cachedLegendHtml:
    *   Stores a copy of the original visible legend HTML before printing starts.
-   *   We do this because the DOM can change during the print workflow.
    *
    * cachedYearText:
    *   Stores the currently visible year immediately before print starts.
-   *   This is needed because the year control may no longer expose the
-   *   selected year once the print preview is being built.
    */
   var state = {
     maps: [],
@@ -59,11 +56,6 @@
 
   /**
    * Check whether Leaflet and leaflet.browser.print are both available.
-   *
-   * We only continue if:
-   * - Leaflet core is present
-   * - the Leaflet Map class exists
-   * - the print control plugin has been loaded
    */
   function isLeafletAvailable() {
     return !!(window.L && L.Map && L.control && L.control.browserPrint);
@@ -71,8 +63,6 @@
 
   /**
    * The Open SDG map is rendered inside the tab panel with id="mapview".
-   * We use this as the primary anchor to avoid attaching the print control
-   * to unrelated Leaflet maps.
    */
   function getMapView() {
     return document.getElementById('mapview');
@@ -80,8 +70,6 @@
 
   /**
    * Determine whether an element is visually present on the page.
-   * This is important because Leaflet controls and containers can exist
-   * in the DOM while still being hidden.
    */
   function isVisible(element) {
     if (!element) return false;
@@ -90,7 +78,6 @@
 
   /**
    * Check whether a DOM element belongs to the map view area.
-   * We use this to ensure that we only target the visible indicator map.
    */
   function isInsideMapView(element) {
     var mapView = getMapView();
@@ -116,9 +103,6 @@
   /**
    * Register a Leaflet init hook so that every map created afterwards
    * is automatically tracked.
-   *
-   * This is useful because Open SDG may initialise the map after our script
-   * has already loaded.
    */
   function registerLeafletInitHook() {
     if (!window.L || !L.Map || !L.Map.addInitHook) return;
@@ -134,7 +118,6 @@
 
   /**
    * Also scan global window properties for already existing Leaflet maps.
-   * This covers the case where the map was created before our script started.
    */
   function scanWindowForMaps() {
     if (!window.L || !L.Map) return;
@@ -151,10 +134,7 @@
   }
 
   /**
-   * Decide whether a discovered map is the correct target:
-   * - it must have a container
-   * - that container must be inside #mapview
-   * - and that container must currently be visible
+   * Decide whether a discovered map is the correct target.
    */
   function isGoodTargetMap(map) {
     if (!map || !map.getContainer) return false;
@@ -169,9 +149,6 @@
 
   /**
    * Find the base tile layer used in the current map.
-   *
-   * We pass this as printLayer so that the printed map preserves
-   * the background map instead of printing only thematic polygons.
    */
   function getPrintableBaseLayer(map) {
     var found = null;
@@ -221,14 +198,33 @@
   }
 
   /**
+   * Return true when a value looks like a dumped object / front matter
+   * rather than a clean string value.
+   */
+  function looksLikeObjectDump(value) {
+    if (!value) return false;
+
+    var text = String(value).trim();
+
+    return (
+      text.indexOf("number='") !== -1 ||
+      text.indexOf("slug='") !== -1 ||
+      text.indexOf("name='") !== -1 ||
+      text.indexOf('url=') !== -1 ||
+      text.indexOf('=>') !== -1 ||
+      text.indexOf('{') !== -1 && text.indexOf('}') !== -1
+    );
+  }
+
+  /**
    * Try to get the indicator number from page variables,
    * otherwise parse it from the page heading.
    */
   function getIndicatorNumberValue() {
     var explicitValue =
-      '{{ page.indicator | default: page.indicator_number | default: "" | escape }}';
+      '{{ page.indicator.number | default: page.indicator_number | default: "" | escape }}';
 
-    if (explicitValue) {
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
       return explicitValue;
     }
 
@@ -243,9 +239,9 @@
    */
   function getIndicatorNameValue() {
     var explicitValue =
-      '{{ page.indicator_name | default: "" | escape }}';
+      '{{ page.indicator.name | default: page.indicator_name | default: "" | escape }}';
 
-    if (explicitValue) {
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
       return explicitValue;
     }
 
@@ -263,10 +259,17 @@
 
   /**
    * Try to get the data source from page variables.
-   * If not available, return empty string and omit the line.
+   * If not available or object-like, return empty string and omit the line.
    */
   function getDataSourceValue() {
-    return '{{ page.data_source | default: page.source | default: "" | escape }}';
+    var explicitValue =
+      '{{ page.data_source | default: page.source | default: "" | strip_html | strip_newlines | escape }}';
+
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
+      return explicitValue;
+    }
+
+    return '';
   }
 
   /**
@@ -330,9 +333,6 @@
 
   /**
    * Cache the currently visible year before the print view is created.
-   *
-   * This is important because the year controls may no longer expose the
-   * selected year once the print preview is being built.
    */
   function cacheCurrentYearText() {
     state.cachedYearText = getCurrentYearText();
@@ -341,12 +341,6 @@
 
   /**
    * Find the visible legend element in the live map.
-   *
-   * In this project the legend is currently exposed as:
-   *   .selection-legend.leaflet-control
-   *
-   * We still keep a few fallback selectors to make the implementation
-   * more resilient across future changes.
    */
   function findLegendElement() {
     var selectors = [
@@ -363,14 +357,12 @@
     for (i = 0; i < selectors.length; i++) {
       candidates = document.querySelectorAll(selectors[i]);
 
-      // Prefer a currently visible legend.
       for (j = 0; j < candidates.length; j++) {
         if (isVisible(candidates[j])) {
           return candidates[j];
         }
       }
 
-      // If nothing is visible, return the first match as a fallback.
       if (candidates.length) {
         return candidates[0];
       }
@@ -381,9 +373,6 @@
 
   /**
    * Check whether the live legend currently contains selected-region entries.
-   *
-   * If the selection list contains entries, we keep tooltip labels in print
-   * so that the printed circles can still be matched to their values.
    */
   function hasSelectedLegendItems() {
     var legend = findLegendElement();
@@ -423,10 +412,6 @@
 
   /**
    * Cache the original legend HTML before printing starts.
-   *
-   * This is important because the printing workflow manipulates the DOM,
-   * and by the time the print map exists the original legend may no longer
-   * be in a reliable state.
    */
   function cacheLegendHtml() {
     var legend = findLegendElement();
@@ -537,12 +522,6 @@
 
   /**
    * Configure the print mode.
-   *
-   * Key decisions:
-   * - A4 landscape
-   * - very small margins
-   * - keep the current map zoom instead of auto-resizing too much
-   * - overlay header and footer so they do not consume separate layout height
    */
   function buildPrintModes() {
     return [
@@ -573,11 +552,6 @@
 
   /**
    * Get the best container for legend injection in the print view.
-   *
-   * We do NOT inject the legend into the Leaflet map pane itself because
-   * that can cause it to be hidden below the map tiles or clipped.
-   *
-   * Instead we attach it to the surrounding print layout container.
    */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
@@ -602,8 +576,6 @@
 
   /**
    * Add the cached legend to the print view.
-   *
-   * This runs late in the print process so that the print map already exists.
    */
   function addLegendToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
@@ -635,11 +607,6 @@
 
   /**
    * Attach the browser print control to the target map.
-   *
-   * We also hook into:
-   * - PrePrint: cache the original legend and current year
-   * - Print: refresh the header and inject the legend into the print view
-   * - PrintEnd: clean up again
    */
   function attachPrintControl(map) {
     if (!isLeafletAvailable()) {
