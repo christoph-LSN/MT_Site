@@ -16,13 +16,19 @@
    * cachedLegendHtml:
    *   Stores a copy of the original visible legend HTML before printing starts.
    *   We do this because the DOM can change during the print workflow.
+   *
+   * cachedYearText:
+   *   Stores the currently visible year immediately before print starts.
+   *   This is needed because the year control may no longer expose the
+   *   selected year once the print preview is being built.
    */
   var state = {
     maps: [],
     attached: false,
     observer: null,
     interval: null,
-    cachedLegendHtml: ''
+    cachedLegendHtml: '',
+    cachedYearText: ''
   };
 
   /**
@@ -202,7 +208,8 @@
   /**
    * Extract the currently active year from visible map controls.
    *
-   * We try several selectors and return the first visible 4-digit year.
+   * We try several selectors and collect visible 4-digit years.
+   * In practice the currently active year is usually the last visible match.
    */
   function getCurrentYearText() {
     var selectors = [
@@ -251,11 +258,21 @@
     }
 
     if (foundYears.length) {
-      // Usually the current year is the last visible match in DOM order.
       return foundYears[foundYears.length - 1];
     }
 
     return '';
+  }
+
+  /**
+   * Cache the currently visible year before the print view is created.
+   *
+   * This is important because the year controls may no longer expose the
+   * selected year once the print preview is being built.
+   */
+  function cacheCurrentYearText() {
+    state.cachedYearText = getCurrentYearText();
+    log('Year cached before print.', state.cachedYearText);
   }
 
   /**
@@ -368,7 +385,10 @@
    */
   function buildHeaderHtml() {
     var title = getIndicatorTitle();
-    var yearText = getCurrentYearText();
+
+    // Prefer the cached year captured immediately before print.
+    // Fall back to a live lookup if needed.
+    var yearText = state.cachedYearText || getCurrentYearText();
 
     var metaLine = yearText
       ? '<div class="mt-print-meta">Reference year: ' + yearText + '</div>'
@@ -512,8 +532,8 @@
    * Attach the browser print control to the target map.
    *
    * We also hook into:
-   * - PrePrint: cache the original legend
-   * - Print: inject the legend into the print view
+   * - PrePrint: cache the original legend and current year
+   * - Print: refresh the header and inject the legend into the print view
    * - PrintEnd: clean up again
    */
   function attachPrintControl(map) {
@@ -543,6 +563,9 @@
         // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
+        // Cache the currently visible year BEFORE the print preview is built.
+        cacheCurrentYearText();
+
         // Only remove transient hover UI when there is NO selection.
         if (!hasSelection) {
           removeTransientMapUi(map.getContainer());
@@ -561,7 +584,7 @@
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT year is used.
+          // Refresh the header so the CURRENT cached year is used.
           updatePrintHeader(event.printMap);
 
           addLegendToPrintMap(event.printMap);
@@ -574,8 +597,9 @@
           removeExistingPrintLegend(root);
         }
 
-        // Clean up print state flag
+        // Clean up print state flag and cached year
         document.body.classList.remove('mt-print-has-selection');
+        state.cachedYearText = '';
       });
 
       map._mtPrintControlAdded = true;
