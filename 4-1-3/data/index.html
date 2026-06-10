@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610101502">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610103608">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -593,7 +593,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610101502'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610103608'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1813,7 +1813,7 @@ if (allRequired) {
       document.querySelector('h1');
 
     if (el && el.textContent) {
-      return el.textContent.trim();
+      return el.textContent.trim().replace(/\s+/g, ' ');
     }
 
     return document.title || 'Table';
@@ -1827,7 +1827,7 @@ if (allRequired) {
 
     var caption = tableEl.querySelector('caption');
     if (caption && caption.textContent) {
-      return caption.textContent.trim();
+      return caption.textContent.trim().replace(/\s+/g, ' ');
     }
 
     return '';
@@ -1835,11 +1835,6 @@ if (allRequired) {
 
   /**
    * Create or reuse a title/action bar inside #selectionsTable.
-   *
-   * Structure:
-   * .table-print-bar
-   *   .table-print-title
-   *   .table-print-actions
    */
   function ensureButtonHost() {
     var selectionsTable = document.getElementById('selectionsTable');
@@ -1868,9 +1863,7 @@ if (allRequired) {
 
     selectionsTable.insertBefore(bar, selectionsTable.firstChild);
 
-    // Hide the original visible table caption via CSS if desired.
     selectionsTable.classList.add('has-table-print-bar');
-
     return actions;
   }
 
@@ -1930,7 +1923,7 @@ if (allRequired) {
   }
 
   /**
-   * Prepare a safe file name for XML export.
+   * Prepare a safe file name.
    */
   function sanitizeFileName(value) {
     return String(value || 'table-export')
@@ -1955,74 +1948,272 @@ if (allRequired) {
   }
 
   /**
-   * Build a simple, robust XML export from DataTables exportData().
-   *
-   * Structure:
-   * <tableExport>
-   *   <meta>...</meta>
-   *   <columns>...</columns>
-   *   <rows>...</rows>
-   * </tableExport>
+   * Excel worksheet names have restrictions.
    */
-  function buildXmlString(exportData, meta) {
+  function sanitizeWorksheetName(value) {
+    var name = String(value || 'Tabelle')
+      .replace(/[\[\]\*\/\\\?\:]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!name) name = 'Tabelle';
+    return name.substring(0, 31);
+  }
+
+  /**
+   * Decide whether a cell should be written as Number or String.
+   */
+  function getExcelDataType(value) {
+    var text = String(value == null ? '' : value).trim();
+
+    if (text === '') {
+      return 'String';
+    }
+
+    // Keep leading-zero values as strings
+    if (/^0\d+$/.test(text)) {
+      return 'String';
+    }
+
+    // Plain integer or decimal number
+    if (/^-?\d+(?:[.,]\d+)?$/.test(text)) {
+      return 'Number';
+    }
+
+    return 'String';
+  }
+
+  /**
+   * Normalize number values for Excel XML.
+   */
+  function getExcelCellValue(value, type) {
+    var text = String(value == null ? '' : value).trim();
+
+    if (type === 'Number') {
+      return text.replace(',', '.');
+    }
+
+    return text;
+  }
+
+  /**
+   * Estimate a useful Excel column width from header/body text lengths.
+   */
+  function estimateColumnWidth(headerText, bodyRows, colIndex) {
+    var maxLen = String(headerText || '').length;
+
+    bodyRows.forEach(function (row) {
+      var cell = row[colIndex] == null ? '' : String(row[colIndex]);
+      if (cell.length > maxLen) {
+        maxLen = cell.length;
+      }
+    });
+
+    // Simple heuristic for SpreadsheetML width
+    return Math.max(12, Math.min(maxLen + 2, 40));
+  }
+
+  /**
+   * Build SpreadsheetML (Excel 2003 XML) so that Excel opens it
+   * as a formatted worksheet instead of a raw XML tree.
+   *
+   * This is intentionally a single-sheet workbook.
+   */
+  function buildSpreadsheetMl(exportData, meta) {
     var header = exportData && exportData.header ? exportData.header : [];
     var body = exportData && exportData.body ? exportData.body : [];
 
+    var title = meta.indicatorTitle || '';
+    var caption = meta.tableCaption || '';
+    var source = meta.source || '';
+    var sheetName = sanitizeWorksheetName(caption || title || 'Tabelle');
+
+    var mergeAcross = Math.max(header.length - 1, 0);
+
+    // Row count:
+    // title + caption + blank + header + body rows + blank + source
+    var expandedRowCount = 1 + 1 + 1 + 1 + body.length + 1 + 1;
+    var expandedColumnCount = Math.max(header.length, 1);
+
     var lines = [];
     lines.push('<?xml version="1.0" encoding="UTF-8"?>');
-    lines.push('<tableExport>');
+    lines.push('<?mso-application progid="Excel.Sheet"?>');
+    lines.push('<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"');
+    lines.push(' xmlns:o="urn:schemas-microsoft-com:office:office"');
+    lines.push(' xmlns:x="urn:schemas-microsoft-com:office:excel"');
+    lines.push(' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"');
+    lines.push(' xmlns:html="http://www.w3.org/TR/REC-html40">');
 
-    lines.push('  <meta>');
-    lines.push('    <indicatorTitle>' + escapeXml(meta.indicatorTitle || '') + '</indicatorTitle>');
-    lines.push('    <tableCaption>' + escapeXml(meta.tableCaption || '') + '</tableCaption>');
-    lines.push('    <exportedAt>' + escapeXml(meta.exportedAt || '') + '</exportedAt>');
-    lines.push('    <rowCount>' + escapeXml(body.length) + '</rowCount>');
-    lines.push('    <columnCount>' + escapeXml(header.length) + '</columnCount>');
-    lines.push('  </meta>');
+    lines.push('  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">');
+    lines.push('    <Author>M365 Copilot</Author>');
+    lines.push('    <Created>' + escapeXml(meta.exportedAt || '') + '</Created>');
+    lines.push('    <Version>11.9999</Version>');
+    lines.push('  </DocumentProperties>');
 
-    lines.push('  <columns>');
+    lines.push('  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">');
+    lines.push('    <ProtectStructure>False</ProtectStructure>');
+    lines.push('    <ProtectWindows>False</ProtectWindows>');
+    lines.push('  </ExcelWorkbook>');
+
+    lines.push('  <Styles>');
+    lines.push('    <Style ss:ID="Default" ss:Name="Normal">');
+    lines.push('      <Alignment ss:Vertical="Bottom"/>');
+    lines.push('      <Borders/>');
+    lines.push('      <Font ss:FontName="Calibri" ss:Size="11"/>');
+    lines.push('      <Interior/>');
+    lines.push('      <NumberFormat/>');
+    lines.push('      <Protection/>');
+    lines.push('    </Style>');
+
+    lines.push('    <Style ss:ID="Title">');
+    lines.push('      <Font ss:FontName="Calibri" ss:Size="20" ss:Bold="1"/>');
+    lines.push('      <Alignment ss:Vertical="Center"/>');
+    lines.push('    </Style>');
+
+    lines.push('    <Style ss:ID="Subtitle">');
+    lines.push('      <Font ss:FontName="Calibri" ss:Size="11"/>');
+    lines.push('      <Alignment ss:Vertical="Center"/>');
+    lines.push('    </Style>');
+
+    lines.push('    <Style ss:ID="Header">');
+    lines.push('      <Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/>');
+    lines.push('      <Interior ss:Color="#E6E6E6" ss:Pattern="Solid"/>');
+    lines.push('      <Borders>');
+    lines.push('        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>');
+    lines.push('        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>');
+    lines.push('        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>');
+    lines.push('        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>');
+    lines.push('      </Borders>');
+    lines.push('    </Style>');
+
+    lines.push('    <Style ss:ID="Data">');
+    lines.push('      <Borders>');
+    lines.push('        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('      </Borders>');
+    lines.push('    </Style>');
+
+    lines.push('    <Style ss:ID="DataAlt">');
+    lines.push('      <Interior ss:Color="#F2F2F2" ss:Pattern="Solid"/>');
+    lines.push('      <Borders>');
+    lines.push('        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>');
+    lines.push('      </Borders>');
+    lines.push('    </Style>');
+
+    lines.push('    <Style ss:ID="Source">');
+    lines.push('      <Font ss:FontName="Calibri" ss:Size="10"/>');
+    lines.push('    </Style>');
+    lines.push('  </Styles>');
+
+    lines.push('  <Worksheet ss:Name="' + escapeXml(sheetName) + '">');
+    lines.push(
+      '    <Table ss:ExpandedColumnCount="' + escapeXml(expandedColumnCount) +
+      '" ss:ExpandedRowCount="' + escapeXml(expandedRowCount) +
+      '" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">'
+    );
+
+    // Column widths
     header.forEach(function (columnName, colIndex) {
+      var width = estimateColumnWidth(columnName, body, colIndex);
+      lines.push('      <Column ss:Width="' + escapeXml(width * 6.5) + '"/>');
+    });
+
+    // Title row
+    lines.push('      <Row ss:Height="30">');
+    lines.push(
+      '        <Cell ss:StyleID="Title"' +
+      (mergeAcross > 0 ? ' ss:MergeAcross="' + escapeXml(mergeAcross) + '"' : '') +
+      '><Data ss:Type="String">' + escapeXml(title) + '</Data></Cell>'
+    );
+    lines.push('      </Row>');
+
+    // Subtitle / caption row
+    lines.push('      <Row ss:Height="18">');
+    lines.push(
+      '        <Cell ss:StyleID="Subtitle"' +
+      (mergeAcross > 0 ? ' ss:MergeAcross="' + escapeXml(mergeAcross) + '"' : '') +
+      '><Data ss:Type="String">' + escapeXml(caption) + '</Data></Cell>'
+    );
+    lines.push('      </Row>');
+
+    // Blank row
+    lines.push('      <Row ss:Height="8"/>');
+
+    // Header row
+    lines.push('      <Row>');
+    header.forEach(function (columnName) {
       lines.push(
-        '    <column index="' + escapeXml(colIndex) + '">' +
+        '        <Cell ss:StyleID="Header"><Data ss:Type="String">' +
           escapeXml(columnName) +
-        '</column>'
+        '</Data></Cell>'
       );
     });
-    lines.push('  </columns>');
+    lines.push('      </Row>');
 
-    lines.push('  <rows>');
+    // Data rows
     body.forEach(function (row, rowIndex) {
-      lines.push('    <row index="' + escapeXml(rowIndex) + '">');
+      var styleId = rowIndex % 2 === 0 ? 'Data' : 'DataAlt';
 
-      row.forEach(function (cellValue, colIndex) {
-        var columnName = header[colIndex] || ('column-' + colIndex);
+      lines.push('      <Row>');
+      row.forEach(function (cellValue) {
+        var dataType = getExcelDataType(cellValue);
+        var normalizedValue = getExcelCellValue(cellValue, dataType);
+
         lines.push(
-          '      <cell columnIndex="' + escapeXml(colIndex) +
-          '" columnName="' + escapeXml(columnName) + '">' +
-          escapeXml(cellValue) +
-          '</cell>'
+          '        <Cell ss:StyleID="' + styleId + '"><Data ss:Type="' +
+            dataType +
+            '">' +
+            escapeXml(normalizedValue) +
+          '</Data></Cell>'
         );
       });
-
-      lines.push('    </row>');
+      lines.push('      </Row>');
     });
-    lines.push('  </rows>');
 
-    lines.push('</tableExport>');
+    // Blank row
+    lines.push('      <Row ss:Height="8"/>');
+
+    // Source row
+    lines.push('      <Row>');
+    lines.push(
+      '        <Cell ss:StyleID="Source"' +
+      (mergeAcross > 0 ? ' ss:MergeAcross="' + escapeXml(mergeAcross) + '"' : '') +
+      '><Data ss:Type="String">' + escapeXml(source) + '</Data></Cell>'
+    );
+    lines.push('      </Row>');
+
+    lines.push('    </Table>');
+    lines.push('    <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">');
+    lines.push('      <PageSetup>');
+    lines.push('        <Layout x:Orientation="Landscape"/>');
+    lines.push('      </PageSetup>');
+    lines.push('      <Selected/>');
+    lines.push('      <ProtectObjects>False</ProtectObjects>');
+    lines.push('      <ProtectScenarios>False</ProtectScenarios>');
+    lines.push('    </WorksheetOptions>');
+    lines.push('  </Worksheet>');
+
+    lines.push('</Workbook>');
 
     return lines.join('\n');
   }
 
   /**
-   * Trigger a client-side download of the generated XML file.
+   * Trigger a client-side download of the generated SpreadsheetML file.
    *
    * Note:
-   * The website can reliably trigger the download, but whether the file
-   * opens automatically in Excel or another XML handler depends on browser
-   * and system settings, not on this script.
+   * The site can reliably trigger the download. Whether Excel opens
+   * automatically depends on browser/system settings.
    */
-  function downloadXmlFile(fileName, xmlString) {
-    var blob = new Blob([xmlString], { type: 'application/xml;charset=utf-8' });
+  function downloadSpreadsheetMl(fileName, xmlString) {
+    var blob = new Blob([xmlString], {
+      type: 'application/vnd.ms-excel;charset=utf-8'
+    });
     var url = window.URL.createObjectURL(blob);
 
     var link = document.createElement('a');
@@ -2039,9 +2230,9 @@ if (allRequired) {
   }
 
   /**
-   * Create the XML export from the current DataTable state.
+   * Create the SpreadsheetML export from the current DataTable state.
    */
-  function exportCurrentTableAsXml(dt, tableEl) {
+  function exportCurrentTableAsSpreadsheetMl(dt, tableEl) {
     var indicatorTitle = getIndicatorTitle();
     var tableCaption = getTableCaptionText(tableEl);
     var exportedAt = new Date().toISOString();
@@ -2058,16 +2249,17 @@ if (allRequired) {
       decodeEntities: true
     });
 
-    var xmlString = buildXmlString(exportData, {
+    var xmlString = buildSpreadsheetMl(exportData, {
       indicatorTitle: indicatorTitle,
       tableCaption: tableCaption,
-      exportedAt: exportedAt
+      exportedAt: exportedAt,
+      source: 'Quelle: Integrationsmonitoring Niedersachsen'
     });
 
     var baseName = sanitizeFileName(tableCaption || indicatorTitle || 'table-export');
-    var fileName = baseName ? (baseName + '.xml') : 'table-export.xml';
+    var fileName = (baseName || 'table-export') + '.xml';
 
-    downloadXmlFile(fileName, xmlString);
+    downloadSpreadsheetMl(fileName, xmlString);
   }
 
   /**
@@ -2075,7 +2267,7 @@ if (allRequired) {
    *
    * Buttons included:
    * - Print (if Buttons print plug-in is loaded)
-   * - XML export (custom button)
+   * - XML export (SpreadsheetML / Excel XML)
    */
   function attachExportButtons() {
     var tableEl = getTableElement();
@@ -2102,13 +2294,11 @@ if (allRequired) {
     var dataTable = $table.DataTable();
     var settings = dataTable.settings()[0];
 
-    // If already attached for this table instance, simply reinsert the container.
     if (settings._mtTableExportAttached) {
       return placeButtonsContainer(dataTable);
     }
 
     var indicatorTitle = getIndicatorTitle();
-    var tableCaption = getTableCaptionText(tableEl);
 
     var buttons = [];
 
@@ -2159,15 +2349,15 @@ if (allRequired) {
       });
     }
 
-    // Add the XML export button as a custom DataTables button.
+    // SpreadsheetML export button
     buttons.push({
       text: '🧾 XML exportieren',
       className: 'buttons-xml mt-table-xml-button',
-      action: function (e, dt /* DataTables API */, node, config) {
+      action: function (e, dt) {
         try {
-          exportCurrentTableAsXml(dt, tableEl);
+          exportCurrentTableAsSpreadsheetMl(dt, tableEl);
         } catch (error) {
-          warn('XML export failed.', error);
+          warn('SpreadsheetML export failed.', error);
         }
       }
     });
@@ -2186,8 +2376,7 @@ if (allRequired) {
   /**
    * Start a short retry cycle.
    *
-   * This is mainly needed after area rebuilds triggered by the region selection.
-   * We retry briefly until the current table is fully ready again.
+   * Needed after area rebuilds triggered by the region selection.
    */
   function scheduleReattach() {
     if (reattachTimer) {
@@ -2216,10 +2405,7 @@ if (allRequired) {
   /**
    * Listen globally for DataTables lifecycle events.
    *
-   * We only react to init.dt here. That matches your current stable logic:
-   * - initial page load => bootstrap() / scheduleReattach()
-   * - checkbox driven area rebuild => change listener + init.dt
-   * - sorting must NOT trigger a reattach
+   * We only react to init.dt here.
    */
   function bindGlobalDataTableEvents() {
     if (!window.jQuery) return;
@@ -2246,8 +2432,6 @@ if (allRequired) {
 
   /**
    * React to checkbox changes in the region selection.
-   *
-   * This is the main trigger for the disaggregation / region workflow.
    */
   function bindSelectionChangeEvents() {
     document.addEventListener(
@@ -2287,7 +2471,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610101502"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610103608"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
