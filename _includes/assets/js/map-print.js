@@ -442,6 +442,12 @@
 
   /**
    * Build the print header.
+   *
+   * Heading:
+   *   indicator number + indicator name
+   *
+   * Meta lines:
+   *   reference year
    */
   function buildHeaderHtml() {
     var title = getPrintHeadingText();
@@ -450,10 +456,7 @@
     // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
-    var dataSourceLabel = getDataSourceLabel();
     var referenceYearLabel = getReferenceYearLabel();
-    var dataSource = getDataSourceValue();
-
     var lines = [];
 
     if (yearText) {
@@ -466,9 +469,29 @@
       );
     }
 
+    return '' +
+      '<div class="mt-print-header">' +
+        '<div class="mt-print-title">' + title + '</div>' +
+        lines.join('') +
+      '</div>';
+  }
+
+  /**
+   * Build the print footer.
+   *
+   * Desired order:
+   * 1. Datenquelle: ...
+   * 2. integrationsmonitoring.niedersachsen.de
+   */
+  function buildFooterHtml() {
+    var dataSourceLabel = getDataSourceLabel();
+    var dataSource = getDataSourceValue();
+
+    var lines = [];
+
     if (dataSource) {
       lines.push(
-        '<div class="mt-print-meta"><strong>' +
+        '<div class="mt-print-footer-source"><strong>' +
           dataSourceLabel +
           ':</strong> ' +
           dataSource +
@@ -476,11 +499,11 @@
       );
     }
 
-    return '' +
-      '<div class="mt-print-header">' +
-        '<div class="mt-print-title">' + title + '</div>' +
-        lines.join('') +
-      '</div>';
+    lines.push(
+      '<div class="mt-print-footer-site">integrationsmonitoring.niedersachsen.de</div>'
+    );
+
+    return lines.join('');
   }
 
   /**
@@ -534,8 +557,8 @@
         },
         footer: {
           enabled: true,
-          text: 'Integrationsmonitoring Niedersachsen',
-          size: '4mm',
+          text: buildFooterHtml(),
+          size: '7mm',
           overTheMap: true
         }
       })
