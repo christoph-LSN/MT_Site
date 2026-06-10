@@ -40,20 +40,6 @@ body {
   }
 }
 
-.tags {
-  li:nth-child(1) .tag {
-    background: pink;
-  }
-
-  li:nth-child(2) .tag {
-    background: lightgreen;
-  }
-
-  li:nth-child(3) .tag {
-    background: yellow;
-  }
-}
-
 /* ===== Kartendruck ===== */
 
 body.leaflet--printing .leaflet-print-overlay {
@@ -99,10 +85,19 @@ body.leaflet--printing .mt-print-meta {
 body.leaflet--printing #print-footer {
   text-align: left !important;
   font-size: 9px !important;
-  line-height: 1 !important;
+  line-height: 1.1 !important;
   padding: 0 4mm 2mm 4mm !important;
   background: transparent !important;
   z-index: 10002 !important;
+}
+
+body.leaflet--printing .mt-print-footer-source,
+body.leaflet--printing .mt-print-footer-site {
+  display: block;
+}
+
+body.leaflet--printing .mt-print-footer-source {
+  margin-bottom: 0.5mm;
 }
 
 body.leaflet--printing .mt-print-legend-overlay {
@@ -251,19 +246,7 @@ body.leaflet--printing .leaflet-control-scale {
   transform-origin: bottom right;
 }
 
-/* ===== Table print (rollback baseline) ===== */
-
-.table-print-buttons {
-  margin-bottom: 1rem;
-}
-
-.table-print-buttons .dt-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-/* ===== Tabellen-Druck: Titel links, Button rechts ===== */
+/* ===== Tabellen-Druck ===== */
 
 .table-print-bar {
   display: flex;
