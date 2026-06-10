@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610071759">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1275,7 +1275,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610071759'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -1308,12 +1308,9 @@ if (allRequired) {
    *
    * cachedLegendHtml:
    *   Stores a copy of the original visible legend HTML before printing starts.
-   *   We do this because the DOM can change during the print workflow.
    *
    * cachedYearText:
    *   Stores the currently visible year immediately before print starts.
-   *   This is needed because the year control may no longer expose the
-   *   selected year once the print preview is being built.
    */
   var state = {
     maps: [],
@@ -1352,11 +1349,6 @@ if (allRequired) {
 
   /**
    * Check whether Leaflet and leaflet.browser.print are both available.
-   *
-   * We only continue if:
-   * - Leaflet core is present
-   * - the Leaflet Map class exists
-   * - the print control plugin has been loaded
    */
   function isLeafletAvailable() {
     return !!(window.L && L.Map && L.control && L.control.browserPrint);
@@ -1364,8 +1356,6 @@ if (allRequired) {
 
   /**
    * The Open SDG map is rendered inside the tab panel with id="mapview".
-   * We use this as the primary anchor to avoid attaching the print control
-   * to unrelated Leaflet maps.
    */
   function getMapView() {
     return document.getElementById('mapview');
@@ -1373,8 +1363,6 @@ if (allRequired) {
 
   /**
    * Determine whether an element is visually present on the page.
-   * This is important because Leaflet controls and containers can exist
-   * in the DOM while still being hidden.
    */
   function isVisible(element) {
     if (!element) return false;
@@ -1383,7 +1371,6 @@ if (allRequired) {
 
   /**
    * Check whether a DOM element belongs to the map view area.
-   * We use this to ensure that we only target the visible indicator map.
    */
   function isInsideMapView(element) {
     var mapView = getMapView();
@@ -1409,9 +1396,6 @@ if (allRequired) {
   /**
    * Register a Leaflet init hook so that every map created afterwards
    * is automatically tracked.
-   *
-   * This is useful because Open SDG may initialise the map after our script
-   * has already loaded.
    */
   function registerLeafletInitHook() {
     if (!window.L || !L.Map || !L.Map.addInitHook) return;
@@ -1427,7 +1411,6 @@ if (allRequired) {
 
   /**
    * Also scan global window properties for already existing Leaflet maps.
-   * This covers the case where the map was created before our script started.
    */
   function scanWindowForMaps() {
     if (!window.L || !L.Map) return;
@@ -1444,10 +1427,7 @@ if (allRequired) {
   }
 
   /**
-   * Decide whether a discovered map is the correct target:
-   * - it must have a container
-   * - that container must be inside #mapview
-   * - and that container must currently be visible
+   * Decide whether a discovered map is the correct target.
    */
   function isGoodTargetMap(map) {
     if (!map || !map.getContainer) return false;
@@ -1462,9 +1442,6 @@ if (allRequired) {
 
   /**
    * Find the base tile layer used in the current map.
-   *
-   * We pass this as printLayer so that the printed map preserves
-   * the background map instead of printing only thematic polygons.
    */
   function getPrintableBaseLayer(map) {
     var found = null;
@@ -1514,14 +1491,33 @@ if (allRequired) {
   }
 
   /**
+   * Return true when a value looks like a dumped object / front matter
+   * rather than a clean string value.
+   */
+  function looksLikeObjectDump(value) {
+    if (!value) return false;
+
+    var text = String(value).trim();
+
+    return (
+      text.indexOf("number='") !== -1 ||
+      text.indexOf("slug='") !== -1 ||
+      text.indexOf("name='") !== -1 ||
+      text.indexOf('url=') !== -1 ||
+      text.indexOf('=>') !== -1 ||
+      text.indexOf('{') !== -1 && text.indexOf('}') !== -1
+    );
+  }
+
+  /**
    * Try to get the indicator number from page variables,
    * otherwise parse it from the page heading.
    */
   function getIndicatorNumberValue() {
     var explicitValue =
-      '{&quot;number&quot;=&gt;&quot;4.1.3&quot;, &quot;slug&quot;=&gt;&quot;4-1-3&quot;, &quot;name&quot;=&gt;&quot;Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen (in Prozent)&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/4-1-3/&quot;, &quot;sort&quot;=&gt;&quot;040103&quot;, &quot;goal_number&quot;=&gt;&quot;4&quot;, &quot;target_number&quot;=&gt;&quot;4.1&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen (in Prozent)&quot;}, &quot;sdg_goal&quot;=&gt;&quot;4&quot;, &quot;indicator_number&quot;=&gt;&quot;4.1.3&quot;, &quot;data_non_statistical&quot;=&gt;false, &quot;graph_title&quot;=&gt;&quot;Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen (in Prozent)&quot;, &quot;graph_type&quot;=&gt;&quot;bar&quot;, &quot;indicator_name&quot;=&gt;&quot;Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen (in Prozent)&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;04-01-03&quot;, &quot;published&quot;=&gt;true, &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;target_name&quot;=&gt;&quot;&lt;b&gt;Schulische Bildung&lt;/b&gt; &lt;br&gt; Bildung ist von zentraler Bedeutung für den Integrationsprozess. Bildung bestimmt nicht nur die Chancen auf dem Arbeitsmarkt, sondern ermöglicht Teilhabe in vielen gesellschaftlichen Lebensbereichen. Die erreichten Schulabschlüsse zeigen die Bildungsstruktur der Menschen mit Zuwanderungsgeschichte. Sie sind ein Indikator für das Potenzial der Menschen mit Zuwanderungsgeschichte für den Arbeitsmarkt.&quot;, &quot;target_id&quot;=&gt;&quot;4.1&quot;, &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Niedersachsen&quot;], &quot;data_show_map&quot;=&gt;false, &quot;source_active_1&quot;=&gt;true, &quot;precision&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;%&quot;, &quot;decimals&quot;=&gt;1}], &quot;data_start_values&quot;=&gt;[{&quot;field&quot;=&gt;&quot;Altersgruppe&quot;, &quot;value&quot;=&gt;&quot;15 – 65&quot;}, {&quot;field&quot;=&gt;&quot;Schulabschluss&quot;, &quot;value&quot;=&gt;&quot;Ohne Abschluss&quot;}, {&quot;field&quot;=&gt;&quot;Schulabschluss&quot;, &quot;value&quot;=&gt;&quot;Hauptschulabschluss&quot;}, {&quot;field&quot;=&gt;&quot;Schulabschluss&quot;, &quot;value&quot;=&gt;&quot;Realschulabschluss&quot;}, {&quot;field&quot;=&gt;&quot;Schulabschluss&quot;, &quot;value&quot;=&gt;&quot;(Fach-)Hochschulreife&quot;}, {&quot;field&quot;=&gt;&quot;Migrationsstatus&quot;, &quot;value&quot;=&gt;&quot;mit Migrationshintergrund&quot;}], &quot;data_source&quot;=&gt;&quot;Mikrozensus&quot;, &quot;data_footnotes&quot;=&gt;&quot;&lt;br&gt;1) Ab der Veröffentlichung der Endergebnisse 2023 und der Erstergebnisse 2024 werden für die Hochrechnung des Mikrozensus Daten der Bevölkerungsfortschreibung herangezogen, die auf den Eckwerten des Zensus 2022 basieren. Die Hochrechnung für die Jahre vor 2011 sowie für bislang veröffentlichte Ergebnisse des Mikrozensus 2011-2015 basiert auf den fortgeschriebenen Ergebnissen der Volkszählung 1987. In 2016 erfolgte die Umstellung auf eine neue Mikrozensus-Stichprobe (auf Basis des Zensus 2011). Ab 2017 wird nur noch die Bevölkerung in Privathaushalten (ohne Gemeinschaftsunterkünfte) ausgewiesen. Dadurch ergibt sich jeweils eine eingeschränkte Vergleichbarkeit mit den Vorjahren. &lt;br&gt;2) Ohne Abschluss einschließlich Abschluss Förderschule. &lt;br&gt;3) Seit dem Jahr 2018 wird im Mikrozensus der Migrationshintergrund im weiteren Sinne jährlich berichtet. Durch eine rückwirkende Revision der Mikrozensusdaten wird auch für das Jahr 2017 der Migrationshintergrund im weiteren Sinne dargestellt. Die in den Tabellen ab dem Jahr 2017 berichteten Daten zum Migrationshintergrund entsprechen dem Migrationshintergrund im weiteren Sinne, bis 2016 wird der Migrationshintergrund im engeren Sinne abgebildet. Die Vergleichbarkeit zwischen den Jahren ist dadurch eingeschränkt. &lt;br&gt;4) Die Ergebnisse des Mikrozensus 2020 sind unter anderem aufgrund methodischer Effekte im Rahmen einer Neugestaltung der Erhebung sowie insbesondere aufgrund der Folgen der Corona-Pandemie in Ihrer Datenqualität eingeschränkt. Auf die Verwendung dieser Ergebnisse wird daher verzichtet. Die Neugestaltung der Erhebung schränkt die Vergleichbarkeit der Ergebnisse ab 2020 mit den Vorjahren ein.  Weitere Informationen zur methodischen Neugestaltung des Mikrozensus ab 2020 und zu den Auswirkungen der Neugestaltung und der Corona-Krise auf die Ergebnisse des Jahres 2020 und 2021 finden Sie auf der  &lt;a href=\&quot;https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Methoden/mikrozensus-2020.html\&quot; target=\&quot;_blank\&quot;&gt;Informationsseite des Statistischen Bundesamtes&lt;/a&gt;&quot;, &quot;source_url_1&quot;=&gt;&quot;/assets/excel/2025_4-1-3.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen (in Prozent)&quot;, &quot;title&quot;=&gt;&quot;Untitled&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Der Indikator gibt den Anteil von Menschen mit und ohne Zuwanderungsgeschichte nach höchstem Schulabschluss wieder. Er kann Aussagen über die strukturelle Teilhabe und die Chancengleichheit im Bildungssystem machen. Die Über- bzw. Unterrepräsentation der Bevölkerung mit Zuwanderungsgeschichte bei den verschiedenen Schulabschlüssen zeigt an, ob diese vergleichbare Bildungschancen wie Menschen ohne Zuwanderungsgeschichte haben. Je höher der erreichte Schulabschluss ist, desto besser sind auch die weiteren Chancen für eine gleichberechtigte, strukturelle Teilhabe. Die Betrachtung der jüngeren Altersgruppe gibt Hinweise darauf, wie sich die Bildungsstruktur künftig entwickeln wird. Die Angleichung der Bildungsstruktur der Bevölkerung mit Zuwanderungsgeschichte an die, ohne Zuwanderungsgeschichte, kann als Voraussetzung für die Angleichung der Beschäftigungsstruktur beider Gruppen angesehen werden.&quot;, &quot;computation_calculations&quot;=&gt;&quot;Der Indikator gibt die Bildungsstruktur der Bevölkerung mit und ohne Zuwanderungsgeschichte wieder, unabhängig davon, ob ein Abschluss in Deutschland oder im Ausland erworben wurde. Schülerinnen und Schüler, die noch eine allgemein bildende Schule besuchen, sind nicht in diese Auswertung eingeflossen. Quelle ist der Mikrozensus. Eine Person hat nach dem Mikrozensus einen Migrationshintergrund, wenn sie selbst oder mindestens ein Elternteil die deutsche Staatsangehörigkeit nicht durch Geburt besitzt. Die Definition umfasst im Einzelnen folgende Personen: &lt;br&gt;1. zugewanderte und nicht zugewanderte Ausländer; &lt;br&gt;2. zugewanderte und nicht zugewanderte Eingebürgerte; &lt;br&gt;3. (Spät-)Aussiedler; &lt;br&gt;4. mit deutscher Staatsangehörigkeit geborene Nachkommen &lt;br&gt;Der Migrationshintergrund kann sich demnach auch ausschließlich aus den Eigenschaften der Eltern ableiten. &lt;br&gt;Ab Veröffentlichungsjahr 2021 wird zwischen Erst- und Endveröffentlichungen von Mikrozensusergebnissen unterschieden. Bei Erst- und Endergebnissen handelt es sich um zwei Ergebnisarten, die beide auf vollständig aufbereiteten und validierten Daten beruhen. Die Endergebnisse basieren im Gegensatz zu den Erstergebnissen auf einer höheren Anzahl befragter Haushalte. Dies ist dadurch bedingt, dass auch nach Ende eines Erhebungsjahres fehlende Haushalte nach Erinnerungen und/oder Mahnungen noch Auskunft geben. Dieses Datenmaterial wird zudem an einem aktualisierten Bevölkerungseckwert hochgerechnet. Durch den größeren Stichprobenumfang und die aktualisierte Hochrechnung können ggf. Abweichungen gegenüber den Erstergebnissen entstehen. Bei den hier abgebildeten Daten des jüngsten Jahres handelt es sich um die Erstergebnisse.&quot;, &quot;other_info&quot;=&gt;&quot;Weitere methodische Erläuterungen und bundesweite Ergebnisse sind zu finden in: &lt;a href=\&quot;https://www.destatis.de\&quot; target=\&quot;_blank\&quot;&gt;Statistisches Bundesamt&lt;/a&gt;: Fachserie 1 Reihe 2.1, Bevölkerung und Erwerbstätigkeit (erscheint jährlich).&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}]}';
+      '4.1.3';
 
-    if (explicitValue) {
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
       return explicitValue;
     }
 
@@ -1536,9 +1532,9 @@ if (allRequired) {
    */
   function getIndicatorNameValue() {
     var explicitValue =
-      '';
+      'Höchster Schulabschluss an allgemein bildenden Schulen nach Zuwanderungsgeschichte und Altersgruppen (in Prozent)';
 
-    if (explicitValue) {
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
       return explicitValue;
     }
 
@@ -1556,9 +1552,16 @@ if (allRequired) {
 
   /**
    * Try to get the data source from page variables.
-   * If not available, return empty string and omit the line.
+   * If not available or object-like, return empty string and omit the line.
    */
   function getDataSourceValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
+      return explicitValue;
+    }
+
     return '';
   }
 
@@ -1623,9 +1626,6 @@ if (allRequired) {
 
   /**
    * Cache the currently visible year before the print view is created.
-   *
-   * This is important because the year controls may no longer expose the
-   * selected year once the print preview is being built.
    */
   function cacheCurrentYearText() {
     state.cachedYearText = getCurrentYearText();
@@ -1634,12 +1634,6 @@ if (allRequired) {
 
   /**
    * Find the visible legend element in the live map.
-   *
-   * In this project the legend is currently exposed as:
-   *   .selection-legend.leaflet-control
-   *
-   * We still keep a few fallback selectors to make the implementation
-   * more resilient across future changes.
    */
   function findLegendElement() {
     var selectors = [
@@ -1656,14 +1650,12 @@ if (allRequired) {
     for (i = 0; i < selectors.length; i++) {
       candidates = document.querySelectorAll(selectors[i]);
 
-      // Prefer a currently visible legend.
       for (j = 0; j < candidates.length; j++) {
         if (isVisible(candidates[j])) {
           return candidates[j];
         }
       }
 
-      // If nothing is visible, return the first match as a fallback.
       if (candidates.length) {
         return candidates[0];
       }
@@ -1674,9 +1666,6 @@ if (allRequired) {
 
   /**
    * Check whether the live legend currently contains selected-region entries.
-   *
-   * If the selection list contains entries, we keep tooltip labels in print
-   * so that the printed circles can still be matched to their values.
    */
   function hasSelectedLegendItems() {
     var legend = findLegendElement();
@@ -1716,10 +1705,6 @@ if (allRequired) {
 
   /**
    * Cache the original legend HTML before printing starts.
-   *
-   * This is important because the printing workflow manipulates the DOM,
-   * and by the time the print map exists the original legend may no longer
-   * be in a reliable state.
    */
   function cacheLegendHtml() {
     var legend = findLegendElement();
@@ -1830,12 +1815,6 @@ if (allRequired) {
 
   /**
    * Configure the print mode.
-   *
-   * Key decisions:
-   * - A4 landscape
-   * - very small margins
-   * - keep the current map zoom instead of auto-resizing too much
-   * - overlay header and footer so they do not consume separate layout height
    */
   function buildPrintModes() {
     return [
@@ -1866,11 +1845,6 @@ if (allRequired) {
 
   /**
    * Get the best container for legend injection in the print view.
-   *
-   * We do NOT inject the legend into the Leaflet map pane itself because
-   * that can cause it to be hidden below the map tiles or clipped.
-   *
-   * Instead we attach it to the surrounding print layout container.
    */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
@@ -1895,8 +1869,6 @@ if (allRequired) {
 
   /**
    * Add the cached legend to the print view.
-   *
-   * This runs late in the print process so that the print map already exists.
    */
   function addLegendToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
@@ -1928,11 +1900,6 @@ if (allRequired) {
 
   /**
    * Attach the browser print control to the target map.
-   *
-   * We also hook into:
-   * - PrePrint: cache the original legend and current year
-   * - Print: refresh the header and inject the legend into the print view
-   * - PrintEnd: clean up again
    */
   function attachPrintControl(map) {
     if (!isLeafletAvailable()) {
@@ -2511,7 +2478,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610071759"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>

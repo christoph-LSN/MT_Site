@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610070400">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260610071759">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -916,7 +916,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260610070400'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260610071759'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -949,12 +949,9 @@ if (allRequired) {
    *
    * cachedLegendHtml:
    *   Stores a copy of the original visible legend HTML before printing starts.
-   *   We do this because the DOM can change during the print workflow.
    *
    * cachedYearText:
    *   Stores the currently visible year immediately before print starts.
-   *   This is needed because the year control may no longer expose the
-   *   selected year once the print preview is being built.
    */
   var state = {
     maps: [],
@@ -993,11 +990,6 @@ if (allRequired) {
 
   /**
    * Check whether Leaflet and leaflet.browser.print are both available.
-   *
-   * We only continue if:
-   * - Leaflet core is present
-   * - the Leaflet Map class exists
-   * - the print control plugin has been loaded
    */
   function isLeafletAvailable() {
     return !!(window.L && L.Map && L.control && L.control.browserPrint);
@@ -1005,8 +997,6 @@ if (allRequired) {
 
   /**
    * The Open SDG map is rendered inside the tab panel with id="mapview".
-   * We use this as the primary anchor to avoid attaching the print control
-   * to unrelated Leaflet maps.
    */
   function getMapView() {
     return document.getElementById('mapview');
@@ -1014,8 +1004,6 @@ if (allRequired) {
 
   /**
    * Determine whether an element is visually present on the page.
-   * This is important because Leaflet controls and containers can exist
-   * in the DOM while still being hidden.
    */
   function isVisible(element) {
     if (!element) return false;
@@ -1024,7 +1012,6 @@ if (allRequired) {
 
   /**
    * Check whether a DOM element belongs to the map view area.
-   * We use this to ensure that we only target the visible indicator map.
    */
   function isInsideMapView(element) {
     var mapView = getMapView();
@@ -1050,9 +1037,6 @@ if (allRequired) {
   /**
    * Register a Leaflet init hook so that every map created afterwards
    * is automatically tracked.
-   *
-   * This is useful because Open SDG may initialise the map after our script
-   * has already loaded.
    */
   function registerLeafletInitHook() {
     if (!window.L || !L.Map || !L.Map.addInitHook) return;
@@ -1068,7 +1052,6 @@ if (allRequired) {
 
   /**
    * Also scan global window properties for already existing Leaflet maps.
-   * This covers the case where the map was created before our script started.
    */
   function scanWindowForMaps() {
     if (!window.L || !L.Map) return;
@@ -1085,10 +1068,7 @@ if (allRequired) {
   }
 
   /**
-   * Decide whether a discovered map is the correct target:
-   * - it must have a container
-   * - that container must be inside #mapview
-   * - and that container must currently be visible
+   * Decide whether a discovered map is the correct target.
    */
   function isGoodTargetMap(map) {
     if (!map || !map.getContainer) return false;
@@ -1103,9 +1083,6 @@ if (allRequired) {
 
   /**
    * Find the base tile layer used in the current map.
-   *
-   * We pass this as printLayer so that the printed map preserves
-   * the background map instead of printing only thematic polygons.
    */
   function getPrintableBaseLayer(map) {
     var found = null;
@@ -1155,14 +1132,33 @@ if (allRequired) {
   }
 
   /**
+   * Return true when a value looks like a dumped object / front matter
+   * rather than a clean string value.
+   */
+  function looksLikeObjectDump(value) {
+    if (!value) return false;
+
+    var text = String(value).trim();
+
+    return (
+      text.indexOf("number='") !== -1 ||
+      text.indexOf("slug='") !== -1 ||
+      text.indexOf("name='") !== -1 ||
+      text.indexOf('url=') !== -1 ||
+      text.indexOf('=>') !== -1 ||
+      text.indexOf('{') !== -1 && text.indexOf('}') !== -1
+    );
+  }
+
+  /**
    * Try to get the indicator number from page variables,
    * otherwise parse it from the page heading.
    */
   function getIndicatorNumberValue() {
     var explicitValue =
-      '{&quot;number&quot;=&gt;&quot;3.1.3&quot;, &quot;slug&quot;=&gt;&quot;3-1-3&quot;, &quot;name&quot;=&gt;&quot;Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung&quot;, &quot;url&quot;=&gt;&quot;/MT_Site/3-1-3/&quot;, &quot;sort&quot;=&gt;&quot;030103&quot;, &quot;goal_number&quot;=&gt;&quot;3&quot;, &quot;target_number&quot;=&gt;&quot;3.1&quot;, &quot;global&quot;=&gt;{&quot;name&quot;=&gt;&quot;Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung&quot;}, &quot;data_non_statistical&quot;=&gt;false, &quot;goal_meta_link&quot;=&gt;&quot;https://unstats.un.org/sdgs/metadata/files/Metadata-03-01-01.pdf&quot;, &quot;goal_meta_link_text&quot;=&gt;&quot;United Nations Sustainable Development Goals Metadata (pdf 865kB)&quot;, &quot;graph_title&quot;=&gt;&quot;Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung&quot;, &quot;graph_type&quot;=&gt;&quot;line&quot;, &quot;indicator_number&quot;=&gt;&quot;3.1.3&quot;, &quot;indicator_name&quot;=&gt;&quot;Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung&quot;, &quot;indicator_sort_order&quot;=&gt;&quot;03-01-03&quot;, &quot;published&quot;=&gt;true, &quot;tags&quot;=&gt;[&quot;Datenstand 2024&quot;, &quot;Landkreise und kreisfreie Städte&quot;], &quot;data_start_values&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;%&quot;, &quot;field&quot;=&gt;&quot;Gebietseinheit&quot;, &quot;value&quot;=&gt;&quot;Niedersachsen&quot;}, {&quot;unit&quot;=&gt;&quot;%&quot;, &quot;field&quot;=&gt;&quot;Kinderbetreuung&quot;, &quot;value&quot;=&gt;&quot;Kinder im Alter von unter 3 Jahren mit ausländischer Herkunft mindestens eines Elternteils&quot;}, {&quot;unit&quot;=&gt;&quot;%&quot;, &quot;field&quot;=&gt;&quot;Kinderbetreuung&quot;, &quot;value&quot;=&gt;&quot;Kinder im Alter von 3 bis unter 6 Jahren mit ausländischer Herkunft mindestens eines Elternteils&quot;}], &quot;precision&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;%&quot;, &quot;decimals&quot;=&gt;1}, {&quot;unit&quot;=&gt;&quot;Anzahl&quot;, &quot;decimals&quot;=&gt;0}], &quot;graph_titles&quot;=&gt;[{&quot;unit&quot;=&gt;&quot;%&quot;, &quot;title&quot;=&gt;&quot;Anteil an allen betreuten Kindern bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung in Prozent&quot;}, {&quot;unit&quot;=&gt;&quot;Anzahl&quot;, &quot;title&quot;=&gt;&quot;Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung&quot;}], &quot;reporting_status&quot;=&gt;&quot;complete&quot;, &quot;data_show_map&quot;=&gt;true, &quot;source_active_1&quot;=&gt;true, &quot;source_url_1&quot;=&gt;&quot;https://christoph-lsn.github.io/MT_Site/assets/excel/2025_3-1-3.xlsx&quot;, &quot;source_url_text_1&quot;=&gt;&quot;Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung&quot;, &quot;data_source&quot;=&gt;&quot;Kinder- und Jugendhilfestatistik&quot;, &quot;sdg_goal&quot;=&gt;&quot;3&quot;, &quot;target_name&quot;=&gt;&quot;global_targets.3-3-title&quot;, &quot;target_id&quot;=&gt;&quot;3.3&quot;, &quot;national_indicator_description&quot;=&gt;&quot;Der Indikator gibt Anzahl und Anteil von betreuten Kindern bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte (mindestens ein Elternteil ausländischer Herkunft) in Tageseinrichtungen sowie in öffentlich geförderter Tagespflege an, die nicht zusätzlich eine Einrichtung der Tagesbetreuung besuchen. Die frühkindliche Förderung von Kindern mit Zuwanderungsgeschichte ist für den gesamten Bildungserfolg von zentraler Bedeutung. Insbesondere wird der Entwicklung der sprachlichen Fähigkeiten eine Schlüsselrolle bei der gesellschaftlichen Teilhabe zuerkannt, da unter anderem von den Sprachkenntnissen der Zugang zu Bildung, Ausbildung und Arbeitsmarkt abhängt.&quot;, &quot;computation_calculations&quot;=&gt;&quot;In der jährlichen Kinder- und Jugendhilfestatistik ist bei ausländischer Herkunft mindestens eines Elternteils anzugeben, ob die Mutter und bzw. oder der Vater des Kindes im Ausland geboren wurden. Die aktuelle Staatsangehörigkeit der Eltern ist nicht maßgeblich. Leben die Eltern nicht mehr zusammen, ist für die Angabe nur die Situation des Elternteils zu berücksichtigen, bei dem das Kind wohnt. Lebt ein neuer Partner mit im Haushalt, wird dessen Situation mit berücksichtigt. Stichtag der Statistik ist der 1. März.&quot;, &quot;other_info&quot;=&gt;&quot;Weitere Angaben für Niedersachsen auf Ebene der Landkreise, der kreisfreien Städte und der Landeshauptstadt Hannover und bundesweite Angaben sind zu finden in: Handlungsorientierte Sozialberichterstattung Niedersachsen, Statistikteil sowie jährlich aktualisiert in dem &lt;a href=\&quot;https://www.statistik.niedersachsen.de/startseite/veroffentlichungen/statistische_berichte/statistische-berichte-niedersachsen-87713.html\&quot; target=\&quot;_blank\&quot;&gt;Statistischen Bericht Niedersachsen&lt;/a&gt; K I 4, Kinder und tätige Personen in Tageseinrichtungen und in öffentlich geförderter Kindertagespflege. Hier finden sich auch Angaben über die vorrangige Familiensprache.&quot;, &quot;data_footnote&quot;=&gt;&quot;&lt;br&gt;1) Kinder in Kindertageseinrichtungen sowie Kinder in öffentlich geförderter Kindertagespflege, die nicht zusätzlich eine Einrichtung der Kindertagesbetreuung besuchen.&quot;, &quot;page_content&quot;=&gt;&quot;&quot;, &quot;national_metadata_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;national_data_updated_date&quot;=&gt;&quot;2026-06-09&quot;, &quot;indicator_tabs_list&quot;=&gt;[{&quot;type&quot;=&gt;&quot;chart&quot;, &quot;label&quot;=&gt;&quot;indicator.chart&quot;}, {&quot;type&quot;=&gt;&quot;table&quot;, &quot;label&quot;=&gt;&quot;indicator.table&quot;}, {&quot;type&quot;=&gt;&quot;map&quot;, &quot;label&quot;=&gt;&quot;indicator.map&quot;}]}';
+      '3.1.3';
 
-    if (explicitValue) {
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
       return explicitValue;
     }
 
@@ -1177,9 +1173,9 @@ if (allRequired) {
    */
   function getIndicatorNameValue() {
     var explicitValue =
-      '';
+      'Betreute Kinder bis unter 3 Jahren und von 3 bis unter 6 Jahren mit Zuwanderungsgeschichte in Kindertagesbetreuung';
 
-    if (explicitValue) {
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
       return explicitValue;
     }
 
@@ -1197,9 +1193,16 @@ if (allRequired) {
 
   /**
    * Try to get the data source from page variables.
-   * If not available, return empty string and omit the line.
+   * If not available or object-like, return empty string and omit the line.
    */
   function getDataSourceValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
+      return explicitValue;
+    }
+
     return '';
   }
 
@@ -1264,9 +1267,6 @@ if (allRequired) {
 
   /**
    * Cache the currently visible year before the print view is created.
-   *
-   * This is important because the year controls may no longer expose the
-   * selected year once the print preview is being built.
    */
   function cacheCurrentYearText() {
     state.cachedYearText = getCurrentYearText();
@@ -1275,12 +1275,6 @@ if (allRequired) {
 
   /**
    * Find the visible legend element in the live map.
-   *
-   * In this project the legend is currently exposed as:
-   *   .selection-legend.leaflet-control
-   *
-   * We still keep a few fallback selectors to make the implementation
-   * more resilient across future changes.
    */
   function findLegendElement() {
     var selectors = [
@@ -1297,14 +1291,12 @@ if (allRequired) {
     for (i = 0; i < selectors.length; i++) {
       candidates = document.querySelectorAll(selectors[i]);
 
-      // Prefer a currently visible legend.
       for (j = 0; j < candidates.length; j++) {
         if (isVisible(candidates[j])) {
           return candidates[j];
         }
       }
 
-      // If nothing is visible, return the first match as a fallback.
       if (candidates.length) {
         return candidates[0];
       }
@@ -1315,9 +1307,6 @@ if (allRequired) {
 
   /**
    * Check whether the live legend currently contains selected-region entries.
-   *
-   * If the selection list contains entries, we keep tooltip labels in print
-   * so that the printed circles can still be matched to their values.
    */
   function hasSelectedLegendItems() {
     var legend = findLegendElement();
@@ -1357,10 +1346,6 @@ if (allRequired) {
 
   /**
    * Cache the original legend HTML before printing starts.
-   *
-   * This is important because the printing workflow manipulates the DOM,
-   * and by the time the print map exists the original legend may no longer
-   * be in a reliable state.
    */
   function cacheLegendHtml() {
     var legend = findLegendElement();
@@ -1471,12 +1456,6 @@ if (allRequired) {
 
   /**
    * Configure the print mode.
-   *
-   * Key decisions:
-   * - A4 landscape
-   * - very small margins
-   * - keep the current map zoom instead of auto-resizing too much
-   * - overlay header and footer so they do not consume separate layout height
    */
   function buildPrintModes() {
     return [
@@ -1507,11 +1486,6 @@ if (allRequired) {
 
   /**
    * Get the best container for legend injection in the print view.
-   *
-   * We do NOT inject the legend into the Leaflet map pane itself because
-   * that can cause it to be hidden below the map tiles or clipped.
-   *
-   * Instead we attach it to the surrounding print layout container.
    */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
@@ -1536,8 +1510,6 @@ if (allRequired) {
 
   /**
    * Add the cached legend to the print view.
-   *
-   * This runs late in the print process so that the print map already exists.
    */
   function addLegendToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
@@ -1569,11 +1541,6 @@ if (allRequired) {
 
   /**
    * Attach the browser print control to the target map.
-   *
-   * We also hook into:
-   * - PrePrint: cache the original legend and current year
-   * - Print: refresh the header and inject the legend into the print view
-   * - PrintEnd: clean up again
    */
   function attachPrintControl(map) {
     if (!isLeafletAvailable()) {
@@ -2152,7 +2119,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260610070400"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260610071759"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
