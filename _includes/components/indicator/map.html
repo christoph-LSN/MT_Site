@@ -1,0 +1,46 @@
+{% assign graph_title = page.indicator.graph_titles.first.title | default: page.indicator.graph_title %}
+{% assign indicator_number = page.indicator.indicator_number | default: page.indicator.indicator | default: page.indicator.id %}
+<!--{% assign source_url = 'https://www.integrationsmonitoring.niedersachsen.de' %}-->
+
+<!-- =========================================================
+     EXPORTBEREICH
+     Nur dieser Block wird für den JPEG-Export verwendet
+     ========================================================= -->
+<div id="map-export-wrapper">
+
+  <!-- Titel -->
+  <div id="map-export-header">
+    <h4 id="map-heading" class="map-title">
+      {% if indicator_number %}
+        Indikator {{ indicator_number }}: {{ graph_title }}
+      {% else %}
+        {{ graph_title }}
+      {% endif %}
+    </h4>
+  </div>
+
+  <!-- Kartenbereich -->
+  <div id="map" aria-describedby="table-alternative">
+    <img
+      class="map-loading-image"
+      src="{{ site.baseurl }}/assets/img/loading.gif"
+      alt="{{ page.t.indicator.loading_map }}" />
+  </div>
+
+  <!-- Standard-Fußnote / Datenfuß -->
+  {% include components/indicator/data-footer.html footerId='mapFooter' %}
+
+  <!-- Zusätzliche Quellenangabe im Export -->
+  <div id="map-export-source" class="map-export-source">
+    <!--<strong>Quelle:</strong>-->
+    <span id="map-source-text">{{ source_url }}</span>
+  </div>
+
+  <!--
+    WICHTIG:
+    Hier KEINE eigene Button-Leiste einbauen.
+    Der vorhandene GeoJSON-Button wird von der Map-Logik erzeugt
+    und per scripts-custom.html mit dem JPEG-Button kombiniert.
+  -->
+
+</div>
