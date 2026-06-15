@@ -470,35 +470,6 @@
   }
 
   /**
-   * Update the print header with the current title/year
-   * after the print layout has been created.
-   */
-  function updatePrintHeader(printMap) {
-    var header = null;
-
-    if (printMap && printMap.getContainer) {
-      var container = printMap.getContainer();
-      var root = getPrintOverlayRoot(printMap);
-
-      if (root) {
-        header = root.querySelector('#print-header');
-      }
-
-      if (!header && container && container.ownerDocument) {
-        header = container.ownerDocument.querySelector('#print-header');
-      }
-    }
-
-    if (!header) {
-      header = document.querySelector('#print-header');
-    }
-
-    if (!header) return;
-
-    header.innerHTML = buildHeaderHtml();
-  }
-
-  /**
    * Configure the print mode.
    */
   function buildPrintModes() {
@@ -581,6 +552,35 @@
 
     root.appendChild(wrapper);
     log('Legend inserted into print view.');
+  }
+
+  /**
+   * Update the print header with the current title/year
+   * after the print layout has been created.
+   */
+  function updatePrintHeader(printMap) {
+    var header = null;
+
+    if (printMap && printMap.getContainer) {
+      var container = printMap.getContainer();
+      var root = getPrintOverlayRoot(printMap);
+
+      if (root) {
+        header = root.querySelector('#print-header');
+      }
+
+      if (!header && container && container.ownerDocument) {
+        header = container.ownerDocument.querySelector('#print-header');
+      }
+    }
+
+    if (!header) {
+      header = document.querySelector('#print-header');
+    }
+
+    if (!header) return;
+
+    header.innerHTML = buildHeaderHtml();
   }
 
   /**
@@ -677,7 +677,10 @@
   }
 
   /**
-   * Observe #mapview because Open SDG may render the map asynchronously.
+   * Observe #mapview because Open SDG may render or update the map asynchronously.
+   *
+   * This observer may be registered before Leaflet is available. In that case,
+   * it simply waits until Leaflet and leaflet.browser.print are ready.
    */
   function observeMapView() {
     var mapView = getMapView();
@@ -685,7 +688,12 @@
 
     state.observer = new MutationObserver(function () {
       if (state.attached) return;
-      attachIfPossible();
+
+      if (isLeafletAvailable()) {
+        registerLeafletInitHook();
+        scanWindowForMaps();
+        attachIfPossible();
+      }
     });
 
     state.observer.observe(mapView, {
@@ -697,13 +705,16 @@
   }
 
   /**
-   * Fallback polling while the page is still settling.
+   * Retry until Leaflet, leaflet.browser.print and the map are ready.
+   *
+   * This is needed because Open SDG may initialise the map lazily,
+   * for example when the map tab is opened.
    */
-  function startPolling() {
+  function startReadinessWatcher() {
     if (state.interval) return;
 
     var attempts = 0;
-    var maxAttempts = 60;
+    var maxAttempts = 240; // 2 minutes
 
     state.interval = window.setInterval(function () {
       if (state.attached) {
@@ -712,14 +723,91 @@
       }
 
       attempts += 1;
-      scanWindowForMaps();
-      attachIfPossible();
+
+      // The #mapview element may not exist immediately.
+      observeMapView();
+
+      if (isLeafletAvailable()) {
+        registerLeafletInitHook();
+        scanWindowForMaps();
+        attachIfPossible();
+      }
 
       if (attempts >= maxAttempts) {
-        stopWatching();
-        warn('No visible Leaflet map found inside #mapview.');
+        window.clearInterval(state.interval);
+        state.interval = null;
+
+        // Not fatal: The map tab may still be opened later.
+        warn('Map print readiness watcher timed out. Will retry on map tab activation.');
       }
     }, 500);
+  }
+
+  /**
+   * Retry when the user opens the map tab.
+   *
+   * Open SDG may only initialise or resize the map when the map tab is activated.
+   */
+  function bindMapActivationEvents() {
+    if (window.__mtMapPrintActivationEventsBound) return;
+    window.__mtMapPrintActivationEventsBound = true;
+
+    function retryAfterMapActivation() {
+      window.setTimeout(function () {
+        if (state.attached) return;
+
+        observeMapView();
+
+        if (isLeafletAvailable()) {
+          registerLeafletInitHook();
+          scanWindowForMaps();
+          attachIfPossible();
+        }
+
+        if (!state.attached) {
+          startReadinessWatcher();
+        }
+      }, 300);
+    }
+
+    document.addEventListener(
+      'click',
+      function (event) {
+        var target = event.target;
+        if (!target || !target.closest) return;
+
+        var mapTab = target.closest(
+          '#tab-mapview, a[href="#mapview"], button[data-bs-target="#mapview"], button[data-target="#mapview"]'
+        );
+
+        if (mapTab) {
+          retryAfterMapActivation();
+        }
+      },
+      true
+    );
+
+    // Bootstrap tab event, if available.
+    document.addEventListener('shown.bs.tab', function (event) {
+      var target = event.target;
+      if (!target || !target.matches) return;
+
+      if (
+        target.matches('#tab-mapview') ||
+        target.matches('a[href="#mapview"]') ||
+        target.matches('button[data-bs-target="#mapview"]') ||
+        target.matches('button[data-target="#mapview"]')
+      ) {
+        retryAfterMapActivation();
+      }
+    });
+
+    // Also retry when the hash changes to #mapview.
+    window.addEventListener('hashchange', function () {
+      if (window.location.hash === '#mapview') {
+        retryAfterMapActivation();
+      }
+    });
   }
 
   /**
@@ -739,20 +827,15 @@
 
   /**
    * Initialise the integration.
+   *
+   * Important:
+   * Do not return permanently when Leaflet or leaflet.browser.print is missing.
+   * Open SDG may initialise the map lazily, especially when the map tab is opened.
    */
   function bootstrap() {
-    if (!isLeafletAvailable()) {
-      warn('Leaflet or leaflet.browser.print is missing.');
-      return;
-    }
-
-    registerLeafletInitHook();
-    scanWindowForMaps();
+    bindMapActivationEvents();
     observeMapView();
-
-    if (!attachIfPossible()) {
-      startPolling();
-    }
+    startReadinessWatcher();
   }
 
   if (document.readyState === 'loading') {
