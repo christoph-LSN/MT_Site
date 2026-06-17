@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260615144111">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260617154016">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -472,7 +472,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260615144111'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260617154016'></script>
 <!-- Existing map print integration -->
 <script>
   /*!
@@ -505,7 +505,8 @@ if (allRequired) {
     observer: null,
     interval: null,
     cachedLegendHtml: '',
-    cachedYearText: ''
+    cachedYearText: '',
+    cachedDisaggregationHtml: ''
   };
 
   /**
@@ -695,6 +696,18 @@ if (allRequired) {
   }
 
   /**
+   * Escape user/interface text before inserting it as HTML.
+   */
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  /**
    * Try to get the indicator number from page variables,
    * otherwise parse it from the page heading.
    */
@@ -813,11 +826,89 @@ if (allRequired) {
   }
 
   /**
+   * Extract the currently selected map disaggregations.
+   *
+   * Example:
+   *   map-Units      -> Einheit: Prozent
+   *   map-Geschlecht -> Geschlecht: weiblich
+   *   map-Kategorie  -> Kategorie: ...
+   */
+  function getCurrentMapDisaggregations() {
+    var checkedInputs = document.querySelectorAll('input:checked');
+    var items = [];
+
+    checkedInputs.forEach(function (el) {
+      if (!el.name || el.name.indexOf('map-') !== 0) return;
+
+      var dimension = el.name.replace('map-', '').trim();
+
+      var dimensionLabels = {
+        Units: 'Einheit',
+        Geschlecht: 'Geschlecht',
+        Kategorie: 'Kategorie'
+      };
+
+      dimension = dimensionLabels[dimension] || dimension;
+
+      var value = '';
+
+      if (el.labels && el.labels.length && el.labels[0].textContent) {
+        value = el.labels[0].textContent.trim();
+      } else if (el.value) {
+        value = String(el.value).trim();
+      }
+
+      if (!dimension || !value) return;
+
+      items.push({
+        dimension: dimension,
+        value: value
+      });
+    });
+
+    return items;
+  }
+
+  /**
+   * Build HTML for the currently selected map disaggregations.
+   */
+  function buildMapDisaggregationsHtml() {
+    var items = getCurrentMapDisaggregations();
+
+    if (!items.length) {
+      return '';
+    }
+
+    return (
+      '<div class="mt-print-meta mt-print-disaggregations">' +
+        '<strong>Kartenauswahl:</strong> ' +
+        items.map(function (item) {
+          return (
+            '<span class="mt-print-disaggregation-item">' +
+              escapeHtml(item.dimension) +
+              ': ' +
+              escapeHtml(item.value) +
+            '</span>'
+          );
+        }).join(' · ') +
+      '</div>'
+    );
+  }
+
+  /**
    * Cache the currently visible year before the print view is created.
    */
   function cacheCurrentYearText() {
     state.cachedYearText = getCurrentYearText();
     log('Year cached before print.', state.cachedYearText);
+  }
+
+  /**
+   * Cache the currently selected map disaggregations before the print view is created.
+   */
+  function cacheCurrentMapDisaggregations() {
+    state.cachedDisaggregationHtml = buildMapDisaggregationsHtml();
+    log('Map disaggregations cached before print.', state.cachedDisaggregationHtml);
   }
 
   /**
@@ -915,6 +1006,7 @@ if (allRequired) {
    *
    * Meta lines:
    *   year
+   *   selected map disaggregations
    */
   function buildHeaderHtml() {
     var title = getPrintHeadingText();
@@ -931,14 +1023,21 @@ if (allRequired) {
         '<div class="mt-print-meta"><strong>' +
           referenceYearLabel +
           ':</strong> ' +
-          yearText +
+          escapeHtml(yearText) +
         '</div>'
       );
     }
 
+    var disaggregationHtml =
+      state.cachedDisaggregationHtml || buildMapDisaggregationsHtml();
+
+    if (disaggregationHtml) {
+      lines.push(disaggregationHtml);
+    }
+
     return '' +
       '<div class="mt-print-header">' +
-        '<div class="mt-print-title">' + title + '</div>' +
+        '<div class="mt-print-title">' + escapeHtml(title) + '</div>' +
         lines.join('') +
       '</div>';
   }
@@ -954,7 +1053,7 @@ if (allRequired) {
 
     return (
       '<div class="mt-print-footer-source"><strong>' +
-        dataSourceLabel +
+        escapeHtml(dataSourceLabel) +
         ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
   }
@@ -1045,7 +1144,7 @@ if (allRequired) {
   }
 
   /**
-   * Update the print header with the current title/year
+   * Update the print header with the current title/year/disaggregations
    * after the print layout has been created.
    */
   function updatePrintHeader(printMap) {
@@ -1103,8 +1202,9 @@ if (allRequired) {
         // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
-        // Cache the currently visible year BEFORE the print preview is built.
+        // Cache values BEFORE the print preview is built.
         cacheCurrentYearText();
+        cacheCurrentMapDisaggregations();
 
         // Only remove transient hover UI when there is NO selection.
         if (!hasSelection) {
@@ -1124,7 +1224,7 @@ if (allRequired) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT cached year is used.
+          // Refresh the header so the CURRENT cached values are used.
           updatePrintHeader(event.printMap);
 
           addLegendToPrintMap(event.printMap);
@@ -1137,9 +1237,10 @@ if (allRequired) {
           removeExistingPrintLegend(root);
         }
 
-        // Clean up print state flag and cached year
+        // Clean up print state flags and cached values.
         document.body.classList.remove('mt-print-has-selection');
         state.cachedYearText = '';
+        state.cachedDisaggregationHtml = '';
       });
 
       map._mtPrintControlAdded = true;
@@ -2433,7 +2534,7 @@ if (allRequired) {
 
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260615144111"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260617154016"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
