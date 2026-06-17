@@ -516,7 +516,6 @@
    *
    * Meta lines:
    *   year
-   *   selected map disaggregations
    */
   function buildHeaderHtml() {
     var title = getPrintHeadingText();
@@ -531,18 +530,11 @@
     if (yearText) {
       lines.push(
         '<div class="mt-print-meta"><strong>' +
-          referenceYearLabel +
+          escapeHtml(referenceYearLabel) +
           ':</strong> ' +
           escapeHtml(yearText) +
         '</div>'
       );
-    }
-
-    var disaggregationHtml =
-      state.cachedDisaggregationHtml || buildMapDisaggregationsHtml();
-
-    if (disaggregationHtml) {
-      lines.push(disaggregationHtml);
     }
 
     return '' +
@@ -585,7 +577,7 @@
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '11mm',
+          size: '16mm',
           overTheMap: true
         },
         footer: {
@@ -599,7 +591,7 @@
   }
 
   /**
-   * Get the best container for legend injection in the print view.
+   * Get the best container for legend/disaggregation injection in the print view.
    */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
@@ -608,6 +600,49 @@
     if (!mapContainer) return null;
 
     return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
+  }
+
+  /**
+   * Ensure print overlay styles exist in the print document.
+   */
+  function ensurePrintOverlayStyles(root) {
+    if (!root) return;
+
+    var doc = root.ownerDocument || document;
+
+    if (doc.getElementById('mt-print-overlay-styles')) {
+      return;
+    }
+
+    var style = doc.createElement('style');
+    style.id = 'mt-print-overlay-styles';
+
+    style.textContent = ''
+      + '.mt-print-disaggregation-overlay {'
+      + '  position: absolute;'
+      + '  left: 6mm;'
+      + '  top: 14mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 185mm;'
+      + '  padding: 2.5mm 3.5mm;'
+      + '  background: rgba(255, 255, 255, 0.9);'
+      + '  border: 1px solid rgba(0, 0, 0, 0.25);'
+      + '  border-radius: 2mm;'
+      + '  font-size: 8pt;'
+      + '  line-height: 1.25;'
+      + '  color: #000;'
+      + '  box-sizing: border-box;'
+      + '}'
+      + '.mt-print-disaggregation-overlay .mt-print-meta {'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-disaggregation-item {'
+      + '  display: inline;'
+      + '}';
+
+    if (doc.head) {
+      doc.head.appendChild(style);
+    }
   }
 
   /**
@@ -620,6 +655,49 @@
     if (existing) {
       existing.remove();
     }
+  }
+
+  /**
+   * Remove any previously added disaggregation overlay from the print view.
+   */
+  function removeExistingPrintDisaggregations(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-disaggregation-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  /**
+   * Add the cached map disaggregations to the print view as a visible overlay.
+   */
+  function addDisaggregationsToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    removeExistingPrintDisaggregations(root);
+    ensurePrintOverlayStyles(root);
+
+    // Make sure absolute positioning works.
+    if (!root.style.position) {
+      root.style.position = 'relative';
+    }
+
+    var html = state.cachedDisaggregationHtml || buildMapDisaggregationsHtml();
+
+    if (!html) {
+      warn('No cached map disaggregations available.');
+      return;
+    }
+
+    var doc = root.ownerDocument || document;
+    var wrapper = doc.createElement('div');
+    wrapper.className = 'mt-print-disaggregation-overlay';
+    wrapper.innerHTML = html;
+
+    root.appendChild(wrapper);
+    log('Map disaggregations inserted into print view.');
   }
 
   /**
@@ -636,15 +714,17 @@
       return;
     }
 
-    var wrapper = document.createElement('div');
+    var doc = root.ownerDocument || document;
+
+    var wrapper = doc.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
 
-    var heading = document.createElement('div');
+    var heading = doc.createElement('div');
     heading.className = 'mt-print-legend-heading';
     heading.textContent = '{{ page.t.indicator.map_legend | default: "Legend" | escape }}';
     wrapper.appendChild(heading);
 
-    var legendHolder = document.createElement('div');
+    var legendHolder = doc.createElement('div');
     legendHolder.className = 'mt-print-legend-clone';
     legendHolder.innerHTML = state.cachedLegendHtml;
     wrapper.appendChild(legendHolder);
@@ -654,7 +734,7 @@
   }
 
   /**
-   * Update the print header with the current title/year/disaggregations
+   * Update the print header with the current title/year
    * after the print layout has been created.
    */
   function updatePrintHeader(printMap) {
@@ -737,6 +817,8 @@
           // Refresh the header so the CURRENT cached values are used.
           updatePrintHeader(event.printMap);
 
+          // Add visible print overlays.
+          addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
       });
@@ -745,6 +827,7 @@
         if (event && event.printMap) {
           var root = getPrintOverlayRoot(event.printMap);
           removeExistingPrintLegend(root);
+          removeExistingPrintDisaggregations(root);
         }
 
         // Clean up print state flags and cached values.
