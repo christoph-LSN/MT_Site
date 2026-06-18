@@ -1,10 +1,105 @@
+---
+---
 (function () {
   'use strict';
 
   /**
+   * Configuration from _data/site_config.yml
+   *
+   * Expected structure:
+   *
+   * map_print:
+   *   enabled: true
+   *   debug: false
+   *   control:
+   *     enabled: true
+   *     title: Karte drucken
+   *     position: topleft
+   *   page:
+   *     format: A4
+   *     orientation: landscape
+   *     margin:
+   *       top: 2
+   *       right: 2
+   *       bottom: 2
+   *       left: 2
+   *   header:
+   *     enabled: true
+   *     title: true
+   *     year: true
+   *     size: 16mm
+   *     over_the_map: true
+   *   footer:
+   *     enabled: true
+   *     source: true
+   *     size: 5mm
+   *     over_the_map: true
+   *   legend:
+   *     enabled: true
+   *     heading: true
+   *   disaggregations:
+   *     enabled: true
+   *     label: Kartenauswahl
+   *     position: top-left
+   *   cleanup:
+   *     remove_transient_ui: true
+   */
+  var printConfig = {
+    enabled: {{ site.data.site_config.map_print.enabled | default: true | jsonify }},
+    debug: {{ site.data.site_config.map_print.debug | default: false | jsonify }},
+
+    control: {
+      enabled: {{ site.data.site_config.map_print.control.enabled | default: true | jsonify }},
+      title: {{ site.data.site_config.map_print.control.title | default: "Karte drucken" | jsonify }},
+      position: {{ site.data.site_config.map_print.control.position | default: "topleft" | jsonify }}
+    },
+
+    page: {
+      format: {{ site.data.site_config.map_print.page.format | default: "A4" | jsonify }},
+      orientation: {{ site.data.site_config.map_print.page.orientation | default: "landscape" | jsonify }},
+      margin: {
+        top: {{ site.data.site_config.map_print.page.margin.top | default: 2 | jsonify }},
+        right: {{ site.data.site_config.map_print.page.margin.right | default: 2 | jsonify }},
+        bottom: {{ site.data.site_config.map_print.page.margin.bottom | default: 2 | jsonify }},
+        left: {{ site.data.site_config.map_print.page.margin.left | default: 2 | jsonify }}
+      }
+    },
+
+    header: {
+      enabled: {{ site.data.site_config.map_print.header.enabled | default: true | jsonify }},
+      title: {{ site.data.site_config.map_print.header.title | default: true | jsonify }},
+      year: {{ site.data.site_config.map_print.header.year | default: true | jsonify }},
+      size: {{ site.data.site_config.map_print.header.size | default: "16mm" | jsonify }},
+      overTheMap: {{ site.data.site_config.map_print.header.over_the_map | default: true | jsonify }}
+    },
+
+    footer: {
+      enabled: {{ site.data.site_config.map_print.footer.enabled | default: true | jsonify }},
+      source: {{ site.data.site_config.map_print.footer.source | default: true | jsonify }},
+      size: {{ site.data.site_config.map_print.footer.size | default: "5mm" | jsonify }},
+      overTheMap: {{ site.data.site_config.map_print.footer.over_the_map | default: true | jsonify }}
+    },
+
+    legend: {
+      enabled: {{ site.data.site_config.map_print.legend.enabled | default: true | jsonify }},
+      heading: {{ site.data.site_config.map_print.legend.heading | default: true | jsonify }}
+    },
+
+    disaggregations: {
+      enabled: {{ site.data.site_config.map_print.disaggregations.enabled | default: true | jsonify }},
+      label: {{ site.data.site_config.map_print.disaggregations.label | default: "Kartenauswahl" | jsonify }},
+      position: {{ site.data.site_config.map_print.disaggregations.position | default: "top-left" | jsonify }}
+    },
+
+    cleanup: {
+      removeTransientUi: {{ site.data.site_config.map_print.cleanup.remove_transient_ui | default: true | jsonify }}
+    }
+  };
+
+  /**
    * Toggle this to true while diagnosing map print issues.
    */
-  var DEBUG = false;
+  var DEBUG = !!printConfig.debug;
 
   /**
    * Shared runtime state for the print integration.
@@ -176,7 +271,7 @@
   }
 
   /**
-   * Translation labels from metadata_fields.yml
+   * Translation labels from metadata_fields.yml.
    */
   function getDataSourceLabel() {
     return '{{ page.t.metadata_fields.data_source | default: "Quelle" | escape }}';
@@ -206,7 +301,7 @@
   }
 
   /**
-   * Escape user/interface text before inserting it as HTML.
+   * Escape text before inserting it as HTML.
    */
   function escapeHtml(value) {
     return String(value || '')
@@ -278,9 +373,6 @@
 
   /**
    * Extract the currently active year from visible map controls.
-   *
-   * We try several selectors and collect visible 4-digit years.
-   * In practice the currently active year is usually the last visible match.
    */
   function getCurrentYearText() {
     var selectors = [
@@ -344,6 +436,10 @@
    *   map-Kategorie  -> Kategorie: ...
    */
   function getCurrentMapDisaggregations() {
+    if (!printConfig.disaggregations.enabled) {
+      return [];
+    }
+
     var checkedInputs = document.querySelectorAll('input:checked');
     var items = [];
 
@@ -383,15 +479,21 @@
    * Build HTML for the currently selected map disaggregations.
    */
   function buildMapDisaggregationsHtml() {
+    if (!printConfig.disaggregations.enabled) {
+      return '';
+    }
+
     var items = getCurrentMapDisaggregations();
 
     if (!items.length) {
       return '';
     }
 
+    var label = printConfig.disaggregations.label || 'Kartenauswahl';
+
     return (
       '<div class="mt-print-meta mt-print-disaggregations">' +
-        '<strong>Kartenauswahl:</strong> ' +
+        '<strong>' + escapeHtml(label) + ':</strong> ' +
         items.map(function (item) {
           return (
             '<span class="mt-print-disaggregation-item">' +
@@ -409,6 +511,11 @@
    * Cache the currently visible year before the print view is created.
    */
   function cacheCurrentYearText() {
+    if (!printConfig.header.year) {
+      state.cachedYearText = '';
+      return;
+    }
+
     state.cachedYearText = getCurrentYearText();
     log('Year cached before print.', state.cachedYearText);
   }
@@ -417,6 +524,11 @@
    * Cache the currently selected map disaggregations before the print view is created.
    */
   function cacheCurrentMapDisaggregations() {
+    if (!printConfig.disaggregations.enabled) {
+      state.cachedDisaggregationHtml = '';
+      return;
+    }
+
     state.cachedDisaggregationHtml = buildMapDisaggregationsHtml();
     log('Map disaggregations cached before print.', state.cachedDisaggregationHtml);
   }
@@ -469,8 +581,6 @@
   /**
    * Remove transient / temporary UI such as hover tooltips or popups
    * from a map-related DOM subtree before printing.
-   *
-   * This is only used when there is NO selection.
    */
   function removeTransientMapUi(root) {
     if (!root) return;
@@ -496,6 +606,11 @@
    * Cache the original legend HTML before printing starts.
    */
   function cacheLegendHtml() {
+    if (!printConfig.legend.enabled) {
+      state.cachedLegendHtml = '';
+      return;
+    }
+
     var legend = findLegendElement();
 
     if (!legend) {
@@ -510,47 +625,52 @@
 
   /**
    * Build the print header.
-   *
-   * Heading:
-   *   indicator number + indicator name
-   *
-   * Meta lines:
-   *   year
    */
   function buildHeaderHtml() {
-    var title = getPrintHeadingText();
+    if (!printConfig.header.enabled) {
+      return '';
+    }
 
-    // Prefer the cached year captured immediately before print.
-    // Fall back to a live lookup if needed.
-    var yearText = state.cachedYearText || getCurrentYearText();
-
-    var referenceYearLabel = getReferenceYearLabel();
     var lines = [];
 
-    if (yearText) {
+    if (printConfig.header.title) {
       lines.push(
-        '<div class="mt-print-meta"><strong>' +
-          escapeHtml(referenceYearLabel) +
-          ':</strong> ' +
-          escapeHtml(yearText) +
+        '<div class="mt-print-title">' +
+          escapeHtml(getPrintHeadingText()) +
         '</div>'
       );
     }
 
-    return '' +
+    if (printConfig.header.year) {
+      var yearText = state.cachedYearText || getCurrentYearText();
+      var referenceYearLabel = getReferenceYearLabel();
+
+      if (yearText) {
+        lines.push(
+          '<div class="mt-print-meta"><strong>' +
+            escapeHtml(referenceYearLabel) +
+            ':</strong> ' +
+            escapeHtml(yearText) +
+          '</div>'
+        );
+      }
+    }
+
+    return (
       '<div class="mt-print-header">' +
-        '<div class="mt-print-title">' + escapeHtml(title) + '</div>' +
         lines.join('') +
-      '</div>';
+      '</div>'
+    );
   }
 
   /**
    * Build the print footer.
-   *
-   * Desired output:
-   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
    */
   function buildFooterHtml() {
+    if (!printConfig.footer.enabled || !printConfig.footer.source) {
+      return '';
+    }
+
     var dataSourceLabel = getDataSourceLabel();
 
     return (
@@ -561,30 +681,39 @@
   }
 
   /**
-   * Configure the print mode.
+   * Get print mode according to config.
    */
   function buildPrintModes() {
+    var orientation = String(printConfig.page.orientation || 'landscape').toLowerCase();
+    var format = printConfig.page.format || 'A4';
+
+    var modeFactory = L.BrowserPrint.Mode.Landscape;
+
+    if (orientation === 'portrait' && L.BrowserPrint.Mode.Portrait) {
+      modeFactory = L.BrowserPrint.Mode.Portrait;
+    }
+
     return [
-      L.BrowserPrint.Mode.Landscape('A4', {
+      modeFactory(format, {
         title: 'Print',
         margin: {
-          top: 2,
-          right: 2,
-          bottom: 2,
-          left: 2
+          top: printConfig.page.margin.top,
+          right: printConfig.page.margin.right,
+          bottom: printConfig.page.margin.bottom,
+          left: printConfig.page.margin.left
         },
         enableZoom: false,
         header: {
-          enabled: true,
+          enabled: !!printConfig.header.enabled,
           text: buildHeaderHtml(),
-          size: '16mm',
-          overTheMap: true
+          size: printConfig.header.size || '16mm',
+          overTheMap: !!printConfig.header.overTheMap
         },
         footer: {
-          enabled: true,
+          enabled: !!printConfig.footer.enabled,
           text: buildFooterHtml(),
-          size: '5mm',
-          overTheMap: true
+          size: printConfig.footer.size || '5mm',
+          overTheMap: !!printConfig.footer.overTheMap
         }
       })
     ];
@@ -614,14 +743,27 @@
       return;
     }
 
+    var position = String(printConfig.disaggregations.position || 'top-left').toLowerCase();
+
+    var vertical = 'top: 14mm;';
+    var horizontal = 'left: 6mm;';
+
+    if (position.indexOf('bottom') !== -1) {
+      vertical = 'bottom: 8mm;';
+    }
+
+    if (position.indexOf('right') !== -1) {
+      horizontal = 'right: 6mm;';
+    }
+
     var style = doc.createElement('style');
     style.id = 'mt-print-overlay-styles';
 
     style.textContent = ''
       + '.mt-print-disaggregation-overlay {'
       + '  position: absolute;'
-      + '  left: 6mm;'
-      + '  top: 14mm;'
+      + '  ' + horizontal
+      + '  ' + vertical
       + '  z-index: 99999;'
       + '  max-width: 185mm;'
       + '  padding: 2.5mm 3.5mm;'
@@ -638,6 +780,9 @@
       + '}'
       + '.mt-print-disaggregation-item {'
       + '  display: inline;'
+      + '}'
+      + '.mt-print-legend-overlay {'
+      + '  z-index: 99998;'
       + '}';
 
     if (doc.head) {
@@ -673,13 +818,16 @@
    * Add the cached map disaggregations to the print view as a visible overlay.
    */
   function addDisaggregationsToPrintMap(printMap) {
+    if (!printConfig.disaggregations.enabled) {
+      return;
+    }
+
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
 
     removeExistingPrintDisaggregations(root);
     ensurePrintOverlayStyles(root);
 
-    // Make sure absolute positioning works.
     if (!root.style.position) {
       root.style.position = 'relative';
     }
@@ -704,6 +852,10 @@
    * Add the cached legend to the print view.
    */
   function addLegendToPrintMap(printMap) {
+    if (!printConfig.legend.enabled) {
+      return;
+    }
+
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
 
@@ -719,10 +871,12 @@
     var wrapper = doc.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
 
-    var heading = doc.createElement('div');
-    heading.className = 'mt-print-legend-heading';
-    heading.textContent = '{{ page.t.indicator.map_legend | default: "Legend" | escape }}';
-    wrapper.appendChild(heading);
+    if (printConfig.legend.heading) {
+      var heading = doc.createElement('div');
+      heading.className = 'mt-print-legend-heading';
+      heading.textContent = '{{ page.t.indicator.map_legend | default: "Legende" | escape }}';
+      wrapper.appendChild(heading);
+    }
 
     var legendHolder = doc.createElement('div');
     legendHolder.className = 'mt-print-legend-clone';
@@ -738,6 +892,10 @@
    * after the print layout has been created.
    */
   function updatePrintHeader(printMap) {
+    if (!printConfig.header.enabled) {
+      return;
+    }
+
     var header = null;
 
     if (printMap && printMap.getContainer) {
@@ -766,6 +924,16 @@
    * Attach the browser print control to the target map.
    */
   function attachPrintControl(map) {
+    if (!printConfig.enabled) {
+      log('Map print disabled by site_config.yml.');
+      return false;
+    }
+
+    if (!printConfig.control.enabled) {
+      log('Map print control disabled by site_config.yml.');
+      return false;
+    }
+
     if (!isLeafletAvailable()) {
       warn('Leaflet or leaflet.browser.print is not available.');
       return false;
@@ -779,8 +947,8 @@
 
     try {
       L.control.browserPrint({
-        title: 'Print map',
-        position: 'topleft',
+        title: printConfig.control.title || 'Karte drucken',
+        position: printConfig.control.position || 'topleft',
         documentTitle: getIndicatorTitle(),
         printLayer: baseLayer,
         printModes: buildPrintModes()
@@ -789,15 +957,12 @@
       map.on(L.BrowserPrint.Event.PrePrint, function () {
         var hasSelection = hasSelectedLegendItems();
 
-        // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
-        // Cache values BEFORE the print preview is built.
         cacheCurrentYearText();
         cacheCurrentMapDisaggregations();
 
-        // Only remove transient hover UI when there is NO selection.
-        if (!hasSelection) {
+        if (printConfig.cleanup.removeTransientUi && !hasSelection) {
           removeTransientMapUi(map.getContainer());
         }
 
@@ -808,16 +973,12 @@
         if (event && event.printMap) {
           var hasSelection = hasSelectedLegendItems();
 
-          // Only remove transient hover UI in the print map
-          // when there is NO selection.
-          if (!hasSelection) {
+          if (printConfig.cleanup.removeTransientUi && !hasSelection) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT cached values are used.
           updatePrintHeader(event.printMap);
 
-          // Add visible print overlays.
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
@@ -830,7 +991,6 @@
           removeExistingPrintDisaggregations(root);
         }
 
-        // Clean up print state flags and cached values.
         document.body.classList.remove('mt-print-has-selection');
         state.cachedYearText = '';
         state.cachedDisaggregationHtml = '';
@@ -862,9 +1022,6 @@
 
   /**
    * Observe #mapview because Open SDG may render or update the map asynchronously.
-   *
-   * This observer may be registered before Leaflet is available. In that case,
-   * it simply waits until Leaflet and leaflet.browser.print are ready.
    */
   function observeMapView() {
     var mapView = getMapView();
@@ -890,15 +1047,12 @@
 
   /**
    * Retry until Leaflet, leaflet.browser.print and the map are ready.
-   *
-   * This is needed because Open SDG may initialise the map lazily,
-   * for example when the map tab is opened.
    */
   function startReadinessWatcher() {
     if (state.interval) return;
 
     var attempts = 0;
-    var maxAttempts = 240; // 2 minutes
+    var maxAttempts = 240;
 
     state.interval = window.setInterval(function () {
       if (state.attached) {
@@ -908,7 +1062,6 @@
 
       attempts += 1;
 
-      // The #mapview element may not exist immediately.
       observeMapView();
 
       if (isLeafletAvailable()) {
@@ -921,7 +1074,6 @@
         window.clearInterval(state.interval);
         state.interval = null;
 
-        // Not fatal: The map tab may still be opened later.
         warn('Map print readiness watcher timed out. Will retry on map tab activation.');
       }
     }, 500);
@@ -929,8 +1081,6 @@
 
   /**
    * Retry when the user opens the map tab.
-   *
-   * Open SDG may only initialise or resize the map when the map tab is activated.
    */
   function bindMapActivationEvents() {
     if (window.__mtMapPrintActivationEventsBound) return;
@@ -971,7 +1121,6 @@
       true
     );
 
-    // Bootstrap tab event, if available.
     document.addEventListener('shown.bs.tab', function (event) {
       var target = event.target;
       if (!target || !target.matches) return;
@@ -986,7 +1135,6 @@
       }
     });
 
-    // Also retry when the hash changes to #mapview.
     window.addEventListener('hashchange', function () {
       if (window.location.hash === '#mapview') {
         retryAfterMapActivation();
@@ -1011,12 +1159,18 @@
 
   /**
    * Initialise the integration.
-   *
-   * Important:
-   * Do not return permanently when Leaflet or leaflet.browser.print is missing.
-   * Open SDG may initialise the map lazily, especially when the map tab is opened.
    */
   function bootstrap() {
+    if (!printConfig.enabled) {
+      log('Map print disabled by site_config.yml.');
+      return;
+    }
+
+    if (!printConfig.control.enabled) {
+      log('Map print control disabled by site_config.yml.');
+      return;
+    }
+
     bindMapActivationEvents();
     observeMapView();
     startReadinessWatcher();
