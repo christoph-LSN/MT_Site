@@ -236,50 +236,7 @@ map_options:
     color: '#172d44'
     dashArray: '5,5'
 
-## Print map options
 
-map_print:
-  enabled: true
-  debug: true
-
-  control:
-    enabled: true
-    title: Karte drucken
-    position: topleft
-
-  page:
-    format: A4
-    orientation: landscape
-    margin:
-      top: 2
-      right: 2
-      bottom: 2
-      left: 2
-
-  header:
-    enabled: true
-    title: true
-    year: true
-    size: 16mm
-    over_the_map: true
-
-  footer:
-    enabled: true
-    source: true
-    size: 5mm
-    over_the_map: true
-
-  legend:
-    enabled: true
-    heading: true
-
-  disaggregations:
-    enabled: true
-    label: Kartenauswahl
-    position: top-left
-
-  cleanup:
-    remove_transient_ui: true
 
 
 menu:
