@@ -236,7 +236,7 @@ map_options:
     color: '#172d44'
     dashArray: '5,5'
 
-# Print map options
+## Print map options
 
 map_print:
   enabled: true
