@@ -240,7 +240,7 @@ map_options:
 
 map_print:
   enabled: true
-  debug: false
+  debug: true
 
   control:
     enabled: true
