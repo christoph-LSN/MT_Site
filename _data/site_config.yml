@@ -239,7 +239,7 @@ map_options:
 # Print map options
 
 map_print:
-  enabled: true
+  enabled: false
   debug: false
 
   control:
