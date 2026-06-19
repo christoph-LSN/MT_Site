@@ -15,7 +15,8 @@
     observer: null,
     interval: null,
     cachedLegendHtml: '',
-    cachedYearText: ''
+    cachedYearText: '',
+    cachedDisaggregationHtml: ''
   };
 
   /**
@@ -205,6 +206,18 @@
   }
 
   /**
+   * Escape user/interface text before inserting it as HTML.
+   */
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  /**
    * Try to get the indicator number from page variables,
    * otherwise parse it from the page heading.
    */
@@ -323,11 +336,89 @@
   }
 
   /**
+   * Extract the currently selected map disaggregations.
+   *
+   * Example:
+   *   map-Units      -> Einheit: Prozent
+   *   map-Geschlecht -> Geschlecht: weiblich
+   *   map-Kategorie  -> Kategorie: ...
+   */
+  function getCurrentMapDisaggregations() {
+    var checkedInputs = document.querySelectorAll('input:checked');
+    var items = [];
+
+    checkedInputs.forEach(function (el) {
+      if (!el.name || el.name.indexOf('map-') !== 0) return;
+
+      var dimension = el.name.replace('map-', '').trim();
+
+      var dimensionLabels = {
+        Units: 'Einheit',
+        Geschlecht: 'Geschlecht',
+        Kategorie: 'Kategorie'
+      };
+
+      dimension = dimensionLabels[dimension] || dimension;
+
+      var value = '';
+
+      if (el.labels && el.labels.length && el.labels[0].textContent) {
+        value = el.labels[0].textContent.trim();
+      } else if (el.value) {
+        value = String(el.value).trim();
+      }
+
+      if (!dimension || !value) return;
+
+      items.push({
+        dimension: dimension,
+        value: value
+      });
+    });
+
+    return items;
+  }
+
+  /**
+   * Build HTML for the currently selected map disaggregations.
+   */
+  function buildMapDisaggregationsHtml() {
+    var items = getCurrentMapDisaggregations();
+
+    if (!items.length) {
+      return '';
+    }
+
+    return (
+      '<div class="mt-print-meta mt-print-disaggregations">' +
+        '<strong>Kartenauswahl:</strong> ' +
+        items.map(function (item) {
+          return (
+            '<span class="mt-print-disaggregation-item">' +
+              escapeHtml(item.dimension) +
+              ': ' +
+              escapeHtml(item.value) +
+            '</span>'
+          );
+        }).join(' · ') +
+      '</div>'
+    );
+  }
+
+  /**
    * Cache the currently visible year before the print view is created.
    */
   function cacheCurrentYearText() {
     state.cachedYearText = getCurrentYearText();
     log('Year cached before print.', state.cachedYearText);
+  }
+
+  /**
+   * Cache the currently selected map disaggregations before the print view is created.
+   */
+  function cacheCurrentMapDisaggregations() {
+    state.cachedDisaggregationHtml = buildMapDisaggregationsHtml();
+    log('Map disaggregations cached before print.', state.cachedDisaggregationHtml);
   }
 
   /**
@@ -439,16 +530,16 @@
     if (yearText) {
       lines.push(
         '<div class="mt-print-meta"><strong>' +
-          referenceYearLabel +
+          escapeHtml(referenceYearLabel) +
           ':</strong> ' +
-          yearText +
+          escapeHtml(yearText) +
         '</div>'
       );
     }
 
     return '' +
       '<div class="mt-print-header">' +
-        '<div class="mt-print-title">' + title + '</div>' +
+        '<div class="mt-print-title">' + escapeHtml(title) + '</div>' +
         lines.join('') +
       '</div>';
   }
@@ -464,7 +555,7 @@
 
     return (
       '<div class="mt-print-footer-source"><strong>' +
-        dataSourceLabel +
+        escapeHtml(dataSourceLabel) +
         ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
   }
@@ -486,7 +577,7 @@
         header: {
           enabled: true,
           text: buildHeaderHtml(),
-          size: '11mm',
+          size: '16mm',
           overTheMap: true
         },
         footer: {
@@ -500,7 +591,7 @@
   }
 
   /**
-   * Get the best container for legend injection in the print view.
+   * Get the best container for legend/disaggregation injection in the print view.
    */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
@@ -509,6 +600,49 @@
     if (!mapContainer) return null;
 
     return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
+  }
+
+  /**
+   * Ensure print overlay styles exist in the print document.
+   */
+  function ensurePrintOverlayStyles(root) {
+    if (!root) return;
+
+    var doc = root.ownerDocument || document;
+
+    if (doc.getElementById('mt-print-overlay-styles')) {
+      return;
+    }
+
+    var style = doc.createElement('style');
+    style.id = 'mt-print-overlay-styles';
+
+    style.textContent = ''
+      + '.mt-print-disaggregation-overlay {'
+      + '  position: absolute;'
+      + '  left: 6mm;'
+      + '  top: 14mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 185mm;'
+      + '  padding: 2.5mm 3.5mm;'
+      + '  background: rgba(255, 255, 255, 0.9);'
+      + '  border: 1px solid rgba(0, 0, 0, 0.25);'
+      + '  border-radius: 2mm;'
+      + '  font-size: 8pt;'
+      + '  line-height: 1.25;'
+      + '  color: #000;'
+      + '  box-sizing: border-box;'
+      + '}'
+      + '.mt-print-disaggregation-overlay .mt-print-meta {'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-disaggregation-item {'
+      + '  display: inline;'
+      + '}';
+
+    if (doc.head) {
+      doc.head.appendChild(style);
+    }
   }
 
   /**
@@ -521,6 +655,49 @@
     if (existing) {
       existing.remove();
     }
+  }
+
+  /**
+   * Remove any previously added disaggregation overlay from the print view.
+   */
+  function removeExistingPrintDisaggregations(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-disaggregation-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  /**
+   * Add the cached map disaggregations to the print view as a visible overlay.
+   */
+  function addDisaggregationsToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    removeExistingPrintDisaggregations(root);
+    ensurePrintOverlayStyles(root);
+
+    // Make sure absolute positioning works.
+    if (!root.style.position) {
+      root.style.position = 'relative';
+    }
+
+    var html = state.cachedDisaggregationHtml || buildMapDisaggregationsHtml();
+
+    if (!html) {
+      warn('No cached map disaggregations available.');
+      return;
+    }
+
+    var doc = root.ownerDocument || document;
+    var wrapper = doc.createElement('div');
+    wrapper.className = 'mt-print-disaggregation-overlay';
+    wrapper.innerHTML = html;
+
+    root.appendChild(wrapper);
+    log('Map disaggregations inserted into print view.');
   }
 
   /**
@@ -537,15 +714,17 @@
       return;
     }
 
-    var wrapper = document.createElement('div');
+    var doc = root.ownerDocument || document;
+
+    var wrapper = doc.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
 
-    var heading = document.createElement('div');
+    var heading = doc.createElement('div');
     heading.className = 'mt-print-legend-heading';
     heading.textContent = '{{ page.t.indicator.map_legend | default: "Legend" | escape }}';
     wrapper.appendChild(heading);
 
-    var legendHolder = document.createElement('div');
+    var legendHolder = doc.createElement('div');
     legendHolder.className = 'mt-print-legend-clone';
     legendHolder.innerHTML = state.cachedLegendHtml;
     wrapper.appendChild(legendHolder);
@@ -613,8 +792,9 @@
         // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
-        // Cache the currently visible year BEFORE the print preview is built.
+        // Cache values BEFORE the print preview is built.
         cacheCurrentYearText();
+        cacheCurrentMapDisaggregations();
 
         // Only remove transient hover UI when there is NO selection.
         if (!hasSelection) {
@@ -634,9 +814,11 @@
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT cached year is used.
+          // Refresh the header so the CURRENT cached values are used.
           updatePrintHeader(event.printMap);
 
+          // Add visible print overlays.
+          addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
       });
@@ -645,11 +827,13 @@
         if (event && event.printMap) {
           var root = getPrintOverlayRoot(event.printMap);
           removeExistingPrintLegend(root);
+          removeExistingPrintDisaggregations(root);
         }
 
-        // Clean up print state flag and cached year
+        // Clean up print state flags and cached values.
         document.body.classList.remove('mt-print-has-selection');
         state.cachedYearText = '';
+        state.cachedDisaggregationHtml = '';
       });
 
       map._mtPrintControlAdded = true;
