@@ -235,6 +235,10 @@ map_options:
     fillOpacity: 0
     color: '#172d44'
     dashArray: '5,5'
+
+
+
+
 menu:
   - path: /goals
     translation_key: general.goals
