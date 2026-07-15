@@ -268,10 +268,6 @@
   /**
    * Translation labels from metadata_fields.yml.
    */
-  function getDataSourceLabel() {
-    return '{{ page.t.metadata_fields.data_source | default: "Quelle" | escape }}';
-  }
-
   function getReferenceYearLabel() {
     return '{{ page.t.metadata_fields.reference_year | default: "Jahr" | escape }}';
   }
@@ -619,23 +615,10 @@
   /**
    * Build the print footer.
    *
-   * Desired output:
-   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
+   * Footer is intentionally disabled for map printing.
    */
   function buildFooterHtml() {
-    var dataSourceLabel = getDataSourceLabel();
-    var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
-
-    return (
-      '<div class="mt-print-footer-source"><strong>' +
-        escapeHtml(dataSourceLabel) +
-        ':</strong> ' +
-        ' +
-          '" target="_blank" rel="noopener noreferrer">' +
-          escapeHtml(sourceUrl) +
-        '</a>' +
-      '</div>'
-    );
+    return '';
   }
 
   /**
@@ -659,9 +642,9 @@
           overTheMap: true
         },
         footer: {
-          enabled: true,
+          enabled: false,
           text: buildFooterHtml(),
-          size: '5mm',
+          size: '0mm',
           overTheMap: true
         }
       })
