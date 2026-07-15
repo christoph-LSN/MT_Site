@@ -35,9 +35,9 @@
   }
 
   /**
-   * Toggle this to false after diagnosing map print issues.
+   * Toggle this to true while diagnosing map print issues.
    */
-  var DEBUG = true;
+  var DEBUG = false;
 
   /**
    * Shared runtime state for the print integration.
@@ -627,16 +627,15 @@
     var dataSourceLabel = getDataSourceLabel();
     var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
 
-    return (
-      '<div class="mt-print-footer-source"><strong>' +
-        escapeHtml(dataSourceLabel) +
-        ':</strong> ' +
-        ' +
-          '" target="_blank" rel="noopener noreferrer">' +
-          escapeHtml(sourceUrl) +
-        '</a>' +
+    return [
+      '<div class="mt-print-footer-source"><strong>',
+      escapeHtml(dataSourceLabel),
+      ':</strong> ',
+      '      '" target="_blank" rel="noopener noreferrer">',
+      escapeHtml(sourceUrl),
+      '</a>',
       '</div>'
-    );
+    ].join('');
   }
 
   /**
