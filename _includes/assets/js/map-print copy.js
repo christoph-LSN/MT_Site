@@ -1,257 +1,241 @@
----
----
-{% assign mt_map_print_enabled = true %}
-{% if site.mt_features %}
-  {% if site.mt_features.map_print == false %}
-    {% assign mt_map_print_enabled = false %}
-  {% endif %}
-{% endif %}
-
 (function () {
   'use strict';
 
   /**
-   * Feature switch from _config.yml.
-   *
-   * Default behavior:
-   * - missing config entry: enabled
-   * - map_print: true: enabled
-   * - map_print: false: disabled
+   * Toggle this to true while diagnosing map print issues.
    */
-  var MAP_PRINT_ENABLED = {{ mt_*ap_print_enabled | jsonify }};
-
-  *f (MAP_PRINT_ENABLED === false) {
-*   return;
-  }
+  var DEBUG = false;
 
   /**
-   * Toggle *his to true while diagnosing map p*int issues.
+   * Shared runtime state for the print integration.
    */
-  var DEBUG = fa*se;
-
-  /**
-   * Shared runtime sta*e for the print integration.
-   */*  var state = {
+  var state = {
     maps: [],
-    *ttached: false,
-    observer: null*
+    attached: false,
+    observer: null,
     interval: null,
-    cachedLeg*ndHtml: '',
-    cachedYearText: ''*
+    cachedLegendHtml: '',
+    cachedYearText: '',
     cachedDisaggregationHtml: ''
-* };
+  };
 
   /**
-   * Small logging help*r for development/debugging.
-   */*  function log(message, data) {
-  * if (!DEBUG) return;
+   * Small logging helper for development/debugging.
+   */
+  function log(message, data) {
+    if (!DEBUG) return;
 
-    if (wind*w.console && console.log) {
-      *f (typeof data !== 'undefined') {
-*       console.log('[map-print] ' * message, data);
+    if (window.console && console.log) {
+      if (typeof data !== 'undefined') {
+        console.log('[map-print] ' + message, data);
       } else {
-  *     console.log('[map-print] ' + *essage);
+        console.log('[map-print] ' + message);
       }
     }
   }
 
   /**
-*  * Small warning helper.
+   * Small warning helper.
    */
-  *unction warn(message, data) {
-    *f (window.console && console.warn)*{
-      if (typeof data !== 'undef*ned') {
+  function warn(message, data) {
+    if (window.console && console.warn) {
+      if (typeof data !== 'undefined') {
         console.warn('[map-print] ' + message, data);
-      }*else {
+      } else {
         console.warn('[map-print] ' + message);
       }
     }
-* }
-
-  /**
-   * Check whether Leafl*t and leaflet.browser.print are bo*h available.
-   */
-  function isLe*fletAvailable() {
-    return !!(wi*dow.L && L.Map && L.control && L.c*ntrol.browserPrint);
   }
 
   /**
-  ** The Open SDG map is rendered ins*de the tab panel with id="mapview"*
+   * Check whether Leaflet and leaflet.browser.print are both available.
+   */
+  function isLeafletAvailable() {
+    return !!(window.L && L.Map && L.control && L.control.browserPrint);
+  }
+
+  /**
+   * The Open SDG map is rendered inside the tab panel with id="mapview".
    */
   function getMapView() {
- *  return document.getElementById('*apview');
+    return document.getElementById('mapview');
   }
 
   /**
-   * Determin* whether an element is visually pr*sent on the page.
+   * Determine whether an element is visually present on the page.
    */
-  function*isVisible(element) {
-    if (!elem*nt) return false;
-    return !!(el*ment.offsetWidth || element.offset*eight || element.getClientRects().*ength);
+  function isVisible(element) {
+    if (!element) return false;
+    return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
   }
 
   /**
-   * Check whet*er a DOM element belongs to the ma* view area.
+   * Check whether a DOM element belongs to the map view area.
    */
-  function isIns*deMapView(element) {
-    var mapVi*w = getMapView();
-    if (!mapView*|| !element) return false;
-    ret*rn mapView === element || mapView.*ontains(element);
+  function isInsideMapView(element) {
+    var mapView = getMapView();
+    if (!mapView || !element) return false;
+    return mapView === element || mapView.contains(element);
   }
 
   /**
-   * *tore a Leaflet map instance exactl* once.
+   * Store a Leaflet map instance exactly once.
    */
-  function uniquePush*ap(map) {
+  function uniquePushMap(map) {
     if (!map) return;
 
- *  var exists = state.maps.some(fun*tion (existing) {
-      return exi*ting === map;
+    var exists = state.maps.some(function (existing) {
+      return existing === map;
     });
 
-    if (!ex*sts) {
-      state.maps.push(map);*    }
+    if (!exists) {
+      state.maps.push(map);
+    }
   }
 
   /**
-   * Register a L*aflet init hook so that every map *reated afterwards
-   * is automati*ally tracked.
+   * Register a Leaflet init hook so that every map created afterwards
+   * is automatically tracked.
    */
-  function reg*sterLeafletInitHook() {
-    if (!w*ndow.L || !L.Map || !L.Map.addInit*ook) return;
-    if (window.__mtMa*PrintHookRegistered) return;
+  function registerLeafletInitHook() {
+    if (!window.L || !L.Map || !L.Map.addInitHook) return;
+    if (window.__mtMapPrintHookRegistered) return;
 
-    *indow.__mtMapPrintHookRegistered =*true;
+    window.__mtMapPrintHookRegistered = true;
 
-    L.Map.addInitHook(funct*on () {
-      uniquePushMap(this);*      attachIfPossible();
+    L.Map.addInitHook(function () {
+      uniquePushMap(this);
+      attachIfPossible();
     });
-* }
+  }
 
   /**
-   * Also scan global wi*dow properties for already existin* Leaflet maps.
+   * Also scan global window properties for already existing Leaflet maps.
    */
-  function sc*nWindowForMaps() {
-    if (!window*L || !L.Map) return;
+  function scanWindowForMaps() {
+    if (!window.L || !L.Map) return;
 
-    Object.k*ys(window).forEach(function (key) *
+    Object.keys(window).forEach(function (key) {
       try {
         if (window[key] instanceof L.Map) {
-          un*quePushMap(window[key]);
-        }*      } catch (e) {
-        // Ign*re cross-origin / inaccessible pro*erties.
+          uniquePushMap(window[key]);
+        }
+      } catch (e) {
+        // Ignore cross-origin / inaccessible properties.
       }
     });
   }
 
-  /***   * Decide whether a discovered m*p is the correct target.
+  /**
+   * Decide whether a discovered map is the correct target.
    */
-  f*nction isGoodTargetMap(map) {
-    *f (!map || !map.getContainer) retu*n false;
+  function isGoodTargetMap(map) {
+    if (!map || !map.getContainer) return false;
 
-    var container = map.*etContainer();
-    if (!container)*return false;
-    if*(!isInsideMapView*container)) return false;
-    if (*isVisible(container)) return false*
+    var container = map.getContainer();
+    if (!container) return false;
+    if (!isInsideMapView(container)) return false;
+    if (!isVisible(container)) return false;
 
     return true;
   }
 
   /**
-   **Find the base tile layer used in t*e current map.
+   * Find the base tile layer used in the current map.
    */
-  function ge*PrintableBaseLayer(map) {
-    var *ound = null;
+  function getPrintableBaseLayer(map) {
+    var found = null;
 
-    map.eachLayer(fu*ction (layer) {
-      if (found) r*turn;
+    map.eachLayer(function (layer) {
+      if (found) return;
 
       if (
-        (window.*.TileLayer && layer instanceof L.T*leLayer) ||
-        (window.L.Tile*ayer && window.L.TileLayer.WMS && *ayer instanceof L.TileLayer.WMS)
- *    ) {
+        (window.L.TileLayer && layer instanceof L.TileLayer) ||
+        (window.L.TileLayer && window.L.TileLayer.WMS && layer instanceof L.TileLayer.WMS)
+      ) {
         found = layer;
-   *  }
+      }
     });
 
     return found;
-  }*
-  /**
-   * Read the indicator tit*e from the heading area.
-   */
-**function getIndicatorTitle() {
-   *var el =
-      document.querySelec*or('.heading h1') ||
-     *document*querySelector('h1');
+  }
 
-    if (el &* el.textContent) {
-      return el*textContent.trim();
+  /**
+   * Read the indicator title from the heading area.
+   */
+  function getIndicatorTitle() {
+    var el =
+      document.querySelector('.heading h1') ||
+      document.querySelector('h1');
+
+    if (el && el.textContent) {
+      return el.textContent.trim();
     }
 
-    ret*rn document.title || 'Map';
- *}
+    return document.title || 'Map';
+  }
 
   /**
-   * Translation labels f*om metadata_fields.yml.
+   * Translation labels from metadata_fields.yml
    */
-  fu*ction getDataSourceLabel() {
-    r*turn '{{ page.t.metadata_fields.da*a_source | default: "*uelle" |*escape }}';
+  function getDataSourceLabel() {
+    return '{{ page.t.metadata_fields.data_source | default: "Quelle" | escape }}';
   }
 
-  function getRef*renceYearLabel() {
-    return '{{*page.t*metadata_fields.reference_year | d*fault: "Jahr" | escape }}';
+  function getReferenceYearLabel() {
+    return '{{ page.t.metadata_fields.reference_year | default: "Jahr" | escape }}';
   }
 
- */**
-   * Return true when a value *ooks like a dumped object / front *atter
-   * rather than a clean str*ng value.
+  /**
+   * Return true when a value looks like a dumped object / front matter
+   * rather than a clean string value.
    */
-  function looksLi*eObjectDump(value) {
-    if (!valu*) return false;
+  function looksLikeObjectDump(value) {
+    if (!value) return false;
 
-    var text = St*ing(value).trim();
+    var text = String(value).trim();
 
-    return*(
-      text.indexOf("number='") !*= -1 ||
-      text.indexOf("slug='*) !== -1 ||
-      text.indexOf("na*e='") !== -1 ||
-      text.indexOf*'url=') !== -1 ||
-      text.index*f('=>') !== -1 ||
-      (text.inde*Of('{') !== -1 && text.indexOf('}'* !== -1)
+    return (
+      text.indexOf("number='") !== -1 ||
+      text.indexOf("slug='") !== -1 ||
+      text.indexOf("name='") !== -1 ||
+      text.indexOf('url=') !== -1 ||
+      text.indexOf('=>') !== -1 ||
+      (text.indexOf('{') !== -1 && text.indexOf('}') !== -1)
     );
   }
 
   /**
-   * Es*ape user/interface text before ins*rting it as HTML.
+   * Escape user/interface text before inserting it as HTML.
    */
-  function*escapeHtml(value) {
-    return Str*ng(value || '')
-      .replace(/&/*, '&amp;')
-      .replace(/</g, '&*t;')
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
-*     .replace(/"/g, '&quot;')
-    * .replace(/'/g, '&#039;');
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
-  ***
-   **Try to get the indicator number fr*m page variables,
-   * otherwise p*rse it from the page heading.
-   **
-  function getIndicatorNumberValu*() {
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
     var explicitValue =
-     *'{{ page.indicator.number | defaul*: page.indicator_number | default:*"" | escape }}';
+      '{{ page.indicator.number | default: page.indicator_number | default: "" | escape }}';
 
-    if (explicit*alue && !looksLikeObjectDump(expli*itValue)) {
-      return explicitV*lue;
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
+      return explicitValue;
     }
 
-    var title = getInd*catorTitle();
-    var match = titl*.match(/\b\d+(?:\.\d+)+\b/);
-    r*turn match ? match[0] : '';
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
   }
 
- */**
-   * Try to get the indicator *ame from page variables,
+  /**
+   * Try to get the indicator name from page variables,
    * otherwise parse it from the page heading.
    */
   function getIndicatorNameValue() {
@@ -568,16 +552,11 @@
    */
   function buildFooterHtml() {
     var dataSourceLabel = getDataSourceLabel();
-    var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
 
     return (
       '<div class="mt-print-footer-source"><strong>' +
         escapeHtml(dataSourceLabel) +
-        ':</strong> ' +
-        '' + sourceUrl + '' +
-          sourceUrl +
-        '</a>' +
-      '</div>'
+        ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
   }
 
