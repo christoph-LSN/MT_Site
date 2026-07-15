@@ -623,7 +623,7 @@
    * Desired output:
    * Quelle: https://www.integrationsmonitoring.niedersachsen.de
    */
-  function buildFooterHtml() {
+ /* function buildFooterHtml() {
     var dataSourceLabel = getDataSourceLabel();
     var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
 
