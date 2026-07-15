@@ -18,7 +18,7 @@
    * - map_print: true: enabled
    * - map_print: false: disabled
    */
-  var MAP_PRINT_ENABLED = {{ mt_map_print_enabled }};
+  var MAP_PRINT_ENABLED = {{ mt_map_print_enabled | jsonify }};
 
   window.MT_MAP_PRINT_ENABLED = MAP_PRINT_ENABLED;
 
@@ -146,9 +146,6 @@
 
   /**
    * Monkey-patch L.map as an additional safety net.
-   *
-   * This helps when maps are created after this file is loaded,
-   * but before Leaflet init hooks are used reliably by the page.
    */
   function patchLeafletMapFactory() {
     if (!window.L || !L.map) return;
@@ -372,9 +369,6 @@
 
   /**
    * Extract the currently active year from visible map controls.
-   *
-   * We try several selectors and collect visible 4-digit years.
-   * In practice the currently active year is usually the last visible match.
    */
   function getCurrentYearText() {
     var selectors = [
@@ -431,11 +425,6 @@
 
   /**
    * Extract the currently selected map disaggregations.
-   *
-   * Example:
-   *   map-Units      -> Einheit: Prozent
-   *   map-Geschlecht -> Geschlecht: weiblich
-   *   map-Kategorie  -> Kategorie: ...
    */
   function getCurrentMapDisaggregations() {
     var checkedInputs = document.querySelectorAll('input:checked');
@@ -563,8 +552,6 @@
   /**
    * Remove transient / temporary UI such as hover tooltips or popups
    * from a map-related DOM subtree before printing.
-   *
-   * This is only used when there is NO selection.
    */
   function removeTransientMapUi(root) {
     if (!root) return;
@@ -604,18 +591,9 @@
 
   /**
    * Build the print header.
-   *
-   * Heading:
-   *   indicator number + indicator name
-   *
-   * Meta lines:
-   *   year
    */
   function buildHeaderHtml() {
     var title = getPrintHeadingText();
-
-    // Prefer the cached year captured immediately before print.
-    // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
     var referenceYearLabel = getReferenceYearLabel();
@@ -779,7 +757,6 @@
     removeExistingPrintDisaggregations(root);
     ensurePrintOverlayStyles(root);
 
-    // Make sure absolute positioning works.
     if (!root.style.position) {
       root.style.position = 'relative';
     }
@@ -909,14 +886,11 @@
       map.on(L.BrowserPrint.Event.PrePrint, function () {
         var hasSelection = hasSelectedLegendItems();
 
-        // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
-        // Cache values BEFORE the print preview is built.
         cacheCurrentYearText();
         cacheCurrentMapDisaggregations();
 
-        // Only remove transient hover UI when there is NO selection.
         if (!hasSelection) {
           removeTransientMapUi(map.getContainer());
         }
@@ -928,16 +902,12 @@
         if (event && event.printMap) {
           var hasSelection = hasSelectedLegendItems();
 
-          // Only remove transient hover UI in the print map
-          // when there is NO selection.
           if (!hasSelection) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT cached values are used.
           updatePrintHeader(event.printMap);
 
-          // Add visible print overlays.
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
@@ -950,7 +920,6 @@
           removeExistingPrintDisaggregations(root);
         }
 
-        // Clean up print state flags and cached values.
         document.body.classList.remove('mt-print-has-selection');
         state.cachedYearText = '';
         state.cachedDisaggregationHtml = '';
@@ -991,9 +960,6 @@
 
   /**
    * Observe #mapview because Open SDG may render or update the map asynchronously.
-   *
-   * This observer may be registered before Leaflet is available. In that case,
-   * it simply waits until Leaflet and leaflet.browser.print are ready.
    */
   function observeMapView() {
     var mapView = getMapView();
@@ -1026,15 +992,12 @@
 
   /**
    * Retry until Leaflet, leaflet.browser.print and the map are ready.
-   *
-   * This is needed because Open SDG may initialise the map lazily,
-   * for example when the map tab is opened.
    */
   function startReadinessWatcher() {
     if (state.interval) return;
 
     var attempts = 0;
-    var maxAttempts = 240; // 2 minutes
+    var maxAttempts = 240;
 
     state.interval = window.setInterval(function () {
       if (state.attached) {
@@ -1044,7 +1007,6 @@
 
       attempts += 1;
 
-      // The #mapview element may not exist immediately.
       observeMapView();
 
       if (window.L && L.Map) {
@@ -1072,7 +1034,6 @@
         window.clearInterval(state.interval);
         state.interval = null;
 
-        // Not fatal: The map tab may still be opened later.
         warn('Map print readiness watcher timed out. Will retry on map tab activation.');
       }
     }, 500);
@@ -1082,8 +1043,6 @@
 
   /**
    * Retry when the user opens the map tab.
-   *
-   * Open SDG may only initialise or resize the map when the map tab is activated.
    */
   function bindMapActivationEvents() {
     if (window.__mtMapPrintActivationEventsBound) return;
@@ -1131,7 +1090,6 @@
       true
     );
 
-    // Bootstrap tab event, if available.
     document.addEventListener('shown.bs.tab', function (event) {
       var target = event.target;
       if (!target || !target.matches) return;
@@ -1146,7 +1104,6 @@
       }
     });
 
-    // Also retry when the hash changes to #mapview.
     window.addEventListener('hashchange', function () {
       if (window.location.hash === '#mapview') {
         retryAfterMapActivation();
@@ -1175,10 +1132,6 @@
 
   /**
    * Initialise the integration.
-   *
-   * Important:
-   * Do not return permanently when Leaflet or leaflet.browser.print is missing.
-   * Open SDG may initialise the map lazily, especially when the map tab is opened.
    */
   function bootstrap() {
     log('Bootstrap started.');
