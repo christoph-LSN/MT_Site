@@ -1,11 +1,43 @@
 // Enter any custom Sass in this file.
 
+/* ==========================================================
+   Variablen
+   ========================================================== */
+
+$breakpoint-intro: 700px;
+$breakpoint-mobile: 767.98px;
+
+$color-white: #ffffff;
+$color-text: #222222;
+$color-text-dark: #111111;
+
+$color-border: #bdbdbd;
+$color-border-hover: #9e9e9e;
+
+$color-focus: #1a73e8;
+
+$color-xml-bg: #eef5ff;
+$color-xml-bg-hover: #dfeeff;
+$color-xml-border: #8fb4e8;
+$color-xml-border-hover: #6e9cda;
+$color-xml-text: #123a66;
+$color-xml-text-hover: #0f2f52;
+
+
+/* ==========================================================
+   Global
+   ========================================================== */
+
 body {
-  background: white;
+  background: $color-white;
   padding-top: 0;
 }
 
-// NDS Karte Startseite
+
+/* ==========================================================
+   Startseite / NDS-Karte
+   ========================================================== */
+
 .site-intro {
   .description {
     margin-top: 30px;
@@ -14,31 +46,27 @@ body {
     text-justify: inter-word;
   }
 
-  @media only screen and (min-width: 700px) {
+  @media only screen and (min-width: $breakpoint-intro) {
     padding-right: 300px;
     min-height: 180px;
 
-    background: url('../img/SDG Wheel_Transparent-01.png');
+    background-image: url("../img/SDG Wheel_Transparent-01.png");
     background-position: right center;
     background-size: 220px;
     background-repeat: no-repeat;
   }
 }
 
-/* Tag Colors */
-.tags {
-  .tag-datenstand-2020 {
-    background-color: pink;
-  }
 
-  .tag-datenstand-2021 {
-    background-color: green;
-  }
+/* ==========================================================
+   Tag Colors
+   ========================================================== */
 
-  .tag-datenstand-2019 {
-    background-color: red;
-  }
-}
+/*
+   Farben nach Position der Tags vergeben.
+   Hinweis: Die Farben hängen dadurch bewusst von der Reihenfolge
+   der Tags im HTML ab.
+*/
 
 .tags {
   li:nth-child(1) .tag {
@@ -54,213 +82,242 @@ body {
   }
 }
 
-/* ===== Kartendruck ===== */
 
-body.leaflet--printing .leaflet-print-overlay {
-  background: white !important;
+/* ==========================================================
+   Kartendruck
+   ========================================================== */
+
+body.leaflet--printing {
+  .lea*let-print-overlay {
+    background* $color-white !important;
+  }
+
+  .*rid-print-container {
+    position* relative !important;
+    overflow* hidden !important;
+    break-insi*e: avoid-page !important;
+    page*break-inside: avoid !important;
+  *
+
+  .grid-map-print {
+    break-in*ide: avoid-page !important;
+    pa*e-break-inside: avoid !important;
+* }
+
+  #print-header {
+    text-ali*n: left !important;
+    font-size:*12px !important;
+    line-height: *.1 !important;
+    padding: 2mm 4m* 0 4mm !important;
+    background:*transparent !important;
+    z-inde*: 10002 !important;
+  }
+
+  .mt-pri*t-header {
+    width: 100%;
+  }
+
+ *.mt-print-title {
+    font-size: 1*px;
+    font-weight: 600;
+    marg*n: 0 0 0.8mm 0;
+  }
+
+  .mt-print-m*ta {
+    font-size: 10px;
+    marg*n: 0;
+  }
+
+  #print-footer {
+    t*xt-align: left !important;
+    fon*-size: 9px !important;
+    line-he*ght: 1.1 !important;
+    padding: * 4mm 2mm 4mm !important;
+    backg*ound: transparent !important;
+    *-index: 10002 !important;
+  }
+
+  .*t-print-footer-source,
+  .mt-print*footer-site {
+    display: block;
+* }
+
+  .mt-print-footer-source {
+  * margin-bottom: 0.5mm;
+  }
+
+  .mt-*rint-legend-overlay {
+    position* absolute !important;
+    top: 7mm*
+    right: 7mm;
+    z*index: 10003 !important*
+    width: 54mm;
+    max-width: 5*mm;
+    background: rgba(255, 255,*255, 0.97);
+    border: 1px solid *cccccc;
+    box-shadow: none !impo*tant;
+    padding: 2mm;
+    overfl*w: hidden;
+  }
+
+  .mt-print-legend*heading {
+    font-size: 11px;
+   *font-weight: 600;
+    margin* 0 0 1.5mm *;
+  }
+
+  .mt-print-legend-clone {
+*   position: static !important;
+  * float: none !important;
+    top: *uto !important;
+    right: auto !i*portant;
+    bottom* auto *important;
+    left: auto !importa*t;
+
+    width: 100%;
+    max-width* 100%;
+
+    background: transparen* !important;
+    box-shadow: none *important;
+
+    font-size: 9px !im*ortant;
+    line-height: 1.25 !imp*rtant;
+
+    transform: none !impor*ant;
+
+    **{
+*     max-width: 100% !important;
+ *    white-space: normal !important;
+      line-height: 1.25 !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
+    /*
+       Original-Legendencontainer in der Druckfassung neutralisieren
+    */
+    .selection-legend,
+    .*eaflet-control {
+      position: s*atic !important;
+      width: 100%*!important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+    }
+
+    /*
+       Störende UI-Elemente in der Druckfassung ausblenden
+    */
+    button,
+    [class*="close"],
+    [class*="remove"],
+    [aria-label*="close"],
+    [title*="close"] {
+      display: none !important;
+    }
+
+    /*
+       Footer mit Farbskala und Min/Max immer sichtbar lassen
+    */
+    .legend-footer {
+      displ*y: block !important;
+    }
+
+    .l*gend-swatches {
+      display: fle* !important;
+      width: 100% !im*ortant;
+      height: 6mm !importa*t;
+      min-height: 6mm !importan*;
+      margin: 0 0 1mm 0 !importa*t;
+      gap: 0 !important;
+    }
+*    .legend-swatch {
+      display* block !important;
+      flex: 1 1*0 !important;
+      min-width: 0 !*mportant;
+      height: 100% !impo*tant;
+      min-height: 6mm !impor*ant;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .legend-values {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-top: 0.5mm !important;
+
+      font-size: 9px !important;
+      line-height: 1.2 !important;
+
+      .arrow {
+        display: none !important;
+      }
+    }
+
+    /*
+       Falls die Legende intern SVG/Canvas/Bilder nutzt
+    */
+    svg,
+    canvas,
+    img {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+  }
+
+  /*
+     Tooltip-/Popup-/Hover-Elemente nur ohne Auswahl ausblenden
+  */
+  &:not(.mt-print-has-selection) {
+    .leaflet-tooltip,
+    .leaflet-popup,
+    .leaflet-popup-pane,
+    [role="tooltip"],
+    .tooltip,
+    [class*="tooltip"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  }
+
+  /*
+     Mit Auswahl sollen Tooltip-Beschriftungen im Ausdruck sichtbar bleiben
+  */
+  &.mt-print-has-selection {
+    .leaflet-tooltip,
+    [role="tooltip"],
+    .tooltip,
+    [class*="tooltip"] {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .leaflet-control-attribution {
+    display: none !important;
+  }
+
+  .leaflet-control-scale {
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
 }
 
-body.leaflet--printing .grid-print-container {
-  position: relative !important;
-  overflow: hidden !important;
-  break-inside: avoid-page !important;
-  page-break-inside: avoid !important;
-}
 
-body.leaflet--printing .grid-map-print {
-  break-inside: avoid-page !important;
-  page-break-inside: avoid !important;
-}
-
-body.leaflet--printing #print-header {
-  text-align: left !important;
-  font-size: 12px !important;
-  line-height: 1.1 !important;
-  padding: 2mm 4mm 0 4mm !important;
-  background: transparent !important;
-  z-index: 10002 !important;
-}
-
-body.leaflet--printing .mt-print-header {
-  width: 100%;
-}
-
-body.leaflet--printing .mt-print-title {
-  font-size: 17px;
-  font-weight: 600;
-  margin: 0 0 0.8mm 0;
-}
-
-body.leaflet--printing .mt-print-meta {
-  font-size: 10px;
-  margin: 0;
-}
-
-body.leaflet--printing #print-footer {
-  text-align: left !important;
-  font-size: 9px !important;
-  line-height: 1.1 !important;
-  padding: 0 4mm 2mm 4mm !important;
-  background: transparent !important;
-  z-index: 10002 !important;
-}
-
-body.leaflet--printing .mt-print-footer-source,
-body.leaflet--printing .mt-print-footer-site {
-  display: block;
-}
-
-body.leaflet--printing .mt-print-footer-source {
-  margin-bottom: 0.5mm;
-}
-
-body.leaflet--printing .mt-print-legend-overlay {
-  position: absolute !important;
-  top: 7mm;
-  right: 7mm;
-  z-index: 10003 !important;
-  width: 54mm;
-  max-width: 54mm;
-  background: rgba(255, 255, 255, 0.97);
-  border: 1px solid #ccc;
-  box-shadow: none !important;
-  padding: 2mm;
-  overflow: hidden;
-}
-
-body.leaflet--printing .mt-print-legend-heading {
-  font-size: 11px;
-  font-weight: 600;
-  margin: 0 0 1.5mm 0;
-}
-
-body.leaflet--printing .mt-print-legend-clone {
-  position: static !important;
-  float: none !important;
-  right: auto !important;
-  top: auto !important;
-  left: auto !important;
-  bottom: auto !important;
-  box-shadow: none !important;
-  max-width: 100%;
-  width: 100%;
-  background: transparent !important;
-  font-size: 9px !important;
-  line-height: 1.25 !important;
-  transform: none !important;
-}
-
-body.leaflet--printing .mt-print-legend-clone * {
-  box-shadow: none !important;
-  max-width: 100% !important;
-  white-space: normal !important;
-  line-height: 1.25 !important;
-  transform: none !important;
-}
-
-/* Original-Legendencontainer in der Druckfassung neutralisieren */
-body.leaflet--printing .mt-print-legend-clone .selection-legend,
-body.leaflet--printing .mt-print-legend-clone .leaflet-control {
-  position: static !important;
-  margin: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-}
-
-/* Störende UI-Elemente in der Druckfassung ausblenden */
-body.leaflet--printing .mt-print-legend-clone button,
-body.leaflet--printing .mt-print-legend-clone [class*="close"],
-body.leaflet--printing .mt-print-legend-clone [class*="remove"],
-body.leaflet--printing .mt-print-legend-clone [aria-label*="close"],
-body.leaflet--printing .mt-print-legend-clone [title*="close"] {
-  display: none !important;
-}
-
-/* Tooltip-/Popup-/Hover-Elemente nur ohne Auswahl ausblenden */
-body.leaflet--printing:not(.mt-print-has-selection) .leaflet-tooltip,
-body.leaflet--printing:not(.mt-print-has-selection) .leaflet-popup,
-body.leaflet--printing:not(.mt-print-has-selection) .leaflet-popup-pane,
-body.leaflet--printing:not(.mt-print-has-selection) [role="tooltip"],
-body.leaflet--printing:not(.mt-print-has-selection) .tooltip,
-body.leaflet--printing:not(.mt-print-has-selection) [class*="tooltip"] {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-
-/* Mit Auswahl sollen die Tooltip-Beschriftungen im Ausdruck sichtbar bleiben */
-body.leaflet--printing.mt-print-has-selection .leaflet-tooltip,
-body.leaflet--printing.mt-print-has-selection [role="tooltip"],
-body.leaflet--printing.mt-print-has-selection .tooltip,
-body.leaflet--printing.mt-print-has-selection [class*="tooltip"] {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: none !important;
-  box-shadow: none !important;
-}
-
-/* Footer mit Farbskala und Min/Max IMMER sichtbar lassen */
-body.leaflet--printing .mt-print-legend-clone .legend-footer {
-  display: block !important;
-}
-
-body.leaflet--printing .mt-print-legend-clone .legend-swatches {
-  display: flex !important;
-  width: 100% !important;
-  height: 6mm !important;
-  min-height: 6mm !important;
-  margin: 0 0 1mm 0 !important;
-  gap: 0 !important;
-}
-
-body.leaflet--printing .mt-print-legend-clone .legend-swatch {
-  display: block !important;
-  flex: 1 1 0 !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  min-height: 6mm !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-body.leaflet--printing .mt-print-legend-clone .legend-values {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  margin-top: 0.5mm !important;
-  font-size: 9px !important;
-  line-height: 1.2 !important;
-}
-
-body.leaflet--printing .mt-print-legend-clone .legend-values .arrow {
-  display: none !important;
-}
-
-/* Falls die Legende intern SVG/Canvas/Bilder nutzt */
-body.leaflet--printing .mt-print-legend-clone svg,
-body.leaflet--printing .mt-print-legend-clone canvas,
-body.leaflet--printing .mt-print-legend-clone img {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-body.leaflet--printing .leaflet-control-attribution {
-  display: none !important;
-}
-
-body.leaflet--printing .leaflet-control-scale {
-  transform: scale(0.85);
-  transform-origin: bottom right;
-}
-
-/* ===== Tabellen-Export / Tabellen-Druck ===== */
+/* ==========================================================
+   Tabellen-Export / Tabellen-Druck
+   ========================================================== */
 
 .table-print-bar {
   display: flex;
@@ -280,162 +337,182 @@ body.leaflet--printing .leaflet-control-scale {
   display: flex;
   align-items: center;
   flex-shrink: 0;
+
+  .dt-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /*
+     Gemeinsamer Grundstil für DataTables-Buttons im Exportbereich
+  */
+  .dt-button {
+    appearance* none;
+    border: 1px solid $colo*-border;
+    background: $color-wh*te;
+    color: $color-text;
+    bo*der-radius: 0.375rem;
+    padding:*0.35rem 0.75rem !important;
+    fo*t-size: 0.95rem !important;
+    li*e-height: 1.2 !important;
+    whit*-space: nowrap;
+    box-shadow: no*e !important;
+    text-decoration:*none !important;
+
+    &:hover,
+   *&:focus {
+      background: #f3f3f*;
+      border-color: $color-borde*-hover;
+      color: $color-text-d*rk;
+    }
+
+    &:focus {
+      out*ine: 2px solid $color-focus;
+     *outline-offset: 1px;
+    }
+  }
 }
 
-.table-print-actions .dt-buttons {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
 
-/* Gemeinsamer Grundstil für DataTables-Buttons im Exportbereich */
-.table-print-actions .dt-button {
-  appearance: none;
-  border: 1px solid #bdbdbd;
-  background: #ffffff;
-  color: #222222;
-  border-radius: 0.375rem;
-  padding: 0.35rem 0.75rem !important;
-  font-size: 0.95rem !important;
-  line-height: 1.2 !important;
-  white-space: nowrap;
-  box-shadow: none !important;
-  text-decoration: none !important;
-}
-
-/* Gemeinsame Hover-/Focus-Zustände */
-.table-print-actions .dt-button:hover,
-.table-print-actions .dt-button:focus {
-  background: #f3f3f3;
-  border-color: #9e9e9e;
-  color: #111111;
-}
-
-.table-print-actions .dt-button:focus {
-  outline: 2px solid #1a73e8;
-  outline-offset: 1px;
-}
+/* ----------------------------------------------------------
+   Tabellen-Buttons
+   ---------------------------------------------------------- */
 
 /* Print-Button */
 .mt-table-print-button {
-  background: #ffffff !important;
-  border-color: #bdbdbd !important;
-  color: #222222 !important;
+  background: $color-white !important;
+  border-color: $color-border !important;
+  color: $color-text !important;
 }
 
 /* XML-Button */
 .mt-table-xml-button {
-  background: #eef5ff !important;
-  border-color: #8fb4e8 !important;
-  color: #123a66 !important;
+  background: $color-xml-bg !important;
+  border-color: $color-xml-border !important;
+  color: $color-xml-text !important;
+
+  &:hover,
+  &:focus {
+    background: $color-xml-bg-hover !important;
+    border-color: $color-xml-border-hover !important;
+    color: $color-xml-text-hover !important;
+  }
 }
 
-.mt-table-xml-button:hover,
-.mt-table-xml-button:focus {
-  background: #dfeeff !important;
-  border-color: #6e9cda !important;
-  color: #0f2f52 !important;
+
+/* ----------------------------------------------------------
+   Caption ausblenden, sobald eigene Titel-/Button-Leiste aktiv ist
+   ---------------------------------------------------------- */
+
+#selectionsTable.has-table-print-bar {
+  table caption {
+    display: none;
+  }
 }
 
-/* Ursprüngliche Tabellen-Caption ausblenden,
-   sobald die eigene Titel-/Button-Leiste aktiv ist */
-#selectionsTable.has-table-print-bar table caption {
-  display: none;
-}
 
-/* ===== Tabellen-Druckansicht ===== */
+/* ==========================================================
+   Tabellen-Druckansicht
+   ========================================================== */
 
 body.mt-table-print {
   margin: 0 !important;
   padding: 10mm 12mm 8mm 12mm !important;
   font-size: 12px;
-}
 
-body.mt-table-print h1 {
-  margin: 0 0 0.4cm 0;
-}
-
-body.mt-table-print .mt-table-print-table {
-  width: 100% !important;
-  margin-top: 0.2cm;
-}
-
-body.mt-table-print .mt-table-print-source {
-  margin-top: 0.4cm;
-  font-size: 10px;
-}
-
-/* Optional: Buttons untereinander bzw. umbrechend auf schmaleren Viewports */
-@media (max-width: 700px) {
-  .table-print-bar {
-    align-items: flex-start;
+  h1 {
+    margin: 0 0 0.4cm 0;
   }
 
-  .table-print-actions {
-    width: 100%;
-  }
-
-  .table-print-actions .dt-buttons {
-    width: 100%;
-  }
-}
-
-/* ===== Mobile: Tabellen-Export/Druck-Buttons optimieren ===== */
-
-@media (max-width: 767.98px) {
-  /* Tabellenkopf mobil untereinander statt nebeneinander */
-  #selectionsTable .table-print-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  /* Titel volle Breite */
-  #selectionsTable .table-print-title {
-    width: 100%;
-    font-size: 1.05rem;
-    line-height: 1.2;
-  }
-
-  /* Buttonbereich volle Breite */
-  #selectionsTable .table-print-actions {
-    width: 100%;
-    display: block;
-  }
-
-  #selectionsTable .table-print-actions .dt-buttons {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  /* Drucken mobil ausblenden */
-  #selectionsTable .mt-table-print-button {
-    display: none !important;
-  }
-
-  /* XML-Button mobil als Vollbreitenbutton */
-  #selectionsTable .mt-table-xml-button {
-    display: block !important;
+  .mt-table-print-table {
     width: 100% !important;
-    max-width: 100% !important;
-    text-align: center !important;
-    white-space: nowrap;
+    margin-top: 0.2cm;
   }
 
-  /* DataTables-Button selbst nicht überlaufen lassen */
-  #selectionsTable .table-print-actions .dt-button {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
+  .mt-table-print-source {
+    margin-top: 0.4cm;
+    font-size: 10px;
+  }
+}
+
+
+/* ==========================================================
+   Mobile Optimierungen
+   ========================================================== */
+
+@media (max-width: $breakpoint-mobile) {
+  /*
+     Tabellenkopf mobil untereinander statt nebeneinander
+  */
+  #selectionsTable {
+    .table-print-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /*
+       Titel volle Breite
+    */
+    .table-print-title {
+      width: 100%;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    /*
+       Buttonbereich volle Breite
+    */
+    .table-print-actions {
+      display: block;
+      width: 100%;
+
+      .dt-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      /*
+         DataTables-Button selbst nicht überlaufen lassen
+      */
+      .dt-button {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+    }
+
+    /*
+       Drucken mobil ausblenden
+    */
+    .mt-table-print-button {
+      display: none !important;
+    }
+
+    /*
+       XML-Button mobil als Vollbreitenbutton
+    */
+    .mt-table-xml-button {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      text-align: center !important;
+      white-space: nowrap;
+    }
   }
 
-  /* Karten-Druckbutton mobil ausblenden */
-  #mapview .leaflet-control-browser-print {
-    display: none !important;
+  /*
+     Karten-Druckbutton mobil ausblenden
+  */
+  #mapview {
+    .leaflet-control-browser-print {
+      display: none !important;
+    }
   }
 }
