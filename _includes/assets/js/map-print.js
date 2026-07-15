@@ -2,14 +2,24 @@
   'use strict';
 
   /**
-   * Feature switch from _config.yml.
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   * window.MT_FEATURES.mapPrint
    *
    * Default behavior:
-   * - missing config entry: enabled
-   * - map_print: true: enabled
-   * - map_print: false: disabled
+   * - missing config/global: enabled
+   * - true: enabled
+   * - false: disabled
    */
-  var MAP_PRINT_ENABLED = {{ mt_map_print_enabled | jsonify }};
+  var MAP_PRINT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.mapPrint === false
+  ) {
+    MAP_PRINT_ENABLED = false;
+  }
 
   window.MT_MAP_PRINT_ENABLED = MAP_PRINT_ENABLED;
 
@@ -259,6 +269,10 @@
   /**
    * Translation labels from metadata_fields.yml.
    */
+  function getDataSourceLabel() {
+    return '{{ page.t.metadata_fields.data_source | default: "Quelle" | escape }}';
+  }
+
   function getReferenceYearLabel() {
     return '{{ page.t.metadata_fields.reference_year | default: "Jahr" | escape }}';
   }
@@ -606,10 +620,23 @@
   /**
    * Build the print footer.
    *
-   * Footer is intentionally disabled for map printing.
+   * Desired output:
+   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
    */
   function buildFooterHtml() {
-    return '';
+    var dataSourceLabel = getDataSourceLabel();
+    var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
+
+    return (
+      '<div class="mt-print-footer-source"><strong>' +
+        escapeHtml(dataSourceLabel) +
+        ':</strong> ' +
+        ' +
+          '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(sourceUrl) +
+        '</a>' +
+      '</div>'
+    );
   }
 
   /**
@@ -633,9 +660,9 @@
           overTheMap: true
         },
         footer: {
-          enabled: false,
+          enabled: true,
           text: buildFooterHtml(),
-          size: '0mm',
+          size: '5mm',
           overTheMap: true
         }
       })
@@ -881,7 +908,6 @@
           }
 
           updatePrintHeader(event.printMap);
-
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
