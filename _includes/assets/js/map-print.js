@@ -620,24 +620,28 @@
   /**
    * Build the print footer.
    *
-   * Desired output:
-   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
+   * The source URL is assembled from parts to avoid accidental auto-linking
+   * during editing/copying.
    */
- /* function buildFooterHtml() {
+  function buildFooterHtml() {
     var dataSourceLabel = getDataSourceLabel();
-    var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
 
-    return (
-      '<div class="mt-print-footer-source"><strong>' +
-        escapeHtml(dataSourceLabel) +
-        ':</strong> ' +
-        '<a href="' +
-          escapeHtml(sourceUrl) +
-          '" +
-          escapeHtml(sourceUrl) +
-        '</a>' +
+    var sourceUrl = [
+      'https://www.',
+      'integrationsmonitoring.',
+      'niedersachsen.de'
+    ].join('');
+
+    return [
+      '<div class="mt-print-footer-source"><strong>',
+      escapeHtml(dataSourceLabel),
+      ':</strong> ',
+      '<a href="',
+      escapeHtml(sourceUrl),
+      '" target="_blank" rel="sourceUrl),
+      '</a>',
       '</div>'
-    );
+    ].join('');
   }
 
   /**
