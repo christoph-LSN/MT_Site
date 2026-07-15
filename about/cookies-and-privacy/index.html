@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260715122324">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260715123219">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -523,7 +523,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260715122324'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260715123219'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -548,14 +548,24 @@ if (allRequired) {
   'use strict';
 
   /**
-   * Feature switch from _config.yml.
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   * window.MT_FEATURES.mapPrint
    *
    * Default behavior:
-   * - missing config entry: enabled
-   * - map_print: true: enabled
-   * - map_print: false: disabled
+   * - missing config/global: enabled
+   * - true: enabled
+   * - false: disabled
    */
   var MAP_PRINT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.mapPrint === false
+  ) {
+    MAP_PRINT_ENABLED = false;
+  }
 
   window.MT_MAP_PRINT_ENABLED = MAP_PRINT_ENABLED;
 
@@ -805,6 +815,10 @@ if (allRequired) {
   /**
    * Translation labels from metadata_fields.yml.
    */
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
   function getReferenceYearLabel() {
     return 'Jahr';
   }
@@ -1152,10 +1166,23 @@ if (allRequired) {
   /**
    * Build the print footer.
    *
-   * Footer is intentionally disabled for map printing.
+   * Desired output:
+   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
    */
   function buildFooterHtml() {
-    return '';
+    var dataSourceLabel = getDataSourceLabel();
+    var sourceUrl = 'https://www.integrationsmonitoring.niedersachsen.de';
+
+    return (
+      '<div class="mt-print-footer-source"><strong>' +
+        escapeHtml(dataSourceLabel) +
+        ':</strong> ' +
+        ' +
+          '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(sourceUrl) +
+        '</a>' +
+      '</div>'
+    );
   }
 
   /**
@@ -1179,9 +1206,9 @@ if (allRequired) {
           overTheMap: true
         },
         footer: {
-          enabled: false,
+          enabled: true,
           text: buildFooterHtml(),
-          size: '0mm',
+          size: '5mm',
           overTheMap: true
         }
       })
@@ -1427,7 +1454,6 @@ if (allRequired) {
           }
 
           updatePrintHeader(event.printMap);
-
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
@@ -2775,7 +2801,7 @@ if (allRequired) {
 </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260715122324"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260715123219"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
