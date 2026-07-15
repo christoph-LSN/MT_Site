@@ -2729,40 +2729,50 @@ body.contrast-high #search-bar-on-page button:hover {
 body.contrast-high.layout-search form input, body.contrast-high.layout-search form label {
   color: black; }
 
+/* ==========================================================
+   Global
+   ========================================================== */
 body {
   background: white;
   padding-top: 0; }
 
+/* ==========================================================
+   Startseite / NDS-Karte
+   ========================================================== */
 .site-intro .description {
   margin-top: 30px;
   font-size: 21px;
   text-align: justify;
   text-justify: inter-word; }
+
 @media only screen and (min-width: 700px) {
   .site-intro {
     padding-right: 300px;
     min-height: 180px;
-    background: url("../img/SDG Wheel_Transparent-01.png");
+    background-image: url("../img/SDG Wheel_Transparent-01.png");
     background-position: right center;
     background-size: 220px;
     background-repeat: no-repeat; } }
-
-/* Tag Colors */
-.tags .tag-datenstand-2020 {
-  background-color: pink; }
-.tags .tag-datenstand-2021 {
-  background-color: green; }
-.tags .tag-datenstand-2019 {
-  background-color: red; }
-
+/* ==========================================================
+   Tag Colors
+   ========================================================== */
+/*
+   Farben nach Position der Tags vergeben.
+   Hinweis: Die Farben hängen bewusst von der Reihenfolge
+   der Tags im HTML ab.
+*/
 .tags li:nth-child(1) .tag {
   background: pink; }
+
 .tags li:nth-child(2) .tag {
   background: lightgreen; }
+
 .tags li:nth-child(3) .tag {
   background: yellow; }
 
-/* ===== Kartendruck ===== */
+/* ==========================================================
+   Kartendruck
+   ========================================================== */
 body.leaflet--printing .leaflet-print-overlay {
   background: white !important; }
 
@@ -2941,7 +2951,9 @@ body.leaflet--printing .leaflet-control-scale {
   transform: scale(0.85);
   transform-origin: bottom right; }
 
-/* ===== Tabellen-Export / Tabellen-Druck ===== */
+/* ==========================================================
+   Tabellen-Export / Tabellen-Druck
+   ========================================================== */
 .table-print-bar {
   display: flex;
   justify-content: space-between;
@@ -3013,7 +3025,9 @@ body.leaflet--printing .leaflet-control-scale {
 #selectionsTable.has-table-print-bar table caption {
   display: none; }
 
-/* ===== Tabellen-Druckansicht ===== */
+/* ==========================================================
+   Tabellen-Druckansicht
+   ========================================================== */
 body.mt-table-print {
   margin: 0 !important;
   padding: 10mm 12mm 8mm 12mm !important;
@@ -3030,17 +3044,9 @@ body.mt-table-print .mt-table-print-source {
   margin-top: 0.4cm;
   font-size: 10px; }
 
-/* Optional: Buttons untereinander bzw. umbrechend auf schmaleren Viewports */
-@media (max-width: 700px) {
-  .table-print-bar {
-    align-items: flex-start; }
-
-  .table-print-actions {
-    width: 100%; }
-
-  .table-print-actions .dt-buttons {
-    width: 100%; } }
-/* ===== Mobile: Tabellen-Export/Druck-Buttons optimieren ===== */
+/* ==========================================================
+   Mobile Optimierungen
+   ========================================================== */
 @media (max-width: 767.98px) {
   /* Tabellenkopf mobil untereinander statt nebeneinander */
   #selectionsTable .table-print-bar {
