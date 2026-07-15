@@ -1,12 +1,3 @@
----
----
-{% assign mt_map_print_enabled = true %}
-{% if site.mt_features %}
-  {% if site.mt_features.map_print == false %}
-    {% assign mt_map_print_enabled = false %}
-  {% endif %}
-{% endif %}
-
 (function () {
   'use strict';
 

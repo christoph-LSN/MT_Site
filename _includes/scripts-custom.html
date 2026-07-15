@@ -4,41 +4,70 @@
   Open SDG automatically injects this include near the closing </body> tag.
   This is the recommended place for project-specific JavaScript.
 
-  Current strategy:
-  - keep the existing map print integration unchanged
-  - load DataTables Buttons libraries
-  - load a minimal table-print.js that only creates a stable visible button
+  Feature switches are configured in _config.yml:
+
+  mt_features:
+    map_print: true
+    table_print: true
+
+  Default behavior:
+  - missing config entry: feature enabled
+  - true: feature enabled
+  - false: feature disabled
 {%- endcomment -%}
 
-<!-- Existing map print integration -->
+{%- assign mt_map_print_enabled = true -%}
+{%- assign mt_table_print_enabled = true -%}
+
+{%- if site.mt_features -%}
+  {%- if site.mt_features.map_print == false -%}
+    {%- assign mt_map_print_enabled = false -%}
+  {%- endif -%}
+
+  {%- if site.mt_features.table_print == false -%}
+    {%- assign mt_table_print_enabled = false -%}
+  {%- endif -%}
+{%- endif -%}
+
+<!-- Custom feature flags for project scripts -->
 <script>
-  {% include assets/js/vendor/leaflet.browser.print.min.js %}
+  window.MT_FEATURES = window.MT_FEATURES || {};
+  window.MT_FEATURES.mapPrint = {{ mt_map_print_enabled | jsonify }};
+  window.MT_FEATURES.tablePrint = {{ mt_table_print_enabled | jsonify }};
 </script>
 
-<script>
-  {% include assets/js/map-print.js %}
-</script>
+{%- if mt_map_print_enabled -%}
+  <!-- Map print integration -->
+  <script>
+    {% include assets/js/vendor/leaflet.browser.print.min.js %}
+  </script>
 
-<!-- DataTables Buttons / Print integration -->
+  <script>
+    {% include assets/js/map-print.js %}
+  </script>
+{%- endif -%}
+
+<!-- DataTables Buttons base libraries -->
 <script>
   {% include assets/js/vendor/dataTables.buttons.min.js %}
-</script>
-
-<script>
-  {% include assets/js/vendor/buttons.print.min.js %}
 </script>
 
 <script>
   {% include assets/js/vendor/buttons.bootstrap5.min.js %}
 </script>
 
-<!-- Minimal step-1 table print integration -->
-<script>
-  {% include assets/js/table-print.js %}
-</script>
+{%- if mt_table_print_enabled -%}
+  <!-- DataTables print integration -->
+  <script>
+    {% include assets/js/vendor/buttons.print.min.js %}
+  </script>
 
-<!-- table export integration -->
+  <script>
+    {% include assets/js/table-print.js %}
+  </script>
+{%- endif -%}
+
+<!-- Table export integration -->
 <script>
   {% include assets/js/table-export.js %}
 </script>
-
