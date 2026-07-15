@@ -40,3 +40,14 @@ exclude:
   - README
   - README.md
   - LICENSE
+
+
+
+# ==========================================================
+# Custom Feature-Schalter
+# ==========================================================
+
+mt_features:
+  map_print: true
+  table_print: true
+  table_export: true
