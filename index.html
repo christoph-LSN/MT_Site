@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260716064515">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260716082858">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -667,7 +667,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260716064515'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260716082858'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -1331,22 +1331,22 @@ if (allRequired) {
       L.BrowserPrint.Mode.Landscape('A4', {
         title: 'Print',
         margin: {
-          top: 2,
-          right: 2,
-          bottom: 2,
-          left: 2
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
         },
         enableZoom: false,
         header: {
-          enabled: true,
-          text: buildHeaderHtml(),
-          size: '16mm',
+          enabled: false,
+          text: '',
+          size: '0mm',
           overTheMap: true
         },
         footer: {
-          enabled: true,
-          text: buildFooterHtml(),
-          size: '5mm',
+          enabled: false,
+          text: '',
+          size: '0mm',
           overTheMap: true
         }
       })
@@ -1381,6 +1381,66 @@ if (allRequired) {
     style.id = 'mt-print-overlay-styles';
 
     style.textContent = ''
+      + '@page {'
+      + '  size: A4 landscape;'
+      + '}'
+      + '@media print {'
+      + '  html, body {'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .grid-print-container,'
+      + '  #print-map,'
+      + '  .leaflet-browser-print-map,'
+      + '  .leaflet-container {'
+      + '    width: 260mm !important;'
+      + '    height: 180mm !important;'
+      + '    max-width: 260mm !important;'
+      + '    max-height: 180mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    page-break-before: avoid !important;'
+      + '    page-break-after: avoid !important;'
+      + '    page-break-inside: avoid !important;'
+      + '    break-before: avoid !important;'
+      + '    break-after: avoid !important;'
+      + '    break-inside: avoid !important;'
+      + '  }'
+      + '}'
+      + '.mt-print-header-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  top: 3mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 230mm;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  line-height: 1.15;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-title {'
+      + '  font-size: 10pt;'
+      + '  font-weight: 700;'
+      + '  margin: 0 0 1mm 0;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-meta {'
+      + '  font-size: 7pt;'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-footer-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  bottom: 3mm;'
+      + '  z-index: 99999;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  font-size: 6pt;'
+      + '  line-height: 1.1;'
+      + '  pointer-events: none;'
+      + '}'
       + '.mt-print-disaggregation-overlay {'
       + '  position: absolute;'
       + '  left: 6mm;'
@@ -1406,6 +1466,93 @@ if (allRequired) {
     if (doc.head) {
       doc.head.appendChild(style);
     }
+  }
+
+  /**
+   * Force the generated print map into a conservative A4 landscape printable area.
+   *
+   * Many managed Windows/Chrome printer profiles keep "Standard" printer margins
+   * active and do not allow users to change them. A full 297mm x 210mm element
+   * therefore overflows the printable area and Chrome creates a second sheet.
+   * 260mm x 180mm fits safely into A4 landscape with standard margins.
+   */
+  function forcePrintMapToSingleSheet(printMap) {
+    if (!printMap || !printMap.getContainer) return;
+
+    var container = printMap.getContainer();
+    if (!container) return;
+
+    var root = getPrintOverlayRoot(printMap) || container;
+    var safeWidth = '260mm';
+    var safeHeight = '180mm';
+
+    [root, container].forEach(function (el) {
+      if (!el || !el.style) return;
+      el.style.width = safeWidth;
+      el.style.height = safeHeight;
+      el.style.maxWidth = safeWidth;
+      el.style.maxHeight = safeHeight;
+      el.style.margin = '0';
+      el.style.padding = '0';
+      el.style.overflow = 'hidden';
+      el.style.boxSizing = 'border-box';
+      el.style.pageBreakBefore = 'avoid';
+      el.style.pageBreakAfter = 'avoid';
+      el.style.pageBreakInside = 'avoid';
+      el.style.breakBefore = 'avoid';
+      el.style.breakAfter = 'avoid';
+      el.style.breakInside = 'avoid';
+    });
+
+    if (window.getComputedStyle(root).position === 'static') {
+      root.style.position = 'relative';
+    }
+
+    try {
+      printMap.invalidateSize(false);
+    } catch (e) {
+      warn('Could not invalidate print map size.', e);
+    }
+  }
+
+  /**
+   * Remove the print header/footer overlays from the print view.
+   */
+  function removeExistingPrintHeaderFooter(root) {
+    if (!root) return;
+
+    root.querySelectorAll('.mt-print-header-overlay, .mt-print-footer-overlay').forEach(function (el) {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
+  }
+
+  /**
+   * Add header/footer as absolute overlays inside the map container.
+   */
+  function addHeaderFooterToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    ensurePrintOverlayStyles(root);
+    removeExistingPrintHeaderFooter(root);
+
+    if (window.getComputedStyle(root).position === 'static') {
+      root.style.position = 'relative';
+    }
+
+    var doc = root.ownerDocument || document;
+
+    var header = doc.createElement('div');
+    header.className = 'mt-print-header-overlay';
+    header.innerHTML = buildHeaderHtml();
+    root.appendChild(header);
+
+    var footer = doc.createElement('div');
+    footer.className = 'mt-print-footer-overlay';
+    footer.innerHTML = buildFooterHtml();
+    root.appendChild(footer);
   }
 
   /**
@@ -1585,13 +1732,16 @@ if (allRequired) {
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
+          ensurePrintOverlayStyles(getPrintOverlayRoot(event.printMap));
+          forcePrintMapToSingleSheet(event.printMap);
+
           var hasSelection = hasSelectedLegendItems();
 
           if (!hasSelection) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          updatePrintHeader(event.printMap);
+          addHeaderFooterToPrintMap(event.printMap);
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
@@ -1600,6 +1750,7 @@ if (allRequired) {
       map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
         if (event && event.printMap) {
           var root = getPrintOverlayRoot(event.printMap);
+          removeExistingPrintHeaderFooter(root);
           removeExistingPrintLegend(root);
           removeExistingPrintDisaggregations(root);
         }
@@ -2940,7 +3091,7 @@ if (allRequired) {
 </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260716064515"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260716082858"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
