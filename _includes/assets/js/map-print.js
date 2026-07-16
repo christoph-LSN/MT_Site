@@ -292,7 +292,6 @@
       text.indexOf("name='") !== -1 ||
       text.indexOf('url=') !== -1 ||
       text.indexOf('=>') !== -1 ||
-      text.indexOf('=&gt;') !== -1 ||
       (text.indexOf('{') !== -1 && text.indexOf('}') !== -1)
     );
   }
@@ -626,22 +625,12 @@
   function buildFooterHtml() {
     var dataSourceLabel = getDataSourceLabel();
 
-    var sourceUrl = [
-      'https://www.',
-      'integrationsmonitoring.',
-      'niedersachsen.de'
-    ].join('');
-
-    return [
-      '<div class="mt-print-footer-source"><strong>',
-      escapeHtml(dataSourceLabel),
-      ':</strong> ',
-      '<a href="',
-      escapeHtml(sourceUrl),
-      '" target="_blank" rel="sourceUrl),
-      '</a>',
-      '</div>'
-    ].join('');
+    return (
+      '<div class="mt-print-footer-source"><strong>' +
+        escapeHtml(dataSourceLabel) +
+        ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
+    );
+  }
   }
 
   /**
