@@ -631,7 +631,7 @@
         ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
   }
-  }
+  
 
   /**
    * Configure the print mode.
