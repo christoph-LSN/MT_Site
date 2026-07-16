@@ -648,77 +648,19 @@
         },
         enableZoom: false,
         header: {
-          enabled: true,
-          text: buildHeaderHtml(),
-          size: '16mm',
+          enabled: false,
+          text: '',
+          size: '0mm',
           overTheMap: true
         },
         footer: {
-          enabled: true,
-          text: buildFooterHtml(),
-          size: '5mm',
+          enabled: false,
+          text: '',
+          size: '0mm',
           overTheMap: true
         }
       })
     ];
-  }
-
-  /**
-   * Force the browser print preview to keep the generated A4 landscape print map
-   * on exactly one physical page. Without this, Chromium/Edge/Chrome may add its
-   * own default page margins around an already A4-sized leaflet.browser.print
-   * container. The result is a tiny vertical overflow and therefore a second page.
-   */
-  function ensureOnePagePrintStyles(doc) {
-    doc = doc || document;
-
-    if (doc.getElementById('mt-one-page-print-styles')) {
-      return;
-    }
-
-    var style = doc.createElement('style');
-    style.id = 'mt-one-page-print-styles';
-
-    style.textContent = ''
-      + '@page {'
-      + '  size: A4 landscape;'
-      + '  margin: 0;'
-      + '}'
-      + '@media print {'
-      + '  html, body {'
-      + '    width: 297mm !important;'
-      + '    height: 210mm !important;'
-      + '    margin: 0 !important;'
-      + '    padding: 0 !important;'
-      + '    overflow: hidden !important;'
-      + '  }'
-      + '  body > *:not(.grid-print-container):not(#print-map) {'
-      + '    display: none !important;'
-      + '  }'
-      + '  .grid-print-container,'
-      + '  #print-map,'
-      + '  .leaflet-browser-print-map,'
-      + '  .leaflet-container {'
-      + '    width: 297mm !important;'
-      + '    height: 210mm !important;'
-      + '    max-width: 297mm !important;'
-      + '    max-height: 210mm !important;'
-      + '    margin: 0 !important;'
-      + '    padding: 0 !important;'
-      + '    box-sizing: border-box !important;'
-      + '    overflow: hidden !important;'
-      + '    page-break-before: avoid !important;'
-      + '    page-break-after: avoid !important;'
-      + '    page-break-inside: avoid !important;'
-      + '    break-before: avoid !important;'
-      + '    break-after: avoid !important;'
-      + '    break-inside: avoid !important;'
-      + '  }'
-      + '}';
-
-    if (doc.head) {
-      doc.head.appendChild(style);
-    }
   }
 
   /**
@@ -749,6 +691,53 @@
     style.id = 'mt-print-overlay-styles';
 
     style.textContent = ''
+      + '@page {'
+      + '  size: A4 landscape;'
+      + '  margin: 0;'
+      + '}'
+      + '@media print {'
+      + '  html, body {'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .grid-print-container {'
+      + '    page-break-inside: avoid !important;'
+      + '    break-inside: avoid !important;'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '}'
+      + '.mt-print-header-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  top: 3mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 250mm;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  line-height: 1.15;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-title {'
+      + '  font-size: 11pt;'
+      + '  font-weight: 700;'
+      + '  margin: 0 0 1mm 0;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-meta {'
+      + '  font-size: 8pt;'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-footer-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  bottom: 3mm;'
+      + '  z-index: 99999;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  font-size: 6pt;'
+      + '  line-height: 1.1;'
+      + '  pointer-events: none;'
+      + '}'
       + '.mt-print-disaggregation-overlay {'
       + '  position: absolute;'
       + '  left: 6mm;'
@@ -774,6 +763,50 @@
     if (doc.head) {
       doc.head.appendChild(style);
     }
+  }
+
+  /**
+   * Remove the print header/footer overlays from the print view.
+   */
+  function removeExistingPrintHeaderFooter(root) {
+    if (!root) return;
+
+    root.querySelectorAll('.mt-print-header-overlay, .mt-print-footer-overlay').forEach(function (el) {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
+  }
+
+  /**
+   * Add header/footer as absolute overlays inside the map container.
+   *
+   * Important: Do not use leaflet.browser.print's built-in header/footer here.
+   * In Chromium/Edge the built-in sections may still increase the generated
+   * document height even when overTheMap is set, which causes a second page.
+   */
+  function addHeaderFooterToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    ensurePrintOverlayStyles(root);
+    removeExistingPrintHeaderFooter(root);
+
+    if (window.getComputedStyle(root).position === 'static') {
+      root.style.position = 'relative';
+    }
+
+    var doc = root.ownerDocument || document;
+
+    var header = doc.createElement('div');
+    header.className = 'mt-print-header-overlay';
+    header.innerHTML = buildHeaderHtml();
+    root.appendChild(header);
+
+    var footer = doc.createElement('div');
+    footer.className = 'mt-print-footer-overlay';
+    footer.innerHTML = buildFooterHtml();
+    root.appendChild(footer);
   }
 
   /**
@@ -937,8 +970,6 @@
       L.control.browserPrint(printOptions).addTo(map);
 
       map.on(L.BrowserPrint.Event.PrePrint, function () {
-        ensureOnePagePrintStyles(document);
-
         var hasSelection = hasSelectedLegendItems();
 
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
@@ -955,15 +986,13 @@
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
-          ensureOnePagePrintStyles(event.printMap.getContainer().ownerDocument || document);
-
           var hasSelection = hasSelectedLegendItems();
 
           if (!hasSelection) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          updatePrintHeader(event.printMap);
+          addHeaderFooterToPrintMap(event.printMap);
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
@@ -972,6 +1001,7 @@
       map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
         if (event && event.printMap) {
           var root = getPrintOverlayRoot(event.printMap);
+          removeExistingPrintHeaderFooter(root);
           removeExistingPrintLegend(root);
           removeExistingPrintDisaggregations(root);
         }
