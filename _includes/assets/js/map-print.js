@@ -700,15 +700,21 @@
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '  }'
+      + '  body {'
+      + '    min-height: 100vh !important;'
+      + '    display: flex !important;'
+      + '    align-items: center !important;'
+      + '    justify-content: center !important;'
+      + '  }'
       + '  .grid-print-container,'
       + '  #print-map,'
       + '  .leaflet-browser-print-map,'
       + '  .leaflet-container {'
-      + '    width: 260mm !important;'
-      + '    height: 180mm !important;'
-      + '    max-width: 260mm !important;'
-      + '    max-height: 180mm !important;'
-      + '    margin: 0 !important;'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: auto !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
@@ -725,14 +731,14 @@
       + '  left: 5mm;'
       + '  top: 3mm;'
       + '  z-index: 99999;'
-      + '  max-width: 230mm;'
+      + '  max-width: 240mm;'
       + '  color: #000;'
       + '  font-family: Arial, sans-serif;'
       + '  line-height: 1.15;'
       + '  pointer-events: none;'
       + '}'
       + '.mt-print-header-overlay .mt-print-title {'
-      + '  font-size: 10pt;'
+      + '  font-size: 10.5pt;'
       + '  font-weight: 700;'
       + '  margin: 0 0 1mm 0;'
       + '}'
@@ -779,12 +785,13 @@
   }
 
   /**
-   * Force the generated print map into a conservative A4 landscape printable area.
+   * Force the generated print map into a large but still safe A4 landscape
+   * printable area and center it on the physical sheet.
    *
-   * Many managed Windows/Chrome printer profiles keep "Standard" printer margins
-   * active and do not allow users to change them. A full 297mm x 210mm element
-   * therefore overflows the printable area and Chrome creates a second sheet.
-   * 260mm x 180mm fits safely into A4 landscape with standard margins.
+   * Chrome/Edge may keep printer "Standard" margins active. A full 297mm x
+   * 210mm element can therefore overflow. 270mm x 190mm is much closer to
+   * page-filling than the conservative 260mm x 180mm version, while still
+   * fitting typical A4 landscape standard margins.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -793,8 +800,8 @@
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var safeWidth = '260mm';
-    var safeHeight = '180mm';
+    var safeWidth = '270mm';
+    var safeHeight = '190mm';
 
     [root, container].forEach(function (el) {
       if (!el || !el.style) return;
@@ -802,7 +809,7 @@
       el.style.height = safeHeight;
       el.style.maxWidth = safeWidth;
       el.style.maxHeight = safeHeight;
-      el.style.margin = '0';
+      el.style.margin = 'auto';
       el.style.padding = '0';
       el.style.overflow = 'hidden';
       el.style.boxSizing = 'border-box';
