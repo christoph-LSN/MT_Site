@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260716082858">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260716084406">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -483,7 +483,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260716082858'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260716084406'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -1206,15 +1206,21 @@ if (allRequired) {
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '  }'
+      + '  body {'
+      + '    min-height: 100vh !important;'
+      + '    display: flex !important;'
+      + '    align-items: center !important;'
+      + '    justify-content: center !important;'
+      + '  }'
       + '  .grid-print-container,'
       + '  #print-map,'
       + '  .leaflet-browser-print-map,'
       + '  .leaflet-container {'
-      + '    width: 260mm !important;'
-      + '    height: 180mm !important;'
-      + '    max-width: 260mm !important;'
-      + '    max-height: 180mm !important;'
-      + '    margin: 0 !important;'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: auto !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
@@ -1231,14 +1237,14 @@ if (allRequired) {
       + '  left: 5mm;'
       + '  top: 3mm;'
       + '  z-index: 99999;'
-      + '  max-width: 230mm;'
+      + '  max-width: 240mm;'
       + '  color: #000;'
       + '  font-family: Arial, sans-serif;'
       + '  line-height: 1.15;'
       + '  pointer-events: none;'
       + '}'
       + '.mt-print-header-overlay .mt-print-title {'
-      + '  font-size: 10pt;'
+      + '  font-size: 10.5pt;'
       + '  font-weight: 700;'
       + '  margin: 0 0 1mm 0;'
       + '}'
@@ -1285,12 +1291,13 @@ if (allRequired) {
   }
 
   /**
-   * Force the generated print map into a conservative A4 landscape printable area.
+   * Force the generated print map into a large but still safe A4 landscape
+   * printable area and center it on the physical sheet.
    *
-   * Many managed Windows/Chrome printer profiles keep "Standard" printer margins
-   * active and do not allow users to change them. A full 297mm x 210mm element
-   * therefore overflows the printable area and Chrome creates a second sheet.
-   * 260mm x 180mm fits safely into A4 landscape with standard margins.
+   * Chrome/Edge may keep printer "Standard" margins active. A full 297mm x
+   * 210mm element can therefore overflow. 270mm x 190mm is much closer to
+   * page-filling than the conservative 260mm x 180mm version, while still
+   * fitting typical A4 landscape standard margins.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -1299,8 +1306,8 @@ if (allRequired) {
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var safeWidth = '260mm';
-    var safeHeight = '180mm';
+    var safeWidth = '270mm';
+    var safeHeight = '190mm';
 
     [root, container].forEach(function (el) {
       if (!el || !el.style) return;
@@ -1308,7 +1315,7 @@ if (allRequired) {
       el.style.height = safeHeight;
       el.style.maxWidth = safeWidth;
       el.style.maxHeight = safeHeight;
-      el.style.margin = '0';
+      el.style.margin = 'auto';
       el.style.padding = '0';
       el.style.overflow = 'hidden';
       el.style.boxSizing = 'border-box';
@@ -2907,7 +2914,7 @@ if (allRequired) {
 </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260716082858"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260716084406"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
