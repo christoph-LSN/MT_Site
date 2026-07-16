@@ -696,27 +696,28 @@
       + '}'
       + '@media print {'
       + '  html, body {'
-      + '    width: 100% !important;'
-      + '    height: 100% !important;'
       + '    margin: 0 !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '  }'
+      + '  .leaflet-print-overlay {'
+      + '    overflow: hidden !important;'
+      + '  }'
       + '  .grid-print-container {'
-      + '    position: fixed !important;'
-      + '    left: 0 !important;'
-      + '    right: 0 !important;'
-      + '    top: 0 !important;'
-      + '    bottom: 0 !important;'
       + '    width: 270mm !important;'
       + '    height: 190mm !important;'
       + '    max-width: 270mm !important;'
       + '    max-height: 190mm !important;'
-      + '    margin: auto !important;'
+      + '    margin-left: auto !important;'
+      + '    margin-right: auto !important;'
+      + '    margin-top: 0 !important;'
+      + '    margin-bottom: 0 !important;'
       + '    padding: 0 !important;'
+      + '    position: relative !important;'
+      + '    top: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
-      + '    transform: none !important;'
+      + '    transform: translateY(16mm) !important;'
       + '    page-break-before: avoid !important;'
       + '    page-break-after: avoid !important;'
       + '    page-break-inside: avoid !important;'
@@ -724,9 +725,8 @@
       + '    break-after: avoid !important;'
       + '    break-inside: avoid !important;'
       + '  }'
-      + '  #print-map,'
-      + '  .leaflet-browser-print-map,'
-      + '  .leaflet-container {'
+      + '  #map-print,'
+      + '  .grid-map-print {'
       + '    width: 270mm !important;'
       + '    height: 190mm !important;'
       + '    max-width: 270mm !important;'
@@ -735,6 +735,7 @@
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
+      + '    transform: none !important;'
       + '  }'
       + '}'
       + '.mt-print-header-overlay {'
@@ -796,11 +797,9 @@
   }
 
   /**
-   * Center the generated print map on one A4 landscape sheet.
-   *
-   * This version does not use scale() and therefore avoids clipping at the left
-   * edge. The root print container is fixed with left/right/top/bottom set to 0
-   * and margin:auto, which centers the map in the printed page.
+   * Size the real print map (#map-print/.grid-map-print) and move the centered
+   * grid print container down. Console diagnostics showed that the container was
+   * already centered horizontally (equal left/right margins), but had top:-23px.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -811,22 +810,23 @@
     var root = getPrintOverlayRoot(printMap) || container;
     var safeWidth = '270mm';
     var safeHeight = '190mm';
+    var verticalOffset = '16mm';
 
     if (root && root.style) {
-      root.style.position = 'fixed';
-      root.style.left = '0';
-      root.style.right = '0';
-      root.style.top = '0';
-      root.style.bottom = '0';
       root.style.width = safeWidth;
       root.style.height = safeHeight;
       root.style.maxWidth = safeWidth;
       root.style.maxHeight = safeHeight;
-      root.style.margin = 'auto';
+      root.style.marginLeft = 'auto';
+      root.style.marginRight = 'auto';
+      root.style.marginTop = '0';
+      root.style.marginBottom = '0';
       root.style.padding = '0';
+      root.style.position = 'relative';
+      root.style.top = '0';
       root.style.overflow = 'hidden';
       root.style.boxSizing = 'border-box';
-      root.style.transform = 'none';
+      root.style.transform = 'translateY(' + verticalOffset + ')';
       root.style.pageBreakBefore = 'avoid';
       root.style.pageBreakAfter = 'avoid';
       root.style.pageBreakInside = 'avoid';
