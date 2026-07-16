@@ -696,24 +696,27 @@
       + '}'
       + '@media print {'
       + '  html, body {'
+      + '    width: 100% !important;'
+      + '    height: 100% !important;'
       + '    margin: 0 !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '  }'
       + '  .grid-print-container {'
-      + '    width: 260mm !important;'
-      + '    height: 180mm !important;'
-      + '    max-width: 260mm !important;'
-      + '    max-height: 180mm !important;'
       + '    position: fixed !important;'
-      + '    left: 50% !important;'
-      + '    top: 50% !important;'
-      + '    margin: 0 !important;'
+      + '    left: 0 !important;'
+      + '    right: 0 !important;'
+      + '    top: 0 !important;'
+      + '    bottom: 0 !important;'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: auto !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
-      + '    transform: translate(-50%, -50%) scale(1.075) !important;'
-      + '    transform-origin: center center !important;'
+      + '    transform: none !important;'
       + '    page-break-before: avoid !important;'
       + '    page-break-after: avoid !important;'
       + '    page-break-inside: avoid !important;'
@@ -724,10 +727,10 @@
       + '  #print-map,'
       + '  .leaflet-browser-print-map,'
       + '  .leaflet-container {'
-      + '    width: 260mm !important;'
-      + '    height: 180mm !important;'
-      + '    max-width: 260mm !important;'
-      + '    max-height: 180mm !important;'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
       + '    margin: 0 !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
@@ -739,14 +742,14 @@
       + '  left: 5mm;'
       + '  top: 3mm;'
       + '  z-index: 99999;'
-      + '  max-width: 230mm;'
+      + '  max-width: 240mm;'
       + '  color: #000;'
       + '  font-family: Arial, sans-serif;'
       + '  line-height: 1.15;'
       + '  pointer-events: none;'
       + '}'
       + '.mt-print-header-overlay .mt-print-title {'
-      + '  font-size: 10pt;'
+      + '  font-size: 10.5pt;'
       + '  font-weight: 700;'
       + '  margin: 0 0 1mm 0;'
       + '}'
@@ -793,9 +796,11 @@
   }
 
   /**
-   * Keep the layout footprint small enough for one sheet, but enlarge it visually
-   * with CSS transform. Transforms do not increase the paginated layout height,
-   * so Chrome/Edge should keep one page while the map appears more page-filling.
+   * Center the generated print map on one A4 landscape sheet.
+   *
+   * This version does not use scale() and therefore avoids clipping at the left
+   * edge. The root print container is fixed with left/right/top/bottom set to 0
+   * and margin:auto, which centers the map in the printed page.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -804,24 +809,24 @@
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var safeWidth = '260mm';
-    var safeHeight = '180mm';
-    var printScale = '1.075';
+    var safeWidth = '270mm';
+    var safeHeight = '190mm';
 
     if (root && root.style) {
+      root.style.position = 'fixed';
+      root.style.left = '0';
+      root.style.right = '0';
+      root.style.top = '0';
+      root.style.bottom = '0';
       root.style.width = safeWidth;
       root.style.height = safeHeight;
       root.style.maxWidth = safeWidth;
       root.style.maxHeight = safeHeight;
-      root.style.position = 'fixed';
-      root.style.left = '50%';
-      root.style.top = '50%';
-      root.style.margin = '0';
+      root.style.margin = 'auto';
       root.style.padding = '0';
       root.style.overflow = 'hidden';
       root.style.boxSizing = 'border-box';
-      root.style.transform = 'translate(-50%, -50%) scale(' + printScale + ')';
-      root.style.transformOrigin = 'center center';
+      root.style.transform = 'none';
       root.style.pageBreakBefore = 'avoid';
       root.style.pageBreakAfter = 'avoid';
       root.style.pageBreakInside = 'avoid';
@@ -839,6 +844,7 @@
       container.style.padding = '0';
       container.style.overflow = 'hidden';
       container.style.boxSizing = 'border-box';
+      container.style.transform = 'none';
     }
 
     try {
