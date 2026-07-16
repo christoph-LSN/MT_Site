@@ -700,24 +700,20 @@
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '  }'
-      + '  body {'
-      + '    min-height: 100vh !important;'
-      + '    display: flex !important;'
-      + '    align-items: center !important;'
-      + '    justify-content: center !important;'
-      + '  }'
-      + '  .grid-print-container,'
-      + '  #print-map,'
-      + '  .leaflet-browser-print-map,'
-      + '  .leaflet-container {'
-      + '    width: 270mm !important;'
-      + '    height: 190mm !important;'
-      + '    max-width: 270mm !important;'
-      + '    max-height: 190mm !important;'
-      + '    margin: auto !important;'
+      + '  .grid-print-container {'
+      + '    width: 260mm !important;'
+      + '    height: 180mm !important;'
+      + '    max-width: 260mm !important;'
+      + '    max-height: 180mm !important;'
+      + '    position: fixed !important;'
+      + '    left: 50% !important;'
+      + '    top: 50% !important;'
+      + '    margin: 0 !important;'
       + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
+      + '    transform: translate(-50%, -50%) scale(1.075) !important;'
+      + '    transform-origin: center center !important;'
       + '    page-break-before: avoid !important;'
       + '    page-break-after: avoid !important;'
       + '    page-break-inside: avoid !important;'
@@ -725,20 +721,32 @@
       + '    break-after: avoid !important;'
       + '    break-inside: avoid !important;'
       + '  }'
+      + '  #print-map,'
+      + '  .leaflet-browser-print-map,'
+      + '  .leaflet-container {'
+      + '    width: 260mm !important;'
+      + '    height: 180mm !important;'
+      + '    max-width: 260mm !important;'
+      + '    max-height: 180mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '  }'
       + '}'
       + '.mt-print-header-overlay {'
       + '  position: absolute;'
       + '  left: 5mm;'
       + '  top: 3mm;'
       + '  z-index: 99999;'
-      + '  max-width: 240mm;'
+      + '  max-width: 230mm;'
       + '  color: #000;'
       + '  font-family: Arial, sans-serif;'
       + '  line-height: 1.15;'
       + '  pointer-events: none;'
       + '}'
       + '.mt-print-header-overlay .mt-print-title {'
-      + '  font-size: 10.5pt;'
+      + '  font-size: 10pt;'
       + '  font-weight: 700;'
       + '  margin: 0 0 1mm 0;'
       + '}'
@@ -785,13 +793,9 @@
   }
 
   /**
-   * Force the generated print map into a large but still safe A4 landscape
-   * printable area and center it on the physical sheet.
-   *
-   * Chrome/Edge may keep printer "Standard" margins active. A full 297mm x
-   * 210mm element can therefore overflow. 270mm x 190mm is much closer to
-   * page-filling than the conservative 260mm x 180mm version, while still
-   * fitting typical A4 landscape standard margins.
+   * Keep the layout footprint small enough for one sheet, but enlarge it visually
+   * with CSS transform. Transforms do not increase the paginated layout height,
+   * so Chrome/Edge should keep one page while the map appears more page-filling.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -800,29 +804,41 @@
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var safeWidth = '270mm';
-    var safeHeight = '190mm';
+    var safeWidth = '260mm';
+    var safeHeight = '180mm';
+    var printScale = '1.075';
 
-    [root, container].forEach(function (el) {
-      if (!el || !el.style) return;
-      el.style.width = safeWidth;
-      el.style.height = safeHeight;
-      el.style.maxWidth = safeWidth;
-      el.style.maxHeight = safeHeight;
-      el.style.margin = 'auto';
-      el.style.padding = '0';
-      el.style.overflow = 'hidden';
-      el.style.boxSizing = 'border-box';
-      el.style.pageBreakBefore = 'avoid';
-      el.style.pageBreakAfter = 'avoid';
-      el.style.pageBreakInside = 'avoid';
-      el.style.breakBefore = 'avoid';
-      el.style.breakAfter = 'avoid';
-      el.style.breakInside = 'avoid';
-    });
+    if (root && root.style) {
+      root.style.width = safeWidth;
+      root.style.height = safeHeight;
+      root.style.maxWidth = safeWidth;
+      root.style.maxHeight = safeHeight;
+      root.style.position = 'fixed';
+      root.style.left = '50%';
+      root.style.top = '50%';
+      root.style.margin = '0';
+      root.style.padding = '0';
+      root.style.overflow = 'hidden';
+      root.style.boxSizing = 'border-box';
+      root.style.transform = 'translate(-50%, -50%) scale(' + printScale + ')';
+      root.style.transformOrigin = 'center center';
+      root.style.pageBreakBefore = 'avoid';
+      root.style.pageBreakAfter = 'avoid';
+      root.style.pageBreakInside = 'avoid';
+      root.style.breakBefore = 'avoid';
+      root.style.breakAfter = 'avoid';
+      root.style.breakInside = 'avoid';
+    }
 
-    if (window.getComputedStyle(root).position === 'static') {
-      root.style.position = 'relative';
+    if (container && container.style) {
+      container.style.width = safeWidth;
+      container.style.height = safeHeight;
+      container.style.maxWidth = safeWidth;
+      container.style.maxHeight = safeHeight;
+      container.style.margin = '0';
+      container.style.padding = '0';
+      container.style.overflow = 'hidden';
+      container.style.boxSizing = 'border-box';
     }
 
     try {
@@ -854,10 +870,6 @@
 
     ensurePrintOverlayStyles(root);
     removeExistingPrintHeaderFooter(root);
-
-    if (window.getComputedStyle(root).position === 'static') {
-      root.style.position = 'relative';
-    }
 
     var doc = root.ownerDocument || document;
 
