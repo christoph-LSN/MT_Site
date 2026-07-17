@@ -142,7 +142,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260717044115">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260717044722">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -490,13 +490,1431 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260717044115'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260717044722'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
-  window.MT_FEATURES.mapPrint = false;
+  window.MT_FEATURES.mapPrint = true;
   window.MT_FEATURES.tablePrint = true;
-</script><!-- DataTables Buttons base libraries -->
+</script><!-- Map print integration -->
+  <script>
+    /*!
+ * 
+ *  leaflet.browser.print - v2.0.2 (https://github.com/Igor-Vladyka/leaflet.browser.print) 
+ *  A leaflet plugin which allows users to print the map directly from the browser
+ *  
+ *  MIT (http://www.opensource.org/licenses/mit-license.php)
+ *  (c) 2022  Igor Vladyka <igor.vladyka@gmail.com> (https://github.com/Igor-Vladyka/)
+ * 
+ */!function(t){var e={};function i(n){if(e[n])return e[n].exports;var r=e[n]={i:n,l:!1,exports:{}};return t[n].call(r.exports,r,r.exports,i),r.l=!0,r.exports}i.m=t,i.c=e,i.d=function(t,e,n){i.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},i.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)i.d(n,r,function(e){return t[e]}.bind(null,r));return n},i.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(e,"a",e),e},i.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},i.p="",i(i.s=0)}([function(t,e,i){i(1),i(2),i(3),i(4),i(5),t.exports=i(6)},function(t,e){L.BrowserPrint=L.Class.extend({options:{documentTitle:"",printLayer:null,closePopupsOnPrint:!0,contentSelector:"[leaflet-browser-print-content]",pagesSelector:"[leaflet-browser-print-pages]",manualMode:!1,customPrintStyle:{color:"gray",dashArray:"5, 10",pane:"customPrintPane"},cancelWithEsc:!0,printFunction:window.print,debug:!1},initialize:function(t,e){this._map=t,L.setOptions(this,e),this.options.customPrintStyle.pane&&!t.getPane(this.options.customPrintStyle.pane)&&(t.createPane(this.options.customPrintStyle.pane).style.zIndex=9999),document.getElementById("browser-print-css")||this._appendControlStyles(document.head)},cancel:function(){this._printCancel()},print:function(t){t.options.action(this,t)(t)},_getMode:function(t,e){return new L.BrowserPrint.Mode(t,e.options)},_printLandscape:function(t){this._addPrintClassToContainer(this._map,"leaflet-browser-print--landscape"),this._print(t)},_printPortrait:function(t){this._addPrintClassToContainer(this._map,"leaflet-browser-print--portrait"),this._print(t)},_printAuto:function(t){this._addPrintClassToContainer(this._map,"leaflet-browser-print--auto");var e,i=this._getBoundsForAllVisualLayers();e="Portrait"===t.options.orientation||"Landscape"===t.options.orientation?t.options.orientation:this._getPageSizeFromBounds(i),this._print(this._getMode(e,t),i)},_printCustom:function(t,e){this._addPrintClassToContainer(this._map,"leaflet-browser-print--custom"),this.options.custom={mode:t,options:e},this._map.on("mousedown",this._startAutoPolygon,this)},_addPrintClassToContainer:function(t,e){var i=t.getContainer();-1===i.className.indexOf(e)&&(i.className+=" "+e)},_removePrintClassFromContainer:function(t,e){var i=t.getContainer();i.className&&i.className.indexOf(e)>-1&&(i.className=i.className.replace(" "+e,""))},_startAutoPolygon:function(t){L.DomEvent.stop(t),this._map.dragging.disable(),this.options.custom.start=t.latlng,this._map.getPane(this.options.customPrintStyle.pane).style.display="initial",this._map.off("mousedown",this._startAutoPolygon,this),this._map.on("mousemove",this._moveAutoPolygon,this),this._map.on("mouseup",this._endAutoPolygon,this)},_moveAutoPolygon:function(t){this.options.custom&&(L.DomEvent.stop(t),this.options.custom.rectangle?this.options.custom.rectangle.setBounds(L.latLngBounds(this.options.custom.start,t.latlng)):this.options.custom.rectangle=L.rectangle([this.options.custom.start,t.latlng],this.options.customPrintStyle),this.options.custom.rectangle.addTo(this._map))},_endAutoPolygon:function(t){if(L.DomEvent.stop(t),this._removeAutoPolygon(),this.options.custom&&this.options.custom.rectangle){var e,i=this.options.custom.rectangle.getBounds();this._map.removeLayer(this.options.custom.rectangle),e="Portrait"===this.options.custom.mode.options.orientation||"Landscape"===this.options.custom.mode.options.orientation?this.options.custom.mode.options.orientation:this._getPageSizeFromBounds(i),this._print(this._getMode(e,this.options.custom.mode),i),delete this.options.custom}else this._clearPrint()},_removeAutoPolygon:function(){this._map.off("mousedown",this._startAutoPolygon,this),this._map.off("mousemove",this._moveAutoPolygon,this),this._map.off("mouseup",this._endAutoPolygon,this),this._map.dragging.enable(),this._map.getPane(this.options.customPrintStyle.pane).style.display="none"},_getPageSizeFromBounds:function(t){return Math.abs(t.getNorth()-t.getSouth())>Math.abs(t.getEast()-t.getWest())?"Portrait":"Landscape"},_setupPrintPagesWidth:function(t,e,i){t.style.width="Landscape"===i?e.Height:e.Width},_setupPrintMapHeight:function(t,e,i,n){var r=n.header&&n.header.enabled&&n.header.size&&!n.header.overTheMap?n.header.size+" - 1mm":"0mm",o=n.footer&&n.footer.enabled&&n.footer.size&&!n.footer.overTheMap?n.footer.size+" - 1mm":"0mm";t.style.height="calc("+("Landscape"===i?e.Width:e.Height)+" - "+r+" - "+o+")"},_printCancel:function(){clearInterval(self.printInterval),L.DomEvent.off(document,"keyup",this._keyUpCancel,this);var t=this.activeMode;delete this.options.custom,this._removeAutoPolygon(),this.activeMode=null,delete this.cancelNextPrinting,this._map.fire(L.BrowserPrint.Event.PrintCancel,{mode:t}),this._printEnd()},_keyUpCancel:function(t){27===t.which&&this.cancel()},_printMode:function(t){this._map.isPrinting?console.error("printing is already active"):(this._map.isPrinting=!0,this.cancelNextPrinting=!1,this.activeMode=t,this["_print"+t.mode](t))},_print:function(t,e){this._map.fire(L.BrowserPrint.Event.PrintInit,{mode:t}),this.options.cancelWithEsc&&L.DomEvent.on(document,"keyup",this._keyUpCancel,this),L.BrowserPrint.Utils.initialize();var i=this,n=this._map.getContainer(),r=t.options,o=r.orientation,s={bounds:e||this._map.getBounds(),width:n.style.width,height:n.style.height,documentTitle:document.title,printLayer:L.BrowserPrint.Utils.cloneLayer(this.options.printLayer),panes:[]},a=this._map.getPanes();for(var p in a)s.panes.push({name:p,container:void 0});if(s.printObjects=this._getPrintObjects(s.printLayer),this._map.fire(L.BrowserPrint.Event.PrePrint,{printLayer:s.printLayer,printObjects:s.printObjects,pageOrientation:o,printMode:r.mode,pageBounds:s.bounds}),this.cancelNextPrinting)this._printCancel();else{var l=this._addPrintMapOverlay(t,o,s);this.options.documentTitle&&(document.title=this.options.documentTitle),this._map.fire(L.BrowserPrint.Event.PrintStart,{printLayer:s.printLayer,printMap:l.map,printObjects:l.objects}),r.invalidateBounds?(l.map.fitBounds(s.bounds,l.map.options),l.map.invalidateSize({reset:!0,animate:!1,pan:!1})):l.map.setView(this._map.getCenter(),this._map.getZoom()),r.zoom?l.map.setZoom(r.zoom):r.enableZoom||l.map.setZoom(this._map.getZoom()),this.options.debug||(this.printInterval=setInterval((function(){i.cancelNextPrinting||!i._map.isPrinting?clearInterval(i.printInterval):i._map.isPrinting&&!i._isTilesLoading(l.map)&&(clearInterval(i.printInterval),i.options.manualMode?i._setupManualPrintButton(l.map,s,l.objects):i._completePrinting(l.map,s,l.objects))}),50))}},_completePrinting:function(t,e,i){var n=this;setTimeout((function(){if(n._map.isPrinting){n._map.fire(L.BrowserPrint.Event.Print,{printLayer:e.printLayer,printMap:t,printObjects:i});var r=(n.options.printFunction||window.print)();r?Promise.all([r]).then((function(){n._printEnd(t,e),n._map.fire(L.BrowserPrint.Event.PrintEnd,{printLayer:e.printLayer,printMap:t,printObjects:i})})):(n._printEnd(t,e),n._map.fire(L.BrowserPrint.Event.PrintEnd,{printLayer:e.printLayer,printMap:t,printObjects:i}))}}),1e3)},_getBoundsForAllVisualLayers:function(){var t=null;for(var e in this._map._layers){var i=this._map._layers[e];i._url||i._mutant||(t?i.getBounds?t.extend(i.getBounds()):i.getLatLng&&t.extend(i.getLatLng()):i.getBounds?t=i.getBounds():i.getLatLng&&(t=L.latLngBounds(i.getLatLng(),i.getLatLng())))}return t&&t._southWest||(t=this._map.getBounds()),t},_clearPrint:function(){this._removePrintClassFromContainer(this._map,"leaflet-browser-print--landscape"),this._removePrintClassFromContainer(this._map,"leaflet-browser-print--portrait"),this._removePrintClassFromContainer(this._map,"leaflet-browser-print--auto"),this._removePrintClassFromContainer(this._map,"leaflet-browser-print--custom")},_printEnd:function(t,e){this._clearPrint(),t&&(t.remove(),t=null),this.__overlay__&&(document.body.removeChild(this.__overlay__),this.__overlay__=null),document.body.className=document.body.className.replace(" leaflet--printing",""),this.options.documentTitle&&(document.title=e.documentTitle),this._map.invalidateSize({reset:!0,animate:!1,pan:!1}),this._map.isPrinting=!1},_getPrintObjects:function(t){var e={};for(var i in this._map._layers){var n=this._map._layers[i];if(!t||!n._url||n instanceof L.TileLayer.WMS){var r=L.BrowserPrint.Utils.getType(n);r&&(e[r]||(e[r]=[]),e[r].push(n))}}return e},_addPrintCss:function(t,e,i){var n=document.createElement("style");if(n.className="leaflet-browser-print-css",n.setAttribute("type","text/css"),n.innerHTML=" @media print { .leaflet-popup-content-wrapper, .leaflet-popup-tip { box-shadow: none; }",n.innerHTML+=" .leaflet-browser-print--manualMode-button { display: none; }",n.innerHTML+=" * { -webkit-print-color-adjust: exact!important; printer-colors: exact!important; color-adjust: exact!important; }",e){var r=e.top+" "+e.right+" "+e.bottom+" "+e.left;n.innerHTML+=" @page { margin: "+r+"; }"}switch(n.innerHTML+=" @page :first { page-break-after: always; }",i){case"Landscape":n.innerText+=" @page { size : "+t+" landscape; }";break;default:case"Portrait":n.innerText+=" @page { size : "+t+" portrait; }"}return n},_addPrintMapOverlay:function(t,e,i){if(this.__overlay__=document.createElement("div"),this.__overlay__.className=this._map.getContainer().className+" leaflet-print-overlay",document.body.appendChild(this.__overlay__),this.options.debug){var n=L.DomUtil.create("button","",this.__overlay__);n.innerHTML="Cancel",L.DomEvent.on(n,"click",()=>{this.cancel()})}var r=t.options,o=r.pageSize,s=L.BrowserPrint.Helper.getPageMargin(t,"mm"),a=L.BrowserPrint.Helper.getSize(t,e),p=r.rotate,l=r.scale;if(this.__overlay__.appendChild(this._addPrintCss(o,s,e)),r.header&&r.header.enabled){var c=document.createElement("div");c.id="print-header",r.header.overTheMap&&(c.className="over-the-map"),c.style.height=r.header.size,c.style.lineHeight=r.header.size;var d=document.createElement("span");d.innerHTML=r.header.text,c.appendChild(d),this._setupPrintPagesWidth(c,a,e),this.__overlay__.appendChild(c)}var u=document.createElement("div");if(u.className="grid-print-container",u.style.width="100%",u.style.display="grid",this._setupPrintMapHeight(u,a,e,r),this.options.contentSelector){var h=document.querySelectorAll(this.options.contentSelector);if(h&&h.length)for(var g=0;g<h.length;g++){var m=h[g].cloneNode(!0);u.appendChild(m)}}if(this.options.pagesSelector&&document.querySelectorAll(this.options.pagesSelector).length){var _=document.createElement("div");_.className="pages-print-container",_.style.margin="0!important",this._setupPrintPagesWidth(_,a,e),this.__overlay__.appendChild(_),_.appendChild(u);var f=document.querySelectorAll(this.options.pagesSelector);if(f&&f.length)for(g=0;g<f.length;g++){var y=f[g].cloneNode(!0);_.appendChild(y)}}else this._setupPrintPagesWidth(u,a,e),this.__overlay__.appendChild(u);var P=document.createElement("div");if(P.id=this._map.getContainer().id+"-print",P.className="grid-map-print",P.style.width="100%",P.style.height="100%",l&&1!==l&&(P.style.transform+=" scale("+l+")"),p&&(P.style.transform+=" rotate("+90*p+"deg)"),u.appendChild(P),r.footer&&r.footer.enabled){var v=document.createElement("div");v.id="print-footer",r.footer.overTheMap&&(v.className="over-the-map",v.style.bottom="0"),v.style.height=r.footer.size,v.style.lineHeight=r.footer.size;var b=document.createElement("span");b.innerHTML=r.footer.text,v.appendChild(b),this._setupPrintPagesWidth(v,a,e),this.__overlay__.appendChild(v)}return document.body.className+=" leaflet--printing",this._setupPrintMap(P.id,this._combineBasicOptions(i.printLayer),i.printLayer,i.printObjects,i.panes)},_combineBasicOptions:function(t){var e=L.BrowserPrint.Utils.cloneBasicOptionsWithoutLayers(this._map.options);return e.maxZoom=t?t.options.maxZoom:this._map.getMaxZoom(),e.zoomControl=!1,e.dragging=!1,e.zoomAnimation=!1,e.fadeAnimation=!1,e.markerZoomAnimation=!1,e.keyboard=!1,e.scrollWheelZoom=!1,e.tap=!1,e.touchZoom=!1,e},_setupPrintMap:function(t,e,i,n,r){var o=L.map(t,e);i&&i.addTo(o),r.forEach((function(t){o.createPane(t.name,t.container)}));var s={},a=[];for(var p in n){var l=this.options.closePopupsOnPrint;n[p]=n[p].map((function(t){var e=L.BrowserPrint.Utils.cloneLayer(t);if(e){if(t instanceof L.Popup?(t.isOpen||(t.isOpen=function(){return this._isOpen}),t.isOpen()&&!l&&a.push({source:t._source,popup:e})):e.addTo(o),s[t._leaflet_id]=e,t instanceof L.Layer){var i=t.getTooltip();i&&(e.bindTooltip(i.getContent(),i.options),t.isTooltipOpen()&&e.openTooltip(i.getLatLng()))}return e}}))}for(var c=0;c<a.length;c++){var d=a[c];if(d.source){var u=s[d.source._leaflet_id];u&&u.bindPopup&&u.openPopup&&s[d.source._leaflet_id].bindPopup(d.popup).openPopup(d.popup.getLatLng())}}return{map:o,objects:n}},_isTilesLoading:function(t){return parseFloat(L.version)>1?this._getLoadingLayers(t):t._tilesToLoad||t._tileLayersToLoad},_getLoadingLayers:function(t){for(var e in t._layers){var i=t._layers[e];if((i._url||i._mutant)&&i._loading)return!0}return!1},_appendControlStyles:function(t){var e=document.createElement("style");e.setAttribute("type","text/css"),e.id="browser-print-css",e.innerHTML+=" .leaflet-control-browser-print { display: flex; } .leaflet-control-browser-print a { background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gcCCi8Vjp+aNAAAAGhJREFUOMvFksENgDAMA68RC7BBN+Cf/ZU33QAmYAT6BolAGxB+RrrIsg1BpfNBVXcPMLMDI/ytpKozMHWwK7BJJ7yYWQbGdBea9wTIkRDzKy0MT7r2NiJACRgotCzxykFI34QY2Ea7KmtxGJ+uX4wfAAAAAElFTkSuQmCC') no-repeat 5px; background-size: 16px 16px; display: block; border-radius: 2px; }",e.innerHTML+=" .leaflet-control-browser-print a.leaflet-browser-print { background-position: center; }",e.innerHTML+=" .browser-print-holder { background-color: #919187; margin: 0px; padding: 0px; list-style: none; white-space: nowrap; align-items: center; display: flex; } .browser-print-holder-left li:last-child { border-top-right-radius: 2px; border-bottom-right-radius: 2px; } .browser-print-holder-right li:first-child { border-top-left-radius: 2px; border-bottom-left-radius: 2px; }",e.innerHTML+=" .browser-print-mode { display: none; color: #FFF; text-decoration: none; padding: 0 10px; text-align: center; } .browser-print-holder:hover { background-color: #757570; cursor: pointer; }",e.innerHTML+=" .leaflet-browser-print--custom, .leaflet-browser-print--custom path { cursor: crosshair!important; }",e.innerHTML+=" .leaflet-print-overlay { width: 100%; height:auto; min-height: 100%; position: absolute; top: 0; background-color: white!important; left: 0; z-index: 1001; display: block!important; } ",e.innerHTML+=" .leaflet--printing { height:auto; min-height: 100%; margin: 0px!important; padding: 0px!important; } body.leaflet--printing > * { display: none; box-sizing: border-box; }",e.innerHTML+=" .grid-print-container { grid-template: 1fr / 1fr; box-sizing: border-box; overflow: hidden; } .grid-map-print { grid-row: 1; grid-column: 1; } body.leaflet--printing .grid-print-container [leaflet-browser-print-content]:not(style) { display: unset!important; }",e.innerHTML+=" .pages-print-container { box-sizing: border-box; }",e.innerHTML+=" #print-header, #print-footer { text-align: center; font-size: 20px; }",e.innerHTML+=" .over-the-map { position: absolute; left: 0; z-index: 10000; }",t.appendChild(e)},_setupManualPrintButton:function(t,e,i){var n=document.createElement("button");n.className="leaflet-browser-print--manualMode-button",n.innerHTML="Print",n.style.position="absolute",n.style.top="20px",n.style.right="20px",this.__overlay__.appendChild(n);var r=this;L.DomEvent.on(n,"click",(function(){r.browserPrint._completePrinting(t,e,i)}))}}),L.browserPrint=function(t,e){return new L.BrowserPrint(t,e)},L.BrowserPrint.Event={PrintInit:"browser-print-init",PrePrint:"browser-pre-print",PrintStart:"browser-print-start",Print:"browser-print",PrintEnd:"browser-print-end",PrintCancel:"browser-print-cancel"}},function(t,e){L.Control.BrowserPrint=L.Control.extend({options:{title:"Print map",position:"topleft",printModes:["Portrait","Landscape","Auto","Custom"]},browserPrint:void 0,initialize:function(t,e){L.setOptions(this,t),e&&(this.browserPrint=e,L.setOptions(this.browserPrint,t))},onAdd:function(t){this.browserPrint||(this.browserPrint=new L.BrowserPrint(t,this.options));var e=L.DomUtil.create("div","leaflet-control-browser-print leaflet-bar leaflet-control");return L.DomEvent.disableClickPropagation(e),this.options.printModes.length>1?(L.DomEvent.on(e,"mouseover",this._displayPageSizeButtons,this),L.DomEvent.on(e,"mouseout",this._hidePageSizeButtons,this)):e.style.cursor="pointer",this.options.position.indexOf("left")>0?(this._createIcon(e),this._createMenu(e)):(this._createMenu(e),this._createIcon(e)),t.printControl=this,e},cancel:function(){this.browserPrint.cancel()},_createIcon:function(t){return this.__link__=L.DomUtil.create("a","",t),this.__link__.className="leaflet-browser-print",this.options.title&&(this.__link__.title=this.options.title),this.__link__},_createMenu:function(t){for(var e=[],i=0;i<this.options.printModes.length;i++){var n=this.options.printModes[i];if(n.length){var r=n[0].toUpperCase()+n.substring(1).toLowerCase();n=L.BrowserPrint.Mode[n]("A4",this._getDefaultTitle(r))}else if(!(n instanceof L.BrowserPrint.Mode))throw"Invalid Print Mode. Can't construct logic to print current map.";var o=t;1===this.options.printModes.length?n.Element=t:(o=L.DomUtil.create("ul","browser-print-holder",t),n.Element=L.DomUtil.create("li","browser-print-mode",o),n.Element.innerHTML=n.options.title),L.DomEvent.on(o,"click",n.options.action(this.browserPrint,n),this.browserPrint),e.push(n)}this.options.printModes=e},_getDefaultTitle:function(t){return this.options.printModesNames&&this.options.printModesNames[t]||t},_displayPageSizeButtons:function(){this.options.position.indexOf("left")>0?(this.__link__.style.borderTopRightRadius="0px",this.__link__.style.borderBottomRightRadius="0px"):(this.__link__.style.borderTopLeftRadius="0px",this.__link__.style.borderBottomLeftRadius="0px"),this.options.printModes.forEach((function(t){t.Element.style.display="inline-block"}))},_hidePageSizeButtons:function(){this.options.position.indexOf("left")>0?(this.__link__.style.borderTopRightRadius="",this.__link__.style.borderBottomRightRadius=""):(this.__link__.style.borderTopLeftRadius="",this.__link__.style.borderBottomLeftRadius=""),this.options.printModes.forEach((function(t){t.Element.style.display=""}))}}),L.control.browserPrint=function(t,e){if(t&&t.printModes||((t=t||{}).printModes=[L.BrowserPrint.Mode.Portrait(),L.BrowserPrint.Mode.Landscape(),L.BrowserPrint.Mode.Auto(),L.BrowserPrint.Mode.Custom()]),t&&t.printModes&&(!t.printModes.filter||!t.printModes.length))throw"Please specify valid print modes for Print action. Example: printModes: [L.BrowserPrint.Mode.Portrait(), L.control.BrowserPrint.Mode.Auto('Automatic'), 'Custom']";return new L.Control.BrowserPrint(t,e)}},function(t,e){L.BrowserPrint.Utils={_ignoreArray:[],_cloneFactoryArray:[],_cloneRendererArray:[],_knownRenderers:{},cloneOptions:function(t){var e={};for(var i in t){var n=t[i];n&&n.clone?e[i]=n.clone():n&&n.onAdd?e[i]=this.cloneLayer(n):e[i]=n}return e},cloneBasicOptionsWithoutLayers:function(t){var e={},i=Object.getOwnPropertyNames(t);if(i.length){for(var n=0;n<i.length;n++){var r=i[n];r&&"layers"!=r&&(e[r]=t[r])}return this.cloneOptions(e)}return e},cloneInnerLayers:function(t){var e=this,i=[];return t.eachLayer((function(t){var n=e.cloneLayer(t);n&&i.push(n)})),i},initialize:function(){this._knownRenderers={},this.registerRenderer(L.SVG,"L.SVG"),this.registerRenderer(L.Canvas,"L.Canvas"),this.registerLayer(L.TileLayer.WMS,"L.TileLayer.WMS",(function(t,e){return L.tileLayer.wms(t._url,e.cloneOptions(t.options))})),this.registerLayer(L.TileLayer,"L.TileLayer",(function(t,e){return L.tileLayer(t._url,e.cloneOptions(t.options))})),this.registerLayer(L.GridLayer,"L.GridLayer",(function(t,e){return L.gridLayer(e.cloneOptions(t.options))})),this.registerLayer(L.ImageOverlay,"L.ImageOverlay",(function(t,e){return L.imageOverlay(t._url,t._bounds,e.cloneOptions(t.options))})),this.registerLayer(L.Marker,"L.Marker",(function(t,e){return L.marker(t.getLatLng(),e.cloneOptions(t.options))})),this.registerLayer(L.Popup,"L.Popup",(function(t,e){return L.popup(e.cloneOptions(t.options)).setLatLng(t.getLatLng()).setContent(t.getContent())})),this.registerLayer(L.Circle,"L.Circle",(function(t,e){return L.circle(t.getLatLng(),t.getRadius(),e.cloneOptions(t.options))})),this.registerLayer(L.CircleMarker,"L.CircleMarker",(function(t,e){return L.circleMarker(t.getLatLng(),e.cloneOptions(t.options))})),this.registerLayer(L.Rectangle,"L.Rectangle",(function(t,e){return L.rectangle(t.getBounds(),e.cloneOptions(t.options))})),this.registerLayer(L.Polygon,"L.Polygon",(function(t,e){return L.polygon(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.MultiPolyline,"L.MultiPolyline",(function(t,e){return L.polyline(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.MultiPolygon,"L.MultiPolygon",(function(t,e){return L.multiPolygon(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.Polyline,"L.Polyline",(function(t,e){return L.polyline(t.getLatLngs(),e.cloneOptions(t.options))})),this.registerLayer(L.GeoJSON,"L.GeoJSON",(function(t,e){return L.geoJson(t.toGeoJSON(),e.cloneOptions(t.options))})),this.registerIgnoreLayer(L.FeatureGroup,"L.FeatureGroup"),this.registerIgnoreLayer(L.LayerGroup,"L.LayerGroup"),this.registerLayer(L.Tooltip,"L.Tooltip",(function(){return null}))},_register:function(t,e,i,n){e&&!t.filter((function(t){return t.identifier===i})).length&&t.push({type:e,identifier:i,builder:n||function(t){return new e(t.options)}})},registerLayer:function(t,e,i){this._register(this._cloneFactoryArray,t,e,i)},registerRenderer:function(t,e,i){this._register(this._cloneRendererArray,t,e,i)},registerIgnoreLayer:function(t,e){this._register(this._ignoreArray,t,e)},cloneLayer:function(t){if(!t)return null;var e,i=this.__getRenderer(t);return i||((e=t._group?this.__getFactoryObject(t._group,!0):this.__getFactoryObject(t))&&(e=e.builder(t,this)),e)},getType:function(t){if(!t)return null;var e=this.__getFactoryObject(t);return e&&(e=e.identifier),e},__getRenderer:function(t){var e=this._knownRenderers[t._leaflet_id];if(!e){for(var i=0;i<this._cloneRendererArray.length;i++){var n=this._cloneRendererArray[i];if(t instanceof n.type){this._knownRenderers[t._leaflet_id]=n.builder(t.options);break}}e=this._knownRenderers[t._leaflet_id]}return e},__getFactoryObject:function(t,e){if(!e)for(var i=0;i<this._ignoreArray.length;i++){var n=this._ignoreArray[i];if(n.type&&t instanceof n.type)return null}for(i=0;i<this._cloneFactoryArray.length;i++){if((r=this._cloneFactoryArray[i]).type&&t instanceof r.type)return r}for(i=0;i<this._cloneRendererArray.length;i++){var r;if((r=this._cloneRendererArray[i]).type&&t instanceof r.type)return null}return this.__unknownLayer__(),null},__unknownLayer__:function(){console.warn("Unknown layer, cannot clone this layer. Leaflet version: "+L.version),console.info("For additional information please refer to documentation on: https://github.com/Igor-Vladyka/leaflet.browser.print."),console.info("-------------------------------------------------------------------------------------------------------------------")}}},function(t,e){L.BrowserPrint.Size={A:{Width:840,Height:1188},B:{Width:1e3,Height:1414},C:{Width:916,Height:1296},D:{Width:770,Height:1090},LETTER:{Width:216,Height:279},HALFLETTER:{Width:140,Height:216},LEGAL:{Width:216,Height:356},JUNIORLEGAL:{Width:127,Height:203},TABLOID:{Width:279,Height:432},LEDGER:{Width:432,Height:279}}},function(t,e){L.BrowserPrint.Mode=L.Class.extend({options:{title:"",invalidateBounds:!1,margin:{},enableZoom:!0,zoom:0,rotate:0,scale:1,orientation:"",pageSize:"A4",pageSeries:"",pageSeriesSize:"",action:null,header:{enabled:!1,text:"",size:"10mm",overTheMap:!1},footer:{enabled:!1,text:"",size:"10mm",overTheMap:!1}},initialize:function(t,e={}){if(!t)throw'Print mode have to be set. Default modes: "Portrait", "Landscape", "Auto" or "Custom". The shortcut functions "L.BrowserPrint.Mode.Portrait" are preferred.';this.mode=t,this.setOptions(e)},setOptions:function(t){L.setOptions(this,t),this.options.title||(this.options.title=this.mode),"Portrait"!==this.mode&&"Landscape"!==this.mode||(this.options.orientation=this.mode),this.options.pageSize=(this.options.pageSize||"A4").toUpperCase(),this.options.pageSeries=-1!==["A","B","C","D"].indexOf(this.options.pageSize[0])?this.options.pageSize[0]:"",this.options.pageSeriesSize=this.options.pageSize.substring(this.options.pageSeries.length),this.options.action=this.options.action||function(t,e){return function(){t._printMode(e)}}}}),L.browserPrint.mode=function(t,e){return new L.BrowserPrint.Mode(t,e)},L.BrowserPrint.Mode.Name={Landscape:"Landscape",Portrait:"Portrait",Auto:"Auto",Custom:"Custom"},L.BrowserPrint.Mode.Portrait=function(t,e={}){return e.pageSize=t,e.invalidateBounds=(!0===e.invalidateBounds||!1===e.invalidateBounds)&&e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Portrait,e)},L.BrowserPrint.Mode.Landscape=function(t,e={}){return e.pageSize=t,e.invalidateBounds=(!0===e.invalidateBounds||!1===e.invalidateBounds)&&e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Landscape,e)},L.BrowserPrint.Mode.Auto=function(t,e={}){return e.pageSize=t,e.invalidateBounds=!0!==e.invalidateBounds&&!1!==e.invalidateBounds||e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Auto,e)},L.BrowserPrint.Mode.Custom=function(t,e={}){return e.pageSize=t,e.invalidateBounds=!0!==e.invalidateBounds&&!1!==e.invalidateBounds||e.invalidateBounds,new L.BrowserPrint.Mode(L.BrowserPrint.Mode.Name.Custom,e)}},function(t,e){L.BrowserPrint.Helper={getPageMargin:function(t,e){var i=t.options.margin,n=this.getPaperSize(t),r=(n.Width+n.Height)/39.9;e||0===e||(e=""),i>=0?i={top:i,right:i,bottom:i,left:i}:i||(i={});var o=1;"in"===e&&(o=25.4);var s=i.top>=0?i.top:r,a=i.right>=0?i.right:r,p=i.bottom>=0?i.bottom:r,l=i.left>=0?i.left:r;return{top:(s/o).toFixed(2)+e,right:(a/o).toFixed(2)+e,bottom:(p/o).toFixed(2)+e,left:(l/o).toFixed(2)+e}},getPaperSize:function(t){if(t.options.pageSeries){var e=L.BrowserPrint.Size[t.options.pageSeries],i=e.Width,n=e.Height,r=!1;return t.options.pageSeriesSize&&"0"!==t.options.pageSeriesSize&&(t.options.pageSeriesSize=+t.options.pageSeriesSize,(r=t.options.pageSeriesSize%2==1)?(i/=t.options.pageSeriesSize-1||1,n/=t.options.pageSeriesSize+1):(i/=t.options.pageSeriesSize,n/=t.options.pageSeriesSize)),{Width:r?n:i,Height:r?i:n}}var o=L.BrowserPrint.Size[t.options.pageSeriesSize];return{Width:o.Width,Height:o.Height}},getSize:function(t,e="Portrait"){var i=this.getPaperSize(t),n=this.getPageMargin(t,0),r="Portrait"===e?parseFloat(n.top)+parseFloat(n.bottom):parseFloat(n.left)+parseFloat(n.right),o="Portrait"===e?parseFloat(n.left)+parseFloat(n.right):parseFloat(n.top)+parseFloat(n.bottom),s=Math.floor(i.Height-r),a=Math.floor(i.Width-o);return i.Width=a*(window.devicePixelRatio||1)+"mm",i.Height=s*(window.devicePixelRatio||1)+"mm",i}}}]);
+
+  </script>
+
+  <script>
+    (function () {
+  'use strict';
+
+  /**
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   * window.MT_FEATURES.mapPrint
+   *
+   * Default behavior:
+   * - missing config/global: enabled
+   * - true: enabled
+   * - false: disabled
+   */
+  var MAP_PRINT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.mapPrint === false
+  ) {
+    MAP_PRINT_ENABLED = false;
+  }
+
+  window.MT_MAP_PRINT_ENABLED = MAP_PRINT_ENABLED;
+
+  if (window.console && console.log) {
+    console.log('[map-print] Script loaded. MAP_PRINT_ENABLED =', MAP_PRINT_ENABLED);
+  }
+
+  if (MAP_PRINT_ENABLED === false) {
+    if (window.console && console.log) {
+      console.log('[map-print] Disabled by _config.yml.');
+    }
+    return;
+  }
+
+  /**
+   * Toggle this to true while diagnosing map print issues.
+   */
+  var DEBUG = false;
+
+  /**
+   * Shared runtime state for the print integration.
+   */
+  var state = {
+    maps: [],
+    attached: false,
+    observer: null,
+    interval: null,
+    cachedLegendHtml: '',
+    cachedYearText: '',
+    cachedDisaggregationHtml: ''
+  };
+
+  /**
+   * Small logging helper for development/debugging.
+   */
+  function log(message, data) {
+    if (!DEBUG) return;
+
+    if (window.console && console.log) {
+      if (typeof data !== 'undefined') {
+        console.log('[map-print] ' + message, data);
+      } else {
+        console.log('[map-print] ' + message);
+      }
+    }
+  }
+
+  /**
+   * Small warning helper.
+   */
+  function warn(message, data) {
+    if (window.console && console.warn) {
+      if (typeof data !== 'undefined') {
+        console.warn('[map-print] ' + message, data);
+      } else {
+        console.warn('[map-print] ' + message);
+      }
+    }
+  }
+
+  /**
+   * Check whether Leaflet and leaflet.browser.print are both available.
+   */
+  function isLeafletAvailable() {
+    return !!(window.L && L.Map && L.control && L.control.browserPrint);
+  }
+
+  /**
+   * The Open SDG map is rendered inside the tab panel with id="mapview".
+   */
+  function getMapView() {
+    return document.getElementById('mapview');
+  }
+
+  /**
+   * Determine whether an element is visually present on the page.
+   */
+  function isVisible(element) {
+    if (!element) return false;
+    return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+  }
+
+  /**
+   * Check whether a DOM element belongs to the map view area.
+   */
+  function isInsideMapView(element) {
+    var mapView = getMapView();
+    if (!mapView || !element) return false;
+    return mapView === element || mapView.contains(element);
+  }
+
+  /**
+   * Store a Leaflet map instance exactly once.
+   */
+  function uniquePushMap(map) {
+    if (!map) return;
+
+    var exists = state.maps.some(function (existing) {
+      return existing === map;
+    });
+
+    if (!exists) {
+      state.maps.push(map);
+      log('Leaflet map registered.', map);
+    }
+  }
+
+  /**
+   * Register a Leaflet init hook so that every map created afterwards
+   * is automatically tracked.
+   */
+  function registerLeafletInitHook() {
+    if (!window.L || !L.Map || !L.Map.addInitHook) return;
+    if (window.__mtMapPrintHookRegistered) return;
+
+    window.__mtMapPrintHookRegistered = true;
+
+    L.Map.addInitHook(function () {
+      uniquePushMap(this);
+      attachIfPossible();
+    });
+
+    log('Leaflet init hook registered.');
+  }
+
+  /**
+   * Monkey-patch L.map as an additional safety net.
+   */
+  function patchLeafletMapFactory() {
+    if (!window.L || !L.map) return;
+    if (window.__mtMapPrintFactoryPatched) return;
+
+    window.__mtMapPrintFactoryPatched = true;
+
+    var originalMapFactory = L.map;
+
+    L.map = function () {
+      var map = originalMapFactory.apply(this, arguments);
+      uniquePushMap(map);
+
+      window.setTimeout(function () {
+        attachIfPossible();
+      }, 0);
+
+      return map;
+    };
+
+    log('Leaflet L.map factory patched.');
+  }
+
+  /**
+   * Also scan global window properties for already existing Leaflet maps.
+   */
+  function scanWindowForMaps() {
+    if (!window.L || !L.Map) return;
+
+    Object.keys(window).forEach(function (key) {
+      try {
+        if (window[key] instanceof L.Map) {
+          uniquePushMap(window[key]);
+        }
+      } catch (e) {
+        // Ignore cross-origin / inaccessible properties.
+      }
+    });
+  }
+
+  /**
+   * Try to scan common Open SDG/global namespaces for map instances.
+   */
+  function scanKnownNamespacesForMaps() {
+    if (!window.L || !L.Map) return;
+
+    var namespaces = [
+      window.OpenSDG,
+      window.openSDG,
+      window.SDG,
+      window.sdg,
+      window.app,
+      window.App
+    ];
+
+    namespaces.forEach(function (namespace) {
+      if (!namespace || typeof namespace !== 'object') return;
+
+      Object.keys(namespace).forEach(function (key) {
+        try {
+          if (namespace[key] instanceof L.Map) {
+            uniquePushMap(namespace[key]);
+          }
+        } catch (e) {
+          // Ignore inaccessible properties.
+        }
+      });
+    });
+  }
+
+  /**
+   * Decide whether a discovered map is the correct target.
+   */
+  function isGoodTargetMap(map) {
+    if (!map || !map.getContainer) return false;
+
+    var container = map.getContainer();
+    if (!container) return false;
+    if (!isInsideMapView(container)) return false;
+    if (!isVisible(container)) return false;
+
+    return true;
+  }
+
+  /**
+   * Find the base tile layer used in the current map.
+   */
+  function getPrintableBaseLayer(map) {
+    var found = null;
+
+    map.eachLayer(function (layer) {
+      if (found) return;
+
+      if (
+        (window.L.TileLayer && layer instanceof L.TileLayer) ||
+        (window.L.TileLayer && window.L.TileLayer.WMS && layer instanceof L.TileLayer.WMS)
+      ) {
+        found = layer;
+      }
+    });
+
+    return found;
+  }
+
+  /**
+   * Read the indicator title from the heading area.
+   */
+  function getIndicatorTitle() {
+    var el =
+      document.querySelector('.heading h1') ||
+      document.querySelector('h1');
+
+    if (el && el.textContent) {
+      return el.textContent.trim();
+    }
+
+    return document.title || 'Map';
+  }
+
+  /**
+   * Translation labels from metadata_fields.yml.
+   */
+  function getDataSourceLabel() {
+    return 'Datenquelle';
+  }
+
+  function getReferenceYearLabel() {
+    return 'Jahr';
+  }
+
+  /**
+   * Return true when a value looks like a dumped object / front matter
+   * rather than a clean string value.
+   */
+  function looksLikeObjectDump(value) {
+    if (!value) return false;
+
+    var text = String(value).trim();
+
+    return (
+      text.indexOf("number='") !== -1 ||
+      text.indexOf("slug='") !== -1 ||
+      text.indexOf("name='") !== -1 ||
+      text.indexOf('url=') !== -1 ||
+      text.indexOf('=>') !== -1 ||
+      (text.indexOf('{') !== -1 && text.indexOf('}') !== -1)
+    );
+  }
+
+  /**
+   * Escape user/interface text before inserting it as HTML.
+   */
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNumberValue() {
+    var explicitValue =
+      '2-1-5';
+
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
+    return match ? match[0] : '';
+  }
+
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
+  function getIndicatorNameValue() {
+    var explicitValue =
+      '';
+
+    if (explicitValue && !looksLikeObjectDump(explicitValue)) {
+      return explicitValue;
+    }
+
+    var title = getIndicatorTitle();
+
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
+
+    return title;
+  }
+
+  /**
+   * Build the print heading from indicator number + indicator name.
+   */
+  function getPrintHeadingText() {
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
+
+    if (indicatorNumber && indicatorName) {
+      return indicatorNumber + ' ' + indicatorName;
+    }
+
+    if (indicatorName) {
+      return indicatorName;
+    }
+
+    return getIndicatorTitle();
+  }
+
+  /**
+   * Extract the currently active year from visible map controls.
+   */
+  function getCurrentYearText() {
+    var selectors = [
+      '#mapview .timecontrol-date',
+      '#mapview .leaflet-control-timecontrol .noUi-tooltip',
+      '#mapview .leaflet-control-timecontrol .timecontrol-slider + span',
+      '#mapview .leaflet-control-timecontrol [aria-valuenow]',
+      '#mapview .leaflet-control-timecontrol input',
+      '#mapview .leaflet-control-timecontrol',
+      '#mapview .year',
+      '#mapview .current-year'
+    ];
+
+    var yearPattern = /\b(19|20)\d{2}\b/;
+    var i, j, nodes, text, match;
+    var foundYears = [];
+
+    for (i = 0; i < selectors.length; i++) {
+      nodes = document.querySelectorAll(selectors[i]);
+
+      for (j = 0; j < nodes.length; j++) {
+        if (!isVisible(nodes[j])) continue;
+
+        var attrCandidates = [
+          nodes[j].getAttribute && nodes[j].getAttribute('aria-valuenow'),
+          nodes[j].getAttribute && nodes[j].getAttribute('data-value'),
+          nodes[j].value
+        ];
+
+        attrCandidates.forEach(function (candidate) {
+          if (!candidate) return;
+          var attrMatch = String(candidate).match(yearPattern);
+          if (attrMatch) {
+            foundYears.push(attrMatch[0]);
+          }
+        });
+
+        text = (nodes[j].textContent || '').trim();
+        if (!text) continue;
+
+        match = text.match(yearPattern);
+        if (match) {
+          foundYears.push(match[0]);
+        }
+      }
+    }
+
+    if (foundYears.length) {
+      return foundYears[foundYears.length - 1];
+    }
+
+    return '';
+  }
+
+  /**
+   * Extract the currently selected map disaggregations.
+   */
+  function getCurrentMapDisaggregations() {
+    var checkedInputs = document.querySelectorAll('input:checked');
+    var items = [];
+
+    checkedInputs.forEach(function (el) {
+      if (!el.name || el.name.indexOf('map-') !== 0) return;
+
+      var dimension = el.name.replace('map-', '').trim();
+
+      var dimensionLabels = {
+        Units: 'Einheit',
+        Geschlecht: 'Geschlecht',
+        Kategorie: 'Kategorie'
+      };
+
+      dimension = dimensionLabels[dimension] || dimension;
+
+      var value = '';
+
+      if (el.labels && el.labels.length && el.labels[0].textContent) {
+        value = el.labels[0].textContent.trim();
+      } else if (el.value) {
+        value = String(el.value).trim();
+      }
+
+      if (!dimension || !value) return;
+
+      items.push({
+        dimension: dimension,
+        value: value
+      });
+    });
+
+    return items;
+  }
+
+  /**
+   * Build HTML for the currently selected map disaggregations.
+   */
+  function buildMapDisaggregationsHtml() {
+    var items = getCurrentMapDisaggregations();
+
+    if (!items.length) {
+      return '';
+    }
+
+    return (
+      '<div class="mt-print-meta mt-print-disaggregations">' +
+        '<strong>Kartenauswahl:</strong> ' +
+        items.map(function (item) {
+          return (
+            '<span class="mt-print-disaggregation-item">' +
+              escapeHtml(item.dimension) +
+              ': ' +
+              escapeHtml(item.value) +
+            '</span>'
+          );
+        }).join(' · ') +
+      '</div>'
+    );
+  }
+
+  /**
+   * Cache the currently visible year before the print view is created.
+   */
+  function cacheCurrentYearText() {
+    state.cachedYearText = getCurrentYearText();
+    log('Year cached before print.', state.cachedYearText);
+  }
+
+  /**
+   * Cache the currently selected map disaggregations before the print view is created.
+   */
+  function cacheCurrentMapDisaggregations() {
+    state.cachedDisaggregationHtml = buildMapDisaggregationsHtml();
+    log('Map disaggregations cached before print.', state.cachedDisaggregationHtml);
+  }
+
+  /**
+   * Find the visible legend element in the live map.
+   */
+  function findLegendElement() {
+    var selectors = [
+      '#mapview .selection-legend.leaflet-control',
+      '#mapview .leaflet-top.leaflet-right .selection-legend.leaflet-control',
+      '#mapview .leaflet-top.leaflet-right .leaflet-control:not(.leaflet-control-attribution):not(.leaflet-control-zoom)',
+      '#mapview .leaflet-right .leaflet-control:not(.leaflet-control-attribution):not(.leaflet-control-zoom)',
+      '#mapview .legend',
+      '#mapview .map-legend',
+      '#mapview .legend-container'
+    ];
+
+    var i, j, candidates;
+    for (i = 0; i < selectors.length; i++) {
+      candidates = document.querySelectorAll(selectors[i]);
+
+      for (j = 0; j < candidates.length; j++) {
+        if (isVisible(candidates[j])) {
+          return candidates[j];
+        }
+      }
+
+      if (candidates.length) {
+        return candidates[0];
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Check whether the live legend currently contains selected-region entries.
+   */
+  function hasSelectedLegendItems() {
+    var legend = findLegendElement();
+    if (!legend) return false;
+
+    var selectionList = legend.querySelector('#selection-list');
+    if (!selectionList) return false;
+
+    return !!selectionList.children.length;
+  }
+
+  /**
+   * Remove transient / temporary UI such as hover tooltips or popups
+   * from a map-related DOM subtree before printing.
+   */
+  function removeTransientMapUi(root) {
+    if (!root) return;
+
+    var selectors = [
+      '.leaflet-tooltip',
+      '.leaflet-popup',
+      '.leaflet-popup-pane',
+      '[role="tooltip"]',
+      '.tooltip'
+    ];
+
+    selectors.forEach(function (selector) {
+      root.querySelectorAll(selector).forEach(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      });
+    });
+  }
+
+  /**
+   * Cache the original legend HTML before printing starts.
+   */
+  function cacheLegendHtml() {
+    var legend = findLegendElement();
+
+    if (!legend) {
+      state.cachedLegendHtml = '';
+      warn('No legend found in the original DOM.');
+      return;
+    }
+
+    state.cachedLegendHtml = legend.outerHTML;
+    log('Legend cached.');
+  }
+
+  /**
+   * Build the print header.
+   */
+  function buildHeaderHtml() {
+    var title = getPrintHeadingText();
+    var yearText = state.cachedYearText || getCurrentYearText();
+
+    var referenceYearLabel = getReferenceYearLabel();
+    var lines = [];
+
+    if (yearText) {
+      lines.push(
+        '<div class="mt-print-meta"><strong>' +
+          escapeHtml(referenceYearLabel) +
+          ':</strong> ' +
+          escapeHtml(yearText) +
+        '</div>'
+      );
+    }
+
+    return '' +
+      '<div class="mt-print-header">' +
+        '<div class="mt-print-title">' + escapeHtml(title) + '</div>' +
+        lines.join('') +
+      '</div>';
+  }
+
+  /**
+   * Build the print footer.
+   *
+   * The source URL is assembled from parts to avoid accidental auto-linking
+   * during editing/copying.
+   */
+  function buildFooterHtml() {
+    var dataSourceLabel = getDataSourceLabel();
+
+    return (
+      '<div class="mt-print-footer-source"><strong>' +
+        escapeHtml(dataSourceLabel) +
+        ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
+    );
+  }
+  
+
+  /**
+   * Configure the print mode.
+   */
+  function buildPrintModes() {
+    return [
+      L.BrowserPrint.Mode.Landscape('A4', {
+        title: 'Print',
+        margin: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        },
+        enableZoom: false,
+        header: {
+          enabled: false,
+          text: '',
+          size: '0mm',
+          overTheMap: true
+        },
+        footer: {
+          enabled: false,
+          text: '',
+          size: '0mm',
+          overTheMap: true
+        }
+      })
+    ];
+  }
+
+  /**
+   * Get the best container for legend/disaggregation injection in the print view.
+   */
+  function getPrintOverlayRoot(printMap) {
+    if (!printMap || !printMap.getContainer) return null;
+
+    var mapContainer = printMap.getContainer();
+    if (!mapContainer) return null;
+
+    return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
+  }
+
+  /**
+   * Ensure print overlay styles exist in the print document.
+   */
+  function ensurePrintOverlayStyles(root) {
+    if (!root) return;
+
+    var doc = root.ownerDocument || document;
+
+    if (doc.getElementById('mt-print-overlay-styles')) {
+      return;
+    }
+
+    var style = doc.createElement('style');
+    style.id = 'mt-print-overlay-styles';
+
+    style.textContent = ''
+      + '@page {'
+      + '  size: A4 landscape;'
+      + '}'
+      + '@media print {'
+      + '  html, body {'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .leaflet-print-overlay {'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .grid-print-container {'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin-left: auto !important;'
+      + '    margin-right: auto !important;'
+      + '    margin-top: 0 !important;'
+      + '    margin-bottom: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    position: relative !important;'
+      + '    top: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    page-break-before: avoid !important;'
+      + '    page-break-after: avoid !important;'
+      + '    page-break-inside: avoid !important;'
+      + '    break-before: avoid !important;'
+      + '    break-after: avoid !important;'
+      + '    break-inside: avoid !important;'
+      + '  }'
+      + '  #map-print,'
+      + '  .grid-map-print {'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    transform: none !important;'
+      + '  }'
+      + '}'
+      + '.mt-print-header-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  top: 3mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 240mm;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  line-height: 1.15;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-title {'
+      + '  font-size: 10.5pt;'
+      + '  font-weight: 700;'
+      + '  margin: 0 0 1mm 0;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-meta {'
+      + '  font-size: 7pt;'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-footer-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  bottom: 3mm;'
+      + '  z-index: 99999;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  font-size: 6pt;'
+      + '  line-height: 1.1;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-disaggregation-overlay {'
+      + '  position: absolute;'
+      + '  left: 6mm;'
+      + '  top: 14mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 185mm;'
+      + '  padding: 2.5mm 3.5mm;'
+      + '  background: rgba(255, 255, 255, 0.9);'
+      + '  border: 1px solid rgba(0, 0, 0, 0.25);'
+      + '  border-radius: 2mm;'
+      + '  font-size: 8pt;'
+      + '  line-height: 1.25;'
+      + '  color: #000;'
+      + '  box-sizing: border-box;'
+      + '}'
+      + '.mt-print-disaggregation-overlay .mt-print-meta {'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-disaggregation-item {'
+      + '  display: inline;'
+      + '}';
+
+    if (doc.head) {
+      doc.head.appendChild(style);
+    }
+  }
+
+  /**
+   * Convert a millimetre value to pixels using the currently rendered width of
+   * the print map. This avoids relying on a browser-global DPI assumption.
+   */
+  function mmToCurrentPrintPx(element, widthMm, valueMm) {
+    if (!element) return valueMm * 3.78;
+
+    var rect = element.getBoundingClientRect();
+    if (!rect || !rect.width || !widthMm) return valueMm * 3.78;
+
+    return (rect.width / widthMm) * valueMm;
+  }
+
+  /**
+   * Dynamically correct the vertical print position.
+   *
+   * Console diagnostics showed that Chromium can create the print container with
+   * a negative top value. Instead of applying a fixed translateY(16mm), this
+   * function measures the actual position and shifts the container only as far
+   * as needed to reach a balanced top/bottom white margin.
+   */
+  function correctPrintMapVerticalPosition(root, widthMm, heightMm) {
+    if (!root) return;
+
+    var rect = root.getBoundingClientRect();
+    if (!rect || !rect.height) return;
+
+    var availableHeight = null;
+    var overlay = root.closest('.leaflet-print-overlay');
+
+    if (overlay) {
+      var overlayRect = overlay.getBoundingClientRect();
+      if (overlayRect && overlayRect.height) {
+        availableHeight = overlayRect.height;
+      }
+    }
+
+    if (!availableHeight) {
+      availableHeight = window.innerHeight || document.documentElement.clientHeight || rect.height;
+    }
+
+    var targetTop = Math.max(0, (availableHeight - rect.height) / 2);
+
+    // Keep a small minimum visual top margin for printer profiles whose preview
+    // reports the page area differently from the actual printable area.
+    var minimumTop = mmToCurrentPrintPx(root, widthMm, 6);
+    targetTop = Math.max(targetTop, minimumTop);
+
+    var shiftPx = targetTop - rect.top;
+
+    // Only correct meaningful deviations. This avoids tiny rendering jitter.
+    if (Math.abs(shiftPx) < 1) {
+      root.style.transform = 'none';
+      return;
+    }
+
+    root.style.transform = 'translateY(' + shiftPx.toFixed(2) + 'px)';
+  }
+
+  /**
+   * Size the real print map (#map-print/.grid-map-print) and dynamically center
+   * the grid print container vertically on the generated print sheet.
+   */
+  function forcePrintMapToSingleSheet(printMap) {
+    if (!printMap || !printMap.getContainer) return;
+
+    var container = printMap.getContainer();
+    if (!container) return;
+
+    var root = getPrintOverlayRoot(printMap) || container;
+    var safeWidthMm = 270;
+    var safeHeightMm = 190;
+    var safeWidth = safeWidthMm + 'mm';
+    var safeHeight = safeHeightMm + 'mm';
+
+    if (root && root.style) {
+      root.style.width = safeWidth;
+      root.style.height = safeHeight;
+      root.style.maxWidth = safeWidth;
+      root.style.maxHeight = safeHeight;
+      root.style.marginLeft = 'auto';
+      root.style.marginRight = 'auto';
+      root.style.marginTop = '0';
+      root.style.marginBottom = '0';
+      root.style.padding = '0';
+      root.style.position = 'relative';
+      root.style.top = '0';
+      root.style.overflow = 'hidden';
+      root.style.boxSizing = 'border-box';
+      root.style.transform = 'none';
+      root.style.pageBreakBefore = 'avoid';
+      root.style.pageBreakAfter = 'avoid';
+      root.style.pageBreakInside = 'avoid';
+      root.style.breakBefore = 'avoid';
+      root.style.breakAfter = 'avoid';
+      root.style.breakInside = 'avoid';
+    }
+
+    if (container && container.style) {
+      container.style.width = safeWidth;
+      container.style.height = safeHeight;
+      container.style.maxWidth = safeWidth;
+      container.style.maxHeight = safeHeight;
+      container.style.margin = '0';
+      container.style.padding = '0';
+      container.style.overflow = 'hidden';
+      container.style.boxSizing = 'border-box';
+      container.style.transform = 'none';
+    }
+
+    try {
+      printMap.invalidateSize(false);
+    } catch (e) {
+      warn('Could not invalidate print map size.', e);
+    }
+
+    // Run once immediately and once after layout settles, because leaflet tile
+    // rendering and the browser print preview can update the container after the
+    // BrowserPrint event fires.
+    correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    window.setTimeout(function () {
+      correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    }, 50);
+  }
+
+  /**
+   * Remove the print header/footer overlays from the print view.
+   */
+  function removeExistingPrintHeaderFooter(root) {
+    if (!root) return;
+
+    root.querySelectorAll('.mt-print-header-overlay, .mt-print-footer-overlay').forEach(function (el) {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
+  }
+
+  /**
+   * Add header/footer as absolute overlays inside the map container.
+   */
+  function addHeaderFooterToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    ensurePrintOverlayStyles(root);
+    removeExistingPrintHeaderFooter(root);
+
+    var doc = root.ownerDocument || document;
+
+    var header = doc.createElement('div');
+    header.className = 'mt-print-header-overlay';
+    header.innerHTML = buildHeaderHtml();
+    root.appendChild(header);
+
+    var footer = doc.createElement('div');
+    footer.className = 'mt-print-footer-overlay';
+    footer.innerHTML = buildFooterHtml();
+    root.appendChild(footer);
+  }
+
+  /**
+   * Remove any previously added legend from the print view.
+   */
+  function removeExistingPrintLegend(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-legend-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  /**
+   * Remove any previously added disaggregation overlay from the print view.
+   */
+  function removeExistingPrintDisaggregations(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-disaggregation-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  /**
+   * Add the cached map disaggregations to the print view as a visible overlay.
+   */
+  function addDisaggregationsToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    removeExistingPrintDisaggregations(root);
+    ensurePrintOverlayStyles(root);
+
+    if (!root.style.position) {
+      root.style.position = 'relative';
+    }
+
+    var html = state.cachedDisaggregationHtml || buildMapDisaggregationsHtml();
+
+    if (!html) {
+      warn('No cached map disaggregations available.');
+      return;
+    }
+
+    var doc = root.ownerDocument || document;
+    var wrapper = doc.createElement('div');
+    wrapper.className = 'mt-print-disaggregation-overlay';
+    wrapper.innerHTML = html;
+
+    root.appendChild(wrapper);
+    log('Map disaggregations inserted into print view.');
+  }
+
+  /**
+   * Add the cached legend to the print view.
+   */
+  function addLegendToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    removeExistingPrintLegend(root);
+
+    if (!state.cachedLegendHtml) {
+      warn('No cached legend available.');
+      return;
+    }
+
+    var doc = root.ownerDocument || document;
+
+    var wrapper = doc.createElement('div');
+    wrapper.className = 'mt-print-legend-overlay';
+
+    var heading = doc.createElement('div');
+    heading.className = 'mt-print-legend-heading';
+    heading.textContent = 'Legende';
+    wrapper.appendChild(heading);
+
+    var legendHolder = doc.createElement('div');
+    legendHolder.className = 'mt-print-legend-clone';
+    legendHolder.innerHTML = state.cachedLegendHtml;
+    wrapper.appendChild(legendHolder);
+
+    root.appendChild(wrapper);
+    log('Legend inserted into print view.');
+  }
+
+  /**
+   * Update the print header with the current title/year
+   * after the print layout has been created.
+   */
+  function updatePrintHeader(printMap) {
+    var header = null;
+
+    if (printMap && printMap.getContainer) {
+      var container = printMap.getContainer();
+      var root = getPrintOverlayRoot(printMap);
+
+      if (root) {
+        header = root.querySelector('#print-header');
+      }
+
+      if (!header && container && container.ownerDocument) {
+        header = container.ownerDocument.querySelector('#print-header');
+      }
+    }
+
+    if (!header) {
+      header = document.querySelector('#print-header');
+    }
+
+    if (!header) return;
+
+    header.innerHTML = buildHeaderHtml();
+  }
+
+  /**
+   * Attach the browser print control to the target map.
+   */
+  function attachPrintControl(map) {
+    if (!isLeafletAvailable()) {
+      warn('Leaflet or leaflet.browser.print is not available.', {
+        leaflet: !!window.L,
+        leafletMap: !!(window.L && L.Map),
+        leafletControl: !!(window.L && L.control),
+        browserPrint: !!(window.L && L.control && L.control.browserPrint)
+      });
+      return false;
+    }
+
+    if (!map) {
+      warn('No map instance supplied to attachPrintControl.');
+      return false;
+    }
+
+    if (map._mtPrintControlAdded) {
+      log('Print control already added to this map.');
+      return false;
+    }
+
+    var baseLayer = getPrintableBaseLayer(map);
+
+    if (!baseLayer) {
+      warn('No printable base layer found. Continuing without explicit printLayer.');
+    }
+
+    try {
+      var printOptions = {
+        title: 'Karte drucken',
+        position: 'topleft',
+        documentTitle: getIndicatorTitle(),
+        printModes: buildPrintModes()
+      };
+
+      if (baseLayer) {
+        printOptions.printLayer = baseLayer;
+      }
+
+      L.control.browserPrint(printOptions).addTo(map);
+
+      map.on(L.BrowserPrint.Event.PrePrint, function () {
+        var hasSelection = hasSelectedLegendItems();
+
+        document.body.classList.toggle('mt-print-has-selection', hasSelection);
+
+        cacheCurrentYearText();
+        cacheCurrentMapDisaggregations();
+
+        if (!hasSelection) {
+          removeTransientMapUi(map.getContainer());
+        }
+
+        cacheLegendHtml();
+      });
+
+      map.on(L.BrowserPrint.Event.Print, function (event) {
+        if (event && event.printMap) {
+          ensurePrintOverlayStyles(getPrintOverlayRoot(event.printMap));
+          forcePrintMapToSingleSheet(event.printMap);
+
+          var hasSelection = hasSelectedLegendItems();
+
+          if (!hasSelection) {
+            removeTransientMapUi(event.printMap.getContainer());
+          }
+
+          addHeaderFooterToPrintMap(event.printMap);
+          addDisaggregationsToPrintMap(event.printMap);
+          addLegendToPrintMap(event.printMap);
+        }
+      });
+
+      map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
+        if (event && event.printMap) {
+          var root = getPrintOverlayRoot(event.printMap);
+          removeExistingPrintHeaderFooter(root);
+          removeExistingPrintLegend(root);
+          removeExistingPrintDisaggregations(root);
+        }
+
+        document.body.classList.remove('mt-print-has-selection');
+        state.cachedYearText = '';
+        state.cachedDisaggregationHtml = '';
+      });
+
+      map._mtPrintControlAdded = true;
+      state.attached = true;
+
+      log('Print control attached successfully.');
+      stopWatching();
+      return true;
+    } catch (error) {
+      warn('Failed to attach print control.', error);
+      return false;
+    }
+  }
+
+  /**
+   * Attempt to attach the print control to the first suitable map.
+   */
+  function attachIfPossible() {
+    if (state.attached) return true;
+
+    var goodMaps = state.maps.filter(isGoodTargetMap);
+
+    log('attachIfPossible called.', {
+      knownMaps: state.maps.length,
+      goodMaps: goodMaps.length,
+      leafletAvailable: !!window.L,
+      browserPrintAvailable: !!(window.L && L.control && L.control.browserPrint),
+      mapViewFound: !!getMapView()
+    });
+
+    if (!goodMaps.length) return false;
+
+    return attachPrintControl(goodMaps[0]);
+  }
+
+  /**
+   * Observe #mapview because Open SDG may render or update the map asynchronously.
+   */
+  function observeMapView() {
+    var mapView = getMapView();
+    if (!mapView || state.observer) return;
+
+    state.observer = new MutationObserver(function () {
+      if (state.attached) return;
+
+      if (window.L && L.Map) {
+        registerLeafletInitHook();
+        patchLeafletMapFactory();
+        scanWindowForMaps();
+        scanKnownNamespacesForMaps();
+      }
+
+      if (isLeafletAvailable()) {
+        attachIfPossible();
+      }
+    });
+
+    state.observer.observe(mapView, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+
+    log('Map view observer registered.');
+  }
+
+  /**
+   * Retry until Leaflet, leaflet.browser.print and the map are ready.
+   */
+  function startReadinessWatcher() {
+    if (state.interval) return;
+
+    var attempts = 0;
+    var maxAttempts = 240;
+
+    state.interval = window.setInterval(function () {
+      if (state.attached) {
+        stopWatching();
+        return;
+      }
+
+      attempts += 1;
+
+      observeMapView();
+
+      if (window.L && L.Map) {
+        registerLeafletInitHook();
+        patchLeafletMapFactory();
+        scanWindowForMaps();
+        scanKnownNamespacesForMaps();
+      }
+
+      if (isLeafletAvailable()) {
+        attachIfPossible();
+      } else if (attempts === 1 || attempts % 20 === 0) {
+        warn('Waiting for Leaflet browser print plugin.', {
+          attempt: attempts,
+          leaflet: !!window.L,
+          leafletMap: !!(window.L && L.Map),
+          leafletControl: !!(window.L && L.control),
+          browserPrint: !!(window.L && L.control && L.control.browserPrint),
+          mapViewFound: !!getMapView(),
+          knownMaps: state.maps.length
+        });
+      }
+
+      if (attempts >= maxAttempts) {
+        window.clearInterval(state.interval);
+        state.interval = null;
+
+        warn('Map print readiness watcher timed out. Will retry on map tab activation.');
+      }
+    }, 500);
+
+    log('Readiness watcher started.');
+  }
+
+  /**
+   * Retry when the user opens the map tab.
+   */
+  function bindMapActivationEvents() {
+    if (window.__mtMapPrintActivationEventsBound) return;
+    window.__mtMapPrintActivationEventsBound = true;
+
+    function retryAfterMapActivation() {
+      window.setTimeout(function () {
+        if (state.attached) return;
+
+        log('Retry after map activation.');
+
+        observeMapView();
+
+        if (window.L && L.Map) {
+          registerLeafletInitHook();
+          patchLeafletMapFactory();
+          scanWindowForMaps();
+          scanKnownNamespacesForMaps();
+        }
+
+        if (isLeafletAvailable()) {
+          attachIfPossible();
+        }
+
+        if (!state.attached) {
+          startReadinessWatcher();
+        }
+      }, 300);
+    }
+
+    document.addEventListener(
+      'click',
+      function (event) {
+        var target = event.target;
+        if (!target || !target.closest) return;
+
+        var mapTab = target.closest(
+          '#tab-mapview, a[href="#mapview"], button[data-bs-target="#mapview"], button[data-target="#mapview"]'
+        );
+
+        if (mapTab) {
+          retryAfterMapActivation();
+        }
+      },
+      true
+    );
+
+    document.addEventListener('shown.bs.tab', function (event) {
+      var target = event.target;
+      if (!target || !target.matches) return;
+
+      if (
+        target.matches('#tab-mapview') ||
+        target.matches('a[href="#mapview"]') ||
+        target.matches('button[data-bs-target="#mapview"]') ||
+        target.matches('button[data-target="#mapview"]')
+      ) {
+        retryAfterMapActivation();
+      }
+    });
+
+    window.addEventListener('hashchange', function () {
+      if (window.location.hash === '#mapview') {
+        retryAfterMapActivation();
+      }
+    });
+
+    log('Map activation events bound.');
+  }
+
+  /**
+   * Stop all watchers once the print control is attached.
+   */
+  function stopWatching() {
+    if (state.interval) {
+      window.clearInterval(state.interval);
+      state.interval = null;
+    }
+
+    if (state.observer) {
+      state.observer.disconnect();
+      state.observer = null;
+    }
+
+    log('Watchers stopped.');
+  }
+
+  /**
+   * Initialise the integration.
+   */
+  function bootstrap() {
+    log('Bootstrap started.');
+    log('Feature enabled value.', MAP_PRINT_ENABLED);
+    log('Leaflet available.', !!window.L);
+    log('Leaflet Map available.', !!(window.L && L.Map));
+    log('Leaflet control available.', !!(window.L && L.control));
+    log('Leaflet browserPrint available.', !!(window.L && L.control && L.control.browserPrint));
+    log('Map view element found.', !!getMapView());
+
+    if (window.L && L.Map) {
+      registerLeafletInitHook();
+      patchLeafletMapFactory();
+      scanWindowForMaps();
+      scanKnownNamespacesForMaps();
+    }
+
+    bindMapActivationEvents();
+    observeMapView();
+    startReadinessWatcher();
+
+    if (isLeafletAvailable()) {
+      attachIfPossible();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap);
+  } else {
+    bootstrap();
+  }
+})();
+
+  </script><!-- DataTables Buttons base libraries -->
 <script>
   /*! Buttons for DataTables 2.3.5
  * ©2016-2023 SpryMedia Ltd - datatables.net/license
@@ -1587,7 +3005,7 @@ if (allRequired) {
 </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260717044115"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260717044722"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
