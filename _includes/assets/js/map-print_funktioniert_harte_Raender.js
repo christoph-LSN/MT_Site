@@ -717,6 +717,7 @@
       + '    top: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
+      + '    transform: translateY(16mm) !important;'
       + '    page-break-before: avoid !important;'
       + '    page-break-after: avoid !important;'
       + '    page-break-inside: avoid !important;'
@@ -796,67 +797,9 @@
   }
 
   /**
-   * Convert a millimetre value to pixels using the currently rendered width of
-   * the print map. This avoids relying on a browser-global DPI assumption.
-   */
-  function mmToCurrentPrintPx(element, widthMm, valueMm) {
-    if (!element) return valueMm * 3.78;
-
-    var rect = element.getBoundingClientRect();
-    if (!rect || !rect.width || !widthMm) return valueMm * 3.78;
-
-    return (rect.width / widthMm) * valueMm;
-  }
-
-  /**
-   * Dynamically correct the vertical print position.
-   *
-   * Console diagnostics showed that Chromium can create the print container with
-   * a negative top value. Instead of applying a fixed translateY(16mm), this
-   * function measures the actual position and shifts the container only as far
-   * as needed to reach a balanced top/bottom white margin.
-   */
-  function correctPrintMapVerticalPosition(root, widthMm, heightMm) {
-    if (!root) return;
-
-    var rect = root.getBoundingClientRect();
-    if (!rect || !rect.height) return;
-
-    var availableHeight = null;
-    var overlay = root.closest('.leaflet-print-overlay');
-
-    if (overlay) {
-      var overlayRect = overlay.getBoundingClientRect();
-      if (overlayRect && overlayRect.height) {
-        availableHeight = overlayRect.height;
-      }
-    }
-
-    if (!availableHeight) {
-      availableHeight = window.innerHeight || document.documentElement.clientHeight || rect.height;
-    }
-
-    var targetTop = Math.max(0, (availableHeight - rect.height) / 2);
-
-    // Keep a small minimum visual top margin for printer profiles whose preview
-    // reports the page area differently from the actual printable area.
-    var minimumTop = mmToCurrentPrintPx(root, widthMm, 6);
-    targetTop = Math.max(targetTop, minimumTop);
-
-    var shiftPx = targetTop - rect.top;
-
-    // Only correct meaningful deviations. This avoids tiny rendering jitter.
-    if (Math.abs(shiftPx) < 1) {
-      root.style.transform = 'none';
-      return;
-    }
-
-    root.style.transform = 'translateY(' + shiftPx.toFixed(2) + 'px)';
-  }
-
-  /**
-   * Size the real print map (#map-print/.grid-map-print) and dynamically center
-   * the grid print container vertically on the generated print sheet.
+   * Size the real print map (#map-print/.grid-map-print) and move the centered
+   * grid print container down. Console diagnostics showed that the container was
+   * already centered horizontally (equal left/right margins), but had top:-23px.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -865,10 +808,9 @@
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var safeWidthMm = 270;
-    var safeHeightMm = 190;
-    var safeWidth = safeWidthMm + 'mm';
-    var safeHeight = safeHeightMm + 'mm';
+    var safeWidth = '270mm';
+    var safeHeight = '190mm';
+    var verticalOffset = '16mm';
 
     if (root && root.style) {
       root.style.width = safeWidth;
@@ -884,7 +826,7 @@
       root.style.top = '0';
       root.style.overflow = 'hidden';
       root.style.boxSizing = 'border-box';
-      root.style.transform = 'none';
+      root.style.transform = 'translateY(' + verticalOffset + ')';
       root.style.pageBreakBefore = 'avoid';
       root.style.pageBreakAfter = 'avoid';
       root.style.pageBreakInside = 'avoid';
@@ -910,14 +852,6 @@
     } catch (e) {
       warn('Could not invalidate print map size.', e);
     }
-
-    // Run once immediately and once after layout settles, because leaflet tile
-    // rendering and the browser print preview can update the container after the
-    // BrowserPrint event fires.
-    correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
-    window.setTimeout(function () {
-      correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
-    }, 50);
   }
 
   /**
