@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260716130829">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260717043528">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1418,7 +1418,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260716130829'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260717043528'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -2158,7 +2158,6 @@ if (allRequired) {
       + '    top: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
-      + '    transform: translateY(16mm) !important;'
       + '    page-break-before: avoid !important;'
       + '    page-break-after: avoid !important;'
       + '    page-break-inside: avoid !important;'
@@ -2238,9 +2237,67 @@ if (allRequired) {
   }
 
   /**
-   * Size the real print map (#map-print/.grid-map-print) and move the centered
-   * grid print container down. Console diagnostics showed that the container was
-   * already centered horizontally (equal left/right margins), but had top:-23px.
+   * Convert a millimetre value to pixels using the currently rendered width of
+   * the print map. This avoids relying on a browser-global DPI assumption.
+   */
+  function mmToCurrentPrintPx(element, widthMm, valueMm) {
+    if (!element) return valueMm * 3.78;
+
+    var rect = element.getBoundingClientRect();
+    if (!rect || !rect.width || !widthMm) return valueMm * 3.78;
+
+    return (rect.width / widthMm) * valueMm;
+  }
+
+  /**
+   * Dynamically correct the vertical print position.
+   *
+   * Console diagnostics showed that Chromium can create the print container with
+   * a negative top value. Instead of applying a fixed translateY(16mm), this
+   * function measures the actual position and shifts the container only as far
+   * as needed to reach a balanced top/bottom white margin.
+   */
+  function correctPrintMapVerticalPosition(root, widthMm, heightMm) {
+    if (!root) return;
+
+    var rect = root.getBoundingClientRect();
+    if (!rect || !rect.height) return;
+
+    var availableHeight = null;
+    var overlay = root.closest('.leaflet-print-overlay');
+
+    if (overlay) {
+      var overlayRect = overlay.getBoundingClientRect();
+      if (overlayRect && overlayRect.height) {
+        availableHeight = overlayRect.height;
+      }
+    }
+
+    if (!availableHeight) {
+      availableHeight = window.innerHeight || document.documentElement.clientHeight || rect.height;
+    }
+
+    var targetTop = Math.max(0, (availableHeight - rect.height) / 2);
+
+    // Keep a small minimum visual top margin for printer profiles whose preview
+    // reports the page area differently from the actual printable area.
+    var minimumTop = mmToCurrentPrintPx(root, widthMm, 6);
+    targetTop = Math.max(targetTop, minimumTop);
+
+    var shiftPx = targetTop - rect.top;
+
+    // Only correct meaningful deviations. This avoids tiny rendering jitter.
+    if (Math.abs(shiftPx) < 1) {
+      root.style.transform = 'none';
+      return;
+    }
+
+    root.style.transform = 'translateY(' + shiftPx.toFixed(2) + 'px)';
+  }
+
+  /**
+   * Size the real print map (#map-print/.grid-map-print) and dynamically center
+   * the grid print container vertically on the generated print sheet.
    */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
@@ -2249,9 +2306,10 @@ if (allRequired) {
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var safeWidth = '270mm';
-    var safeHeight = '190mm';
-    var verticalOffset = '16mm';
+    var safeWidthMm = 270;
+    var safeHeightMm = 190;
+    var safeWidth = safeWidthMm + 'mm';
+    var safeHeight = safeHeightMm + 'mm';
 
     if (root && root.style) {
       root.style.width = safeWidth;
@@ -2267,7 +2325,7 @@ if (allRequired) {
       root.style.top = '0';
       root.style.overflow = 'hidden';
       root.style.boxSizing = 'border-box';
-      root.style.transform = 'translateY(' + verticalOffset + ')';
+      root.style.transform = 'none';
       root.style.pageBreakBefore = 'avoid';
       root.style.pageBreakAfter = 'avoid';
       root.style.pageBreakInside = 'avoid';
@@ -2293,6 +2351,14 @@ if (allRequired) {
     } catch (e) {
       warn('Could not invalidate print map size.', e);
     }
+
+    // Run once immediately and once after layout settles, because leaflet tile
+    // rendering and the browser print preview can update the container after the
+    // BrowserPrint event fires.
+    correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    window.setTimeout(function () {
+      correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    }, 50);
   }
 
   /**
@@ -3867,7 +3933,7 @@ if (allRequired) {
 </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260716130829"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260717043528"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
