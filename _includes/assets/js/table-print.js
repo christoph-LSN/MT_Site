@@ -171,7 +171,9 @@
       return false;
     }
 
-    jQuery(actionHost).empty();
+    // Do not empty the shared action host here.
+    // Table print and table export use the same .table-print-actions container;
+    // emptying it would remove the other feature's button.
     dataTable.buttons('mtTablePrint', null).container().appendTo(actionHost);
     return true;
   }
