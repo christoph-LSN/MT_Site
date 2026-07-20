@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260720114505">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260720115019">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -1269,7 +1269,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260720114505'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260720115019'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -3120,6 +3120,28 @@ if (allRequired) {
     (function () {
   'use strict';
 
+  /**
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   *   window.MT_FEATURES.tableExport
+   *
+   * Default behavior:
+   *   missing config/global: enabled
+   *   true: enabled
+   *   false: disabled
+   */
+  var TABLE_EXPORT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.tableExport === false
+  ) {
+    TABLE_EXPORT_ENABLED = false;
+  }
+
+  window.MT_TABLE_EXPORT_ENABLED = TABLE_EXPORT_ENABLED;
+
   var reattachTimer = null;
 
   function log(message, data) {
@@ -3140,6 +3162,13 @@ if (allRequired) {
         console.warn('[table-export] ' + message);
       }
     }
+  }
+
+  log('Script loaded. TABLE_EXPORT_ENABLED =', TABLE_EXPORT_ENABLED);
+
+  if (TABLE_EXPORT_ENABLED === false) {
+    log('Disabled by _config.yml.');
+    return;
   }
 
   /**
@@ -3608,10 +3637,9 @@ if (allRequired) {
   }
 
   /**
-   * Attach (or reattach) the export buttons to the current DataTable instance.
+   * Attach (or reattach) the export button to the current DataTable instance.
    *
-   * Buttons included:
-   * - Print (if Buttons print plug-in is loaded)
+   * Button included:
    * - XML export (SpreadsheetML / Excel XML)
    */
   function attachExportButtons() {
@@ -3646,53 +3674,6 @@ if (allRequired) {
     var indicatorTitle = getIndicatorTitle();
 
     var buttons = [];
-
-    // Keep the existing print button if the extension is available.
-    if (isPrintButtonReady()) {
-      buttons.push({
-        extend: 'print',
-        text: '🖨 Drucken',
-        className: 'buttons-print mt-table-print-button',
-        autoPrint: false,
-        title: indicatorTitle,
-        exportOptions: {
-          columns: ':visible',
-          modifier: {
-            search: 'applied',
-            order: 'applied'
-          }
-        },
-        customize: function (win) {
-          var doc = win.document;
-          var body = doc.body;
-
-          body.classList.add('mt-table-print');
-
-          var printedTable = body.querySelector('table');
-
-          // Remove table caption so only the main title remains.
-          body.querySelectorAll('caption').forEach(function (el) {
-            if (el.parentNode) {
-              el.parentNode.removeChild(el);
-            }
-          });
-
-          var source = doc.createElement('div');
-          source.className = 'mt-table-print-source';
-          source.textContent = 'Quelle: Integrationsmonitoring Niedersachsen';
-          body.appendChild(source);
-
-          if (printedTable) {
-            printedTable.classList.add(
-              'table',
-              'table-bordered',
-              'table-sm',
-              'mt-table-print-table'
-            );
-          }
-        }
-      });
-    }
 
     // SpreadsheetML export button
     buttons.push({
@@ -3814,7 +3795,7 @@ if (allRequired) {
   </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260720114505"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260720115019"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
