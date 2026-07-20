@@ -1,6 +1,28 @@
 (function () {
   'use strict';
 
+  /**
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   *   window.MT_FEATURES.tableExport
+   *
+   * Default behavior:
+   *   missing config/global: enabled
+   *   true: enabled
+   *   false: disabled
+   */
+  var TABLE_EXPORT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.tableExport === false
+  ) {
+    TABLE_EXPORT_ENABLED = false;
+  }
+
+  window.MT_TABLE_EXPORT_ENABLED = TABLE_EXPORT_ENABLED;
+
   var reattachTimer = null;
 
   function log(message, data) {
@@ -21,6 +43,13 @@
         console.warn('[table-export] ' + message);
       }
     }
+  }
+
+  log('Script loaded. TABLE_EXPORT_ENABLED =', TABLE_EXPORT_ENABLED);
+
+  if (TABLE_EXPORT_ENABLED === false) {
+    log('Disabled by _config.yml.');
+    return;
   }
 
   /**
@@ -489,10 +518,9 @@
   }
 
   /**
-   * Attach (or reattach) the export buttons to the current DataTable instance.
+   * Attach (or reattach) the export button to the current DataTable instance.
    *
-   * Buttons included:
-   * - Print (if Buttons print plug-in is loaded)
+   * Button included:
    * - XML export (SpreadsheetML / Excel XML)
    */
   function attachExportButtons() {
@@ -527,53 +555,6 @@
     var indicatorTitle = getIndicatorTitle();
 
     var buttons = [];
-
-    // Keep the existing print button if the extension is available.
-    if (isPrintButtonReady()) {
-      buttons.push({
-        extend: 'print',
-        text: '🖨 {{ page.t.indicator.print_table | default: "Drucken" | escape }}',
-        className: 'buttons-print mt-table-print-button',
-        autoPrint: false,
-        title: indicatorTitle,
-        exportOptions: {
-          columns: ':visible',
-          modifier: {
-            search: 'applied',
-            order: 'applied'
-          }
-        },
-        customize: function (win) {
-          var doc = win.document;
-          var body = doc.body;
-
-          body.classList.add('mt-table-print');
-
-          var printedTable = body.querySelector('table');
-
-          // Remove table caption so only the main title remains.
-          body.querySelectorAll('caption').forEach(function (el) {
-            if (el.parentNode) {
-              el.parentNode.removeChild(el);
-            }
-          });
-
-          var source = doc.createElement('div');
-          source.className = 'mt-table-print-source';
-          source.textContent = 'Quelle: Integrationsmonitoring Niedersachsen';
-          body.appendChild(source);
-
-          if (printedTable) {
-            printedTable.classList.add(
-              'table',
-              'table-bordered',
-              'table-sm',
-              'mt-table-print-table'
-            );
-          }
-        }
-      });
-    }
 
     // SpreadsheetML export button
     buttons.push({
