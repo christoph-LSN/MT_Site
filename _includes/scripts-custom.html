@@ -43,6 +43,29 @@
   window.MT_FEATURES.tableExport = {{ mt_table_export_enabled | jsonify }};
 </script>
 
+{%- if mt_table_print_enabled or mt_table_export_enabled -%}
+  <!-- Spacing for table action buttons -->
+  <style>
+    .table-print-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .table-print-actions .dt-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .table-print-actions .dt-buttons .btn,
+    .table-print-actions .dt-buttons .dt-button {
+      margin-right: 0;
+    }
+  </style>
+{%- endif -%}
+
 {%- if mt_map_print_enabled -%}
   <!-- Map print integration -->
   <script>
