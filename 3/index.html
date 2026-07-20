@@ -144,7 +144,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260720113621">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260720114505">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -661,7 +661,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260720113621'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260720114505'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -2115,6 +2115,28 @@ if (allRequired) {
     (function () {
   'use strict';
 
+  /**
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   *   window.MT_FEATURES.tablePrint
+   *
+   * Default behavior:
+   *   missing config/global: enabled
+   *   true: enabled
+   *   false: disabled
+   */
+  var TABLE_PRINT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.tablePrint === false
+  ) {
+    TABLE_PRINT_ENABLED = false;
+  }
+
+  window.MT_TABLE_PRINT_ENABLED = TABLE_PRINT_ENABLED;
+
   var reattachTimer = null;
 
   function log(message, data) {
@@ -2135,6 +2157,13 @@ if (allRequired) {
         console.warn('[table-print] ' + message);
       }
     }
+  }
+
+  log('Script loaded. TABLE_PRINT_ENABLED =', TABLE_PRINT_ENABLED);
+
+  if (TABLE_PRINT_ENABLED === false) {
+    log('Disabled by _config.yml.');
+    return;
   }
 
   /**
@@ -3177,7 +3206,7 @@ if (allRequired) {
   </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260720113621"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260720114505"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
