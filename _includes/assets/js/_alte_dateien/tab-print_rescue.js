@@ -1,28 +1,6 @@
 (function () {
   'use strict';
 
-  /**
-   * Feature switch from scripts-custom.html / _config.yml.
-   *
-   * Expected global value:
-   *   window.MT_FEATURES.tablePrint
-   *
-   * Default behavior:
-   *   missing config/global: enabled
-   *   true: enabled
-   *   false: disabled
-   */
-  var TABLE_PRINT_ENABLED = true;
-
-  if (
-    window.MT_FEATURES &&
-    window.MT_FEATURES.tablePrint === false
-  ) {
-    TABLE_PRINT_ENABLED = false;
-  }
-
-  window.MT_TABLE_PRINT_ENABLED = TABLE_PRINT_ENABLED;
-
   var reattachTimer = null;
 
   function log(message, data) {
@@ -43,13 +21,6 @@
         console.warn('[table-print] ' + message);
       }
     }
-  }
-
-  log('Script loaded. TABLE_PRINT_ENABLED =', TABLE_PRINT_ENABLED);
-
-  if (TABLE_PRINT_ENABLED === false) {
-    log('Disabled by _config.yml.');
-    return;
   }
 
   /**
@@ -171,9 +142,7 @@
       return false;
     }
 
-    // Do not empty the shared action host here.
-    // Table print and table export use the same .table-print-actions container;
-    // emptying it would remove the other feature's button.
+    jQuery(actionHost).empty();
     dataTable.buttons('mtTablePrint', null).container().appendTo(actionHost);
     return true;
   }

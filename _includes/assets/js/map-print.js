@@ -2,6 +2,39 @@
   'use strict';
 
   /**
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   * window.MT_FEATURES.mapPrint
+   *
+   * Default behavior:
+   * - missing config/global: enabled
+   * - true: enabled
+   * - false: disabled
+   */
+  var MAP_PRINT_ENABLED = true;
+
+  if (
+    window.MT_FEATURES &&
+    window.MT_FEATURES.mapPrint === false
+  ) {
+    MAP_PRINT_ENABLED = false;
+  }
+
+  window.MT_MAP_PRINT_ENABLED = MAP_PRINT_ENABLED;
+
+  if (window.console && console.log) {
+    console.log('[map-print] Script loaded. MAP_PRINT_ENABLED =', MAP_PRINT_ENABLED);
+  }
+
+  if (MAP_PRINT_ENABLED === false) {
+    if (window.console && console.log) {
+      console.log('[map-print] Disabled by _config.yml.');
+    }
+    return;
+  }
+
+  /**
    * Toggle this to true while diagnosing map print issues.
    */
   var DEBUG = false;
@@ -90,6 +123,7 @@
 
     if (!exists) {
       state.maps.push(map);
+      log('Leaflet map registered.', map);
     }
   }
 
@@ -107,6 +141,33 @@
       uniquePushMap(this);
       attachIfPossible();
     });
+
+    log('Leaflet init hook registered.');
+  }
+
+  /**
+   * Monkey-patch L.map as an additional safety net.
+   */
+  function patchLeafletMapFactory() {
+    if (!window.L || !L.map) return;
+    if (window.__mtMapPrintFactoryPatched) return;
+
+    window.__mtMapPrintFactoryPatched = true;
+
+    var originalMapFactory = L.map;
+
+    L.map = function () {
+      var map = originalMapFactory.apply(this, arguments);
+      uniquePushMap(map);
+
+      window.setTimeout(function () {
+        attachIfPossible();
+      }, 0);
+
+      return map;
+    };
+
+    log('Leaflet L.map factory patched.');
   }
 
   /**
@@ -123,6 +184,36 @@
       } catch (e) {
         // Ignore cross-origin / inaccessible properties.
       }
+    });
+  }
+
+  /**
+   * Try to scan common Open SDG/global namespaces for map instances.
+   */
+  function scanKnownNamespacesForMaps() {
+    if (!window.L || !L.Map) return;
+
+    var namespaces = [
+      window.OpenSDG,
+      window.openSDG,
+      window.SDG,
+      window.sdg,
+      window.app,
+      window.App
+    ];
+
+    namespaces.forEach(function (namespace) {
+      if (!namespace || typeof namespace !== 'object') return;
+
+      Object.keys(namespace).forEach(function (key) {
+        try {
+          if (namespace[key] instanceof L.Map) {
+            uniquePushMap(namespace[key]);
+          }
+        } catch (e) {
+          // Ignore inaccessible properties.
+        }
+      });
     });
   }
 
@@ -176,7 +267,7 @@
   }
 
   /**
-   * Translation labels from metadata_fields.yml
+   * Translation labels from metadata_fields.yml.
    */
   function getDataSourceLabel() {
     return '{{ page.t.metadata_fields.data_source | default: "Quelle" | escape }}';
@@ -278,9 +369,6 @@
 
   /**
    * Extract the currently active year from visible map controls.
-   *
-   * We try several selectors and collect visible 4-digit years.
-   * In practice the currently active year is usually the last visible match.
    */
   function getCurrentYearText() {
     var selectors = [
@@ -337,11 +425,6 @@
 
   /**
    * Extract the currently selected map disaggregations.
-   *
-   * Example:
-   *   map-Units      -> Einheit: Prozent
-   *   map-Geschlecht -> Geschlecht: weiblich
-   *   map-Kategorie  -> Kategorie: ...
    */
   function getCurrentMapDisaggregations() {
     var checkedInputs = document.querySelectorAll('input:checked');
@@ -469,8 +552,6 @@
   /**
    * Remove transient / temporary UI such as hover tooltips or popups
    * from a map-related DOM subtree before printing.
-   *
-   * This is only used when there is NO selection.
    */
   function removeTransientMapUi(root) {
     if (!root) return;
@@ -510,18 +591,9 @@
 
   /**
    * Build the print header.
-   *
-   * Heading:
-   *   indicator number + indicator name
-   *
-   * Meta lines:
-   *   year
    */
   function buildHeaderHtml() {
     var title = getPrintHeadingText();
-
-    // Prefer the cached year captured immediately before print.
-    // Fall back to a live lookup if needed.
     var yearText = state.cachedYearText || getCurrentYearText();
 
     var referenceYearLabel = getReferenceYearLabel();
@@ -547,8 +619,8 @@
   /**
    * Build the print footer.
    *
-   * Desired output:
-   * Quelle: https://www.integrationsmonitoring.niedersachsen.de
+   * The source URL is assembled from parts to avoid accidental auto-linking
+   * during editing/copying.
    */
   function buildFooterHtml() {
     var dataSourceLabel = getDataSourceLabel();
@@ -559,6 +631,7 @@
         ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
   }
+  
 
   /**
    * Configure the print mode.
@@ -568,22 +641,22 @@
       L.BrowserPrint.Mode.Landscape('A4', {
         title: 'Print',
         margin: {
-          top: 2,
-          right: 2,
-          bottom: 2,
-          left: 2
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
         },
         enableZoom: false,
         header: {
-          enabled: true,
-          text: buildHeaderHtml(),
-          size: '16mm',
+          enabled: false,
+          text: '',
+          size: '0mm',
           overTheMap: true
         },
         footer: {
-          enabled: true,
-          text: buildFooterHtml(),
-          size: '5mm',
+          enabled: false,
+          text: '',
+          size: '0mm',
           overTheMap: true
         }
       })
@@ -618,6 +691,83 @@
     style.id = 'mt-print-overlay-styles';
 
     style.textContent = ''
+      + '@page {'
+      + '  size: A4 landscape;'
+      + '}'
+      + '@media print {'
+      + '  html, body {'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .leaflet-print-overlay {'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .grid-print-container {'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin-left: auto !important;'
+      + '    margin-right: auto !important;'
+      + '    margin-top: 0 !important;'
+      + '    margin-bottom: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    position: relative !important;'
+      + '    top: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    page-break-before: avoid !important;'
+      + '    page-break-after: avoid !important;'
+      + '    page-break-inside: avoid !important;'
+      + '    break-before: avoid !important;'
+      + '    break-after: avoid !important;'
+      + '    break-inside: avoid !important;'
+      + '  }'
+      + '  #map-print,'
+      + '  .grid-map-print {'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    transform: none !important;'
+      + '  }'
+      + '}'
+      + '.mt-print-header-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  top: 3mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 240mm;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  line-height: 1.15;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-title {'
+      + '  font-size: 10.5pt;'
+      + '  font-weight: 700;'
+      + '  margin: 0 0 1mm 0;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-meta {'
+      + '  font-size: 7pt;'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-footer-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  bottom: 3mm;'
+      + '  z-index: 99999;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  font-size: 6pt;'
+      + '  line-height: 1.1;'
+      + '  pointer-events: none;'
+      + '}'
       + '.mt-print-disaggregation-overlay {'
       + '  position: absolute;'
       + '  left: 6mm;'
@@ -643,6 +793,167 @@
     if (doc.head) {
       doc.head.appendChild(style);
     }
+  }
+
+  /**
+   * Convert a millimetre value to pixels using the currently rendered width of
+   * the print map. This avoids relying on a browser-global DPI assumption.
+   */
+  function mmToCurrentPrintPx(element, widthMm, valueMm) {
+    if (!element) return valueMm * 3.78;
+
+    var rect = element.getBoundingClientRect();
+    if (!rect || !rect.width || !widthMm) return valueMm * 3.78;
+
+    return (rect.width / widthMm) * valueMm;
+  }
+
+  /**
+   * Dynamically correct the vertical print position.
+   *
+   * Console diagnostics showed that Chromium can create the print container with
+   * a negative top value. Instead of applying a fixed translateY(16mm), this
+   * function measures the actual position and shifts the container only as far
+   * as needed to reach a balanced top/bottom white margin.
+   */
+  function correctPrintMapVerticalPosition(root, widthMm, heightMm) {
+    if (!root) return;
+
+    var rect = root.getBoundingClientRect();
+    if (!rect || !rect.height) return;
+
+    var availableHeight = null;
+    var overlay = root.closest('.leaflet-print-overlay');
+
+    if (overlay) {
+      var overlayRect = overlay.getBoundingClientRect();
+      if (overlayRect && overlayRect.height) {
+        availableHeight = overlayRect.height;
+      }
+    }
+
+    if (!availableHeight) {
+      availableHeight = window.innerHeight || document.documentElement.clientHeight || rect.height;
+    }
+
+    var targetTop = Math.max(0, (availableHeight - rect.height) / 2);
+
+    // Keep a small minimum visual top margin for printer profiles whose preview
+    // reports the page area differently from the actual printable area.
+    var minimumTop = mmToCurrentPrintPx(root, widthMm, 6);
+    targetTop = Math.max(targetTop, minimumTop);
+
+    var shiftPx = targetTop - rect.top;
+
+    // Only correct meaningful deviations. This avoids tiny rendering jitter.
+    if (Math.abs(shiftPx) < 1) {
+      root.style.transform = 'none';
+      return;
+    }
+
+    root.style.transform = 'translateY(' + shiftPx.toFixed(2) + 'px)';
+  }
+
+  /**
+   * Size the real print map (#map-print/.grid-map-print) and dynamically center
+   * the grid print container vertically on the generated print sheet.
+   */
+  function forcePrintMapToSingleSheet(printMap) {
+    if (!printMap || !printMap.getContainer) return;
+
+    var container = printMap.getContainer();
+    if (!container) return;
+
+    var root = getPrintOverlayRoot(printMap) || container;
+    var safeWidthMm = 270;
+    var safeHeightMm = 190;
+    var safeWidth = safeWidthMm + 'mm';
+    var safeHeight = safeHeightMm + 'mm';
+
+    if (root && root.style) {
+      root.style.width = safeWidth;
+      root.style.height = safeHeight;
+      root.style.maxWidth = safeWidth;
+      root.style.maxHeight = safeHeight;
+      root.style.marginLeft = 'auto';
+      root.style.marginRight = 'auto';
+      root.style.marginTop = '0';
+      root.style.marginBottom = '0';
+      root.style.padding = '0';
+      root.style.position = 'relative';
+      root.style.top = '0';
+      root.style.overflow = 'hidden';
+      root.style.boxSizing = 'border-box';
+      root.style.transform = 'none';
+      root.style.pageBreakBefore = 'avoid';
+      root.style.pageBreakAfter = 'avoid';
+      root.style.pageBreakInside = 'avoid';
+      root.style.breakBefore = 'avoid';
+      root.style.breakAfter = 'avoid';
+      root.style.breakInside = 'avoid';
+    }
+
+    if (container && container.style) {
+      container.style.width = safeWidth;
+      container.style.height = safeHeight;
+      container.style.maxWidth = safeWidth;
+      container.style.maxHeight = safeHeight;
+      container.style.margin = '0';
+      container.style.padding = '0';
+      container.style.overflow = 'hidden';
+      container.style.boxSizing = 'border-box';
+      container.style.transform = 'none';
+    }
+
+    try {
+      printMap.invalidateSize(false);
+    } catch (e) {
+      warn('Could not invalidate print map size.', e);
+    }
+
+    // Run once immediately and once after layout settles, because leaflet tile
+    // rendering and the browser print preview can update the container after the
+    // BrowserPrint event fires.
+    correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    window.setTimeout(function () {
+      correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    }, 50);
+  }
+
+  /**
+   * Remove the print header/footer overlays from the print view.
+   */
+  function removeExistingPrintHeaderFooter(root) {
+    if (!root) return;
+
+    root.querySelectorAll('.mt-print-header-overlay, .mt-print-footer-overlay').forEach(function (el) {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
+  }
+
+  /**
+   * Add header/footer as absolute overlays inside the map container.
+   */
+  function addHeaderFooterToPrintMap(printMap) {
+    var root = getPrintOverlayRoot(printMap);
+    if (!root) return;
+
+    ensurePrintOverlayStyles(root);
+    removeExistingPrintHeaderFooter(root);
+
+    var doc = root.ownerDocument || document;
+
+    var header = doc.createElement('div');
+    header.className = 'mt-print-header-overlay';
+    header.innerHTML = buildHeaderHtml();
+    root.appendChild(header);
+
+    var footer = doc.createElement('div');
+    footer.className = 'mt-print-footer-overlay';
+    footer.innerHTML = buildFooterHtml();
+    root.appendChild(footer);
   }
 
   /**
@@ -679,7 +990,6 @@
     removeExistingPrintDisaggregations(root);
     ensurePrintOverlayStyles(root);
 
-    // Make sure absolute positioning works.
     if (!root.style.position) {
       root.style.position = 'relative';
     }
@@ -767,36 +1077,53 @@
    */
   function attachPrintControl(map) {
     if (!isLeafletAvailable()) {
-      warn('Leaflet or leaflet.browser.print is not available.');
+      warn('Leaflet or leaflet.browser.print is not available.', {
+        leaflet: !!window.L,
+        leafletMap: !!(window.L && L.Map),
+        leafletControl: !!(window.L && L.control),
+        browserPrint: !!(window.L && L.control && L.control.browserPrint)
+      });
       return false;
     }
 
-    if (!map || map._mtPrintControlAdded) {
+    if (!map) {
+      warn('No map instance supplied to attachPrintControl.');
+      return false;
+    }
+
+    if (map._mtPrintControlAdded) {
+      log('Print control already added to this map.');
       return false;
     }
 
     var baseLayer = getPrintableBaseLayer(map);
 
+    if (!baseLayer) {
+      warn('No printable base layer found. Continuing without explicit printLayer.');
+    }
+
     try {
-      L.control.browserPrint({
-        title: 'Print map',
+      var printOptions = {
+        title: 'Karte drucken',
         position: 'topleft',
         documentTitle: getIndicatorTitle(),
-        printLayer: baseLayer,
         printModes: buildPrintModes()
-      }).addTo(map);
+      };
+
+      if (baseLayer) {
+        printOptions.printLayer = baseLayer;
+      }
+
+      L.control.browserPrint(printOptions).addTo(map);
 
       map.on(L.BrowserPrint.Event.PrePrint, function () {
         var hasSelection = hasSelectedLegendItems();
 
-        // Remember current mode so CSS can react.
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
 
-        // Cache values BEFORE the print preview is built.
         cacheCurrentYearText();
         cacheCurrentMapDisaggregations();
 
-        // Only remove transient hover UI when there is NO selection.
         if (!hasSelection) {
           removeTransientMapUi(map.getContainer());
         }
@@ -806,18 +1133,16 @@
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
         if (event && event.printMap) {
+          ensurePrintOverlayStyles(getPrintOverlayRoot(event.printMap));
+          forcePrintMapToSingleSheet(event.printMap);
+
           var hasSelection = hasSelectedLegendItems();
 
-          // Only remove transient hover UI in the print map
-          // when there is NO selection.
           if (!hasSelection) {
             removeTransientMapUi(event.printMap.getContainer());
           }
 
-          // Refresh the header so the CURRENT cached values are used.
-          updatePrintHeader(event.printMap);
-
-          // Add visible print overlays.
+          addHeaderFooterToPrintMap(event.printMap);
           addDisaggregationsToPrintMap(event.printMap);
           addLegendToPrintMap(event.printMap);
         }
@@ -826,11 +1151,11 @@
       map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
         if (event && event.printMap) {
           var root = getPrintOverlayRoot(event.printMap);
+          removeExistingPrintHeaderFooter(root);
           removeExistingPrintLegend(root);
           removeExistingPrintDisaggregations(root);
         }
 
-        // Clean up print state flags and cached values.
         document.body.classList.remove('mt-print-has-selection');
         state.cachedYearText = '';
         state.cachedDisaggregationHtml = '';
@@ -839,7 +1164,7 @@
       map._mtPrintControlAdded = true;
       state.attached = true;
 
-      log('Print control attached.');
+      log('Print control attached successfully.');
       stopWatching();
       return true;
     } catch (error) {
@@ -855,6 +1180,15 @@
     if (state.attached) return true;
 
     var goodMaps = state.maps.filter(isGoodTargetMap);
+
+    log('attachIfPossible called.', {
+      knownMaps: state.maps.length,
+      goodMaps: goodMaps.length,
+      leafletAvailable: !!window.L,
+      browserPrintAvailable: !!(window.L && L.control && L.control.browserPrint),
+      mapViewFound: !!getMapView()
+    });
+
     if (!goodMaps.length) return false;
 
     return attachPrintControl(goodMaps[0]);
@@ -862,9 +1196,6 @@
 
   /**
    * Observe #mapview because Open SDG may render or update the map asynchronously.
-   *
-   * This observer may be registered before Leaflet is available. In that case,
-   * it simply waits until Leaflet and leaflet.browser.print are ready.
    */
   function observeMapView() {
     var mapView = getMapView();
@@ -873,9 +1204,14 @@
     state.observer = new MutationObserver(function () {
       if (state.attached) return;
 
-      if (isLeafletAvailable()) {
+      if (window.L && L.Map) {
         registerLeafletInitHook();
+        patchLeafletMapFactory();
         scanWindowForMaps();
+        scanKnownNamespacesForMaps();
+      }
+
+      if (isLeafletAvailable()) {
         attachIfPossible();
       }
     });
@@ -886,19 +1222,18 @@
       attributes: true,
       attributeFilter: ['class', 'style']
     });
+
+    log('Map view observer registered.');
   }
 
   /**
    * Retry until Leaflet, leaflet.browser.print and the map are ready.
-   *
-   * This is needed because Open SDG may initialise the map lazily,
-   * for example when the map tab is opened.
    */
   function startReadinessWatcher() {
     if (state.interval) return;
 
     var attempts = 0;
-    var maxAttempts = 240; // 2 minutes
+    var maxAttempts = 240;
 
     state.interval = window.setInterval(function () {
       if (state.attached) {
@@ -908,29 +1243,42 @@
 
       attempts += 1;
 
-      // The #mapview element may not exist immediately.
       observeMapView();
 
-      if (isLeafletAvailable()) {
+      if (window.L && L.Map) {
         registerLeafletInitHook();
+        patchLeafletMapFactory();
         scanWindowForMaps();
+        scanKnownNamespacesForMaps();
+      }
+
+      if (isLeafletAvailable()) {
         attachIfPossible();
+      } else if (attempts === 1 || attempts % 20 === 0) {
+        warn('Waiting for Leaflet browser print plugin.', {
+          attempt: attempts,
+          leaflet: !!window.L,
+          leafletMap: !!(window.L && L.Map),
+          leafletControl: !!(window.L && L.control),
+          browserPrint: !!(window.L && L.control && L.control.browserPrint),
+          mapViewFound: !!getMapView(),
+          knownMaps: state.maps.length
+        });
       }
 
       if (attempts >= maxAttempts) {
         window.clearInterval(state.interval);
         state.interval = null;
 
-        // Not fatal: The map tab may still be opened later.
         warn('Map print readiness watcher timed out. Will retry on map tab activation.');
       }
     }, 500);
+
+    log('Readiness watcher started.');
   }
 
   /**
    * Retry when the user opens the map tab.
-   *
-   * Open SDG may only initialise or resize the map when the map tab is activated.
    */
   function bindMapActivationEvents() {
     if (window.__mtMapPrintActivationEventsBound) return;
@@ -940,11 +1288,18 @@
       window.setTimeout(function () {
         if (state.attached) return;
 
+        log('Retry after map activation.');
+
         observeMapView();
 
-        if (isLeafletAvailable()) {
+        if (window.L && L.Map) {
           registerLeafletInitHook();
+          patchLeafletMapFactory();
           scanWindowForMaps();
+          scanKnownNamespacesForMaps();
+        }
+
+        if (isLeafletAvailable()) {
           attachIfPossible();
         }
 
@@ -971,7 +1326,6 @@
       true
     );
 
-    // Bootstrap tab event, if available.
     document.addEventListener('shown.bs.tab', function (event) {
       var target = event.target;
       if (!target || !target.matches) return;
@@ -986,12 +1340,13 @@
       }
     });
 
-    // Also retry when the hash changes to #mapview.
     window.addEventListener('hashchange', function () {
       if (window.location.hash === '#mapview') {
         retryAfterMapActivation();
       }
     });
+
+    log('Map activation events bound.');
   }
 
   /**
@@ -1007,19 +1362,36 @@
       state.observer.disconnect();
       state.observer = null;
     }
+
+    log('Watchers stopped.');
   }
 
   /**
    * Initialise the integration.
-   *
-   * Important:
-   * Do not return permanently when Leaflet or leaflet.browser.print is missing.
-   * Open SDG may initialise the map lazily, especially when the map tab is opened.
    */
   function bootstrap() {
+    log('Bootstrap started.');
+    log('Feature enabled value.', MAP_PRINT_ENABLED);
+    log('Leaflet available.', !!window.L);
+    log('Leaflet Map available.', !!(window.L && L.Map));
+    log('Leaflet control available.', !!(window.L && L.control));
+    log('Leaflet browserPrint available.', !!(window.L && L.control && L.control.browserPrint));
+    log('Map view element found.', !!getMapView());
+
+    if (window.L && L.Map) {
+      registerLeafletInitHook();
+      patchLeafletMapFactory();
+      scanWindowForMaps();
+      scanKnownNamespacesForMaps();
+    }
+
     bindMapActivationEvents();
     observeMapView();
     startReadinessWatcher();
+
+    if (isLeafletAvailable()) {
+      attachIfPossible();
+    }
   }
 
   if (document.readyState === 'loading') {
