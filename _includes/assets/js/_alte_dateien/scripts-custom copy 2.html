@@ -9,7 +9,6 @@
   mt_features:
     map_print: true
     table_print: true
-    table_export: true
 
   Default behavior:
   - missing config entry: feature enabled
@@ -19,7 +18,6 @@
 
 {%- assign mt_map_print_enabled = true -%}
 {%- assign mt_table_print_enabled = true -%}
-{%- assign mt_table_export_enabled = true -%}
 
 {%- if site.mt_features -%}
   {%- if site.mt_features.map_print == false -%}
@@ -29,10 +27,6 @@
   {%- if site.mt_features.table_print == false -%}
     {%- assign mt_table_print_enabled = false -%}
   {%- endif -%}
-
-  {%- if site.mt_features.table_export == false -%}
-    {%- assign mt_table_export_enabled = false -%}
-  {%- endif -%}
 {%- endif -%}
 
 <!-- Custom feature flags for project scripts -->
@@ -40,31 +34,7 @@
   window.MT_FEATURES = window.MT_FEATURES || {};
   window.MT_FEATURES.mapPrint = {{ mt_map_print_enabled | jsonify }};
   window.MT_FEATURES.tablePrint = {{ mt_table_print_enabled | jsonify }};
-  window.MT_FEATURES.tableExport = {{ mt_table_export_enabled | jsonify }};
 </script>
-
-{%- if mt_table_print_enabled or mt_table_export_enabled -%}
-  <!-- Spacing for table action buttons -->
-  <style>
-    .table-print-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .table-print-actions .dt-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .table-print-actions .dt-buttons .btn,
-    .table-print-actions .dt-buttons .dt-button {
-      margin-right: 0;
-    }
-  </style>
-{%- endif -%}
 
 {%- if mt_map_print_enabled -%}
   <!-- Map print integration -->
@@ -77,16 +47,14 @@
   </script>
 {%- endif -%}
 
-{%- if mt_table_print_enabled or mt_table_export_enabled -%}
-  <!-- DataTables Buttons base libraries -->
-  <script>
-    {% include assets/js/vendor/dataTables.buttons.min.js %}
-  </script>
+<!-- DataTables Buttons base libraries -->
+<script>
+  {% include assets/js/vendor/dataTables.buttons.min.js %}
+</script>
 
-  <script>
-    {% include assets/js/vendor/buttons.bootstrap5.min.js %}
-  </script>
-{%- endif -%}
+<script>
+  {% include assets/js/vendor/buttons.bootstrap5.min.js %}
+</script>
 
 {%- if mt_table_print_enabled -%}
   <!-- DataTables print integration -->
@@ -99,9 +67,7 @@
   </script>
 {%- endif -%}
 
-{%- if mt_table_export_enabled -%}
-  <!-- Table export integration -->
-  <script>
-    {% include assets/js/table-export.js %}
-  </script>
-{%- endif -%}
+<!-- Table export integration -->
+<script>
+  {% include assets/js/table-export.js %}
+</script>
