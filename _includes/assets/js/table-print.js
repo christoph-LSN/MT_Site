@@ -2,6 +2,7 @@
   'use strict';
 
   /**
+   * Wiederhergestellte Fassung vom 20.07.2026
    * Feature switch from scripts-custom.html / _config.yml.
    *
    * Expected global value:
