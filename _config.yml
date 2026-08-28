@@ -1,4 +1,4 @@
-################Jekyll configuration for Open SDG platform
+#######Jekyll configuration for Open SDG platform Version vom 20.07.2026
 
 # Tell the Remote Theme plugin to use the Open SDG platform (Jekyll theme).
 
@@ -40,3 +40,14 @@ exclude:
   - README
   - README.md
   - LICENSE
+
+
+
+# ==========================================================
+# Custom Feature-Schalter
+# ==========================================================
+
+mt_features:
+  map_print: true
+  table_print: true
+  table_export: true
