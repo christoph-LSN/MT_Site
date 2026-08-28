@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260828104947">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20260828111434">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -916,7 +916,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20260828104947'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20260828111434'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -960,10 +960,25 @@ if (allRequired) {
     (function () {
   'use strict';
 
-  var MAP_PRINT_ENABLED = !(
+  /**
+   * Feature switch from scripts-custom.html / _config.yml.
+   *
+   * Expected global value:
+   * window.MT_FEATURES.mapPrint
+   *
+   * Default behavior:
+   * - missing config/global: enabled
+   * - true: enabled
+   * - false: disabled
+   */
+  var MAP_PRINT_ENABLED = true;
+
+  if (
     window.MT_FEATURES &&
     window.MT_FEATURES.mapPrint === false
-  );
+  ) {
+    MAP_PRINT_ENABLED = false;
+  }
 
   window.MT_MAP_PRINT_ENABLED = MAP_PRINT_ENABLED;
 
@@ -971,15 +986,21 @@ if (allRequired) {
     console.log('[map-print] Script loaded. MAP_PRINT_ENABLED =', MAP_PRINT_ENABLED);
   }
 
-  if (!MAP_PRINT_ENABLED) {
+  if (MAP_PRINT_ENABLED === false) {
     if (window.console && console.log) {
       console.log('[map-print] Disabled by _config.yml.');
     }
     return;
   }
 
+  /**
+   * Toggle this to true while diagnosing map print issues.
+   */
   var DEBUG = false;
 
+  /**
+   * Shared runtime state for the print integration.
+   */
   var state = {
     maps: [],
     attached: false,
@@ -990,47 +1011,68 @@ if (allRequired) {
     cachedDisaggregationHtml: ''
   };
 
+  /**
+   * Small logging helper for development/debugging.
+   */
   function log(message, data) {
-    if (!DEBUG || !window.console || !console.log) return;
-    if (typeof data !== 'undefined') {
-      console.log('[map-print] ' + message, data);
-    } else {
-      console.log('[map-print] ' + message);
+    if (!DEBUG) return;
+
+    if (window.console && console.log) {
+      if (typeof data !== 'undefined') {
+        console.log('[map-print] ' + message, data);
+      } else {
+        console.log('[map-print] ' + message);
+      }
     }
   }
 
+  /**
+   * Small warning helper.
+   */
   function warn(message, data) {
-    if (!window.console || !console.warn) return;
-    if (typeof data !== 'undefined') {
-      console.warn('[map-print] ' + message, data);
-    } else {
-      console.warn('[map-print] ' + message);
+    if (window.console && console.warn) {
+      if (typeof data !== 'undefined') {
+        console.warn('[map-print] ' + message, data);
+      } else {
+        console.warn('[map-print] ' + message);
+      }
     }
   }
 
+  /**
+   * Check whether Leaflet and leaflet.browser.print are both available.
+   */
   function isLeafletAvailable() {
     return !!(window.L && L.Map && L.control && L.control.browserPrint);
   }
 
+  /**
+   * The Open SDG map is rendered inside the tab panel with id="mapview".
+   */
   function getMapView() {
     return document.getElementById('mapview');
   }
 
+  /**
+   * Determine whether an element is visually present on the page.
+   */
   function isVisible(element) {
     if (!element) return false;
-    return !!(
-      element.offsetWidth ||
-      element.offsetHeight ||
-      element.getClientRects().length
-    );
+    return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
   }
 
+  /**
+   * Check whether a DOM element belongs to the map view area.
+   */
   function isInsideMapView(element) {
     var mapView = getMapView();
     if (!mapView || !element) return false;
     return mapView === element || mapView.contains(element);
   }
 
+  /**
+   * Store a Leaflet map instance exactly once.
+   */
   function uniquePushMap(map) {
     if (!map) return;
 
@@ -1044,6 +1086,10 @@ if (allRequired) {
     }
   }
 
+  /**
+   * Register a Leaflet init hook so that every map created afterwards
+   * is automatically tracked.
+   */
   function registerLeafletInitHook() {
     if (!window.L || !L.Map || !L.Map.addInitHook) return;
     if (window.__mtMapPrintHookRegistered) return;
@@ -1058,6 +1104,9 @@ if (allRequired) {
     log('Leaflet init hook registered.');
   }
 
+  /**
+   * Monkey-patch L.map as an additional safety net.
+   */
   function patchLeafletMapFactory() {
     if (!window.L || !L.map) return;
     if (window.__mtMapPrintFactoryPatched) return;
@@ -1080,6 +1129,9 @@ if (allRequired) {
     log('Leaflet L.map factory patched.');
   }
 
+  /**
+   * Also scan global window properties for already existing Leaflet maps.
+   */
   function scanWindowForMaps() {
     if (!window.L || !L.Map) return;
 
@@ -1089,11 +1141,14 @@ if (allRequired) {
           uniquePushMap(window[key]);
         }
       } catch (e) {
-        // Ignore inaccessible properties.
+        // Ignore cross-origin / inaccessible properties.
       }
     });
   }
 
+  /**
+   * Try to scan common Open SDG/global namespaces for map instances.
+   */
   function scanKnownNamespacesForMaps() {
     if (!window.L || !L.Map) return;
 
@@ -1121,17 +1176,23 @@ if (allRequired) {
     });
   }
 
+  /**
+   * Decide whether a discovered map is the correct target.
+   */
   function isGoodTargetMap(map) {
     if (!map || !map.getContainer) return false;
 
     var container = map.getContainer();
-    return !!(
-      container &&
-      isInsideMapView(container) &&
-      isVisible(container)
-    );
+    if (!container) return false;
+    if (!isInsideMapView(container)) return false;
+    if (!isVisible(container)) return false;
+
+    return true;
   }
 
+  /**
+   * Find the base tile layer used in the current map.
+   */
   function getPrintableBaseLayer(map) {
     var found = null;
 
@@ -1140,11 +1201,7 @@ if (allRequired) {
 
       if (
         (window.L.TileLayer && layer instanceof L.TileLayer) ||
-        (
-          window.L.TileLayer &&
-          window.L.TileLayer.WMS &&
-          layer instanceof L.TileLayer.WMS
-        )
+        (window.L.TileLayer && window.L.TileLayer.WMS && layer instanceof L.TileLayer.WMS)
       ) {
         found = layer;
       }
@@ -1153,18 +1210,24 @@ if (allRequired) {
     return found;
   }
 
+  /**
+   * Read the indicator title from the heading area.
+   */
   function getIndicatorTitle() {
-    var element =
+    var el =
       document.querySelector('.heading h1') ||
       document.querySelector('h1');
 
-    if (element && element.textContent) {
-      return element.textContent.trim();
+    if (el && el.textContent) {
+      return el.textContent.trim();
     }
 
     return document.title || 'Map';
   }
 
+  /**
+   * Translation labels from metadata_fields.yml.
+   */
   function getDataSourceLabel() {
     return 'Datenquelle';
   }
@@ -1173,6 +1236,10 @@ if (allRequired) {
     return 'Jahr';
   }
 
+  /**
+   * Return true when a value looks like a dumped object / front matter
+   * rather than a clean string value.
+   */
   function looksLikeObjectDump(value) {
     if (!value) return false;
 
@@ -1183,11 +1250,14 @@ if (allRequired) {
       text.indexOf("slug='") !== -1 ||
       text.indexOf("name='") !== -1 ||
       text.indexOf('url=') !== -1 ||
-      text.indexOf('=&gt;') !== -1 ||
+      text.indexOf('=>') !== -1 ||
       (text.indexOf('{') !== -1 && text.indexOf('}') !== -1)
     );
   }
 
+  /**
+   * Escape user/interface text before inserting it as HTML.
+   */
   function escapeHtml(value) {
     return String(value || '')
       .replace(/&/g, '&amp;')
@@ -1197,6 +1267,10 @@ if (allRequired) {
       .replace(/'/g, '&#039;');
   }
 
+  /**
+   * Try to get the indicator number from page variables,
+   * otherwise parse it from the page heading.
+   */
   function getIndicatorNumberValue() {
     var explicitValue =
       '6.2.1';
@@ -1205,10 +1279,15 @@ if (allRequired) {
       return explicitValue;
     }
 
-    var match = getIndicatorTitle().match(/\b\d+(?:\.\d+)+\b/);
+    var title = getIndicatorTitle();
+    var match = title.match(/\b\d+(?:\.\d+)+\b/);
     return match ? match[0] : '';
   }
 
+  /**
+   * Try to get the indicator name from page variables,
+   * otherwise parse it from the page heading.
+   */
   function getIndicatorNameValue() {
     var explicitValue =
       'Empfängerinnen und Empfänger von Mindestsicherungsleistungen';
@@ -1218,8 +1297,10 @@ if (allRequired) {
     }
 
     var title = getIndicatorTitle();
-    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
 
+    // Example heading:
+    // "Indikator 1.1.1 Bevölkerung in Niedersachsen"
+    var match = title.match(/\b\d+(?:\.\d+)+\b\s+(.*)$/);
     if (match && match[1]) {
       return match[1].trim();
     }
@@ -1227,15 +1308,27 @@ if (allRequired) {
     return title;
   }
 
+  /**
+   * Build the print heading from indicator number + indicator name.
+   */
   function getPrintHeadingText() {
-    var number = getIndicatorNumberValue();
-    var name = getIndicatorNameValue();
+    var indicatorNumber = getIndicatorNumberValue();
+    var indicatorName = getIndicatorNameValue();
 
-    if (number && name) return number + ' ' + name;
-    if (name) return name;
+    if (indicatorNumber && indicatorName) {
+      return indicatorNumber + ' ' + indicatorName;
+    }
+
+    if (indicatorName) {
+      return indicatorName;
+    }
+
     return getIndicatorTitle();
   }
 
+  /**
+   * Extract the currently active year from visible map controls.
+   */
   function getCurrentYearText() {
     var selectors = [
       '#mapview .timecontrol-date',
@@ -1249,69 +1342,94 @@ if (allRequired) {
     ];
 
     var yearPattern = /\b(19|20)\d{2}\b/;
+    var i, j, nodes, text, match;
     var foundYears = [];
 
-    selectors.forEach(function (selector) {
-      var nodes = document.querySelectorAll(selector);
+    for (i = 0; i < selectors.length; i++) {
+      nodes = document.querySelectorAll(selectors[i]);
 
-      nodes.forEach(function (node) {
-        if (!isVisible(node)) return;
+      for (j = 0; j < nodes.length; j++) {
+        if (!isVisible(nodes[j])) continue;
 
-        var candidates = [
-          node.getAttribute && node.getAttribute('aria-valuenow'),
-          node.getAttribute && node.getAttribute('data-value'),
-          node.value,
-          (node.textContent || '').trim()
+        var attrCandidates = [
+          nodes[j].getAttribute && nodes[j].getAttribute('aria-valuenow'),
+          nodes[j].getAttribute && nodes[j].getAttribute('data-value'),
+          nodes[j].value
         ];
 
-        candidates.forEach(function (candidate) {
+        attrCandidates.forEach(function (candidate) {
           if (!candidate) return;
-          var match = String(candidate).match(yearPattern);
-          if (match) foundYears.push(match[0]);
+          var attrMatch = String(candidate).match(yearPattern);
+          if (attrMatch) {
+            foundYears.push(attrMatch[0]);
+          }
         });
-      });
-    });
 
-    return foundYears.length ? foundYears[foundYears.length - 1] : '';
+        text = (nodes[j].textContent || '').trim();
+        if (!text) continue;
+
+        match = text.match(yearPattern);
+        if (match) {
+          foundYears.push(match[0]);
+        }
+      }
+    }
+
+    if (foundYears.length) {
+      return foundYears[foundYears.length - 1];
+    }
+
+    return '';
   }
 
+  /**
+   * Extract the currently selected map disaggregations.
+   */
   function getCurrentMapDisaggregations() {
+    var checkedInputs = document.querySelectorAll('input:checked');
     var items = [];
-    var dimensionLabels = {
-      Units: 'Einheit',
-      Geschlecht: 'Geschlecht',
-      Kategorie: 'Kategorie'
-    };
 
-    document.querySelectorAll('input:checked').forEach(function (element) {
-      if (!element.name || element.name.indexOf('map-') !== 0) return;
+    checkedInputs.forEach(function (el) {
+      if (!el.name || el.name.indexOf('map-') !== 0) return;
 
-      var dimension = element.name.replace('map-', '').trim();
+      var dimension = el.name.replace('map-', '').trim();
+
+      var dimensionLabels = {
+        Units: 'Einheit',
+        Geschlecht: 'Geschlecht',
+        Kategorie: 'Kategorie'
+      };
+
       dimension = dimensionLabels[dimension] || dimension;
 
       var value = '';
 
-      if (
-        element.labels &&
-        element.labels.length &&
-        element.labels[0].textContent
-      ) {
-        value = element.labels[0].textContent.trim();
-      } else if (element.value) {
-        value = String(element.value).trim();
+      if (el.labels && el.labels.length && el.labels[0].textContent) {
+        value = el.labels[0].textContent.trim();
+      } else if (el.value) {
+        value = String(el.value).trim();
       }
 
-      if (dimension && value) {
-        items.push({ dimension: dimension, value: value });
-      }
+      if (!dimension || !value) return;
+
+      items.push({
+        dimension: dimension,
+        value: value
+      });
     });
 
     return items;
   }
 
+  /**
+   * Build HTML for the currently selected map disaggregations.
+   */
   function buildMapDisaggregationsHtml() {
     var items = getCurrentMapDisaggregations();
-    if (!items.length) return '';
+
+    if (!items.length) {
+      return '';
+    }
 
     return (
       '<div class="mt-print-meta mt-print-disaggregations">' +
@@ -1319,7 +1437,9 @@ if (allRequired) {
         items.map(function (item) {
           return (
             '<span class="mt-print-disaggregation-item">' +
-              escapeHtml(item.dimension) + ': ' + escapeHtml(item.value) +
+              escapeHtml(item.dimension) +
+              ': ' +
+              escapeHtml(item.value) +
             '</span>'
           );
         }).join(' · ') +
@@ -1327,16 +1447,25 @@ if (allRequired) {
     );
   }
 
+  /**
+   * Cache the currently visible year before the print view is created.
+   */
   function cacheCurrentYearText() {
     state.cachedYearText = getCurrentYearText();
     log('Year cached before print.', state.cachedYearText);
   }
 
+  /**
+   * Cache the currently selected map disaggregations before the print view is created.
+   */
   function cacheCurrentMapDisaggregations() {
     state.cachedDisaggregationHtml = buildMapDisaggregationsHtml();
     log('Map disaggregations cached before print.', state.cachedDisaggregationHtml);
   }
 
+  /**
+   * Find the visible legend element in the live map.
+   */
   function findLegendElement() {
     var selectors = [
       '#mapview .selection-legend.leaflet-control',
@@ -1348,43 +1477,64 @@ if (allRequired) {
       '#mapview .legend-container'
     ];
 
-    for (var i = 0; i < selectors.length; i += 1) {
-      var candidates = document.querySelectorAll(selectors[i]);
+    var i, j, candidates;
+    for (i = 0; i < selectors.length; i++) {
+      candidates = document.querySelectorAll(selectors[i]);
 
-      for (var j = 0; j < candidates.length; j += 1) {
-        if (isVisible(candidates[j])) return candidates[j];
+      for (j = 0; j < candidates.length; j++) {
+        if (isVisible(candidates[j])) {
+          return candidates[j];
+        }
       }
 
-      if (candidates.length) return candidates[0];
+      if (candidates.length) {
+        return candidates[0];
+      }
     }
 
     return null;
   }
 
+  /**
+   * Check whether the live legend currently contains selected-region entries.
+   */
   function hasSelectedLegendItems() {
     var legend = findLegendElement();
     if (!legend) return false;
 
     var selectionList = legend.querySelector('#selection-list');
-    return !!(selectionList && selectionList.children.length);
+    if (!selectionList) return false;
+
+    return !!selectionList.children.length;
   }
 
+  /**
+   * Remove transient / temporary UI such as hover tooltips or popups
+   * from a map-related DOM subtree before printing.
+   */
   function removeTransientMapUi(root) {
     if (!root) return;
 
-    [
+    var selectors = [
       '.leaflet-tooltip',
       '.leaflet-popup',
       '.leaflet-popup-pane',
       '[role="tooltip"]',
       '.tooltip'
-    ].forEach(function (selector) {
-      root.querySelectorAll(selector).forEach(function (element) {
-        if (element.parentNode) element.parentNode.removeChild(element);
+    ];
+
+    selectors.forEach(function (selector) {
+      root.querySelectorAll(selector).forEach(function (el) {
+        if (el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
       });
     });
   }
 
+  /**
+   * Cache the original legend HTML before printing starts.
+   */
   function cacheLegendHtml() {
     var legend = findLegendElement();
 
@@ -1398,101 +1548,285 @@ if (allRequired) {
     log('Legend cached.');
   }
 
+  /**
+   * Build the print header.
+   */
   function buildHeaderHtml() {
+    var title = getPrintHeadingText();
     var yearText = state.cachedYearText || getCurrentYearText();
-    var yearHtml = '';
+
+    var referenceYearLabel = getReferenceYearLabel();
+    var lines = [];
 
     if (yearText) {
-      yearHtml =
+      lines.push(
         '<div class="mt-print-meta"><strong>' +
-          escapeHtml(getReferenceYearLabel()) + ': </strong>' +
+          escapeHtml(referenceYearLabel) +
+          ':</strong> ' +
           escapeHtml(yearText) +
-        '</div>';
+        '</div>'
+      );
     }
 
-    return (
+    return '' +
       '<div class="mt-print-header">' +
-        '<div class="mt-print-title">' +
-          escapeHtml(getPrintHeadingText()) +
-        '</div>' +
-        yearHtml +
-      '</div>'
-    );
+        '<div class="mt-print-title">' + escapeHtml(title) + '</div>' +
+        lines.join('') +
+      '</div>';
   }
 
+  /**
+   * Build the print footer.
+   *
+   * The source URL is assembled from parts to avoid accidental auto-linking
+   * during editing/copying.
+   */
   function buildFooterHtml() {
-    var sourceText = 'www.integrationsmonitoring.niedersachsen.de';
+    var dataSourceLabel = getDataSourceLabel();
 
     return (
-      '<div class="mt-print-footer-source">' +
-        '<strong>' + escapeHtml(getDataSourceLabel()) + ':</strong> ' +
-        escapeHtml(sourceText) +
-      '</div>'
+      '<div class="mt-print-footer-source"><strong>' +
+        escapeHtml(dataSourceLabel) +
+        ':</strong> https://www.integrationsmonitoring.niedersachsen.de</div>'
     );
   }
+  
 
+  /**
+   * Configure the print mode.
+   */
   function buildPrintModes() {
     return [
       L.BrowserPrint.Mode.Landscape('A4', {
         title: 'Print',
-        margin: { top: 0, right: 0, bottom: 0, left: 0 },
+        margin: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        },
         enableZoom: false,
-        header: { enabled: false, text: '', size: '0mm', overTheMap: true },
-        footer: { enabled: false, text: '', size: '0mm', overTheMap: true }
+        header: {
+          enabled: false,
+          text: '',
+          size: '0mm',
+          overTheMap: true
+        },
+        footer: {
+          enabled: false,
+          text: '',
+          size: '0mm',
+          overTheMap: true
+        }
       })
     ];
   }
 
+  /**
+   * Get the best container for legend/disaggregation injection in the print view.
+   */
   function getPrintOverlayRoot(printMap) {
     if (!printMap || !printMap.getContainer) return null;
 
     var mapContainer = printMap.getContainer();
     if (!mapContainer) return null;
 
-    return (
-      mapContainer.closest('.grid-print-container') ||
-      mapContainer.parentNode ||
-      mapContainer
-    );
+    return mapContainer.closest('.grid-print-container') || mapContainer.parentNode || mapContainer;
   }
 
+  /**
+   * Ensure print overlay styles exist in the print document.
+   */
   function ensurePrintOverlayStyles(root) {
     if (!root) return;
 
     var doc = root.ownerDocument || document;
-    if (doc.getElementById('mt-print-overlay-styles')) return;
+
+    if (doc.getElementById('mt-print-overlay-styles')) {
+      return;
+    }
 
     var style = doc.createElement('style');
     style.id = 'mt-print-overlay-styles';
-    style.textContent = [
-      '@page { size: A4 landscape; margin: 0; }',
-      '@media print {',
-      '  html, body { width: 297mm !important; height: 210mm !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; }',
-      '  .leaflet-print-overlay { position: fixed !important; inset: 0 !important; width: 297mm !important; height: 210mm !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; }',
-      '  .grid-print-container { position: relative !important; flex: 0 0 270mm !important; width: 270mm !important; height: 190mm !important; min-width: 270mm !important; min-height: 190mm !important; max-width: 270mm !important; max-height: 190mm !important; margin: 0 !important; padding: 0 !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; overflow: hidden !important; box-sizing: border-box !important; transform: none !important; page-break-before: avoid !important; page-break-after: avoid !important; page-break-inside: avoid !important; break-before: avoid !important; break-after: avoid !important; break-inside: avoid !important; }',
-      '  #map-print, .grid-map-print { position: relative !important; width: 270mm !important; height: 190mm !important; min-width: 270mm !important; min-height: 190mm !important; max-width: 270mm !important; max-height: 190mm !important; margin: 0 !important; padding: 0 !important; top: 0 !important; left: 0 !important; overflow: hidden !important; box-sizing: border-box !important; transform: none !important; }',
-      '}',
-      '.mt-print-header-overlay { position: absolute; left: 5mm; top: 3mm; z-index: 99999; max-width: 240mm; color: #000; font-family: Arial, sans-serif; line-height: 1.15; pointer-events: none; }',
-      '.mt-print-header-overlay .mt-print-title { font-size: 10.5pt; font-weight: 700; margin: 0 0 1mm 0; }',
-      '.mt-print-header-overlay .mt-print-meta { font-size: 7pt; margin: 0; }',
-      '.mt-print-footer-overlay { position: absolute; left: 5mm; bottom: 3mm; z-index: 99999; color: #000; font-family: Arial, sans-serif; font-size: 6pt; line-height: 1.1; pointer-events: none; }',
-      '.mt-print-disaggregation-overlay { position: absolute; left: 6mm; top: 14mm; z-index: 99999; max-width: 185mm; padding: 2.5mm 3.5mm; background: rgba(255,255,255,0.9); border: 1px solid rgba(0,0,0,0.25); border-radius: 2mm; font-family: Arial, sans-serif; font-size: 8pt; line-height: 1.25; color: #000; box-sizing: border-box; }',
-      '.mt-print-disaggregation-overlay .mt-print-meta { margin: 0; }',
-      '.mt-print-disaggregation-item { display: inline; }',
-      '.mt-print-legend-overlay { position: absolute; top: 7mm; right: 7mm; z-index: 99999; max-width: 55mm; box-sizing: border-box; }',
-      '.mt-print-legend-heading { display: none; }',
-      '.mt-print-legend-clone .leaflet-control { margin: 0 !important; }'
-    ].join('\n');
 
-    if (doc.head) doc.head.appendChild(style);
-  }
+    style.textContent = ''
+      + '@page {'
+      + '  size: A4 landscape;'
+      + '  margin: 0;'
+      + '}'
+      + '@media print {'
+      + '  html, body {'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '  }'
+      + '  .leaflet-print-overlay {'
+      + '    position: fixed !important;'
+      + '    inset: 0 !important;'
+      + '    width: 297mm !important;'
+      + '    height: 210mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    display: flex !important;'
+      + '    align-items: center !important;'
+      + '    justify-content: center !important;'
+      + '    box-sizing: border-box !important;'
+      + '  }'
+      + '  .grid-print-container {'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    position: relative !important;'
+      + '    top: auto !important;'
+      + '    left: auto !important;'
+      + '    transform: none !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    page-break-before: avoid !important;'
+      + '    page-break-after: avoid !important;'
+      + '    page-break-inside: avoid !important;'
+      + '    break-before: avoid !important;'
+      + '    break-after: avoid !important;'
+      + '    break-inside: avoid !important;'
+      + '  }'
+      + '  #map-print,'
+      + '  .grid-map-print {'
+      + '    width: 270mm !important;'
+      + '    height: 190mm !important;'
+      + '    max-width: 270mm !important;'
+      + '    max-height: 190mm !important;'
+      + '    margin: 0 !important;'
+      + '    padding: 0 !important;'
+      + '    overflow: hidden !important;'
+      + '    box-sizing: border-box !important;'
+      + '    transform: none !important;'
+      + '  }'
+      + '}'
+      + '.mt-print-header-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  top: 3mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 240mm;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  line-height: 1.15;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-title {'
+      + '  font-size: 10.5pt;'
+      + '  font-weight: 700;'
+      + '  margin: 0 0 1mm 0;'
+      + '}'
+      + '.mt-print-header-overlay .mt-print-meta {'
+      + '  font-size: 7pt;'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-footer-overlay {'
+      + '  position: absolute;'
+      + '  left: 5mm;'
+      + '  bottom: 3mm;'
+      + '  z-index: 99999;'
+      + '  color: #000;'
+      + '  font-family: Arial, sans-serif;'
+      + '  font-size: 6pt;'
+      + '  line-height: 1.1;'
+      + '  pointer-events: none;'
+      + '}'
+      + '.mt-print-disaggregation-overlay {'
+      + '  position: absolute;'
+      + '  left: 6mm;'
+      + '  top: 14mm;'
+      + '  z-index: 99999;'
+      + '  max-width: 185mm;'
+      + '  padding: 2.5mm 3.5mm;'
+      + '  background: rgba(255, 255, 255, 0.9);'
+      + '  border: 1px solid rgba(0, 0, 0, 0.25);'
+      + '  border-radius: 2mm;'
+      + '  font-size: 8pt;'
+      + '  line-height: 1.25;'
+      + '  color: #000;'
+      + '  box-sizing: border-box;'
+      + '}'
+      + '.mt-print-disaggregation-overlay .mt-print-meta {'
+      + '  margin: 0;'
+      + '}'
+      + '.mt-print-disaggregation-item {'
+      + '  display: inline;'
+      + '}';
 
-  function setImportantStyle(element, property, value) {
-    if (element && element.style) {
-      element.style.setProperty(property, value, 'important');
+    if (doc.head) {
+      doc.head.appendChild(style);
     }
   }
 
+  /**
+   * Convert a millimetre value to pixels using the currently rendered width of
+   * the print map. This avoids relying on a browser-global DPI assumption.
+   */
+  function mmToCurrentPrintPx(element, widthMm, valueMm) {
+    if (!element) return valueMm * 3.78;
+
+    var rect = element.getBoundingClientRect();
+    if (!rect || !rect.width || !widthMm) return valueMm * 3.78;
+
+    return (rect.width / widthMm) * valueMm;
+  }
+
+  /**
+   * Dynamically correct the vertical print position.
+   *
+   * Console diagnostics showed that Chromium can create the print container with
+   * a negative top value. Instead of applying a fixed translateY(16mm), this
+   * function measures the actual position and shifts the container only as far
+   * as needed to reach a balanced top/bottom white margin.
+   */
+  function correctPrintMapVerticalPosition(root, widthMm, heightMm) {
+    if (!root) return;
+
+    var rect = root.getBoundingClientRect();
+    if (!rect || !rect.height) return;
+
+    var availableHeight = null;
+    var overlay = root.closest('.leaflet-print-overlay');
+
+    if (overlay) {
+      var overlayRect = overlay.getBoundingClientRect();
+      if (overlayRect && overlayRect.height) {
+        availableHeight = overlayRect.height;
+      }
+    }
+
+    if (!availableHeight) {
+      availableHeight = window.innerHeight || document.documentElement.clientHeight || rect.height;
+    }
+
+    var targetTop = Math.max(0, (availableHeight - rect.height) / 2);
+
+    // Keep a small minimum visual top margin for printer profiles whose preview
+    // reports the page area differently from the actual printable area.
+    var minimumTop = mmToCurrentPrintPx(root, widthMm, 6);
+    targetTop = Math.max(targetTop, minimumTop);
+
+    var shiftPx = targetTop - rect.top;
+
+    // Only correct meaningful deviations. This avoids tiny rendering jitter.
+    if (Math.abs(shiftPx) < 1) {
+      root.style.transform = 'none';
+      return;
+    }
+
+    root.style.transform = 'translateY(' + shiftPx.toFixed(2) + 'px)';
+  }
+
+  /**
+   * Size the real print map (#map-print/.grid-map-print) and dynamically center
+   * the grid print container vertically on the generated print sheet.
+   */
   function forcePrintMapToSingleSheet(printMap) {
     if (!printMap || !printMap.getContainer) return;
 
@@ -1500,38 +1834,45 @@ if (allRequired) {
     if (!container) return;
 
     var root = getPrintOverlayRoot(printMap) || container;
-    var sizeProperties = {
-      width: '270mm',
-      height: '190mm',
-      'min-width': '270mm',
-      'min-height': '190mm',
-      'max-width': '270mm',
-      'max-height': '190mm'
-    };
+    var safeWidthMm = 270;
+    var safeHeightMm = 190;
+    var safeWidth = safeWidthMm + 'mm';
+    var safeHeight = safeHeightMm + 'mm';
 
-    Object.keys(sizeProperties).forEach(function (property) {
-      setImportantStyle(root, property, sizeProperties[property]);
-      setImportantStyle(container, property, sizeProperties[property]);
-    });
+    if (root && root.style) {
+      root.style.width = safeWidth;
+      root.style.height = safeHeight;
+      root.style.maxWidth = safeWidth;
+      root.style.maxHeight = safeHeight;
+      root.style.marginLeft = 'auto';
+      root.style.marginRight = 'auto';
+      root.style.marginTop = '0';
+      root.style.marginBottom = '0';
+      root.style.padding = '0';
+      root.style.position = 'relative';
+      root.style.top = '0';
+      root.style.overflow = 'hidden';
+      root.style.boxSizing = 'border-box';
+      root.style.transform = 'none';
+      root.style.pageBreakBefore = 'avoid';
+      root.style.pageBreakAfter = 'avoid';
+      root.style.pageBreakInside = 'avoid';
+      root.style.breakBefore = 'avoid';
+      root.style.breakAfter = 'avoid';
+      root.style.breakInside = 'avoid';
+    }
 
-    setImportantStyle(root, 'margin', '0');
-    setImportantStyle(root, 'padding', '0');
-    setImportantStyle(root, 'position', 'relative');
-    setImportantStyle(root, 'top', 'auto');
-    setImportantStyle(root, 'left', 'auto');
-    setImportantStyle(root, 'overflow', 'hidden');
-    setImportantStyle(root, 'box-sizing', 'border-box');
-    setImportantStyle(root, 'transform', 'none');
-    setImportantStyle(root, 'page-break-inside', 'avoid');
-    setImportantStyle(root, 'break-inside', 'avoid');
-
-    setImportantStyle(container, 'margin', '0');
-    setImportantStyle(container, 'padding', '0');
-    setImportantStyle(container, 'top', '0');
-    setImportantStyle(container, 'left', '0');
-    setImportantStyle(container, 'overflow', 'hidden');
-    setImportantStyle(container, 'box-sizing', 'border-box');
-    setImportantStyle(container, 'transform', 'none');
+    if (container && container.style) {
+      container.style.width = safeWidth;
+      container.style.height = safeHeight;
+      container.style.maxWidth = safeWidth;
+      container.style.maxHeight = safeHeight;
+      container.style.margin = '0';
+      container.style.padding = '0';
+      container.style.overflow = 'hidden';
+      container.style.boxSizing = 'border-box';
+      container.style.transform = 'none';
+    }
 
     try {
       printMap.invalidateSize(false);
@@ -1539,35 +1880,27 @@ if (allRequired) {
       warn('Could not invalidate print map size.', e);
     }
 
-    window.setTimeout(function () {
-      try {
-        printMap.invalidateSize(false);
-      } catch (e) {
-        warn('Could not invalidate delayed print map size.', e);
-      }
-    }, 100);
+    // The outer A4 print overlay centers this container via flexbox.
+    // No delayed translateY correction is used because BrowserPrint may already
+    // be dismantling its temporary Leaflet map at that point.
   }
 
-  function removeElements(root, selector) {
+  /**
+   * Remove the print header/footer overlays from the print view.
+   */
+  function removeExistingPrintHeaderFooter(root) {
     if (!root) return;
 
-    root.querySelectorAll(selector).forEach(function (element) {
-      if (element.parentNode) element.parentNode.removeChild(element);
+    root.querySelectorAll('.mt-print-header-overlay, .mt-print-footer-overlay').forEach(function (el) {
+      if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
     });
   }
 
-  function removeExistingPrintHeaderFooter(root) {
-    removeElements(root, '.mt-print-header-overlay, .mt-print-footer-overlay');
-  }
-
-  function removeExistingPrintLegend(root) {
-    removeElements(root, '.mt-print-legend-overlay');
-  }
-
-  function removeExistingPrintDisaggregations(root) {
-    removeElements(root, '.mt-print-disaggregation-overlay');
-  }
-
+  /**
+   * Add header/footer as absolute overlays inside the map container.
+   */
   function addHeaderFooterToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
@@ -1576,18 +1909,45 @@ if (allRequired) {
     removeExistingPrintHeaderFooter(root);
 
     var doc = root.ownerDocument || document;
-    var header = doc.createElement('div');
-    var footer = doc.createElement('div');
 
+    var header = doc.createElement('div');
     header.className = 'mt-print-header-overlay';
     header.innerHTML = buildHeaderHtml();
     root.appendChild(header);
 
+    var footer = doc.createElement('div');
     footer.className = 'mt-print-footer-overlay';
     footer.innerHTML = buildFooterHtml();
     root.appendChild(footer);
   }
 
+  /**
+   * Remove any previously added legend from the print view.
+   */
+  function removeExistingPrintLegend(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-legend-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  /**
+   * Remove any previously added disaggregation overlay from the print view.
+   */
+  function removeExistingPrintDisaggregations(root) {
+    if (!root) return;
+
+    var existing = root.querySelector('.mt-print-disaggregation-overlay');
+    if (existing) {
+      existing.remove();
+    }
+  }
+
+  /**
+   * Add the cached map disaggregations to the print view as a visible overlay.
+   */
   function addDisaggregationsToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
@@ -1595,16 +1955,29 @@ if (allRequired) {
     removeExistingPrintDisaggregations(root);
     ensurePrintOverlayStyles(root);
 
+    if (!root.style.position) {
+      root.style.position = 'relative';
+    }
+
     var html = state.cachedDisaggregationHtml || buildMapDisaggregationsHtml();
-    if (!html) return;
+
+    if (!html) {
+      warn('No cached map disaggregations available.');
+      return;
+    }
 
     var doc = root.ownerDocument || document;
     var wrapper = doc.createElement('div');
     wrapper.className = 'mt-print-disaggregation-overlay';
     wrapper.innerHTML = html;
+
     root.appendChild(wrapper);
+    log('Map disaggregations inserted into print view.');
   }
 
+  /**
+   * Add the cached legend to the print view.
+   */
   function addLegendToPrintMap(printMap) {
     var root = getPrintOverlayRoot(printMap);
     if (!root) return;
@@ -1617,25 +1990,82 @@ if (allRequired) {
     }
 
     var doc = root.ownerDocument || document;
-    var wrapper = doc.createElement('div');
-    var heading = doc.createElement('div');
-    var legendHolder = doc.createElement('div');
 
+    var wrapper = doc.createElement('div');
     wrapper.className = 'mt-print-legend-overlay';
+
+    var heading = doc.createElement('div');
     heading.className = 'mt-print-legend-heading';
     heading.textContent = 'Legende';
+    wrapper.appendChild(heading);
+
+    var legendHolder = doc.createElement('div');
     legendHolder.className = 'mt-print-legend-clone';
     legendHolder.innerHTML = state.cachedLegendHtml;
-
-    wrapper.appendChild(heading);
     wrapper.appendChild(legendHolder);
+
     root.appendChild(wrapper);
+    log('Legend inserted into print view.');
   }
 
+  /**
+   * Update the print header with the current title/year
+   * after the print layout has been created.
+   */
+  function updatePrintHeader(printMap) {
+    var header = null;
+
+    if (printMap && printMap.getContainer) {
+      var container = printMap.getContainer();
+      var root = getPrintOverlayRoot(printMap);
+
+      if (root) {
+        header = root.querySelector('#print-header');
+      }
+
+      if (!header && container && container.ownerDocument) {
+        header = container.ownerDocument.querySelector('#print-header');
+      }
+    }
+
+    if (!header) {
+      header = document.querySelector('#print-header');
+    }
+
+    if (!header) return;
+
+    header.innerHTML = buildHeaderHtml();
+  }
+
+  /**
+   * Attach the browser print control to the target map.
+   */
   function attachPrintControl(map) {
-    if (!isLeafletAvailable() || !map || map._mtPrintControlAdded) return false;
+    if (!isLeafletAvailable()) {
+      warn('Leaflet or leaflet.browser.print is not available.', {
+        leaflet: !!window.L,
+        leafletMap: !!(window.L && L.Map),
+        leafletControl: !!(window.L && L.control),
+        browserPrint: !!(window.L && L.control && L.control.browserPrint)
+      });
+      return false;
+    }
+
+    if (!map) {
+      warn('No map instance supplied to attachPrintControl.');
+      return false;
+    }
+
+    if (map._mtPrintControlAdded) {
+      log('Print control already added to this map.');
+      return false;
+    }
 
     var baseLayer = getPrintableBaseLayer(map);
+
+    if (!baseLayer) {
+      warn('No printable base layer found. Continuing without explicit printLayer.');
+    }
 
     try {
       var printOptions = {
@@ -1645,7 +2075,9 @@ if (allRequired) {
         printModes: buildPrintModes()
       };
 
-      if (baseLayer) printOptions.printLayer = baseLayer;
+      if (baseLayer) {
+        printOptions.printLayer = baseLayer;
+      }
 
       L.control.browserPrint(printOptions).addTo(map);
 
@@ -1653,37 +2085,32 @@ if (allRequired) {
         var hasSelection = hasSelectedLegendItems();
 
         document.body.classList.toggle('mt-print-has-selection', hasSelection);
+
         cacheCurrentYearText();
         cacheCurrentMapDisaggregations();
 
-        if (!hasSelection) removeTransientMapUi(map.getContainer());
+        if (!hasSelection) {
+          removeTransientMapUi(map.getContainer());
+        }
+
         cacheLegendHtml();
       });
 
       map.on(L.BrowserPrint.Event.Print, function (event) {
-        if (!event || !event.printMap) return;
+        if (event && event.printMap) {
+          ensurePrintOverlayStyles(getPrintOverlayRoot(event.printMap));
+          forcePrintMapToSingleSheet(event.printMap);
 
-        var printMap = event.printMap;
-        var root = getPrintOverlayRoot(printMap);
+          var hasSelection = hasSelectedLegendItems();
 
-        ensurePrintOverlayStyles(root);
-        forcePrintMapToSingleSheet(printMap);
-
-        window.setTimeout(function () {
-          if (!hasSelectedLegendItems()) {
-            removeTransientMapUi(printMap.getContainer());
+          if (!hasSelection) {
+            removeTransientMapUi(event.printMap.getContainer());
           }
 
-          addHeaderFooterToPrintMap(printMap);
-          addDisaggregationsToPrintMap(printMap);
-          addLegendToPrintMap(printMap);
-
-          try {
-            printMap.invalidateSize(false);
-          } catch (e) {
-            warn('Could not invalidate final print map size.', e);
-          }
-        }, 50);
+          addHeaderFooterToPrintMap(event.printMap);
+          addDisaggregationsToPrintMap(event.printMap);
+          addLegendToPrintMap(event.printMap);
+        }
       });
 
       map.on(L.BrowserPrint.Event.PrintEnd, function (event) {
@@ -1697,13 +2124,13 @@ if (allRequired) {
         document.body.classList.remove('mt-print-has-selection');
         state.cachedYearText = '';
         state.cachedDisaggregationHtml = '';
-        state.cachedLegendHtml = '';
       });
 
       map._mtPrintControlAdded = true;
       state.attached = true;
-      stopWatching();
+
       log('Print control attached successfully.');
+      stopWatching();
       return true;
     } catch (error) {
       warn('Failed to attach print control.', error);
@@ -1711,15 +2138,30 @@ if (allRequired) {
     }
   }
 
+  /**
+   * Attempt to attach the print control to the first suitable map.
+   */
   function attachIfPossible() {
     if (state.attached) return true;
 
     var goodMaps = state.maps.filter(isGoodTargetMap);
+
+    log('attachIfPossible called.', {
+      knownMaps: state.maps.length,
+      goodMaps: goodMaps.length,
+      leafletAvailable: !!window.L,
+      browserPrintAvailable: !!(window.L && L.control && L.control.browserPrint),
+      mapViewFound: !!getMapView()
+    });
+
     if (!goodMaps.length) return false;
 
     return attachPrintControl(goodMaps[0]);
   }
 
+  /**
+   * Observe #mapview because Open SDG may render or update the map asynchronously.
+   */
   function observeMapView() {
     var mapView = getMapView();
     if (!mapView || state.observer) return;
@@ -1734,7 +2176,9 @@ if (allRequired) {
         scanKnownNamespacesForMaps();
       }
 
-      if (isLeafletAvailable()) attachIfPossible();
+      if (isLeafletAvailable()) {
+        attachIfPossible();
+      }
     });
 
     state.observer.observe(mapView, {
@@ -1743,8 +2187,13 @@ if (allRequired) {
       attributes: true,
       attributeFilter: ['class', 'style']
     });
+
+    log('Map view observer registered.');
   }
 
+  /**
+   * Retry until Leaflet, leaflet.browser.print and the map are ready.
+   */
   function startReadinessWatcher() {
     if (state.interval) return;
 
@@ -1758,6 +2207,7 @@ if (allRequired) {
       }
 
       attempts += 1;
+
       observeMapView();
 
       if (window.L && L.Map) {
@@ -1774,6 +2224,7 @@ if (allRequired) {
           attempt: attempts,
           leaflet: !!window.L,
           leafletMap: !!(window.L && L.Map),
+          leafletControl: !!(window.L && L.control),
           browserPrint: !!(window.L && L.control && L.control.browserPrint),
           mapViewFound: !!getMapView(),
           knownMaps: state.maps.length
@@ -1783,11 +2234,17 @@ if (allRequired) {
       if (attempts >= maxAttempts) {
         window.clearInterval(state.interval);
         state.interval = null;
+
         warn('Map print readiness watcher timed out. Will retry on map tab activation.');
       }
     }, 500);
+
+    log('Readiness watcher started.');
   }
 
+  /**
+   * Retry when the user opens the map tab.
+   */
   function bindMapActivationEvents() {
     if (window.__mtMapPrintActivationEventsBound) return;
     window.__mtMapPrintActivationEventsBound = true;
@@ -1795,6 +2252,8 @@ if (allRequired) {
     function retryAfterMapActivation() {
       window.setTimeout(function () {
         if (state.attached) return;
+
+        log('Retry after map activation.');
 
         observeMapView();
 
@@ -1805,38 +2264,59 @@ if (allRequired) {
           scanKnownNamespacesForMaps();
         }
 
-        if (isLeafletAvailable()) attachIfPossible();
-        if (!state.attached) startReadinessWatcher();
+        if (isLeafletAvailable()) {
+          attachIfPossible();
+        }
+
+        if (!state.attached) {
+          startReadinessWatcher();
+        }
       }, 300);
     }
 
-    document.addEventListener('click', function (event) {
-      var target = event.target;
-      if (!target || !target.closest) return;
+    document.addEventListener(
+      'click',
+      function (event) {
+        var target = event.target;
+        if (!target || !target.closest) return;
 
-      var mapTab = target.closest(
-        '#tab-mapview, a[href="#mapview"], button[data-bs-target="#mapview"], button[data-target="#mapview"]'
-      );
+        var mapTab = target.closest(
+          '#tab-mapview, a[href="#mapview"], button[data-bs-target="#mapview"], button[data-target="#mapview"]'
+        );
 
-      if (mapTab) retryAfterMapActivation();
-    }, true);
+        if (mapTab) {
+          retryAfterMapActivation();
+        }
+      },
+      true
+    );
 
     document.addEventListener('shown.bs.tab', function (event) {
       var target = event.target;
       if (!target || !target.matches) return;
 
-      if (target.matches(
-        '#tab-mapview, a[href="#mapview"], button[data-bs-target="#mapview"], button[data-target="#mapview"]'
-      )) {
+      if (
+        target.matches('#tab-mapview') ||
+        target.matches('a[href="#mapview"]') ||
+        target.matches('button[data-bs-target="#mapview"]') ||
+        target.matches('button[data-target="#mapview"]')
+      ) {
         retryAfterMapActivation();
       }
     });
 
     window.addEventListener('hashchange', function () {
-      if (window.location.hash === '#mapview') retryAfterMapActivation();
+      if (window.location.hash === '#mapview') {
+        retryAfterMapActivation();
+      }
     });
+
+    log('Map activation events bound.');
   }
 
+  /**
+   * Stop all watchers once the print control is attached.
+   */
   function stopWatching() {
     if (state.interval) {
       window.clearInterval(state.interval);
@@ -1847,9 +2327,22 @@ if (allRequired) {
       state.observer.disconnect();
       state.observer = null;
     }
+
+    log('Watchers stopped.');
   }
 
+  /**
+   * Initialise the integration.
+   */
   function bootstrap() {
+    log('Bootstrap started.');
+    log('Feature enabled value.', MAP_PRINT_ENABLED);
+    log('Leaflet available.', !!window.L);
+    log('Leaflet Map available.', !!(window.L && L.Map));
+    log('Leaflet control available.', !!(window.L && L.control));
+    log('Leaflet browserPrint available.', !!(window.L && L.control && L.control.browserPrint));
+    log('Map view element found.', !!getMapView());
+
     if (window.L && L.Map) {
       registerLeafletInitHook();
       patchLeafletMapFactory();
@@ -1861,7 +2354,9 @@ if (allRequired) {
     observeMapView();
     startReadinessWatcher();
 
-    if (isLeafletAvailable()) attachIfPossible();
+    if (isLeafletAvailable()) {
+      attachIfPossible();
+    }
   }
 
   if (document.readyState === 'loading') {
@@ -2979,7 +3474,7 @@ if (allRequired) {
   </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20260828104947"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20260828111434"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
