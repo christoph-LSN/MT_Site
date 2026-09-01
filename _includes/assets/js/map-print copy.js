@@ -2,7 +2,8 @@
   'use strict';
 
   /**
-   * Feature switch from scripts-custom.html / _config.yml.
+   *Wiederhergestellte Version vom 20.07.2026  
+   *Feature switch from scripts-custom.html / _config.yml.
    *
    * Expected global value:
    * window.MT_FEATURES.mapPrint
@@ -693,7 +694,6 @@
     style.textContent = ''
       + '@page {'
       + '  size: A4 landscape;'
-      + '  margin: 0;'
       + '}'
       + '@media print {'
       + '  html, body {'
@@ -702,29 +702,20 @@
       + '    overflow: hidden !important;'
       + '  }'
       + '  .leaflet-print-overlay {'
-      + '    position: fixed !important;'
-      + '    inset: 0 !important;'
-      + '    width: 297mm !important;'
-      + '    height: 210mm !important;'
-      + '    margin: 0 !important;'
-      + '    padding: 0 !important;'
       + '    overflow: hidden !important;'
-      + '    display: flex !important;'
-      + '    align-items: center !important;'
-      + '    justify-content: center !important;'
-      + '    box-sizing: border-box !important;'
       + '  }'
       + '  .grid-print-container {'
       + '    width: 270mm !important;'
       + '    height: 190mm !important;'
       + '    max-width: 270mm !important;'
       + '    max-height: 190mm !important;'
-      + '    margin: 0 !important;'
+      + '    margin-left: auto !important;'
+      + '    margin-right: auto !important;'
+      + '    margin-top: 0 !important;'
+      + '    margin-bottom: 0 !important;'
       + '    padding: 0 !important;'
       + '    position: relative !important;'
-      + '    top: auto !important;'
-      + '    left: auto !important;'
-      + '    transform: none !important;'
+      + '    top: 0 !important;'
       + '    overflow: hidden !important;'
       + '    box-sizing: border-box !important;'
       + '    page-break-before: avoid !important;'
@@ -921,9 +912,13 @@
       warn('Could not invalidate print map size.', e);
     }
 
-    // The outer A4 print overlay centers this container via flexbox.
-    // No delayed translateY correction is used because BrowserPrint may already
-    // be dismantling its temporary Leaflet map at that point.
+    // Run once immediately and once after layout settles, because leaflet tile
+    // rendering and the browser print preview can update the container after the
+    // BrowserPrint event fires.
+    correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    window.setTimeout(function () {
+      correctPrintMapVerticalPosition(root, safeWidthMm, safeHeightMm);
+    }, 50);
   }
 
   /**

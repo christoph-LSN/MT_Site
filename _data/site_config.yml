@@ -13,7 +13,7 @@ accessible_tabs: true
 #  ua: ''
 #  gtag: ''
 #  gtm: ''
-#  ga_prod: 'G-5V7YNZ06KS'
+#  ga_prod: ''
 breadcrumbs:
   goal:
     - path: /
