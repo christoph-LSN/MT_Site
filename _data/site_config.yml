@@ -13,7 +13,7 @@ accessible_tabs: true
 #  ua: ''
 #  gtag: ''
 #  gtm: ''
-#  ga_prod: 'G-5V7YNZ06KS'
+#  ga_prod: ''
 breadcrumbs:
   goal:
     - path: /
@@ -235,6 +235,10 @@ map_options:
     fillOpacity: 0
     color: '#172d44'
     dashArray: '5,5'
+
+
+
+
 menu:
   - path: /goals
     translation_key: general.goals

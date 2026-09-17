@@ -1,0 +1,44 @@
+{%- comment -%}
+  Custom scripts for the MT_Site implementation.
+
+  Open SDG automatically injects this include near the closing </body> tag.
+  This is the recommended place for project-specific JavaScript.
+
+  Current strategy:
+  - keep the existing map print integration unchanged
+  - load DataTables Buttons libraries
+  - load a minimal table-print.js that only creates a stable visible button
+{%- endcomment -%}
+
+<!-- Existing map print integration -->
+<script>
+  {% include assets/js/vendor/leaflet.browser.print.min.js %}
+</script>
+
+<script>
+  {% include assets/js/map-print.js %}
+</script>
+
+<!-- DataTables Buttons / Print integration -->
+<script>
+  {% include assets/js/vendor/dataTables.buttons.min.js %}
+</script>
+
+<script>
+  {% include assets/js/vendor/buttons.print.min.js %}
+</script>
+
+<script>
+  {% include assets/js/vendor/buttons.bootstrap5.min.js %}
+</script>
+
+<!-- Minimal step-1 table print integration -->
+<script>
+  {% include assets/js/table-print.js %}
+</script>
+
+<!-- table export integration -->
+<script>
+  {% include assets/js/table-export.js %}
+</script>
+
