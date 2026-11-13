@@ -147,7 +147,7 @@ var translations = {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link res="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" crossorigin="">
-        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20261112144049">
+        <link rel="stylesheet" href="/MT_Site/assets/css/style.css?v=20261113094349">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -315,7 +315,7 @@ layout-indicator-iframe
   data-graphtype="bar"
   data-graphtypes="null"
   data-geocoderegex=""
-  data-showmap="true"
+  data-showmap="false"
   data-startvalues="[{&quot;field&quot;:&quot;Gebietseinheit&quot;,&quot;value&quot;:&quot;Niedersachsen&quot;},{&quot;field&quot;:&quot;Gebietseinheit&quot;,&quot;value&quot;:&quot;Statistische Region Braunschweig&quot;},{&quot;field&quot;:&quot;Gebietseinheit&quot;,&quot;value&quot;:&quot;Statistische Region Hannover&quot;},{&quot;field&quot;:&quot;Gebietseinheit&quot;,&quot;value&quot;:&quot;Statistische Region Lüneburg&quot;},{&quot;field&quot;:&quot;Gebietseinheit&quot;,&quot;value&quot;:&quot;Statistische Region Weser-Ems&quot;}]"
   data-graphlimits="null"
   data-stackeddisaggregation=""
@@ -428,31 +428,6 @@ data-event-label="Change to Table tab"
 
         
       >Tabelle</button>
-    </li>
-    
-    <li role="presentation"
-      class="
-        nav-item
-        map
-        
-      ">
-      <button
-        class="nav-link "
-        data-bs-toggle="tab"
-        role="tab"
-        type="button"
-        
-          id="tab-mapview"
-          data-bs-target="#mapview"
-          aria-controls="mapview"
-          data-no-disagg="true"
-          data-on="click"
-data-event-category="Tab change"
-data-event-action="Change data view"
-data-event-label="Change to Map tab"
-
-        
-      >Karte</button>
     </li>
     
   </ul>
@@ -607,101 +582,6 @@ data-event-label="Change to Map tab"
         </div>
       
     
-      
-        <div role="tabpanel" class="tab-pane " id="mapview" class="map">
-          
-
-<!---->
-
-<!-- =========================================================
-     EXPORTBEREICH
-     Nur dieser Block wird für den JPEG-Export verwendet
-     ========================================================= -->
-<div id="map-export-wrapper">
-
-  <!-- Titel -->
-  <div id="map-export-header">
-    <h4 id="map-heading" class="map-title">
-      
-        Indikator 2.3.2: Veränderungen der Anzahl der Einbürgerungen
-      
-    </h4>
-  </div>
-
-  <!-- Kartenbereich -->
-  <div id="map" aria-describedby="table-alternative">
-    <img
-      class="map-loading-image"
-      src="/MT_Site/assets/img/loading.gif"
-      alt="Karte wird geladen" />
-  </div>
-
-  <!-- Standard-Fußnote / Datenfuß -->
-  
-
-
-
-<div id="mapFooter" class="table-footer-text">
-  <h5 class="sr-only">Chart details</h5>
-    <dl>
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-        
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        >Fußnote:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="COMMENT_TS"
-        ></dd>
-        
-        <dt
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        >Daten zuletzt aktualisiert am:</dt>
-        <dd
-          class="data-controlled-footer-field"
-          data-ts-attribute="DATA_LAST_UPDATE"
-        ></dd>
-        
-        
-    </dl>
-    
-    <dl class="observation-attribute-list"></dl>
-    
-  
-  </div>
-
-
-  <!-- Zusätzliche Quellenangabe im Export -->
-  <!--<div id="map-export-source" class="map-export-source"> -->
-    <!--<strong>Quelle:</strong>-->
- <!--   <span id="map-source-text">https://www.integrationsmonitoring.niedersachsen.de</span> -->
-  </div>
-
-  <!--
-    WICHTIG:
-    Hier KEINE eigene Button-Leiste einbauen.
-    Der vorhandene GeoJSON-Button wird von der Map-Logik erzeugt
-    und per scripts-custom.html mit dem JPEG-Button kombiniert.
-  -->
-
-</div>
-
-        </div>
-      
-    
   </div>
   
 
@@ -730,15 +610,6 @@ data-event-label="Change to Map tab"
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" integrity="sha256-Y26AMvaIfrZ1EQU49pf6H4QzVTrOI8m9wQYKkftBt4s=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.2/dist/patternomaly.js" integrity="sha384-kdgUFNEbslNOEAQ/zFH9wjDORAbvN0KUYOpfJIJYPdjtzLXkZsMJAXU9HPpi5B5c" crossorigin="anonymous"></script>
 
-
-<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet.zoomshowhide@0.1.0/dist/leaflet-zoom-show-hide.js" integrity="sha384-+Ae+bvCvR9gwQHFyh60GUfdqhUAL+S/O5mLeAkmkv2yBQxeLxm3gvLEzYPoXBwbT" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.4.0/chroma.min.js" integrity="sha384-cU7kVmimPTBpe76764qMxEdujXzlgSm15cCQe6FXFud5DiV4vrJQHUK9S0Lo2cqT" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.js" integrity="sha384-vOZkQA9epgnqbXkNdVSlxfyhrOSzYBsL3s3b2CQYn05H6lzrbrb368uBSRSUTAiv" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/socib/Leaflet.TimeDimension@fa36ffee7f6390aadce8c055ca7c60ede7c2134c/dist/leaflet.timedimension.min.js" integrity="sha384-xQ62+wlP0nHf7UhZ81djmqLn+7arwKiMk/dJk+smi+rJhaXPZAeFPX4bEiD9twIy" crossorigin="anonymous"></script>
-<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js" integrity="sha384-btJhAWztz7ttA6ibFC5ppM39nkCPK6CWzRVmsaLcDn37mA3x1TzF1DbFwa6tJpTN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/torfsen/leaflet.zoomhome@84a0291e80244ed9301cbc09d55850f0af53e602/dist/leaflet.zoomhome.min.js" integrity="sha384-UH2Ux7vOhzo5dH5kWWPmpvCCRCiS0hQ12YQN6qTUJXOpx+HpKePItLNSSm2AxKjF" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js" integrity="sha384-C/UzSz5aXmLxJwe/b9I0CIv+cfLcGIXmfl40m9+kyJhlgNxvWT6+WRjCbA8Eflf/" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha384-eEX5kO4tdQpY+eTjDbZNPlMm4QhsK+kosSZtkzp+uZk0L5g0lSzmWXWHzKDoOzA7" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.3/dist/html2canvas.js" integrity="sha384-3qyhlVVDXXiWhzgKIoL/aw+uaXN5kyAFE0Jv2LGoV+nnQnum4ebt1QAtRbjnz9pL" crossorigin="anonymous"></script>
@@ -907,7 +778,7 @@ if (allRequired) {
 <script>translations['search'] = translations['search'] || {};
     translations['search']['search'] = 'Suche';</script>
 
-<script src='/MT_Site/assets/js/sdg.js?v=20261112144049'></script>
+<script src='/MT_Site/assets/js/sdg.js?v=20261113094349'></script>
 <!-- Custom feature flags for project scripts -->
 <script>
   window.MT_FEATURES = window.MT_FEATURES || {};
@@ -3465,7 +3336,7 @@ if (allRequired) {
   </script>
     
     
-    <script src="/MT_Site/assets/js/custom.js?v=20261112144049"></script><script>
+    <script src="/MT_Site/assets/js/custom.js?v=20261113094349"></script><script>
     new indicatorInit();
     new accessibilitySwitcher();
 </script>
